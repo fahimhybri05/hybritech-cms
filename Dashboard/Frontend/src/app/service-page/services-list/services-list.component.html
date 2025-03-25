@@ -1,0 +1,106 @@
+<react-analytical-table
+  [headerTitle]="Title"
+  [insertTitle]="'Add'"
+  [apiUrl]="'media?'"
+  [isSearchFilter]="true"
+  [isFilterable]="true"
+  [isOdata]="true"
+  [isGroupable]="false"
+  [isSortable]="true"
+  [isTableTree]="false"
+  [isInfiniteScroll]="true"
+  [infiniteScrollNumber]="10"
+  [minRowsNumber]="15"
+  [headerHeight]="30"
+  [rowHeight]="30"
+  [selectionMode]="'None'"
+  [emptyDataText]="'No Data Found'"
+  [tableColumn]="tableColum()"
+  [refreshTrigger]="refreshTable"
+  (isInsertDataChange)="handleInsertData($event)"
+></react-analytical-table>
+
+<app-add-faq [isOpen]="isInsert" (close)="closeAddFaqModal()"></app-add-faq>
+
+  <app-edit-faq
+  *ngIf="isEdit"
+  [faqId]="selectedFaqId"
+  [faqData]="selectedFaqData" 
+  [isOpen]="isEdit"
+  (close)="closeEditFaqModal()"
+  (refreshTable)="refreshTable.emit()"
+></app-edit-faq>
+<app-faq-details
+  [faqId]="selectedFaqId"
+  [faqData]="selectedFaqData"
+  [isOpen]="isDetails"  
+  (close)="closeFaqDetailsModal()"
+></app-faq-details>
+
+
+
+<ui5-dialog [open]="isDeleteOpen" header-text="Warning" state="Critical">
+  <p *ngIf="!isDeleteLoading">Are you sure you want to delete this data?</p>
+  <div *ngIf="isDeleteLoading">
+    <p>Deleting please wait ...</p>
+  </div>
+
+  <div
+    slot="footer"
+    style="
+      display: flex;
+      align-items: center;
+      justify-content: end;
+      width: 100%;
+      box-sizing: border-box;
+    "
+  >
+    <ui5-button
+      (click)="deleteItemConfirm()"
+      design="Emphasized"
+      style="min-width: 4rem"
+      [disabled]="isDeleteLoading"
+    >
+      Delete
+    </ui5-button>
+    <ui5-button
+      (click)="isDeleteOpen = false"
+      style="margin: 0 0 0 0.5rem; min-width: 4rem"
+      [disabled]="isDeleteLoading"
+    >
+      Close
+    </ui5-button>
+  </div>
+</ui5-dialog>
+
+<ui5-dialog [open]="isSuccess" header-text="Success" state="Positive">
+  <p>{{ sucessMessage }}</p>
+
+  <div
+    slot="footer"
+    style="
+      display: flex;
+      align-items: center;
+      justify-content: end;
+      width: 100%;
+      box-sizing: border-box;
+    "
+  >
+    <ui5-button (click)="isSuccess = false">Close</ui5-button>
+  </div>
+</ui5-dialog>
+
+<ui5-dialog [open]="isDeleteError" header-text="Error" state="Negative">
+  <p>Error deleting candidate</p>
+  <div
+    slot="footer"
+    style="
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+      padding: 0.25rem 1rem;
+    "
+  >
+    <ui5-button (click)="isDeleteError = false">Close</ui5-button>
+  </div>
+</ui5-dialog>
