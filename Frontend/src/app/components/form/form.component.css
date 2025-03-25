@@ -1,0 +1,49 @@
+.form-mid {
+  display: flex;
+  justify-content: baseline;
+  gap: var(--padding-small);
+}
+
+.form-control {
+  display: block;
+  margin-bottom: var(--form-control-margin-bottom);
+  background-color: transparent;
+  color: var(--white);
+  border: none;
+  padding-left: 0;
+  padding-top: var(--form-control-padding);
+  padding-bottom: var(--form-control-padding);
+  width: 100%;
+  font-size: var(--form-control-font-size);
+}
+
+.form-control:focus {
+  outline: none;
+  color: var(--white);
+  background: transparent;
+  border: none;
+}
+
+.form-hr {
+  margin-top: 0.5px;
+  color: inherit;
+  background-color: var(--form-hr-color);
+  border: 0.5px;
+  opacity: var(--form-hr-opacity);
+}
+
+h6 {
+  margin-bottom: var(--padding-small);
+}
+
+.form-control::placeholder {
+  color: var(--form-control-placeholder-color);
+  font-size: var(--form-control-font-size);
+  text-align: left;
+}
+
+@media screen and (max-width: 768px) {
+  .common-bg {
+    padding: var(--padding-medium);
+  }
+}
