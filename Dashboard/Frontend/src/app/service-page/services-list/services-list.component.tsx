@@ -122,8 +122,6 @@ export class ServicesListComponent implements OnInit {
               design="Transparent"
               onClick={() => {
                 this.editFaq(row.original);
-
-                
               }}
             />
             <Button
