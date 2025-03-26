@@ -112,10 +112,11 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
 		this.render();
 		this.fetchData(this.offset, this.limit).subscribe({
 			next: (response: any) => {
-				this.data = [...this.data, ...response.value];
+				const responseData = this.isOdata ? response.value : response;
+				this.data = [...this.data, ...(Array.isArray(responseData) ? responseData : [])];
 				this.offset += this.limit;
 				this.loading = false;
-				console.log(response);
+				console.log('Response:', response);
 				this.render();
 			},
 			error: (error: any) => {
@@ -133,7 +134,7 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
 		if (this.isOdata) {
 			apiUrl = `${this.apiUrl}&$skip=${offset}&$top=${limit}&$orderby=created_at desc`;
 		} else {
-			apiUrl = `${this.apiUrl}/${limit}/${offset}`;
+			apiUrl = `${this.apiUrl}`;
 		}
 		console.log(apiUrl);
 		return this.commonService.get(apiUrl, this.isOdata);
@@ -170,15 +171,16 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
 		if (this.isOdata) {
 			url = apiUrl;
 		} else {
-			url = `${this.apiUrl}/${this.limit}/${this.offset}?filter=${filter}`;
+			url = `${this.apiUrl}?filter=${filter}`;
 		}
 
 		console.log(url);
 
 		this.commonService.get(url, this.isOdata).subscribe({
 			next: (response: any) => {
-				console.log(response.value);
-				this.data = response.value;
+				const responseData = this.isOdata ? response.value : response;
+				console.log('Search Response:', response);
+				this.data = Array.isArray(responseData) ? responseData : [];
 				this.offset += this.limit;
 				this.loading = false;
 				this.render();

@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\CommonForm;
 use App\Models\Faq;
 use App\Models\ContactUsForm;
+use App\Models\ServicePageDetails;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,5 +30,6 @@ class AppServiceProvider extends ServiceProvider
         Lodata::discover(CommonForm::class);
         Lodata::discover(ContactUsForm::class);
         Lodata::discover(Faq::class);
+        Lodata::discover(ServicePageDetails::class);
     }
 }

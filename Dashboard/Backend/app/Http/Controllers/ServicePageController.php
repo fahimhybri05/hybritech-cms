@@ -1,9 +1,10 @@
 <?php
 
+namespace App\Http\Controllers;
+
 use App\Models\ServicePageDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-
 
 class ServicePageController extends Controller
 {
@@ -18,7 +19,7 @@ class ServicePageController extends Controller
 
         $imagePath = $request->file('image')->store('images', 'public');
 
-        $servicePage = ServicePage::create([
+        $servicePage = ServicePageDetails::create([
             'title' => $request->title,
             'description' => $request->description,
             'image_path' => $imagePath,
@@ -30,14 +31,14 @@ class ServicePageController extends Controller
     // Get all service pages
     public function index()
     {
-        $servicePages = ServicePage::all();
+        $servicePages = ServicePageDetails::all();
         return response()->json($servicePages);
     }
 
     // Get a specific service page
     public function show($id)
     {
-        $servicePage = ServicePage::findOrFail($id);
+        $servicePage = ServicePageDetails::findOrFail($id);
         return response()->json($servicePage);
     }
 
@@ -50,7 +51,7 @@ class ServicePageController extends Controller
             'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048'
         ]);
 
-        $servicePage = ServicePage::findOrFail($id);
+        $servicePage = ServicePageDetails::findOrFail($id);
 
         if ($request->hasFile('image')) {
             // Delete the old image if there's a new one
@@ -65,5 +66,18 @@ class ServicePageController extends Controller
         ]);
 
         return response()->json($servicePage);
+    }
+
+    // You might also want to add a delete method
+    public function destroy($id)
+    {
+        $servicePage = ServicePageDetails::findOrFail($id);
+        
+        // Delete the associated image
+        Storage::delete('public/' . $servicePage->image_path);
+        
+        $servicePage->delete();
+        
+        return response()->json(null, 204);
     }
 }
