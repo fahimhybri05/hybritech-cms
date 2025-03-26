@@ -1,0 +1,106 @@
+<div class="login-container">
+    <div class="container">
+      <input type="text" name="username" style="display: none" />
+      <input type="password" name="password" style="display: none" />
+      <div class="row">
+        <div class="col-md-4 m-auto login">
+          <ui5-card>
+            <ui5-card-content>
+              <div class="d-flex justify-content-end p-3 logo m-3">
+                <img
+                  slot="logo"
+                  src="../../../assets/img/logo.png"
+                  class="img-fluid"
+                  class="m-auto"
+                />
+              </div>
+    
+              <div class="p-3">
+                <ui5-label show-colon required>Email</ui5-label>
+                <ui5-input
+                  class="w-100"
+                  
+                  placeholder="Enter email"
+                  (input)="clearError('email')"
+                  [readonly]="loading"
+                  [attr.value-state]="
+                    validationMessage.email == '' ? 'None' : 'Negative'
+                  "
+                  type="Text"
+                >
+                  <div slot="valueStateMessage">
+                    {{ validationMessage.email }}
+                  </div>
+                </ui5-input>
+    
+                <ui5-label class="mt-3" show-colon required>Password</ui5-label>
+    
+                <ui5-input
+                  class="w-100"
+                  
+                  placeholder="Enter password"
+                  (input)="clearError('password')"
+                  [readonly]="loading"
+                  [attr.value-state]="
+                    validationMessage.password == '' ? 'None' : 'Negative'
+                  "
+                  [type]="isPasswordVisible ? 'Text' : 'Password'"
+                >
+                  <ui5-icon
+                    id="password"
+                    slot="icon"
+                    name="{{ isPasswordVisible ? 'hide' : 'show' }}"
+                    class="cursor-pointer w-100"
+                    title="{{
+                      isPasswordVisible ? 'Hide Password' : 'Show Password'
+                    }}"
+                    (click)="togglePasswordVisibility()"
+                  ></ui5-icon>
+    
+                  <div slot="valueStateMessage">
+                    {{ validationMessage.password }}
+                  </div>
+                </ui5-input>
+    
+                <ui5-button
+                  design="Emphasized"
+                  class="w-100 mt-3"
+                  (click)="onLogin()"
+                  [disabled]="loading"
+                >
+                  <ng-container *ngIf="!loading">Login</ng-container>
+    
+                  <ui5-icon
+                    name="co"
+                    class="animate-spin text-white"
+                    *ngIf="loading"
+                  ></ui5-icon>
+                </ui5-button>
+    
+                <ui5-message-strip
+                  class="w-100 mt-3"
+                  design="ColorSet2"
+                  *ngIf="errorMessage"
+                  (click)="errorMessage = ''"
+                >
+                  <ui5-icon slot="icon" name="message-information"> </ui5-icon>
+                  {{ errorMessage }}
+                </ui5-message-strip>
+    
+                <ui5-message-strip
+                  design="Positive"
+                  class="w-100 mt-3"
+                  *ngIf="successMessage"
+                  (click)="successMessage = ''"
+                >
+                  {{ successMessage }}
+                </ui5-message-strip>
+              </div>
+            </ui5-card-content>
+          </ui5-card>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  

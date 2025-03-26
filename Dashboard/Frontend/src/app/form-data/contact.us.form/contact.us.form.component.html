@@ -1,0 +1,30 @@
+<react-analytical-table
+  [headerTitle]="Title"
+  [insertTitle]="'View  Only'"
+  [apiUrl]="'ContactUsForms?'"
+  [isSearchFilter]="true"
+  [isFilterable]="true"
+  [isOdata]="true"
+  [isGroupable]="false"
+  [isSortable]="true"
+  [isTableTree]="false"
+  [isInfiniteScroll]="true"
+  [infiniteScrollNumber]="10"
+  [minRowsNumber]="15"
+  [headerHeight]="30"
+  [rowHeight]="30"
+  [selectionMode]="'None'"
+  [emptyDataText]="'No Data Found'"
+  [tableColumn]="tableColum()"
+></react-analytical-table>
+
+
+<app-form-details
+[formId]="selectedFormId"
+[formData]="selectedFormData"
+[isOpen]="isOpen"
+(close)="closeModal()">
+</app-form-details>
+
+
+

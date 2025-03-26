@@ -1,0 +1,142 @@
+
+.style-two.pricing-area {
+  background: var(--background-dark);
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 139px 0 80px;
+}
+
+.style-two.pricing-area h1 {
+  color: var(--text-color) !important;
+}
+
+.faqs-container {
+  overflow: hidden;
+}
+
+.faq-singular {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.faq-singular .faq-question {
+  position: relative;
+  cursor: pointer;
+  margin: 0;
+  padding: 16px 25px 15px 36px;
+  font-weight: 700;
+  font-size: var(--font-size-midium);
+  border-radius: 5px;
+  z-index: 2;
+  transition: 0.5s;
+  font-family: "Nunito", sans-serif;
+}
+
+.faq-singular.active .faq-question {
+  border-bottom: 1px solid #2222;
+}
+
+.faq-singular .faq-question:before {
+  position: absolute;
+  content: "+";
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 30px;
+  font-weight: 400;
+  transition: 0.5s;
+  color: var(--primary-color);
+}
+
+.faq-singular.active .faq-question:before {
+  content: "-";
+  font-size: 30px;
+}
+
+.faq-question img {
+  padding-right: 12px;
+}
+
+.faq-answer {
+  display: none;
+  padding: 21px 40px 25px;
+}
+
+.style-two .faq-singular.active .faq-question {
+  background: var(--primary-color);
+  color: #ffff !important;
+  padding: 17px 20px 17px 32px;
+}
+
+.style-two .faq-singular {
+  position: relative;
+  background: transparent;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #cedef759;
+}
+
+.style-two .faq-singular .faq-question {
+  position: relative;
+  cursor: pointer;
+  margin: 0;
+  padding: 0 0 19px 0;
+  font-weight: 600;
+  font-size: 24px;
+  border-radius: 5px;
+  z-index: 2;
+  transition: 0.5s;
+  background: transparent;
+  font-family: "Nunito";
+  color: #fff;
+}
+
+.style-two .faq-answer {
+  display: none;
+  padding: 27px 25px 25px 0;
+  opacity: 0.502;
+  font-size: 16px;
+  color: var(--text-color) !important;
+  font-weight: 400;
+  font-family: "Nunito";
+}
+
+.style-two .faq-singular .faq-question:before {
+  position: absolute;
+  content: "+";
+  right: 0;
+  top: 33%;
+  transform: translateY(-50%);
+  font-size: 30px;
+  font-weight: 400;
+  transition: 0.5s;
+  color: var(--text-color) !important;
+}
+
+.style-two .faq-singular.active .faq-question:before {
+  content: "-";
+  font-size: 30px;
+  top: 32px;
+  right: 16px;
+}
+
+.faq-singular {
+  margin-bottom: 10px;
+}
+
+.faq-answer {
+  display: none;
+}
+
+.faq-singular.active .faq-answer {
+  display: block;
+}
+
+.faq-question {
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.faq-answer .desc {
+  margin-top: 10px;
+}

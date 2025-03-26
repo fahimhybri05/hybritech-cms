@@ -1,0 +1,87 @@
+<div class="userList">
+	<div class="d-flex justify-content-between">
+        <ui5-title level="H4">User List :</ui5-title>
+		<div class="d-flex">
+			<ui5-button icon="sap-icon://add" class="me-1 ms-3 mb-1" design="Emphasized" (click)="openAddBranchModal()"
+				>Add</ui5-button
+			>
+		</div>
+	</div>
+
+	<ui5-table id="table" *ngIf="!loading">
+		<ui5-illustrated-message slot="nodata" name="NoData">
+			<ui5-title slot="title" level="H1">Something went wrong</ui5-title>
+			<div slot="subtitle">Please try again</div>
+			<ui5-button icon="refresh">Try again</ui5-button>
+		</ui5-illustrated-message>
+
+		<ui5-table-header-row slot="headerRow" sticky>
+			<ui5-table-header-cell id="produtCol" class="w-100"
+				><span>SL</span>
+			</ui5-table-header-cell>
+			<ui5-table-header-cell id="supplierCol" class="w-100">Name</ui5-table-header-cell>
+			<ui5-table-header-cell id="supplierCol" class="w-100"
+				>Create Date</ui5-table-header-cell
+			>
+			<ui5-table-header-cell id="dimensionsCol" class="w-100"> Action </ui5-table-header-cell>
+		</ui5-table-header-row>
+
+		<ui5-table-row
+			*ngFor="let item of displayedBranches; let $index = index"
+			row-key="a"
+			interactive>
+			<ui5-table-cell>
+				<ui5-label *ngIf="item.id">
+					{{ 1 + ($index + (currentPage - 1) * itemsPerPage) }}
+				</ui5-label>
+			</ui5-table-cell>
+			<ui5-table-cell
+				><ui5-label *ngIf="item.id">{{ item.name || " " }} </ui5-label></ui5-table-cell
+			>
+			<ui5-table-cell *ngIf="item.id"> {{ item.created_at }} </ui5-table-cell>
+			<ui5-table-cell>
+				<ui5-label>
+					<b *ngIf="item.id">
+						<ui5-button
+							icon="sap-icon://edit"
+							heref="#"
+							(click)="openEditBranchModal(item)"></ui5-button>
+						<ui5-button
+							icon="sap-icon://delete"
+							class="ms-1"
+							(click)="deleteItem(item.id)"></ui5-button>
+					</b>
+				</ui5-label>
+			</ui5-table-cell>
+		</ui5-table-row>
+	</ui5-table>
+
+	<app-busy-indicator *ngIf="loading">
+		<ui5-table id="table" class="m-auto mt-2" style="z-index: 0">
+			<ui5-table-header-row slot="headerRow" sticky>
+				<ui5-table-header-cell id="produtCol" class="w-100"
+					><span>SL</span>
+				</ui5-table-header-cell>
+				<ui5-table-header-cell id="supplierCol" class="w-100">Name</ui5-table-header-cell>
+				<ui5-table-header-cell id="supplierCol" class="w-100"
+					>Create Date</ui5-table-header-cell
+				>
+				<ui5-table-header-cell id="dimensionsCol" class="w-100">
+					Action
+				</ui5-table-header-cell>
+			</ui5-table-header-row>
+
+			<ui5-table-row *ngFor="let index of getRowIndexes()" row-key="a" interactive>
+				<ui5-table-cell> </ui5-table-cell>
+				<ui5-table-cell> </ui5-table-cell>
+				<ui5-table-cell> </ui5-table-cell>
+				<ui5-table-cell> </ui5-table-cell>
+			</ui5-table-row>
+		</ui5-table>
+	</app-busy-indicator>
+
+	<app-edit-branch
+		[isOpen]="isOpen"
+		(close)="closeEditBranchModal()"></app-edit-branch>
+	<app-branch-add [isOpen]="isOpenAdd" (close)="closeAddBranchModal()"></app-branch-add>
+</div>
