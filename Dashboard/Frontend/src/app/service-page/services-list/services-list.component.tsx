@@ -15,10 +15,11 @@ import { ReactAnalyticalTable } from "../../components/analytical-table/react-ta
 import { Icon, TextAlign } from "@ui5/webcomponents-react";
 import React from "react";
 import { Button } from "@ui5/webcomponents-react";
+import { AddServicesComponent } from "../add-services/add-services.component";
 @Component({
 	selector: "app-services-list",
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactAnalyticalTable, ],
+  imports: [CommonModule, FormsModule, ReactAnalyticalTable, AddServicesComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 	templateUrl: './services-list.component.html',
 	styleUrl: './services-list.component.css'
@@ -31,6 +32,7 @@ export class ServicesListComponent implements OnInit {
   currentPage = 1;
 
   odata: boolean;
+  api: boolean;
   loading: boolean = false;
   isInsert: boolean = false;
   isEdit: boolean = false;
@@ -54,6 +56,7 @@ export class ServicesListComponent implements OnInit {
   ) {
     this.itemsPerPage = this.commonService.itemsPerPage;
     this.odata = this.commonService.odata;
+    this.api = this.commonService.api;
     this.Title = "Our Services";
     this.tableColum();
   }
@@ -82,7 +85,7 @@ export class ServicesListComponent implements OnInit {
       },
       {
         Header: "Description",
-        accessor: "header",
+        accessor: "description",
         autoResizable: true,
         className: "custom-class-name",
       },
@@ -159,6 +162,7 @@ export class ServicesListComponent implements OnInit {
     console.log("Received isInsertData:", isInsert);
     if (isInsert) {
       this.isInsert = isInsert;
+      this.cdr.detectChanges();
     }
   }
   closeAddFaqModal() {
@@ -174,13 +178,13 @@ export class ServicesListComponent implements OnInit {
   deleteItemConfirm() {
     this.isDeleteLoading = true;
     const id = this.selectedFaqId;
-    this.commonService.delete(`Faqs/${id}`, this.odata).subscribe({
+    this.commonService.delete(`service-pages/${id}`, this.api).subscribe({
       next: (response: any) => {
         console.log(response);
         this.isSuccess = true;
         this.isDeleteOpen = false;
         this.isDeleteLoading = false;
-        this.sucessMessage = "Faq deleted successfully";
+        this.sucessMessage = "Data deleted successfully";
         this.refreshTable.emit();
       },
       error: (error: any) => {

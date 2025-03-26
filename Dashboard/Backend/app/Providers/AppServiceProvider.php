@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\CommonForm;
 use App\Models\Faq;
 use App\Models\ContactUsForm;
+use App\Models\ServicePageDetails;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,9 +26,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Lodata::discover(User::class);
-        // Lodata::discover(CommonForm::class);
-        // Lodata::discover(ContactUsForm::class);
-        // Lodata::discover(Faq::class);
+        Lodata::discover(User::class);
+        Lodata::discover(CommonForm::class);
+        Lodata::discover(ContactUsForm::class);
+        Lodata::discover(Faq::class);
+        Lodata::discover(ServicePageDetails::class);
     }
 }

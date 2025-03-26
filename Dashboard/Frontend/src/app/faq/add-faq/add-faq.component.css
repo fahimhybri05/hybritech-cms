@@ -1,5 +1,5 @@
 ui5-dialog {
-	width: 30%;
+	width: 40%;
     height: 500px;
 }
 .textArea {
@@ -10,13 +10,6 @@ ui5-dialog {
 #dialog::part(header),
 #dialog::part(footer) {
 	padding-inline: 0;
-}
-
-
-@media screen and (max-width: 1400px) {
-	ui5-dialog {
-		width: 50%;
-	}
 }
 
 ui5-panel {
