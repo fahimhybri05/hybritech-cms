@@ -3,7 +3,7 @@ ui5-dialog {
     height: 500px;
 }
 .textArea {
-    width: 520px !important;
+    width: 100% !important;
     height: 300px !important;
 }
 
