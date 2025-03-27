@@ -90,30 +90,30 @@ export class ServicesListComponent implements OnInit {
         autoResizable: true,
         className: "custom-class-name",
       },
-      {
-        Header: "Image",
-        accessor: "image_path",
-        Cell: ({ value }: { value: string }) => {
-          const imageUrl = value.startsWith('http') ? value : `${environment.ServerApi}/storage${value}`; // Ensure proper path construction for storage
+      // {
+      //   Header: "Image",
+      //   accessor: "image_path",
+      //   Cell: ({ value }: { value: string }) => {
+      //     const imageUrl = value.startsWith('http') ? value : `${environment.ServerApi}/storage${value}`; // Ensure proper path construction for storage
           
-          return (
-            <div style={{ width: '100px', height: '100px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <img
-                src={imageUrl}
-                alt="Product"
-                style={{ 
-                  maxWidth: '100%', 
-                  maxHeight: '100%',
-                  objectFit: 'contain'
-                }}
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = '/assets/images/placeholder-image.png';
-                }}
-              />
-            </div>
-          );
-        },
-      },
+      //     return (
+      //       <div style={{ width: '100px', height: '100px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      //         <img
+      //           src={imageUrl}
+      //           alt="Product"
+      //           style={{ 
+      //             maxWidth: '100%', 
+      //             maxHeight: '100%',
+      //             objectFit: 'contain'
+      //           }}
+      //           onError={(e) => {
+      //             (e.target as HTMLImageElement).src = '/assets/images/placeholder-image.png';
+      //           }}
+      //         />
+      //       </div>
+      //     );
+      //   },
+      // },
       {
         Header: "Created At",
         accessor: "created_at",

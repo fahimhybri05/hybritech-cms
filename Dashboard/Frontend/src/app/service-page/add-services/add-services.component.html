@@ -35,9 +35,13 @@
           class="textArea"
           [(ngModel)]="description"
           name="description"
-          placeholder="Enter description"
+          placeholder="Enter description (max 45 words)"
           required
+          (input)="updateWordCount()"
         ></ui5-textarea>
+        <div class="word-count" [ngClass]="{'text-danger': wordCount > maxWords}">
+          Words: {{wordCount}}/{{maxWords}}
+        </div>
           <ui5-label show-colon required>Image</ui5-label>
           <div class="d-flex ">
           <ui5-file-uploader hide-input

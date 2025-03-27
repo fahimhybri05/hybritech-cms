@@ -32,6 +32,8 @@ export class AddServicesComponent {
   fileTypeError: string | null = null;
   title: string = '';
   description: string = '';
+  wordCount: number = 0;
+  maxWords: number = 45;
   selectedFile: File | null = null;
   selectedFileUrl: string | null = null;
 
@@ -55,9 +57,22 @@ export class AddServicesComponent {
     }
   }
 
+  updateWordCount() {
+    if (!this.description) {
+      this.wordCount = 0;
+      return;
+    }
+    this.wordCount = this.description.trim().split(/\s+/).length;
+  }
+
   insertData() {
-    if ( !this.title || !this.description || !this.selectedFile) {
+    if (!this.title || !this.description || !this.selectedFile) {
       this.errorMessage = 'All fields are required.';
+      return;
+    }
+
+    if (this.wordCount > this.maxWords) {
+      this.errorMessage = `Description cannot exceed ${this.maxWords} words.`;
       return;
     }
 

@@ -11,6 +11,7 @@ export class DataService {
   private commonFromData = this.apiUrl + "/odata/CommonForms";
   private commonConatactFormData = this.apiUrl + "/odata/ContactUsForms";
   private faqData = this.apiUrl + "/odata/Faqs"; 
+  private serviceData = this.apiUrl + "/api/service-pages";
 
   constructor(private http: HttpClient) {}
 
@@ -23,5 +24,8 @@ export class DataService {
   
   getFaqData(): Observable<any> {
     return this.http.get<any>(this.faqData);
+  }
+  getServiceData(): Observable<any> {
+    return this.http.get<any>(`${this.serviceData}?$select=image_path,title,description`);
   }
 }

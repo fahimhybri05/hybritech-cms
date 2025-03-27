@@ -62,7 +62,7 @@
     z-index: 1;
     margin-bottom: 25px;
     border-radius: 5px;
-    height: 370px;
+    height: 400px;
     border: 1px solid #1a1a1a71 !important;
   }
   
@@ -83,7 +83,9 @@
     left: 0;
     width: 100%;
   }
-  
+  .service-content h4,p {
+    text-wrap: initial;
+  }
   
 
   
