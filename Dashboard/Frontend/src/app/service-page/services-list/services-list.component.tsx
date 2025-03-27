@@ -16,6 +16,7 @@ import { Icon, TextAlign } from "@ui5/webcomponents-react";
 import React from "react";
 import { Button } from "@ui5/webcomponents-react";
 import { AddServicesComponent } from "../add-services/add-services.component";
+import { environment } from "../../../environments/environment";
 @Component({
 	selector: "app-services-list",
   standalone: true,
@@ -92,8 +93,26 @@ export class ServicesListComponent implements OnInit {
       {
         Header: "Image",
         accessor: "image_path",
-        autoResizable: true,
-        className: "custom-class-name",
+        Cell: ({ value }: { value: string }) => {
+          const imageUrl = value.startsWith('http') ? value : `${environment.ServerApi}/storage${value}`; // Ensure proper path construction for storage
+          
+          return (
+            <div style={{ width: '100px', height: '100px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <img
+                src={imageUrl}
+                alt="Product"
+                style={{ 
+                  maxWidth: '100%', 
+                  maxHeight: '100%',
+                  objectFit: 'contain'
+                }}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = '/assets/images/placeholder-image.png';
+                }}
+              />
+            </div>
+          );
+        },
       },
       {
         Header: "Created At",
