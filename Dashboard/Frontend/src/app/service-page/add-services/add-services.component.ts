@@ -43,8 +43,12 @@ export class AddServicesComponent {
     const file = event.target.files[0];
     if (file) {
       const fileType = file.type;
-      if (fileType !== 'image/svg+xml' && fileType !== 'image/png') {
-        this.fileTypeError = 'Only SVG and PNG formats are allowed.';
+      if (!['image/jpeg', 'image/jpg', 'image/png', 'image/gif'].includes(fileType)) {
+        this.fileTypeError = 'Only JPG, JPEG, PNG and GIF formats are allowed.';
+        return;
+      }
+      if (file.size > 2 * 1024 * 1024) { // 2MB in bytes
+        this.fileTypeError = 'File size should not exceed 2MB.';
         return;
       }
       this.fileTypeError = null;
@@ -83,10 +87,15 @@ export class AddServicesComponent {
 
     this.loading = true;
     this.commonService.post('service-pages', formData, false).subscribe(
-      (response) => {
+      (response: any) => {
         console.log(response);
         this.loading = false;
         this.isSuccess = true;
+        // Handle the media URL from Spatie if needed
+        if (response && response.media && response.media.length > 0) {
+          const mediaUrl = response.media[0].original_url;
+          console.log('Media URL:', mediaUrl);
+        }
         this.resetForm();
         this.closeDialog();
       },

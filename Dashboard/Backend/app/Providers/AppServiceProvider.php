@@ -30,6 +30,5 @@ class AppServiceProvider extends ServiceProvider
         Lodata::discover(CommonForm::class);
         Lodata::discover(ContactUsForm::class);
         Lodata::discover(Faq::class);
-        Lodata::discover(ServicePageDetails::class);
     }
 }

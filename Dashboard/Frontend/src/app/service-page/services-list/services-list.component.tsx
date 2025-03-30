@@ -16,11 +16,12 @@ import { Icon, TextAlign } from "@ui5/webcomponents-react";
 import React from "react";
 import { Button } from "@ui5/webcomponents-react";
 import { AddServicesComponent } from "../add-services/add-services.component";
+import { EditServicesComponent } from "../edit-services/edit-services.component";
 import { environment } from "../../../environments/environment";
 @Component({
 	selector: "app-services-list",
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactAnalyticalTable, AddServicesComponent],
+  imports: [CommonModule, FormsModule, ReactAnalyticalTable, AddServicesComponent, EditServicesComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 	templateUrl: './services-list.component.html',
 	styleUrl: './services-list.component.css'
@@ -90,30 +91,22 @@ export class ServicesListComponent implements OnInit {
         autoResizable: true,
         className: "custom-class-name",
       },
-      // {
-      //   Header: "Image",
-      //   accessor: "image_path",
-      //   Cell: ({ value }: { value: string }) => {
-      //     const imageUrl = value.startsWith('http') ? value : `${environment.ServerApi}/storage${value}`; // Ensure proper path construction for storage
-          
-      //     return (
-      //       <div style={{ width: '100px', height: '100px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      //         <img
-      //           src={imageUrl}
-      //           alt="Product"
-      //           style={{ 
-      //             maxWidth: '100%', 
-      //             maxHeight: '100%',
-      //             objectFit: 'contain'
-      //           }}
-      //           onError={(e) => {
-      //             (e.target as HTMLImageElement).src = '/assets/images/placeholder-image.png';
-      //           }}
-      //         />
-      //       </div>
-      //     );
-      //   },
-      // },
+      {
+        Header: "Image",
+        accessor: "media",
+        autoResizable: true,
+        className: "custom-class-name",
+        Cell: ({ value }: any) => {
+          if (value) {
+            return React.createElement("img", {
+              src: value.original_url,
+              alt: "Service Image",
+              style: { width: "50px", height: "50px", objectFit: "cover" }
+            });
+          }
+          return React.createElement("span", null, "No image");
+        },
+      },
       {
         Header: "Created At",
         accessor: "created_at",
