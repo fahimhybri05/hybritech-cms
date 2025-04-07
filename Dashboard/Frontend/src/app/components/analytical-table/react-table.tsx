@@ -58,7 +58,8 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
 
 	@Output() isInsertDataChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Input() refreshTrigger: EventEmitter<void> = new EventEmitter<void>();
-
+	@Output() rowDoubleClick: EventEmitter<any> = new EventEmitter<any>();
+	private lastClickTime: number = 0;
 	data: any[] = [];
 	loading = false;
 	searchFilter: string = "";
@@ -197,7 +198,19 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
 		else this.loadInitialData();
 		console.log("Load more data");
 	};
+	private handleRowClick = (event: any) => {
 
+		const currentTime = new Date().getTime();
+		const rowData = event.detail.row.original;
+		console.log(rowData)
+	  
+	   
+		if (currentTime - this.lastClickTime < 300) {
+		  this.rowDoubleClick.emit(rowData); 
+		}
+	  
+		this.lastClickTime = currentTime; 
+	  };
 	private render() {
 		if (this.root) {
 			this.root.render(
@@ -260,7 +273,7 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
 								onAutoResize={function Ki() {}}
 								onColumnsReorder={function Ki() {}}
 								onRowExpandChange={function Ki() {}}
-								onRowSelect={function Ki() {}}
+								onRowSelect={(e)=> this.handleRowClick(e)}
 								selectionMode={this.selectionMode}
 								subComponentsBehavior="IncludeHeight"
 								subRowsKey="subRows"
