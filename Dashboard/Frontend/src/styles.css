@@ -1,0 +1,98 @@
+@import '../node_modules/font-awesome/css/font-awesome.css';
+
+
+
+html,
+body {
+	height: 100%;
+}
+body {
+	margin: 0;
+	font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+:root {
+	--alert-modal-width: 400px;
+	--table-height: 79vh;
+	--questionnaires-table-height: 72vh;
+	--blue: #0064d9;
+	--bg-color: rgb(255, 255, 255);
+	--bg-heading-color: #e0e4eb;
+	--table-border: 1px solid #0000001c;
+	--dynamic-page-bg-color: #f3f3f3;
+	--font-color: rgb(87, 87, 87);
+	--font-size-medium: 20px;
+	--font-size-small: 12px;
+	--nav-height: 92vh;
+	--content-height: 92vh;
+	--nav-top: 50px;
+	--nav-position: fixed;
+	--padding-left-medium-device: 0px;
+	--modal-width: 400px;
+	--card-border-radius: 20px;
+}
+
+@media screen and (max-width: 1800px) {
+	:root {
+		--table-height: 78vh;
+		--questionnaires-table-height: 68vh;
+		--nav-height: 91vh;
+		--content-height: 91vh;
+	}
+}
+@media screen and (max-width: 1700px) {
+	:root {
+		--table-height: 76vh;
+		--questionnaires-table-height: 66vh;
+		--nav-height: 90vh;
+		--content-height: 90vh;
+	}
+}
+@media screen and (max-width: 1600px) {
+	:root {
+		--table-height: 70vh;
+		--questionnaires-table-height: 58vh;
+		--nav-height: 88vh;
+		--content-height: 88vh;
+	}
+}
+@media screen and (max-width: 1400px) {
+	:root {
+		--table-height: 65vh;
+		--questionnaires-table-height: 55vh;
+		--blue: #0064d9;
+		--bg-color: rgb(255, 255, 255);
+		--bg-heading-color: #e0e4eb;
+		--table-border: 1px solid #0000001c;
+		--dynamic-page-bg-color: #f3f3f3;
+		--font-color: rgb(87, 87, 87);
+		--font-size-medium: 20px;
+		--font-size-small: 12px;
+		--nav-height: 87vh;
+		--content-height: 87vh;
+		--nav-top: 50px;
+		--nav-position: fixed;
+		--padding-left-medium-device: 0px;
+		--modal-width: 400px;
+		--card-border-radius: 20px;
+	}
+}
+
+::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+	border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #888;
+	border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}

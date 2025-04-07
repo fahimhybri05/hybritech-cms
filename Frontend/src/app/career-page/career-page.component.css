@@ -1,0 +1,236 @@
+.banner {
+  position: relative;
+  height: 80vh;
+}
+.background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.color-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--overlay-color);
+}
+.banner-content {
+  position: relative;
+  z-index: 1;
+}
+.banner-text-career {
+  position: absolute;
+  top: 100%;
+  left: 10%;
+  transform: translateY(250%);
+  color: white;
+  max-width: 80%;
+}
+.banner-text-career h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.banner-text-career p {
+  font-size: 1.2rem;
+}
+
+.career-logo {
+  width: 437.82px;
+  height: 148.18px;
+}
+
+.career-part {
+  padding-top: 10vh;
+}
+
+.style-two.pricing-area {
+  background: var(--background-dark);
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 139px 0 80px;
+}
+
+.style-two.pricing-area h1 {
+  color: var(--text-color) !important;
+}
+
+.faqs-container {
+  overflow: hidden;
+}
+
+.faq-singular {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.faq-singular .job-title {
+  position: relative;
+  cursor: pointer;
+  margin: 0;
+  padding: 16px 25px 15px 36px;
+  font-weight: 700;
+  font-size: var(--font-size-midium);
+  border-radius: 5px;
+  z-index: 2;
+  transition: 0.5s;
+  font-family: "Nunito";
+}
+
+.faq-singular.active .job-title {
+  border-bottom: 1px solid #2222;
+}
+
+.faq-singular .job-title:before {
+  position: absolute;
+  content: "+";
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 30px;
+  font-weight: 400;
+  transition: 0.5s;
+  color: var(--primary-color);
+}
+
+.faq-singular.active .job-title:before {
+  content: "-";
+  font-size: 30px;
+}
+
+.job-title img {
+  padding-right: 12px;
+}
+
+.job-description {
+  display: none;
+  padding: 21px 40px 25px;
+}
+
+.style-two .faq-singular.active .job-title {
+  background: var(--primary-color);
+  color: #ffff !important;
+  padding: 17px 20px 17px 32px;
+}
+
+.style-two .faq-singular {
+  position: relative;
+  background: transparent;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #cedef759;
+}
+
+.style-two .faq-singular .job-title {
+  position: relative;
+  cursor: pointer;
+  margin: 0;
+  padding: 0 0 19px 0;
+  font-weight: 600;
+  font-size: 24px;
+  border-radius: 5px;
+  z-index: 2;
+  transition: 0.5s;
+  background: transparent;
+  font-family: "Nunito";
+  color: #fff;
+}
+
+.style-two .job-description {
+  display: none;
+  padding: 27px 25px 25px 0;
+  opacity: 0.502;
+  font-size: 16px;
+  color: var(--text-color) !important;
+  font-weight: 400;
+  font-family: "Nunito";
+}
+
+.style-two .faq-singular .job-title:before {
+  position: absolute;
+  content: "+";
+  right: 0;
+  top: 33%;
+  transform: translateY(-50%);
+  font-size: 30px;
+  font-weight: 400;
+  transition: 0.5s;
+  color: var(--text-color) !important;
+}
+
+.style-two .faq-singular.active .job-title:before {
+  content: "-";
+  font-size: 30px;
+  top: 32px;
+  right: 16px;
+}
+
+.faq-singular {
+  margin-bottom: 10px;
+}
+
+.job-description {
+  display: none;
+}
+
+.faq-singular.active .job-description {
+  display: block;
+}
+
+.job-title {
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.job-description .desc {
+  margin-top: 10px;
+}
+.grow-together {
+  margin-bottom: 80px;
+}
+hr{
+  border: 1px solid var(--text-color);
+  width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .career-logo {
+    width: 200px;
+    height: 100px;
+    padding-bottom: 2vh;
+  }
+
+  .career-part {
+    padding-top: 10vh;
+  }
+  .banner {
+    position: relative;
+    max-height: 35vh;
+  }
+  .banner-text-career {
+    transform: translateY(25%);
+    left: 5%;
+    max-width: 90%;
+  }
+
+  .banner-text-career h1 {
+    font-size: 2.2rem;
+    margin-bottom: 15px;
+  }
+
+  .banner-text-career p {
+    font-size: 1rem;
+  }
+
+  .background-video {
+    object-fit: cover;
+    max-height: 35vh;
+  }
+  .color-overlay {
+    max-height: 35vh;
+  }
+}

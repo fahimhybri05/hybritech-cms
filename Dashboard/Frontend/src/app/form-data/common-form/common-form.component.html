@@ -1,0 +1,31 @@
+<react-analytical-table
+  [headerTitle]="Title"
+  [insertTitle]="'View  Only'"
+  [apiUrl]="'CommonForms?'"
+  [isSearchFilter]="true"
+  [isFilterable]="true"
+  [isOdata]="true"
+  [isGroupable]="false"
+  [isSortable]="true"
+  [isTableTree]="false"
+  [isInfiniteScroll]="true"
+  [infiniteScrollNumber]="10"
+  [minRowsNumber]="15"
+  [headerHeight]="30"
+  [rowHeight]="30"
+  [selectionMode]="'Single'"
+  [emptyDataText]="'No Data Found'"
+  [tableColumn]="tableColum()"
+  (rowDoubleClick)="formDetails($event)"
+></react-analytical-table>
+
+
+<app-form-details
+[formId]="selectedFormId"
+[formData]="selectedFormData"
+[isOpen]="isOpen"
+(close)="closeModal()">
+</app-form-details>
+
+
+

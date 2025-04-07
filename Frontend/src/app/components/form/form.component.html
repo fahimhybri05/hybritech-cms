@@ -1,0 +1,65 @@
+<section class="common-bg">
+  <div class="container">
+    <div class="row m-auto">
+      <div class="col-md-6 text-white">
+        <div class="info-title">
+          <h1>Have a Project Idea?</h1>
+          <p>
+            Highly Personalize new business connection, expertly curated to
+            meet your objectives and drive your business forward
+          </p>
+        </div>
+      </div>
+      <div class="col-md-6 text-white" id="form-part">
+        <!-- Name -->
+        <div>
+          <h6>Full Name</h6>
+          <input type="text" class="form-control" [(ngModel)]="name" name="name" placeholder="Ashraf Chowdhury" />
+
+          <hr class="form-hr" />
+        </div>
+
+        <!-- Project Name & Email -->
+        <div class="form-mid">
+          <div>
+            <h6>Project Name</h6>
+            <input type="text" class="form-control" [(ngModel)]="projectName" name="projectName" placeholder="Software" />
+
+            <hr class="form-hr" />
+          </div>
+          <div>
+            <h6>Email</h6>
+            <input type="email" class="form-control" [(ngModel)]="email" name="email" placeholder="You@example.com" />
+
+            <hr class="form-hr" />
+          </div>
+        </div>
+
+        <!-- Project Type & Project Budget -->
+        <div class="form-mid">
+          <div>
+            <h6>Project Type</h6>
+            <input type="text" class="form-control" [(ngModel)]="projectType" name="projectType" placeholder="Write here" />
+            <hr class="form-hr" />
+          </div>
+          <div>
+            <h6>Project Budget</h6>
+            <input type="text" class="form-control" [(ngModel)]="projectBudget" name="projectBudget" placeholder="Write here" />
+            <hr class="form-hr" />
+          </div>
+        </div>
+
+        <!-- Project Description -->
+        <div>
+          <h6>Project Details</h6>
+          <textarea class="form-control" [(ngModel)]="projectDescription" name="projectDescription" placeholder="Tell us more about your idea"></textarea>
+          <hr class="form-hr" />
+        </div>
+
+        <div>
+          <a (click)="insertFormData()" class="btn-common">Submit</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

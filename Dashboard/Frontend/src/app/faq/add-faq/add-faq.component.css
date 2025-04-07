@@ -1,0 +1,18 @@
+ui5-dialog {
+	width: 40%;
+    height: 500px;
+}
+.textArea {
+    width: 520px;
+    height: 100%;
+}
+
+#dialog::part(header),
+#dialog::part(footer) {
+	padding-inline: 0;
+}
+
+ui5-panel {
+	border: var(--table-border);
+	margin-top: 20px;
+}

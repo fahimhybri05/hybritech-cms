@@ -1,0 +1,102 @@
+
+:root {
+    --white: #ffffff;
+    --primary-color: rgba(20, 74, 75, 1);
+    --secondary-color: rgba(129, 206, 208, 1);
+    --background-dark:radial-gradient(30.95% 31.44% at 50% 64.9%,#142d2e 0%,#0f0f0f 100%);
+    --overlay-color: radial-gradient(29.22% 167.9% at 76.69% 62.63%, #142d2ea1 0%, #0f0f0fb1 100%);
+    --height: 70vh;
+    --black: #000000;
+    --text-color: var(--white);
+    --text-second: rgb(53, 53, 53);
+    --card-hover-text-color: #000000 !important;
+    --card-color: #144a4b;
+    --brand-color-two: #4d8586;
+    --card-hover-color: #ffffff;
+    --font-size: 16px;
+    --font-size-large: 70px;
+    --font-size-midium: 18px;
+    --font-size-sm: 14px;
+    --padding-small: 8px;
+    --padding-medium: 10px;
+    --padding-large: 20px;
+    --border-radius: 8px;
+    --border-radius-large: 10px;
+    --hamburger-size: 30px;
+    --hamburger-thickness: 3px;
+    --form-control-font-size: 16px; 
+    --form-control-placeholder-color: #bbb; 
+    --form-control-padding: 5px; 
+    --form-control-margin-bottom: 10px; 
+    --form-hr-color: #ffffff; 
+    --form-hr-opacity: 1;
+  }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Nunito";
+}
+.bold-font {
+  font-weight: 600;
+  font-size: 19px;
+}
+.btn-common {
+    text-decoration: none;
+    background: none;
+    border: 1px solid var(--primary-color);
+    padding: 8px 12px 8px 12px;
+    border-radius: 8px;
+    color: rgba(129, 206, 208, 1);
+    margin: 5px;
+  }
+  
+  .btn-common:hover {
+    background-color: var(--primary-color);
+    color: white;
+  }
+  .common-bg {
+    background: var(--background-dark);
+    color: var(--white);
+    justify-content: center;
+    padding: 10vh;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: var(--background-dark);
+    border-radius: 5px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 5px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-color);
+  }
+  .swal-popup-custom {
+    background: var(--background-dark) !important;
+  }
+  
+  .swal-title-custom {
+    color: var(--white) !important; /* White text for title */
+  }
+  
+  .swal-content-custom {
+    color: var(--white) !important;; /* White text for content */
+  }
+  
+  .swal-icon-custom {
+    filter: hue-rotate(60deg) saturate(2) brightness(1.5); /* Colorful icon effect */
+  }
+
+  @media screen and (max-width: 768px) {
+    .common-bg {
+        padding: 1vh;
+      }
+  }
