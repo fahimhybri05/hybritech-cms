@@ -211,14 +211,13 @@ export class ServicesListComponent implements OnInit {
     });
   }
 
-  // edit modal
   editFaq(original: any) {
-    this.isEdit = true;  // Open the edit modal
+    this.isEdit = true;  
     this.selectedFaqId = original.id;
-    this.selectedFaqData = { ...original };  // Store the full FAQ data
+    this.selectedFaqData = { ...original };  
   }
 
-  // Close the edit modal and refresh the table
+  
   closeEditFaqModal() {
     this.isEdit = false;
   }

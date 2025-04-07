@@ -13,11 +13,12 @@
   [minRowsNumber]="15"
   [headerHeight]="30"
   [rowHeight]="30"
-  [selectionMode]="'None'"
+  [selectionMode]="'Single'"
   [emptyDataText]="'No Data Found'"
   [tableColumn]="tableColum()"
   [refreshTrigger]="refreshTable"
   (isInsertDataChange)="handleInsertData($event)"
+  (rowDoubleClick)="editFaq($event)"
 ></react-analytical-table>
 
 <app-add-faq [isOpen]="isInsert" (close)="closeAddFaqModal()"></app-add-faq>
