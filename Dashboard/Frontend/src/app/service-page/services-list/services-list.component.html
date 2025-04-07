@@ -25,6 +25,13 @@
   (close)="closeAddFaqModal()"
 ></app-add-services>
 
+<app-edit-services
+  [isOpen]="isEdit"
+  [serviceId]="selectedFaqId"
+  [serviceData]="selectedFaqData"
+  (close)="closeEditFaqModal()"
+></app-edit-services>
+
 <app-faq-details
   [faqId]="selectedFaqId"
   [faqData]="selectedFaqData"
