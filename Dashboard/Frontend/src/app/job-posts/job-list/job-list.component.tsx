@@ -24,7 +24,7 @@ export class JobListComponent {
 
   odata: boolean;
   loading: boolean = false;
-  isInsert: boolean = true;
+  isInsert: boolean = false;
   isEdit: boolean = false;
   isDetails: boolean = false;
   isDeleteOpen: boolean = false;

@@ -5,13 +5,15 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule,} from '@angular/forms';
 import { HttpClientModule} from '@angular/common/http';
 import { AngularEditorConfig, AngularEditorModule } from '@kolkov/angular-editor';
+import { LabelComponent, TextAreaComponent } from '@ui5/webcomponents-ngx';
+import { FormPreloaderComponent } from '@app/components/form-preloader/form-preloader.component';
 
 
 
 @Component({
   selector: 'app-job-add',
   standalone: true,
-  imports: [CommonModule,FormsModule,HttpClientModule,AngularEditorModule],
+  imports: [CommonModule,FormsModule,HttpClientModule,AngularEditorModule,LabelComponent,FormPreloaderComponent,TextAreaComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './job-add.component.html',
   styleUrl: './job-add.component.css'
@@ -27,7 +29,7 @@ export class JobAddComponent {
   errorMessage: string = '';
   headerDescription: string = '';
   title: string = '';
-  htmlContent = '';
+  htmlContent: string = '';
   placeholder = '';
 
 
@@ -50,18 +52,23 @@ export class JobAddComponent {
   ngOnInit(): void {}
 
   insertData() {
-    if (!this.headerDescription || !this.title) {
-      this.errorMessage = 'All fields are required.';
-      return;
-    }
+    // if (!this.headerDescription || !this.title) {
+    //   this.errorMessage = 'All fields are required.';
+    //   return;
+    // }
 
     const data = {
-      question: this.title,
-      answer: this.headerDescription,
+      title: this.title,
+      header_description	: this.headerDescription,
+      job_description: this.htmlContent,
     };
+    console.log("Data", data);
+    console.log("Data", this.htmlContent);
+    console.log("Data", this.headerDescription);
+    console.log("Data", this.title);
 
     this.loading = true; 
-    this.commonService.post('Faqs', data).subscribe(
+    this.commonService.post('JobLists', data).subscribe(
       (response: any) => {
         console.log(response);
         this.loading = false;

@@ -25,7 +25,7 @@
             [(ngModel)]="title"
             placeholder="Job Title..."
             required
-            type="Text"
+            type="title"
           ></ui5-textarea>
   
           <ui5-label show-colon required>Header Description</ui5-label>
@@ -35,10 +35,9 @@
             [(ngModel)]="headerDescription"
             placeholder="Description..."
             required
-            type="Email"
+            type="headerDescription"
           ></ui5-textarea>
           <ui5-label show-colon required>Job Description</ui5-label>  
-
           <angular-editor [placeholder]="placeholder" [config]="editorConfig" [(ngModel)]="htmlContent"></angular-editor>
 
         </div>
