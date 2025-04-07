@@ -22,7 +22,7 @@
 		"baseUrl": "src",
 		"paths": {
 			"@env/*": ["environments/*"],
-			"app/*": ["app/*"]
+			"@app/*": ["app/*"]
 		},
 		"lib": ["ES2022", "dom"]
   },

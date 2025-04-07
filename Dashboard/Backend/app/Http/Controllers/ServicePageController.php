@@ -9,29 +9,98 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class ServicePageController extends Controller
 {
     // Store a new service page (picture with title and description)
+    // public function store(Request $request)
+    // {
+    //     try {
+    //         $request->validate([
+    //             'title' => 'required|string|max:255',
+    //             'description' => 'required|string',
+              
+    //         ]);
+    
+    //         $servicePage = ServicePageDetails::create([
+    //             'title' => $request->title,
+    //             'description' => $request->description,
+    //         ]);
+    
+    //         // if ($request->hasFile('image')) {
+    //         //     // dd($request->file('image'));
+    //         //     $servicePage->addMediaFromRequest('image')
+    //         //         ->toMediaCollection('images');
+    //         // }
+
+    //         $media = $servicePage->addMedia($request->file('image'))
+    //         ->toMediaCollection('image');
+    //         dd('here');
+    //         // Load latest media relation for API response
+    //         // $servicePage->load('media');
+    
+    //         return response()->json([
+    //             'message' => 'Service Page created successfully.',
+    //             'data' => $this->formatServicePageResponse($servicePage)
+    //         ], 201);
+    
+    //     } catch (\Illuminate\Validation\ValidationException $e) {
+    //         return response()->json([
+    //             'message' => 'Validation Error.',
+    //             'errors' => $e->errors()
+    //         ], 422);
+    
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             'message' => 'Something went wrong.',
+    //             'error' => $e->getMessage()
+    //         ], 500);
+    //     }
+    // }
+
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'image' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048'
-        ]);
+        try {
+            // Validate the input fields
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'description' => 'required|string',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+    
+            // Create the service page (without image yet)
+            $servicePage = ServicePageDetails::create([
+                'title' => $request->title,
+                'description' => $request->description,
+            ]);
+    
+            // Check if image exists and upload it to media collection
+            if ($request->hasFile('image')) {
+                $servicePage->addMediaFromRequest('image')->toMediaCollection('images');
 
-        $servicePage = ServicePageDetails::create([
-            'title' => $request->title,
-            'description' => $request->description,
-        ]);
-        
-        if ($request->hasFile('image')) {
-            $servicePage->addMediaFromRequest('image')
-                ->toMediaCollection('images');
+            }
+    
+            // Return response
+            return response()->json([
+                'message' => 'Service Page created successfully.'
+            ], 201);
+    
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'message' => 'Validation Error.',
+                'errors' => $e->errors()
+            ], 422);
+    
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Something went wrong.',
+                'error' => $e->getMessage()
+            ], 500);
         }
-        
-        // Refresh the model to ensure media is loaded
-        $servicePage->refresh();
-        
-        return response()->json($this->formatServicePageResponse($servicePage), 201);
     }
+    
+    
+    // Removed duplicate method to resolve redeclaration error.
+    
+
+    
+    
 
     // Get all service pages
     public function index()
@@ -93,7 +162,7 @@ class ServicePageController extends Controller
      * @param ServicePageDetails $servicePage
      * @return array
      */
-    private function formatServicePageResponse(ServicePageDetails $servicePage): array
+    public function formatServicePageResponse(ServicePageDetails $servicePage): array
     {
         $media = $servicePage->getMedia('images')->first();
         

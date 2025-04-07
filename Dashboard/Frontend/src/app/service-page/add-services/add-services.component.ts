@@ -86,12 +86,12 @@ export class AddServicesComponent {
     formData.append('image', this.selectedFile);
 
     this.loading = true;
+    console.log(formData);
     this.commonService.post('service-pages', formData, false).subscribe(
       (response: any) => {
         console.log(response);
         this.loading = false;
         this.isSuccess = true;
-        // Handle the media URL from Spatie if needed
         if (response && response.media && response.media.length > 0) {
           const mediaUrl = response.media[0].original_url;
           console.log('Media URL:', mediaUrl);
