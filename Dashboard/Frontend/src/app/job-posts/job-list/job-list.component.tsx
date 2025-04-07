@@ -1,21 +1,24 @@
-import { DatePipe } from '@angular/common';
-import { ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
-import { Button, Icon, TextAlign } from '@ui5/webcomponents-react';
-import { ReactAnalyticalTable } from 'app/components/analytical-table/react-table';
-import { CommonService } from 'app/services/common-service/common.service';
-import React from 'react';
-import { JobAddComponent } from '../job-add/job-add.component';
-
+import { DatePipe } from "@angular/common";
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Output,
+} from "@angular/core";
+import { Button, Icon, TextAlign } from "@ui5/webcomponents-react";
+import { ReactAnalyticalTable } from "app/components/analytical-table/react-table";
+import { CommonService } from "app/services/common-service/common.service";
+import React from "react";
+import { JobAddComponent } from "../job-add/job-add.component";
 
 @Component({
-  selector: 'app-job-list',
+  selector: "app-job-list",
   standalone: true,
-  imports: [ReactAnalyticalTable,JobAddComponent],
-  templateUrl: './job-list.component.html',
-  styleUrl: './job-list.component.css'
+  imports: [ReactAnalyticalTable, JobAddComponent],
+  templateUrl: "./job-list.component.html",
+  styleUrl: "./job-list.component.css",
 })
 export class JobListComponent {
-
   @Output() refreshTable: EventEmitter<void> = new EventEmitter<void>();
 
   totalJobs: number = 0;
@@ -42,7 +45,7 @@ export class JobListComponent {
   constructor(
     private commonService: CommonService,
     private datePipe: DatePipe,
-    private cdr: ChangeDetectorRef 
+    private cdr: ChangeDetectorRef
   ) {
     this.itemsPerPage = this.commonService.itemsPerPage;
     this.odata = this.commonService.odata;
@@ -201,14 +204,12 @@ export class JobListComponent {
     });
   }
 
-
   editJob(original: any) {
-    this.isEdit = true;  
+    this.isEdit = true;
     this.selectedJobId = original.id;
-    this.selectedJobData = { ...original };  
+    this.selectedJobData = { ...original };
   }
 
- 
   closeEditJobModal() {
     this.isEdit = false;
   }

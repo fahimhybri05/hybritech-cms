@@ -18,9 +18,9 @@
   <section>
     <div class="row">
       <div class="col-12">
-        <div class="flex items-center">
-          <span>active :</span>
-          <ui5-switch checked [(ngModel)]="joblist.is_active"></ui5-switch>
+        <div class="d-flex align-items-center">
+          <span>Active :</span>
+          <ui5-switch checked (click)="toggleActive($event)"></ui5-switch>
         </div>
         <ui5-label show-colon required>Title</ui5-label>
 
