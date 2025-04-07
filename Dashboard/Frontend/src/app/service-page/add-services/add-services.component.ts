@@ -32,6 +32,8 @@ export class AddServicesComponent {
   fileTypeError: string | null = null;
   title: string = '';
   description: string = '';
+  wordCount: number = 0;
+  maxWords: number = 45;
   selectedFile: File | null = null;
   selectedFileUrl: string | null = null;
 
@@ -41,8 +43,12 @@ export class AddServicesComponent {
     const file = event.target.files[0];
     if (file) {
       const fileType = file.type;
-      if (fileType !== 'image/svg+xml' && fileType !== 'image/png') {
-        this.fileTypeError = 'Only SVG and PNG formats are allowed.';
+      if (!['image/jpeg', 'image/jpg', 'image/png', 'image/gif'].includes(fileType)) {
+        this.fileTypeError = 'Only JPG, JPEG, PNG and GIF formats are allowed.';
+        return;
+      }
+      if (file.size > 2 * 1024 * 1024) { // 2MB in bytes
+        this.fileTypeError = 'File size should not exceed 2MB.';
         return;
       }
       this.fileTypeError = null;
@@ -55,9 +61,22 @@ export class AddServicesComponent {
     }
   }
 
+  updateWordCount() {
+    if (!this.description) {
+      this.wordCount = 0;
+      return;
+    }
+    this.wordCount = this.description.trim().split(/\s+/).length;
+  }
+
   insertData() {
-    if ( !this.title || !this.description || !this.selectedFile) {
+    if (!this.title || !this.description || !this.selectedFile) {
       this.errorMessage = 'All fields are required.';
+      return;
+    }
+
+    if (this.wordCount > this.maxWords) {
+      this.errorMessage = `Description cannot exceed ${this.maxWords} words.`;
       return;
     }
 
@@ -67,11 +86,16 @@ export class AddServicesComponent {
     formData.append('image', this.selectedFile);
 
     this.loading = true;
+    console.log(formData);
     this.commonService.post('service-pages', formData, false).subscribe(
-      (response) => {
+      (response: any) => {
         console.log(response);
         this.loading = false;
         this.isSuccess = true;
+        if (response && response.media && response.media.length > 0) {
+          const mediaUrl = response.media[0].original_url;
+          console.log('Media URL:', mediaUrl);
+        }
         this.resetForm();
         this.closeDialog();
       },

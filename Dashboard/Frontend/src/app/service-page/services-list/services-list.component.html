@@ -13,17 +13,25 @@
   [minRowsNumber]="15"
   [headerHeight]="30"
   [rowHeight]="30"
-  [selectionMode]="'None'"
+  [selectionMode]="'Single'"
   [emptyDataText]="'No Data Found'"
   [tableColumn]="tableColum()"
   [refreshTrigger]="refreshTable"
   (isInsertDataChange)="handleInsertData($event)"
+  (rowDoubleClick)="editFaq($event)"
 ></react-analytical-table>
 
 <app-add-services
   [isOpen]="isInsert"
   (close)="closeAddFaqModal()"
 ></app-add-services>
+
+<app-edit-services
+  [isOpen]="isEdit"
+  [serviceId]="selectedFaqId"
+  [serviceData]="selectedFaqData"
+  (close)="closeEditFaqModal()"
+></app-edit-services>
 
 <app-faq-details
   [faqId]="selectedFaqId"

@@ -68,7 +68,7 @@
   margin-bottom: 20px;
 }
 
-.faq-singular .faq-question {
+.faq-singular .job-title {
   position: relative;
   cursor: pointer;
   margin: 0;
@@ -81,11 +81,11 @@
   font-family: "Nunito";
 }
 
-.faq-singular.active .faq-question {
+.faq-singular.active .job-title {
   border-bottom: 1px solid #2222;
 }
 
-.faq-singular .faq-question:before {
+.faq-singular .job-title:before {
   position: absolute;
   content: "+";
   right: 30px;
@@ -97,21 +97,21 @@
   color: var(--primary-color);
 }
 
-.faq-singular.active .faq-question:before {
+.faq-singular.active .job-title:before {
   content: "-";
   font-size: 30px;
 }
 
-.faq-question img {
+.job-title img {
   padding-right: 12px;
 }
 
-.faq-answer {
+.job-description {
   display: none;
   padding: 21px 40px 25px;
 }
 
-.style-two .faq-singular.active .faq-question {
+.style-two .faq-singular.active .job-title {
   background: var(--primary-color);
   color: #ffff !important;
   padding: 17px 20px 17px 32px;
@@ -124,7 +124,7 @@
   border-bottom: 1px solid #cedef759;
 }
 
-.style-two .faq-singular .faq-question {
+.style-two .faq-singular .job-title {
   position: relative;
   cursor: pointer;
   margin: 0;
@@ -139,7 +139,7 @@
   color: #fff;
 }
 
-.style-two .faq-answer {
+.style-two .job-description {
   display: none;
   padding: 27px 25px 25px 0;
   opacity: 0.502;
@@ -149,7 +149,7 @@
   font-family: "Nunito";
 }
 
-.style-two .faq-singular .faq-question:before {
+.style-two .faq-singular .job-title:before {
   position: absolute;
   content: "+";
   right: 0;
@@ -161,7 +161,7 @@
   color: var(--text-color) !important;
 }
 
-.style-two .faq-singular.active .faq-question:before {
+.style-two .faq-singular.active .job-title:before {
   content: "-";
   font-size: 30px;
   top: 32px;
@@ -172,22 +172,29 @@
   margin-bottom: 10px;
 }
 
-.faq-answer {
+.job-description {
   display: none;
 }
 
-.faq-singular.active .faq-answer {
+.faq-singular.active .job-description {
   display: block;
 }
 
-.faq-question {
+.job-title {
   cursor: pointer;
   font-size: 1.1rem;
   font-weight: bold;
 }
 
-.faq-answer .desc {
+.job-description .desc {
   margin-top: 10px;
+}
+.grow-together {
+  margin-bottom: 80px;
+}
+hr{
+  border: 1px solid var(--text-color);
+  width: 100%;
 }
 
 @media screen and (max-width: 768px) {
