@@ -1,0 +1,40 @@
+<ui5-dialog [open]="isOpen" header-text="Update FAQ" id="dialog">
+	<ui5-bar slot="header" design="Header">
+	  <ui5-title level="H5" slot="startContent">Edit FAQ</ui5-title>
+	  <ui5-button
+		class="dialogCloser"
+		design="Transparent"
+		id="closeDialogButton"
+		slot="endContent"
+		(click)="closeDialog()"
+		icon="decline"
+	  ></ui5-button>
+	</ui5-bar>
+  
+	<section>
+	  <ui5-busy-indicator [active]="formloading" delay="100">
+		<div>
+		  <ui5-label show-colon required>Qustion</ui5-label>
+		  <ui5-textarea
+		  	class="textarea"
+			[(ngModel)]="question"
+			required
+		  ></ui5-textarea>
+  
+		  <ui5-label show-colon required>Answer</ui5-label>
+		  <ui5-textarea
+		  	class="textarea"
+			[(ngModel)]="answer"
+			placeholder="Enter answer"
+			required
+		  ></ui5-textarea>
+		</div>
+	  </ui5-busy-indicator>
+	</section>
+  
+	<ui5-toolbar slot="footer">
+	  <ui5-toolbar-button design="Emphasized" (click)="updateData()" [disabled]="formloading" text="Update"></ui5-toolbar-button>
+	  <ui5-toolbar-button design="Transparent" text="Cancel" (click)="closeDialog()"></ui5-toolbar-button>
+	</ui5-toolbar>
+  </ui5-dialog>
+  

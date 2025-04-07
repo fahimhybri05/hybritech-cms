@@ -1,0 +1,109 @@
+<section class="banner" style="position: relative">
+  <video autoplay muted loop class="background-video">
+    <source src="../../assets/img/bg-vid.mp4" type="video/mp4" />
+  </video>
+  <div class="color-overlay">
+    <div>
+      <div class="container banner-content">
+        <div class="row" id="banner1">
+          <div class="col-lg-6">
+            <div class="text-white banner-text-career">
+              <h1>
+                Be The <span style="color: var(--secondary-color)">NEXT</span>
+              </h1>
+              <p class="col-8">
+                You will not work for us, You will work with us. Here, you will
+                learn from the best, and lead the rest! Take off to the next
+                chapter with <span class="fw-bold">HYBRITECH INNOVATIONS</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="common-bg">
+    <div class="container career-part" id="career-part">
+      <div class="row">
+        <div class="col-md-6">
+          <div>
+            <img
+              src="../../assets/img/Asset 1@4x 1.png"
+              alt=""
+              class="career-logo"
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div>
+            <h1>Working with dynamic People</h1>
+            <p>
+              we put people at the heart of our business. We believe in
+              happiness at work, personal development, and family spirit. When
+              you love what you do and the people you work with, that’s when the
+              magic happens and you accomplish great things! The winning recipe
+              is a pinch of creativity, a dash of happiness, and a lot of you!
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="pricing-area style-two">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg">
+        <div class="grow-together">
+          <h6 class="my-1 text-white">Current Openings</h6>
+          <h1 class="my-3">Let’s grow together</h1>
+          <hr class="my-5">
+        </div>
+
+        <div
+          *ngFor="let job of jobs; let i = index"
+          class="faq-singular"
+          [ngClass]="{ active: i === activeIndex }"
+        >
+          <h2 class="job-title" (click)="toggleJob(i)">
+            {{ job.title }}
+          </h2>
+          <p class="bold-font text-muted mt-3 pe-auto" style="padding-right: 70px; cursor: pointer" (click)="toggleJob(i)">
+            {{ job.headerdesc }}
+          </p>
+          <div class="job-description" *ngIf="i === activeIndex">
+            <div class="desc">
+              <p><strong>Location:</strong> {{ job.location }}</p>
+              <p><strong>Experience Required:</strong> {{ job.experience }}</p>
+              <p>{{ job.description }}</p>
+              <p><strong>Responsibilities:</strong></p>
+              <ul>
+                <li *ngFor="let responsibility of job.responsibilities">
+                  {{ responsibility }}
+                </li>
+              </ul>
+              <p><strong>Requirements:</strong></p>
+              <ul>
+                <li *ngFor="let requirement of job.requirements">
+                  {{ requirement }}
+                </li>
+              </ul>
+              <p><strong>Salary:</strong> {{ job.salary }}</p>
+              <p><strong>Benefits:</strong></p>
+              <ul>
+                <li *ngFor="let benefit of job.benefits">{{ benefit }}</li>
+              </ul>
+              <p><strong>How to Apply:</strong> {{ job.applyInstructions }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-faq></app-faq>
+<app-form></app-form>
