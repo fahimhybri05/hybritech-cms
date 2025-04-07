@@ -31,6 +31,8 @@ import { FormDetailsComponent } from "../form.details/form.details.component";
   styleUrl: "./common-form.component.css",
 })
 export class CommonFormComponent implements OnInit {
+  @Output() close: EventEmitter<void> = new EventEmitter<void>();
+    @Output() refreshTable: EventEmitter<void> = new EventEmitter<void>();
   itemsPerPage: number;
   currentPage = 1;
 
@@ -153,5 +155,7 @@ export class CommonFormComponent implements OnInit {
 
   closeModal() {
 	this.isOpen = false;	
+  this.close.emit();  
+  this.refreshTable.emit();
   }
 }

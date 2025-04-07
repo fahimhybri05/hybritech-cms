@@ -31,6 +31,8 @@ import { FormDetailsComponent } from "../form.details/form.details.component";
   styleUrl: './contact.us.form.component.css'
 })
 export class ContactUsFormComponent implements OnInit {
+  @Output() close: EventEmitter<void> = new EventEmitter<void>();  
+    @Output() refreshTable: EventEmitter<void> = new EventEmitter<void>();
   itemsPerPage: number;
   currentPage = 1;
 
@@ -147,5 +149,8 @@ export class ContactUsFormComponent implements OnInit {
 
   closeModal() {
 	this.isOpen = false;	
+    this.cdr.detectChanges();
+    this.close.emit();  
+    this.refreshTable.emit();
   }
 }

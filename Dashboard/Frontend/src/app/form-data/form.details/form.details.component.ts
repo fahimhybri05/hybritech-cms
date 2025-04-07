@@ -14,6 +14,7 @@ export class FormDetailsComponent implements OnInit {
   @Input() formData: any = {};  // Form data passed from parent
   @Input() isOpen: boolean = false;  // Modal open state passed from parent
   @Output() close: EventEmitter<void> = new EventEmitter<void>();  // Event to close the modal
+    @Output() refreshTable: EventEmitter<void> = new EventEmitter<void>();
 
   question: string = "";
   answer: string = "";
@@ -26,6 +27,8 @@ export class FormDetailsComponent implements OnInit {
   }
 
   closeDialog() {
+    this.isOpen = false;
     this.close.emit();  
+    this.refreshTable.emit();
   }
 }

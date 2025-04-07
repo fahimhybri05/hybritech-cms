@@ -110,7 +110,7 @@ export class FaqListComponent implements OnInit {
         className: "custom-class-name",
         hAlign: "Center" as TextAlign,
         Cell: ({ row }: any) => (
-          <div data-id={row.original.id}>
+          <div>
             <Button
               icon="edit"
               design="Transparent"
