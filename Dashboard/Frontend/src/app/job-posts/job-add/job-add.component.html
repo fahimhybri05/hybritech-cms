@@ -1,4 +1,4 @@
-<!-- <ui5-dialog header-text="Add" [open]="isOpen" id="dialog">
+<ui5-dialog header-text="Add" [open]="isOpen" id="dialog">
     <ui5-bar slot="header" design="Header">
       <ui5-title level="H5" slot="startContent">Add</ui5-title>
       <ui5-button
@@ -39,9 +39,7 @@
           ></ui5-textarea>
           <ui5-label show-colon required>Job Description</ui5-label>  
 
-          <div id="editor"></div>
-
-
+          <angular-editor [placeholder]="placeholder" [config]="editorConfig" [(ngModel)]="htmlContent"></angular-editor>
 
         </div>
       </div>
@@ -61,10 +59,10 @@
     text="Submit">
       </ui5-toolbar-button> -->
   
-      <!-- <ui5-toolbar-button
+ <ui5-toolbar-button
         design="Transparent"
         text="Cancel"
         (click)="closeDialog()"
       ></ui5-toolbar-button>
     </ui5-toolbar>
-  </ui5-dialog> -->
+  </ui5-dialog>
