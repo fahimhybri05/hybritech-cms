@@ -7,7 +7,7 @@ import { HttpClientModule} from '@angular/common/http';
 import { AngularEditorConfig, AngularEditorModule } from '@kolkov/angular-editor';
 import { LabelComponent, TextAreaComponent } from '@ui5/webcomponents-ngx';
 import { FormPreloaderComponent } from '@app/components/form-preloader/form-preloader.component';
-
+import { Joblist } from '@app/shared/Model/joblist';
 
 
 @Component({
@@ -31,6 +31,8 @@ export class JobAddComponent {
   title: string = '';
   htmlContent: string = '';
   placeholder = '';
+  isActive: boolean = false;
+  joblist: Joblist = new Joblist().deserialize({});
 
 
   editorConfig: AngularEditorConfig = {
@@ -51,21 +53,24 @@ export class JobAddComponent {
   ) {}
   ngOnInit(): void {}
 
+  onSwitchChange(event: any) {
+    console.log('Switch state:', this.isActive);
+
+  }
+
   insertData() {
-    // if (!this.headerDescription || !this.title) {
-    //   this.errorMessage = 'All fields are required.';
-    //   return;
-    // }
+    if (!this.headerDescription || !this.title) {
+      this.errorMessage = 'All fields are required.';
+      return;
+    }
 
     const data = {
       title: this.title,
       header_description	: this.headerDescription,
       job_description: this.htmlContent,
+      is_active: this.isActive,
     };
-    console.log("Data", data);
-    console.log("Data", this.htmlContent);
-    console.log("Data", this.headerDescription);
-    console.log("Data", this.title);
+  
 
     this.loading = true; 
     this.commonService.post('JobLists', data).subscribe(
@@ -93,5 +98,7 @@ export class JobAddComponent {
     this.isOpen = false;
     this.close.emit();
   }
+
+
 
 }
