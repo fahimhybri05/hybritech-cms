@@ -7,7 +7,7 @@ import { FormComponent } from "../components/form/form.component";
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [NavbarComponent, FAQComponent, FooterComponent, FormComponent],
+  imports: [ FAQComponent,  FormComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

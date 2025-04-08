@@ -10,7 +10,14 @@
     width: 100%;
     height: var(--height);
 }
-
+#aboutus-banner-text h1{
+  font-size: var(--font-size-large);
+  font-family: var(--header-font);
+}
+#aboutus-banner-text span{
+  font-size: var(--font-size-large);
+  font-family: var(--header-font);
+}
 .banner-items {
     padding-top: 20vh;
 }

@@ -31,8 +31,11 @@
   max-width: 80%;
 }
 .banner-text-career h1 {
-  font-size: 3rem;
-  margin-bottom: 20px;
+  font-family: var(--header-font);
+  font-size: var(--font-size-large);
+}
+.banner-text-career span{
+  font-family: var(--header-font);
 }
 
 .banner-text-career p {
@@ -43,7 +46,9 @@
   width: 437.82px;
   height: 148.18px;
 }
-
+.work-text h1{
+  font-family: var(--header-font);
+}
 .career-part {
   padding-top: 10vh;
 }

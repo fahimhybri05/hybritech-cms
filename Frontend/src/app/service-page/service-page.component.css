@@ -13,7 +13,10 @@
 .banner-items {
     padding-top: 20vh;
 }
-
+.service-text h1{
+  font-size: var(--font-size-large);
+  font-family: var(--header-font);
+}
 .banner-title {
     font-size: var(--font-size-large);
 }
