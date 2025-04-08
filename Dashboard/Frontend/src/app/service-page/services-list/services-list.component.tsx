@@ -91,27 +91,22 @@ export class ServicesListComponent implements OnInit {
         autoResizable: true,
         className: "custom-class-name",
       },
-      {
-        Header: "Image",
-        accessor: "media",
-        autoResizable: true,
-        className: "custom-class-name",
-        Cell: ({ value }: any) => {
-          if (value && value.length > 0 && value[0].file_name) {
-            const fileName = value[0].file_name;
-            const imageUrl = `/public/media/${fileName}`;
-      
-            return (
-              <img
-                src={imageUrl}
-                alt="Service Image"
-                style={{ width: "50px", height: "50px", objectFit: "cover" }}
-              />
-            );
-          }
-          return <span>No image available</span>;
-        },
-      },
+			{
+				Header: "Image",
+				accessor: "media",
+				autoResizable: true,
+				className: "custom-class-name",
+        hAlign: "Center" as TextAlign,
+				Cell: ({ row }: any) => (
+					<img
+						src={row.original.media[0].original_url}
+						alt="Signature"
+            style={{ width: "120px", height: "80px", objectFit: "cover" }}
+						width="40"
+						height="40"
+					/>
+				),
+			},
       
       {
         Header: "Created At",
