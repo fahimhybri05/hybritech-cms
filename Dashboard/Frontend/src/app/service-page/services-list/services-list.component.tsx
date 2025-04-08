@@ -98,6 +98,8 @@ export class ServicesListComponent implements OnInit {
         className: "custom-class-name",
         Cell: ({ value }: any) => {
           if (value) {
+
+            
             return React.createElement("img", {
               src: value.original_url,
               alt: "Service Image",
