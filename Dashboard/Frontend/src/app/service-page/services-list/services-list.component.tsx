@@ -97,18 +97,22 @@ export class ServicesListComponent implements OnInit {
         autoResizable: true,
         className: "custom-class-name",
         Cell: ({ value }: any) => {
-          if (value) {
-
-            
-            return React.createElement("img", {
-              src: value.original_url,
-              alt: "Service Image",
-              style: { width: "50px", height: "50px", objectFit: "cover" }
-            });
+          if (value && value.length > 0 && value[0].file_name) {
+            const fileName = value[0].file_name;
+            const imageUrl = `/public/media/${fileName}`;
+      
+            return (
+              <img
+                src={imageUrl}
+                alt="Service Image"
+                style={{ width: "50px", height: "50px", objectFit: "cover" }}
+              />
+            );
           }
-          return React.createElement("span", null, "No image");
+          return <span>No image available</span>;
         },
       },
+      
       {
         Header: "Created At",
         accessor: "created_at",
