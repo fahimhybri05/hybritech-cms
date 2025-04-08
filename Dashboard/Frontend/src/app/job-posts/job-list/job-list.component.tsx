@@ -10,11 +10,12 @@ import { ReactAnalyticalTable } from "app/components/analytical-table/react-tabl
 import { CommonService } from "app/services/common-service/common.service";
 import React from "react";
 import { JobAddComponent } from "../job-add/job-add.component";
+import { JobDetailsComponent } from "../job-details/job-details.component";
 
 @Component({
   selector: "app-job-list",
   standalone: true,
-  imports: [ReactAnalyticalTable, JobAddComponent],
+  imports: [ReactAnalyticalTable, JobAddComponent,JobDetailsComponent],
   templateUrl: "./job-list.component.html",
   styleUrl: "./job-list.component.css",
 })

@@ -21,3 +21,10 @@
 ></react-analytical-table>
 
 <app-job-add [isOpen]="isInsert" (close)="closeAddJobModal()"></app-job-add>
+
+<app-job-details
+  [jobId]="selectedJobId"
+  [jobData]="selectedJobData"
+  [isOpen]="isDetails"  
+  (close)="closeJobDetailsModal()"
+></app-job-details>

@@ -1,1 +1,13 @@
-<p>job-detaidasdls works!</p>
+<ui5-dialog [open]="isOpen" header-text="Details" state="Information">
+  <div *ngIf="jobData">
+    <p><strong>Avtive:  </strong> <strong>{{ jobData.is_active }}</strong></p>
+    <p><strong>Title:</strong> {{ jobData.title }}</p>
+    <p><strong>Header Description:</strong> {{ jobData.header_description }}</p>
+
+    <p><strong> <u>Job Description:</u> </strong></p>
+    <div class="job-details" [innerHTML]="jobData.job_description"></div>
+  </div>
+  <div slot="footer" style="display: flex; justify-content: flex-end;">
+    <ui5-button (click)="closeDialog()">Close</ui5-button>
+  </div>
+</ui5-dialog>
