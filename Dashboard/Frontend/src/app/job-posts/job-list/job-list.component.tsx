@@ -1,6 +1,8 @@
-import { DatePipe } from "@angular/common";
+import { CommonModule,DatePipe } from "@angular/common";
+
 import {
   ChangeDetectorRef,
+  CUSTOM_ELEMENTS_SCHEMA,
   Component,
   EventEmitter,
   Output,
@@ -14,7 +16,8 @@ import { JobEditComponent } from "../job-edit/job-edit.component";
 @Component({
   selector: "app-job-list",
   standalone: true,
-  imports: [ReactAnalyticalTable, JobAddComponent,JobEditComponent],
+  imports: [ReactAnalyticalTable, JobAddComponent,JobEditComponent,CommonModule],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: "./job-list.component.html",
   styleUrl: "./job-list.component.css",
 })

@@ -93,7 +93,7 @@ export class JobEditComponent {
     this.title = this.jobData.title || '';
     this.headerDescription = this.jobData.header_description || '';
     this.jobDescription = this.jobData.job_description || '';
-    this.isActive = this.jobData.is_active === 1 || this.jobData.is_active === true;
+    this.isActive = this.jobData.is_active === true;
     
   }
 
@@ -118,11 +118,10 @@ export class JobEditComponent {
       title: this.title,
       header_description: this.headerDescription,
       job_description: this.jobDescription,
-      is_active: this.isActive ? 1 : 0
+      is_active: this.isActive ? true : false
     };
  
     this.formloading = true;
-    console.log("Data", formData);
     this.commonService
       .put(`JobLists(${this.jobId!})`, formData, true)
       .subscribe({
