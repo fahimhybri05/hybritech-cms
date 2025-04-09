@@ -49,18 +49,18 @@
 }
 .btn-common {
     text-decoration: none;
-    background: none;
+    background: var(--primary-color);;
     border: 1px solid var(--primary-color);
     font-family: var(--description-font);
     padding: 8px 12px 8px 12px;
     border-radius: 8px;
-    color: rgba(129, 206, 208, 1);
+    color: rgb(248, 248, 248);
     margin: 5px;
   }
   
   .btn-common:hover {
-    background-color: var(--primary-color);
-    color: white;
+    background-color: rgb(248, 248, 248);
+    color: var(--primary-color);
   }
   .common-bg {
     background: var(--background-dark);
