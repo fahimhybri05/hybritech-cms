@@ -1,4 +1,4 @@
-import { CommonModule,DatePipe } from "@angular/common";
+import { CommonModule, DatePipe } from "@angular/common";
 
 import {
   ChangeDetectorRef,
@@ -16,8 +16,13 @@ import { JobEditComponent } from "../job-edit/job-edit.component";
 @Component({
   selector: "app-job-list",
   standalone: true,
-  imports: [ReactAnalyticalTable, JobAddComponent,JobEditComponent,CommonModule],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  imports: [
+    ReactAnalyticalTable,
+    JobAddComponent,
+    JobEditComponent,
+    CommonModule,
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: "./job-list.component.html",
   styleUrl: "./job-list.component.css",
 })
@@ -61,7 +66,7 @@ export class JobListComponent {
 
   loadJobs(): void {
     this.loading = true;
-    this.commonService.get('JobLists').subscribe({
+    this.commonService.get("JobLists").subscribe({
       next: (response: any) => {
         this.jobData = response.value || response || [];
         this.totalJobs = this.jobData.length;
@@ -71,7 +76,7 @@ export class JobListComponent {
       error: (error) => {
         this.loading = false;
         this.cdr.detectChanges();
-      }
+      },
     });
   }
 
@@ -224,16 +229,12 @@ export class JobListComponent {
       },
     });
   }
-
   editJob(original: any): void {
     this.selectedJobId = original.id;
-    this.selectedJobData = original; 
+    this.selectedJobData = original;
     this.isEdit = true;
-    this.cdr.detectChanges(); 
-    };
-   
-  
-  
+    this.cdr.detectChanges();
+  }
   closeEditJobModal(): void {
     this.isEdit = false;
     this.selectedJobId = null;

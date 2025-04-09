@@ -2,7 +2,7 @@ import {
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
   EventEmitter,
-  SimpleChanges ,
+  SimpleChanges,
   Input,
   Output,
 } from '@angular/core';
@@ -33,7 +33,7 @@ import { Joblist } from '@app/shared/Model/joblist';
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './job-edit.component.html',
-  styleUrl: './job-edit.component.css'
+  styleUrl: './job-edit.component.css',
 })
 export class JobEditComponent {
   @Input() isOpen: boolean | null = null;
@@ -80,7 +80,7 @@ export class JobEditComponent {
     }
   }
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("Changes detected:", changes);
+    console.log('Changes detected:', changes);
     if (changes['isOpen']?.currentValue === true) {
       if (this.jobData) {
         this.loadJobData();
@@ -94,12 +94,11 @@ export class JobEditComponent {
     this.headerDescription = this.jobData.header_description || '';
     this.jobDescription = this.jobData.job_description || '';
     this.isActive = this.jobData.is_active === true;
-    
   }
 
   getJobInfo(): void {
     if (!this.jobId) return;
-    
+
     this.loading = true;
     this.commonService.get(`JobLists/${this.jobId}`).subscribe({
       next: (response: any) => {
@@ -108,9 +107,8 @@ export class JobEditComponent {
         this.loading = false;
       },
       error: (error) => {
-       
         this.loading = false;
-      }
+      },
     });
   }
   updateJob() {
@@ -118,26 +116,23 @@ export class JobEditComponent {
       title: this.title,
       header_description: this.headerDescription,
       job_description: this.jobDescription,
-      is_active: this.isActive ? true : false
+      is_active: this.isActive ? true : false,
     };
- 
+
     this.formloading = true;
     this.commonService
       .put(`JobLists(${this.jobId!})`, formData, true)
       .subscribe({
         next: (response: any) => {
-          
           this.formloading = false;
           this.isSuccess = true;
           this.sucessMessage = 'Job updated successfully';
           this.closeDialog();
-          
         },
         error: (error: any) => {
           this.formloading = false;
           this.isEditError = true;
           this.errorMessage = error.error?.message || 'Error updating FAQ';
-         
         },
       });
   }
