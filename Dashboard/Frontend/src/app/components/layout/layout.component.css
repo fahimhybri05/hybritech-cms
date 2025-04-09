@@ -11,10 +11,7 @@
 	margin-right: 30px;
 	width: 300px;
 }
-ui5-side-navigation {
-	border-radius: 15px;
-	height: calc(100vh - 66px);
-}
+
 
 ui5-bar {
 	height: 50px;
