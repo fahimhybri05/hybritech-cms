@@ -18,17 +18,26 @@ import { Button } from "@ui5/webcomponents-react";
 import { AddServicesComponent } from "../add-services/add-services.component";
 import { EditServicesComponent } from "../edit-services/edit-services.component";
 import { environment } from "../../../environments/environment";
+import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
 @Component({
-	selector: "app-services-list",
+  selector: "app-services-list",
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactAnalyticalTable, AddServicesComponent, EditServicesComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactAnalyticalTable,
+    AddServicesComponent,
+    EditServicesComponent,
+    ToastMessageComponent,
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-	templateUrl: './services-list.component.html',
-	styleUrl: './services-list.component.css'
+  templateUrl: "./services-list.component.html",
+  styleUrl: "./services-list.component.css",
 })
 export class ServicesListComponent implements OnInit {
   @Output() refreshTable: EventEmitter<void> = new EventEmitter<void>();
-
+  @Output() IsOpenToastAlert = new EventEmitter<void>();
+  ToastType: string = "";
   totalFaqs: number = 0;
   itemsPerPage: number;
   currentPage = 1;
@@ -54,7 +63,7 @@ export class ServicesListComponent implements OnInit {
   constructor(
     private commonService: CommonService,
     private datePipe: DatePipe,
-    private cdr: ChangeDetectorRef 
+    private cdr: ChangeDetectorRef
   ) {
     this.itemsPerPage = this.commonService.itemsPerPage;
     this.odata = this.commonService.odata;
@@ -91,23 +100,23 @@ export class ServicesListComponent implements OnInit {
         autoResizable: true,
         className: "custom-class-name",
       },
-			{
-				Header: "Image",
-				accessor: "media",
-				autoResizable: true,
-				className: "custom-class-name",
+      {
+        Header: "Image",
+        accessor: "media",
+        autoResizable: true,
+        className: "custom-class-name",
         hAlign: "Center" as TextAlign,
-				Cell: ({ row }: any) => (
-					<img
-						src={row.original.media[0].original_url}
-						alt="Signature"
+        Cell: ({ row }: any) => (
+          <img
+            src={row.original.media[0].original_url}
+            alt="Signature"
             style={{ width: "120px", height: "80px", objectFit: "cover" }}
-						width="40"
-						height="40"
-					/>
-				),
-			},
-      
+            width="40"
+            height="40"
+          />
+        ),
+      },
+
       {
         Header: "Created At",
         accessor: "created_at",
@@ -135,8 +144,6 @@ export class ServicesListComponent implements OnInit {
               design="Transparent"
               onClick={() => {
                 this.editFaq(row.original);
-
-                
               }}
             />
             <Button
@@ -199,7 +206,10 @@ export class ServicesListComponent implements OnInit {
         this.isSuccess = true;
         this.isDeleteOpen = false;
         this.isDeleteLoading = false;
-        this.sucessMessage = "Data deleted successfully";
+        this.ToastType = "delete";
+        setTimeout(() => {
+          this.IsOpenToastAlert.emit();
+        }, 1000);
         this.refreshTable.emit();
       },
       error: (error: any) => {
@@ -213,12 +223,11 @@ export class ServicesListComponent implements OnInit {
   }
 
   editFaq(original: any) {
-    this.isEdit = true;  
+    this.isEdit = true;
     this.selectedFaqId = original.id;
-    this.selectedFaqData = { ...original };  
+    this.selectedFaqData = { ...original };
   }
 
-  
   closeEditFaqModal() {
     this.isEdit = false;
   }

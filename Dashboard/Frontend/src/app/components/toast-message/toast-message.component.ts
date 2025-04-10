@@ -19,7 +19,7 @@ export class ToastMessageComponent implements OnInit {
   Message = {
     delete: 'Deleted successfully',
     remove: 'Removed successfully',
-    edit: 'Edited successfully',
+    edit: 'Updated successfully',
     add: 'Added successfully',
     error: 'Somthing went wrong',
   };
