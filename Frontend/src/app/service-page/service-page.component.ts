@@ -41,6 +41,7 @@ services: any[] = [];
       }
     );
   }
+  
   getSanitizedIcon(icon: string) {
     return this.sanitizer.bypassSecurityTrustHtml(icon);
   }
