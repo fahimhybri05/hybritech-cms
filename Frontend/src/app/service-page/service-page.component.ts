@@ -1,30 +1,26 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FAQComponent } from "../components/faq/faq.component";
-import { FormComponent } from "../components/form/form.component";
+import { FAQComponent } from '../components/faq/faq.component';
+import { FormComponent } from '../components/form/form.component';
 import { DomSanitizer } from '@angular/platform-browser';
-import { DataService } from "../services/data.service";
-
-
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-service-page',
   standalone: true,
-  imports: [ FAQComponent, FormComponent,CommonModule],
+  imports: [FAQComponent, FormComponent, CommonModule],
   templateUrl: './service-page.component.html',
-  styleUrl: './service-page.component.css'
+  styleUrl: './service-page.component.css',
 })
 export class ServicePageComponent {
-services: any[] = [];
-
+  services: any[] = [];
 
   constructor(
     private sanitizer: DomSanitizer,
-    private dataService: DataService,
+    private dataService: DataService
+  ) {}
 
-  ) { }
-
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.getServiceData();
   }
 

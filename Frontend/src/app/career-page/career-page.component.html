@@ -61,7 +61,7 @@
         <div class="grow-together">
           <h6 class="my-1 text-white">Current Openings</h6>
           <h1 class="my-3">Let’s grow together</h1>
-          <hr class="my-5">
+          <hr class="my-5" />
         </div>
 
         <div
@@ -72,33 +72,15 @@
           <h2 class="job-title" (click)="toggleJob(i)">
             {{ job.title }}
           </h2>
-          <p class="bold-font text-muted mt-3 pe-auto" style="padding-right: 70px; cursor: pointer" (click)="toggleJob(i)">
-            {{ job.headerdesc }}
+          <p
+            class="bold-font text-muted mt-3 pe-auto"
+            style="padding-right: 70px; cursor: pointer"
+            (click)="toggleJob(i)"
+          >
+            {{ job.header_description }}
           </p>
           <div class="job-description" *ngIf="i === activeIndex">
-            <div class="desc">
-              <p><strong>Location:</strong> {{ job.location }}</p>
-              <p><strong>Experience Required:</strong> {{ job.experience }}</p>
-              <p>{{ job.description }}</p>
-              <p><strong>Responsibilities:</strong></p>
-              <ul>
-                <li *ngFor="let responsibility of job.responsibilities">
-                  {{ responsibility }}
-                </li>
-              </ul>
-              <p><strong>Requirements:</strong></p>
-              <ul>
-                <li *ngFor="let requirement of job.requirements">
-                  {{ requirement }}
-                </li>
-              </ul>
-              <p><strong>Salary:</strong> {{ job.salary }}</p>
-              <p><strong>Benefits:</strong></p>
-              <ul>
-                <li *ngFor="let benefit of job.benefits">{{ benefit }}</li>
-              </ul>
-              <p><strong>How to Apply:</strong> {{ job.applyInstructions }}</p>
-            </div>
+            <div class="desc" [innerHTML]="job.job_description"></div>
           </div>
         </div>
       </div>
