@@ -75,7 +75,8 @@ export class FaqListComponent implements OnInit {
         Cell: ({ row }: { row: any }) => {
           return React.createElement("span", null, row.index + 1);
         },
-        width: 60,
+        hAlign: "Center" as TextAlign,
+        width: 70,
       },
       {
         Header: " Quastion",
@@ -106,8 +107,8 @@ export class FaqListComponent implements OnInit {
         disableSortBy: true,
         autoResizable: true,
         id: "actions",
-        width: 150,
         className: "custom-class-name",
+        width: 150,
         hAlign: "Center" as TextAlign,
         Cell: ({ row }: any) => (
           <div>

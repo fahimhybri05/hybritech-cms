@@ -1,11 +1,9 @@
 ui5-side-navigation {
-    height: calc(100vh - 79px);
+    height: calc(100vh - 68px);
 }
 
 .tool-layout {
-    padding: 0.5rem 0.5rem 0 0.5rem;
     display: grid;
-    gap: 0.5rem;
     grid-template-rows: auto 1fr;
     grid-template-columns: auto 1fr;
 }

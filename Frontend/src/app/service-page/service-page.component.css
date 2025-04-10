@@ -1,143 +1,144 @@
 .banner {
-    min-height: var(--height);
-    background-image: url(../../assets/img/Frame\ 43.png);
+  min-height: var(--height);
+  background-image: url(../../assets/img/Frame\ 43.png);
 }
 
 .banner-overlay {
-    background: var(--overlay-color);
-    position: absolute;
-    width: 100%;
-    height: var(--height);
+  background: var(--overlay-color);
+  position: absolute;
+  width: 100%;
+  height: var(--height);
 }
 
 .banner-items {
-    padding-top: 20vh;
+  padding-top: 20vh;
 }
-
+.service-text h1 {
+  font-size: var(--font-size-large);
+  font-family: var(--header-font);
+}
+.service-text p {
+  font-size: var(--font-size-midium);
+  font-family: var(--description-font);
+}
 .banner-title {
-    font-size: var(--font-size-large);
+  font-size: var(--font-size-large);
 }
 .mid-img {
-    width: 80%;
-    height: 80%;
-  }
+  width: 80%;
+  height: 80%;
+}
 
+.style-two.service-area {
+  background: var(--background-dark);
 
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  padding: 50px 0 50px;
+}
+.style-two.service-area h1 {
+  color: var(--text-color) !important;
+}
+.style-two.service-area h4 {
+  color: var(--text-color);
+}
+.style-two.service-area .section-title h1 {
+  color: #fff;
+}
+.style-two .single-services-box h4 {
+  color: var(--text-color) !important;
+}
+.style-two .single-services-box p {
+  color: var(--text-color) !important;
+}
 
-  .style-two.service-area {
-    background: var(--background-dark);
-  
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
-    padding: 50px 0 50px;
-  }
-  .style-two.service-area h1 {
-    color: var(--text-color) !important;
-  }
-  .style-two.service-area h4 {
-    color: var(--text-color);
-  }
-  .style-two.service-area .section-title h1 {
-    color: #fff;
-  }
-  .style-two .single-services-box h4 {
-    color: var(--text-color) !important;
-  }
-  .style-two .single-services-box p {
-    color: var(--text-color) !important;
-  }
-  
-  .style-two .single-services-box:hover p {
-    color: var(--card-hover-text-color) !important;
-  }
-  
-  .style-two .single-services-box:hover h4 {
-    color: var(--card-hover-text-color) !important;
-  }
-  .style-two .single-services-box {
-    padding: 37px 0 30px 40px;
-    background-color: var(--card-color);
-    position: relative;
-    z-index: 1;
-    margin-bottom: 25px;
-    border-radius: 5px;
-    height: 400px;
-    border: 1px solid #1a1a1a71 !important;
-  }
-  
-  .style-two .single-services-box:before {
-    position: absolute;
-    content: "";
-    left: 50%;
-    top: 0;
-    width: 0;
-    height: 100%;
-    background: var(--card-hover-color);
-    transition: 0.5s;
-    z-index: -1;
-    border-radius: 5px;
-  }
-  
-  .style-two .single-services-box:hover:before {
-    left: 0;
-    width: 100%;
-  }
-  .service-content h4,p {
-    text-wrap: initial;
-  }
-  
+.style-two .single-services-box:hover p {
+  color: var(--card-hover-text-color) !important;
+}
 
-  
+.style-two .single-services-box:hover h4 {
+  color: var(--card-hover-text-color) !important;
+}
+.style-two .single-services-box {
+  padding: 37px 0 30px 40px;
+  background-color: var(--card-color);
+  position: relative;
+  z-index: 1;
+  margin-bottom: 25px;
+  border-radius: 5px;
+  height: 400px;
+  border: 1px solid #1a1a1a71 !important;
+}
 
-  
-  .style-two .service-number h1 {
-    background: #e6eefb;
-    position: absolute;
-    right: 0;
-    top: 33px;
-    transition: 0.5s;
-    font-size: 26px;
-    line-height: 50px;
-    color: var(--brand-color-one);
-    font-weight: 600;
-    font-family: "Rajdhani";
-    padding: 0 14px 0 28px;
-    border-radius: 30px 0 0 30px;
-    margin: 0;
-  }
-  .service-icon  {
-    width:80px !important; 
-    height:80px; 
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-  
-  .style-two .service-content p {
-    padding-right: 35px;
-    transition: 0.5s;
-    color: #686868;
-  }
-  
+.style-two .single-services-box:before {
+  position: absolute;
+  content: "";
+  left: 50%;
+  top: 0;
+  width: 0;
+  height: 100%;
+  background: var(--card-hover-color);
+  transition: 0.5s;
+  z-index: -1;
+  border-radius: 5px;
+}
+
+.style-two .single-services-box:hover:before {
+  left: 0;
+  width: 100%;
+}
+.service-content h4,
+p {
+  text-wrap: initial;
+}
+
+.style-two .service-number h1 {
+  background: #e6eefb;
+  position: absolute;
+  right: 0;
+  top: 33px;
+  transition: 0.5s;
+  font-size: 26px;
+  line-height: 50px;
+  color: var(--brand-color-one);
+  font-weight: 600;
+  font-family: "Rajdhani";
+  padding: 0 14px 0 28px;
+  border-radius: 30px 0 0 30px;
+  margin: 0;
+}
+.service-icon {
+  width: 80px !important;
+  height: 80px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.style-two .service-content p {
+  padding-right: 35px;
+  transition: 0.5s;
+  color: #686868;
+}
 
 @media screen and (max-width: 768px) {
-    .banner {
-        min-height: 35vh; 
-    }
+  .banner {
+    min-height: 35vh;
+  }
 
-    .banner-overlay {
-        height: 35vh; 
-    }
+  .banner-overlay {
+    height: 35vh;
+  }
 
-    .banner-items {
-        padding-top: 6vh; 
-    }
+  .banner-items {
+    padding-top: 6vh;
+  }
 
-    .banner-title {
-        font-size: max(6vw, 1.2rem); 
-    }
-    .mid-img {
-        width: 100%;
-        height: 100%;
-        padding-bottom: 2vh;
-    }
+  .banner-title {
+    font-size: max(6vw, 1.2rem);
+  }
+  .mid-img {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 2vh;
+  }
 }

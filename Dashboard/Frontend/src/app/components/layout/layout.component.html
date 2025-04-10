@@ -1,42 +1,38 @@
 <div class="tool-layout" data-ui5-compact-size>
-	<!-- header -->
-	<ui5-bar design="Header">
-		<ui5-button
-			data-ui5-compact-size
-			design="Transparent"
-			icon="menu"
-			(click)="toggleSidenav()"
-			slot="startContent"
-			class="ms-3 nav_button"></ui5-button>
-		<img
-			slot="startContent"
-			class="logo"
-			src="../../../assets/img/logo.png" />
+  <!-- header -->
+  <ui5-bar design="Header">
+    <ui5-button
+      data-ui5-compact-size
+      design="Transparent"
+      icon="menu"
+      (click)="toggleSidenav()"
+      slot="startContent"
+      class="ms-3 nav_button"
+    ></ui5-button>
+    <img slot="startContent" class="logo" src="../../../assets/img/logo.png" />
 
-		<ui5-label id="basic-label"></ui5-label>
-		<ui5-avatar
-			initials="XS"
-			color-scheme="Accent2"
-			size="XS"
-			slot="endContent"
-			interactive
-			id="btn"
-			(click)="popover.open = true"></ui5-avatar>
-	</ui5-bar>
+    <ui5-label id="basic-label"></ui5-label>
+    <ui5-avatar
+      initials="XS"
+      color-scheme="Accent2"
+      size="XS"
+      slot="endContent"
+      interactive
+      id="btn"
+      (click)="popover.open = true"
+    ></ui5-avatar>
+  </ui5-bar>
 
-	<ui5-popover #popover="ui5Popover" opener="btn" placement="Bottom">
-		<ui5-label for="emailInput" class="m-auto ms-1 d-block"
-			>
-		</ui5-label>
-		<ui5-button icon="sap-icon://log" class="w-100" design="Transparent">Logout</ui5-button>
-	</ui5-popover>
+  <ui5-popover #popover="ui5Popover" opener="btn" placement="Bottom">
+    <ui5-label for="emailInput" class="m-auto ms-1 d-block"> </ui5-label>
+    <ui5-button icon="sap-icon://log" class="w-100" design="Transparent"
+      >Logout</ui5-button
+    >
+  </ui5-popover>
 
-	<!-- sidebar -->
-	<app-sidebar [collapsed]="isCollapsed"></app-sidebar>
-	<!-- content -->
-	<div class="content">
-		<ng-content></ng-content>
-	</div>
+  <app-sidebar [collapsed]="isCollapsed"></app-sidebar>
+
+  <div class="content">
+    <ng-content></ng-content>
+  </div>
 </div>
-
-
