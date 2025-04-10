@@ -1,6 +1,8 @@
-import { DatePipe } from "@angular/common";
+import { CommonModule, DatePipe } from "@angular/common";
+
 import {
   ChangeDetectorRef,
+  CUSTOM_ELEMENTS_SCHEMA,
   Component,
   EventEmitter,
   Output,
@@ -25,7 +27,7 @@ export class JobListComponent {
   totalJobs: number = 0;
   itemsPerPage: number;
   currentPage = 1;
-
+  jobData: any[] = [];
   odata: boolean;
   loading: boolean = false;
   isInsert: boolean = false;
@@ -48,12 +50,30 @@ export class JobListComponent {
     private datePipe: DatePipe,
     private cdr: ChangeDetectorRef
   ) {
+    console.log("JobListComponent initialized");
     this.itemsPerPage = this.commonService.itemsPerPage;
     this.odata = this.commonService.odata;
     this.Title = "Job List";
-    this.tableColum();
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadJobs();
+  }
+
+  loadJobs(): void {
+    this.loading = true;
+    this.commonService.get("JobLists").subscribe({
+      next: (response: any) => {
+        this.jobData = response.value || response || [];
+        this.totalJobs = this.jobData.length;
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+    });
+  }
 
   tableColum() {
     const columns = [
@@ -168,7 +188,6 @@ export class JobListComponent {
   }
 
   handleInsertData(isInsert: boolean): void {
-    console.log("Received isInsertData:", isInsert);
     if (isInsert) {
       this.isInsert = isInsert;
     }
@@ -176,6 +195,7 @@ export class JobListComponent {
   closeAddJobModal() {
     this.isInsert = false;
     this.refreshTable.emit();
+    this.loadJobs();
   }
 
   deleteJobs(original: any) {
@@ -204,14 +224,17 @@ export class JobListComponent {
       },
     });
   }
-
-  editJob(original: any) {
-    this.isEdit = true;
+  editJob(original: any): void {
     this.selectedJobId = original.id;
-    this.selectedJobData = { ...original };
+    this.selectedJobData = original;
+    this.isEdit = true;
+    this.cdr.detectChanges();
   }
-
-  closeEditJobModal() {
+  closeEditJobModal(): void {
     this.isEdit = false;
+    this.selectedJobId = null;
+    this.selectedJobData = null;
+    this.refreshTable.emit();
+    this.loadJobs();
   }
 }

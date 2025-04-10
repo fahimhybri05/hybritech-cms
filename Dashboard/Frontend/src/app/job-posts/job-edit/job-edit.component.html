@@ -1,1 +1,63 @@
-<p>job-edit works!</p>
+<ui5-dialog header-text="Edit" [open]="isOpen" id="dialog">
+  <ui5-bar slot="header" design="Header">
+    <ui5-title level="H5" slot="startContent">Edit JobPost</ui5-title>
+    <ui5-button
+      class="dialogCloser"
+      design="Transparent"
+      id="closeDialogButton"
+      slot="endContent"
+      (click)="closeDialog()"
+      icon="decline"
+    ></ui5-button>
+  </ui5-bar>
+
+  <app-form-preloader *ngIf="loading"></app-form-preloader>
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex align-items-center">
+        <span>Active :</span>
+        <ui5-switch
+          [checked]="isActive"
+          (click)="toggleActive($event)"
+        ></ui5-switch>
+      </div>
+      <ui5-label show-colon required>Title</ui5-label>
+
+      <ui5-textarea
+        class="textArea"
+        [(ngModel)]="title"
+        placeholder="Job Title..."
+        required
+        type="title"
+      ></ui5-textarea>
+
+      <ui5-label show-colon required>Header Description</ui5-label>
+
+      <ui5-textarea
+        class="textArea"
+        [(ngModel)]="headerDescription"
+        required
+      ></ui5-textarea>
+      <ui5-label show-colon required>Job Description</ui5-label>
+      <angular-editor
+        [(ngModel)]="jobDescription"
+        [config]="editorConfig"
+      ></angular-editor>
+    </div>
+  </div>
+  <ui5-toolbar slot="footer">
+    <ui5-toolbar-button
+      design="Emphasized"
+      (click)="updateJob()"
+      [disabled]="formloading"
+      text="Update"
+    >
+    </ui5-toolbar-button>
+
+    <ui5-toolbar-button
+      design="Transparent"
+      text="Cancel"
+      (click)="closeDialog()"
+    ></ui5-toolbar-button>
+  </ui5-toolbar>
+</ui5-dialog>
