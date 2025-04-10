@@ -13,17 +13,23 @@ import { CommonService } from "app/services/common-service/common.service";
 import React from "react";
 import { JobAddComponent } from "../job-add/job-add.component";
 import { JobDetailsComponent } from "../job-details/job-details.component";
-
+import { ToastMessageComponent } from "@app/components/toast-message/toast-message.component";
 @Component({
   selector: "app-job-list",
   standalone: true,
-  imports: [ReactAnalyticalTable, JobAddComponent,JobDetailsComponent],
+  imports: [
+    ReactAnalyticalTable,
+    JobAddComponent,
+    JobDetailsComponent,
+    ToastMessageComponent,
+  ],
   templateUrl: "./job-list.component.html",
   styleUrl: "./job-list.component.css",
 })
 export class JobListComponent {
   @Output() refreshTable: EventEmitter<void> = new EventEmitter<void>();
-
+  @Output() IsOpenToastAlert = new EventEmitter<void>();
+  ToastType: string = "";
   totalJobs: number = 0;
   itemsPerPage: number;
   currentPage = 1;

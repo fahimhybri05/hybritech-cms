@@ -10,9 +10,9 @@
   [isTableTree]="false"
   [isInfiniteScroll]="true"
   [infiniteScrollNumber]="10"
-  [minRowsNumber]="15"
+  [minRowsNumber]="10"
   [headerHeight]="30"
-  [rowHeight]="30"
+  [rowHeight]="90"
   [selectionMode]="'Single'"
   [emptyDataText]="'No Data Found'"
   [tableColumn]="tableColum()"
@@ -39,7 +39,10 @@
   [isOpen]="isDetails"
   (close)="closeFaqDetailsModal()"
 ></app-faq-details>
-
+<app-toast-message
+  [IsOpenToastAlert]="IsOpenToastAlert"
+  [ToastType]="ToastType"
+></app-toast-message>
 <ui5-dialog [open]="isDeleteOpen" header-text="Warning" state="Critical">
   <p *ngIf="!isDeleteLoading">Are you sure you want to delete this data?</p>
   <div *ngIf="isDeleteLoading">

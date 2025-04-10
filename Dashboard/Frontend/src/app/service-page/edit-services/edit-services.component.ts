@@ -5,7 +5,7 @@ import { InputComponent, LabelComponent } from '@ui5/webcomponents-ngx';
 import { TextAreaComponent } from '@ui5/webcomponents-ngx/main/text-area';
 import { FormPreloaderComponent } from 'app/components/form-preloader/form-preloader.component';
 import { CommonService } from 'app/services/common-service/common.service';
-
+import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
 @Component({
   selector: 'app-edit-services',
   standalone: true,
@@ -16,17 +16,19 @@ import { CommonService } from 'app/services/common-service/common.service';
     InputComponent,
     FormPreloaderComponent,
     TextAreaComponent,
+    ToastMessageComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './edit-services.component.html',
-  styleUrl: './edit-services.component.css'
+  styleUrl: './edit-services.component.css',
 })
 export class EditServicesComponent implements OnChanges {
   @Input() isOpen: boolean | null = null;
   @Input() serviceId: number | null = null;
   @Input() serviceData: any = null;
   @Output() close = new EventEmitter<void>();
-
+  @Output() IsOpenToastAlert = new EventEmitter<void>();
+  ToastType: string = '';
   loading: boolean = false;
   isSuccess: boolean = false;
   errorMessage: string = '';
@@ -46,7 +48,7 @@ export class EditServicesComponent implements OnChanges {
       this.title = this.serviceData.title || '';
       this.description = this.serviceData.description || '';
       this.updateWordCount();
-      
+
       // Set the current image URL if available
       if (this.serviceData.media) {
         this.currentImageUrl = this.serviceData.media.original_url;
@@ -60,11 +62,16 @@ export class EditServicesComponent implements OnChanges {
     const file = event.target.files[0];
     if (file) {
       const fileType = file.type;
-      if (!['image/jpeg', 'image/jpg', 'image/png', 'image/gif'].includes(fileType)) {
+      if (
+        !['image/jpeg', 'image/jpg', 'image/png', 'image/gif'].includes(
+          fileType
+        )
+      ) {
         this.fileTypeError = 'Only JPG, JPEG, PNG and GIF formats are allowed.';
         return;
       }
-      if (file.size > 2 * 1024 * 1024) { // 2MB in bytes
+      if (file.size > 2 * 1024 * 1024) {
+        // 2MB in bytes
         this.fileTypeError = 'File size should not exceed 2MB.';
         return;
       }
@@ -106,19 +113,27 @@ export class EditServicesComponent implements OnChanges {
     formData.append('_method', 'PUT'); // Laravel requires this for PUT requests via FormData
 
     this.loading = true;
-    this.commonService.post(`service-pages/${this.serviceId}`, formData, false).subscribe(
-      (response: any) => {
-        console.log(response);
-        this.loading = false;
-        this.isSuccess = true;
-        this.closeDialog();
-      },
-      (error) => {
-        this.loading = false;
-        this.errorMessage = error.error?.message || 'An error occurred while updating the data.';
-        console.error(error);
-      }
-    );
+    this.commonService
+      .post(`service-pages/${this.serviceId}`, formData, false)
+      .subscribe(
+        (response: any) => {
+          console.log(response);
+          this.loading = false;
+          this.isSuccess = true;
+                       this.ToastType = 'edit';
+                       setTimeout(() => {
+                         this.IsOpenToastAlert.emit();
+                       }, 1000);
+          this.closeDialog();
+        },
+        (error) => {
+          this.loading = false;
+          this.errorMessage =
+            error.error?.message ||
+            'An error occurred while updating the data.';
+          console.error(error);
+        }
+      );
   }
 
   closeDialog() {

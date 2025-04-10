@@ -6,7 +6,7 @@ import {
   Input,
   OnInit,
   Output,
-  ChangeDetectorRef 
+  ChangeDetectorRef,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { Router, RouterLink } from "@angular/router";
@@ -18,21 +18,30 @@ import { Button } from "@ui5/webcomponents-react";
 import { AddFaqComponent } from "../add-faq/add-faq.component";
 import { EditFaqComponent } from "../edit-faq/edit-faq.component";
 import { FaqDetailsComponent } from "../faq-details/faq-details.component";
+import { ToastMessageComponent } from "@app/components/toast-message/toast-message.component";
 @Component({
   selector: "app-faq-list",
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactAnalyticalTable, AddFaqComponent, EditFaqComponent,FaqDetailsComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactAnalyticalTable,
+    AddFaqComponent,
+    EditFaqComponent,
+    FaqDetailsComponent,
+    ToastMessageComponent,
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: "./faq-list.component.html",
   styleUrl: "./faq-list.component.css",
 })
 export class FaqListComponent implements OnInit {
   @Output() refreshTable: EventEmitter<void> = new EventEmitter<void>();
-
+  @Output() IsOpenToastAlert = new EventEmitter<void>();
+  ToastType: string = "";
   totalFaqs: number = 0;
   itemsPerPage: number;
   currentPage = 1;
-
   odata: boolean;
   loading: boolean = false;
   isInsert: boolean = false;
@@ -41,7 +50,6 @@ export class FaqListComponent implements OnInit {
   isDeleteOpen: boolean = false;
   isDeleteLoading: boolean = false;
   isSuccess: boolean = false;
-
   isDeleteError: boolean = false;
   sucessMessage: string = "";
   filter: string = "";
@@ -53,7 +61,7 @@ export class FaqListComponent implements OnInit {
   constructor(
     private commonService: CommonService,
     private datePipe: DatePipe,
-    private cdr: ChangeDetectorRef 
+    private cdr: ChangeDetectorRef
   ) {
     this.itemsPerPage = this.commonService.itemsPerPage;
     this.odata = this.commonService.odata;
@@ -101,7 +109,7 @@ export class FaqListComponent implements OnInit {
         Header: "   Actions",
         accessor: ".",
         cellLabel: () => "",
-        disableFilters: true ,
+        disableFilters: true,
         disableGroupBy: true,
         disableSortBy: true,
         autoResizable: true,
@@ -173,11 +181,12 @@ export class FaqListComponent implements OnInit {
     const id = this.selectedFaqId;
     this.commonService.delete(`Faqs/${id}`, this.odata).subscribe({
       next: (response: any) => {
-        console.log(response);
-        this.isSuccess = true;
         this.isDeleteOpen = false;
         this.isDeleteLoading = false;
-        this.sucessMessage = "Faq deleted successfully";
+        this.ToastType = "delete";
+        setTimeout(() => {
+          this.IsOpenToastAlert.emit();
+        }, 1000);
         this.refreshTable.emit();
       },
       error: (error: any) => {
@@ -190,14 +199,12 @@ export class FaqListComponent implements OnInit {
     });
   }
 
-
   editFaq(original: any) {
-    this.isEdit = true;  
+    this.isEdit = true;
     this.selectedFaqId = original.id;
-    this.selectedFaqData = { ...original };  
+    this.selectedFaqData = { ...original };
   }
 
- 
   closeEditFaqModal() {
     this.isEdit = false;
   }

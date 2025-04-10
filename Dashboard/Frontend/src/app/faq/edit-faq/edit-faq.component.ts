@@ -10,13 +10,14 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
+import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
 import { LabelComponent, TextAreaComponent } from '@ui5/webcomponents-ngx';
 import { CommonService } from 'app/services/common-service/common.service';
 
 @Component({
   selector: 'app-edit-faq',
   standalone: true,
-  imports: [CommonModule, FormsModule, LabelComponent, TextAreaComponent],
+  imports: [CommonModule, FormsModule, LabelComponent, TextAreaComponent,ToastMessageComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './edit-faq.component.html',
   styleUrl: './edit-faq.component.css',
@@ -27,15 +28,14 @@ export class EditFaqComponent implements OnInit, OnChanges {
   @Input() isOpen: boolean = false;
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
   @Output() refreshTable: EventEmitter<void> = new EventEmitter<void>();
+  @Output() IsOpenToastAlert = new EventEmitter<void>();
 
   loading: boolean = true;
   errorMessage: string = '';
   formloading: boolean = false;
-
+  ToastType: string = '';
   odata: boolean;
   api: boolean;
-
-  isSuccess: boolean = false;
   isEditError: boolean = false;
   sucessMessage: string = '';
   faq: any = {};
@@ -98,8 +98,10 @@ export class EditFaqComponent implements OnInit, OnChanges {
       .subscribe({
         next: (response: any) => {
           this.formloading = false;
-          this.isSuccess = true;
-          this.sucessMessage = 'FAQ updated successfully';
+          this.ToastType = 'edit';
+          setTimeout(() => {
+            this.IsOpenToastAlert.emit();
+          }, 1000);
           this.refreshTable.emit();
           this.closeDialog();
         },

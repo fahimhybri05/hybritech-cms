@@ -1,0 +1,10 @@
+<ui5-toast
+  [open]="IsOpenToast"
+  [duration]="Duration"
+  placement="BottomEnd"
+  (close)="CloseToast($event)"
+>
+  <ui5-message-strip [design]="ToastType == 'error' ? 'Negative' : 'Positive'">
+    {{ ToastMessage && ToastMessage }}</ui5-message-strip
+  >
+</ui5-toast>
