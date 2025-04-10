@@ -10,6 +10,7 @@ export class CommonService {
 	odata: boolean = true;
 	api: boolean = false;
 	itemsPerPage: number = 21;
+	TostDuration: number = 2000;
 
 	private lodataPrefix = environment.ServerApi + "/odata";
 	private apiPrefix = environment.ServerApi + "/api";
