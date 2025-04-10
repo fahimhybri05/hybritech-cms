@@ -36,8 +36,8 @@
         <div class="single-services-box">
           <div class="service-icon-thumb">
             <img
-            [src]="service.media.original_url"
-            alt="{{ service.title }} icon"
+              [src]="service.media[0].original_url"
+              alt="{{ service.title }} icon"
               class="service-icon my-4"
             />
           </div>
