@@ -34,7 +34,7 @@
   font-family: var(--header-font);
   font-size: var(--font-size-large);
 }
-.banner-text-career span{
+.banner-text-career span {
   font-family: var(--header-font);
 }
 
@@ -46,9 +46,19 @@
   width: 437.82px;
   height: 148.18px;
 }
-.work-text h1{
+.work-text h1 {
   font-family: var(--header-font);
 }
+.work-text p {
+  font-family: var(--description-font);
+}
+.grow-together h6 {
+  font-family: var(--description-font);
+}
+.grow-together h1 {
+  font-family: var(--header-font);
+}
+
 .career-part {
   padding-top: 10vh;
 }
@@ -72,6 +82,10 @@
   position: relative;
   margin-bottom: 20px;
 }
+.faq-singular h2,
+p {
+  font-family: var(--description-font);
+}
 
 .faq-singular .job-title {
   position: relative;
@@ -83,7 +97,6 @@
   border-radius: 5px;
   z-index: 2;
   transition: 0.5s;
-  font-family: "Nunito";
 }
 
 .faq-singular.active .job-title {
@@ -140,7 +153,6 @@
   z-index: 2;
   transition: 0.5s;
   background: transparent;
-  font-family: "Nunito";
   color: #fff;
 }
 
@@ -151,7 +163,6 @@
   font-size: 16px;
   color: var(--text-color) !important;
   font-weight: 400;
-  font-family: "Nunito";
 }
 
 .style-two .faq-singular .job-title:before {
@@ -197,7 +208,7 @@
 .grow-together {
   margin-bottom: 80px;
 }
-hr{
+hr {
   border: 1px solid var(--text-color);
   width: 100%;
 }

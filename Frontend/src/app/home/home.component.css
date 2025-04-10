@@ -292,6 +292,38 @@
 .service-icon .js {
   color: rgb(211, 214, 31) !important;
 }
+.banner2-text h1{
+  font-family: var(--header-font);
+}
+.banner2-text p{
+  font-size: var(--font-size-midium);
+  font-family: var(--description-font);
+}
+.develop-smart-text h1{
+  font-family: var(--header-font);
+}
+.develop-smart-text p{
+  font-size: var(--font-size-midium);
+  font-family: var(--description-font);
+}
+.service-header h1{
+  font-family: var(--header-font);
+}
+.service-header p{
+  font-size: var(--font-size-midium);
+  font-family: var(--description-font);
+}
+.card-title{
+  font-family: var(--header-font);
+}
+.service-p{
+  font-size: var(--font-size-midium);
+  font-family: var(--description-font);
+}
+.last-part p{
+  font-size: var(--font-size-sm);
+  font-family: var(--description-font);
+}
 @media screen and (max-width: 768px) {
   .banner {
     min-height: 35vh;
@@ -340,4 +372,17 @@
   .fa-icon {
     display: none;
   }
+  .banner-btn {
+    position: relative;
+    overflow: hidden;
+    background-color: rgba(20, 74, 75, 1);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+
+
 }

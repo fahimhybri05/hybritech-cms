@@ -14,7 +14,8 @@
               <p class="col-8">
                 You will not work for us, You will work with us. Here, you will
                 learn from the best, and lead the rest! Take off to the next
-                chapter with <span class="fw-bold">HYBRITECH INNOVATIONS</span>
+                chapter with
+                <span class="fw-bold letter-space">HYBRITECH INNOVATIONS</span>
               </p>
             </div>
           </div>
@@ -60,8 +61,8 @@
       <div class="col-lg">
         <div class="grow-together">
           <h6 class="my-1 text-white">Current Openings</h6>
-          <h1 class="my-3">Let’s grow  together</h1>
-          <hr class="my-5">
+          <h1 class="my-3">Let’s grow together</h1>
+          <hr class="my-5" />
         </div>
 
         <div
@@ -72,7 +73,11 @@
           <h2 class="job-title" (click)="toggleJob(i)">
             {{ job.title }}
           </h2>
-          <p class="bold-font text-muted mt-3 pe-auto" style="padding-right: 70px; cursor: pointer" (click)="toggleJob(i)">
+          <p
+            class="bold-font text-muted mt-3 pe-auto"
+            style="padding-right: 70px; cursor: pointer"
+            (click)="toggleJob(i)"
+          >
             {{ job.headerdesc }}
           </p>
           <div class="job-description" *ngIf="i === activeIndex">

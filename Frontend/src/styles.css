@@ -47,6 +47,9 @@
   font-family: "DM Sans", sans-serif;
   font-size: 20px;
 }
+.letter-space{
+  letter-spacing: 2px;
+}
 .btn-common {
     text-decoration: none;
     background: var(--primary-color);;
