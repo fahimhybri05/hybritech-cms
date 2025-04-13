@@ -116,7 +116,6 @@ export class ServicesListComponent implements OnInit {
           />
         ),
       },
-
       {
         Header: "Created At",
         accessor: "created_at",
