@@ -69,6 +69,18 @@ export class CommonFormComponent implements OnInit {
     }
     const columns = [
       {
+        Header: "Read",
+        accessor: "is_read",
+        autoResizable: true,
+        disableGroupBy: true,
+        disableFilters: true,
+        className: "custom-class-name",
+        width: 100,
+        hAlign: "Center" as TextAlign,
+        Cell: ({ value }: any) =>
+          value ? <Icon name="accept" /> : <Icon name="decline" />,
+      },
+      {
         Header: "Sl No.",
         accessor: ".",
         autoResizable: true,
@@ -80,18 +92,6 @@ export class CommonFormComponent implements OnInit {
           return React.createElement("span", null, row.index + 1);
         },
         width: 60,
-      },
-      {
-        Header: "Read",
-        accessor: "",
-        autoResizable: true,
-        disableGroupBy: true,
-        disableFilters: true,
-        className: "custom-class-name",
-        width: 100,
-        hAlign: "Center" as TextAlign,
-        Cell: ({ value }: any) =>
-          value ? <Icon name="accept" /> : <Icon name="decline" />,
       },
       {
         Header: "Name",
