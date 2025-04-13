@@ -78,32 +78,10 @@
             style="padding-right: 70px; cursor: pointer"
             (click)="toggleJob(i)"
           >
-            {{ job.headerdesc }}
+            {{ job.header_description }}
           </p>
           <div class="job-description" *ngIf="i === activeIndex">
-            <div class="desc">
-              <p><strong>Location:</strong> {{ job.location }}</p>
-              <p><strong>Experience Required:</strong> {{ job.experience }}</p>
-              <p>{{ job.description }}</p>
-              <p><strong>Responsibilities:</strong></p>
-              <ul>
-                <li *ngFor="let responsibility of job.responsibilities">
-                  {{ responsibility }}
-                </li>
-              </ul>
-              <p><strong>Requirements:</strong></p>
-              <ul>
-                <li *ngFor="let requirement of job.requirements">
-                  {{ requirement }}
-                </li>
-              </ul>
-              <p><strong>Salary:</strong> {{ job.salary }}</p>
-              <p><strong>Benefits:</strong></p>
-              <ul>
-                <li *ngFor="let benefit of job.benefits">{{ benefit }}</li>
-              </ul>
-              <p><strong>How to Apply:</strong> {{ job.applyInstructions }}</p>
-            </div>
+            <div class="desc" [innerHTML]="job.job_description"></div>
           </div>
         </div>
       </div>

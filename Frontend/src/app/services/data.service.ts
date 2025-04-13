@@ -12,6 +12,7 @@ export class DataService {
   private commonConatactFormData = this.apiUrl + "/odata/ContactUsForms";
   private faqData = this.apiUrl + "/odata/Faqs"; 
   private serviceData = this.apiUrl + "/api/service-pages";
+  private jobPostData = this.apiUrl + "/odata/JobLists?$filter=is_active eq true";
 
   constructor(private http: HttpClient) {}
 
@@ -26,6 +27,9 @@ export class DataService {
     return this.http.get<any>(this.faqData);
   }
   getServiceData(): Observable<any> {
-    return this.http.get<any>(`${this.serviceData}?$select=image_path,title,description`);
+    return this.http.get<any>(`${this.serviceData}`);
+  }
+  getJobPostData(): Observable<any> {
+    return this.http.get<any>(this.jobPostData);
   }
 }

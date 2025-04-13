@@ -13,11 +13,19 @@
   [minRowsNumber]="15"
   [headerHeight]="30"
   [rowHeight]="30"
-  [selectionMode]="'None'"
+  [selectionMode]="'Single'"
   [emptyDataText]="'No Data Found'"
   [tableColumn]="tableColum()"
   [refreshTrigger]="refreshTable"
   (isInsertDataChange)="handleInsertData($event)"
+  (rowDoubleClick)="editJob($event)"
 ></react-analytical-table>
 
 <app-job-add [isOpen]="isInsert" (close)="closeAddJobModal()"></app-job-add>
+
+<app-job-details
+  [jobId]="selectedJobId"
+  [jobData]="selectedJobData"
+  [isOpen]="isDetails"  
+  (close)="closeJobDetailsModal()"
+></app-job-details>

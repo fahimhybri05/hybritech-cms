@@ -91,22 +91,23 @@ export class ServicesListComponent implements OnInit {
         autoResizable: true,
         className: "custom-class-name",
       },
-      {
-        Header: "Image",
-        accessor: "media",
-        autoResizable: true,
-        className: "custom-class-name",
-        Cell: ({ value }: any) => {
-          if (value) {
-            return React.createElement("img", {
-              src: value.original_url,
-              alt: "Service Image",
-              style: { width: "50px", height: "50px", objectFit: "cover" }
-            });
-          }
-          return React.createElement("span", null, "No image");
-        },
-      },
+			{
+				Header: "Image",
+				accessor: "media",
+				autoResizable: true,
+				className: "custom-class-name",
+        hAlign: "Center" as TextAlign,
+				Cell: ({ row }: any) => (
+					<img
+						src={row.original.media[0].original_url}
+						alt="Signature"
+            style={{ width: "120px", height: "80px", objectFit: "cover" }}
+						width="40"
+						height="40"
+					/>
+				),
+			},
+      
       {
         Header: "Created At",
         accessor: "created_at",

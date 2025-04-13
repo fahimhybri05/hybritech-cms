@@ -102,7 +102,7 @@ export class FaqListComponent implements OnInit {
         Header: "   Actions",
         accessor: ".",
         cellLabel: () => "",
-        disableFilters: true,
+        disableFilters: true ,
         disableGroupBy: true,
         disableSortBy: true,
         autoResizable: true,
