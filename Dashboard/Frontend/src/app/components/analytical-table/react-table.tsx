@@ -64,7 +64,7 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
 	loading = false;
 	searchFilter: string = "";
 	offset = 0;
-	limit = 30;
+	limit = 20;
 
 	constructor(private commonService: CommonService) {}
 
