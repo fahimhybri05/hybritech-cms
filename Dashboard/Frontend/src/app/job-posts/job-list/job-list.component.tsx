@@ -14,6 +14,7 @@ import React from "react";
 import { JobAddComponent } from "../job-add/job-add.component";
 import { JobDetailsComponent } from "../job-details/job-details.component";
 import { ToastMessageComponent } from "@app/components/toast-message/toast-message.component";
+import { JobEditComponent } from "../job-edit/job-edit.component";
 @Component({
   selector: "app-job-list",
   standalone: true,
@@ -22,7 +23,10 @@ import { ToastMessageComponent } from "@app/components/toast-message/toast-messa
     JobAddComponent,
     JobDetailsComponent,
     ToastMessageComponent,
+    JobEditComponent,
+    CommonModule,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: "./job-list.component.html",
   styleUrl: "./job-list.component.css",
 })
@@ -204,15 +208,16 @@ export class JobListComponent {
     const id = this.selectedJobId;
     this.commonService.delete(`JobLists/${id}`, this.odata).subscribe({
       next: (response: any) => {
-        console.log(response);
         this.isSuccess = true;
         this.isDeleteOpen = false;
         this.isDeleteLoading = false;
-        this.sucessMessage = "Job deleted successfully";
+        this.ToastType = "delete";
+        setTimeout(() => {
+          this.IsOpenToastAlert.emit();
+        }, 1000);
         this.refreshTable.emit();
       },
       error: (error: any) => {
-        console.log(error);
         this.isDeleteError = true;
         this.isDeleteOpen = false;
         this.isDeleteLoading = false;
@@ -222,6 +227,7 @@ export class JobListComponent {
   }
   editJob(original: any): void {
     this.selectedJobId = original.id;
+    console.log(original);
     this.selectedJobData = original;
     this.isEdit = true;
     this.cdr.detectChanges();
