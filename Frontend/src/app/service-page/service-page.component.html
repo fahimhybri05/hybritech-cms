@@ -1,28 +1,32 @@
 <div class="banner">
-    <div class="banner-overlay">
-        <div class="container banner-items">
-            <div class="row">
-                <div class="col-md-6 d-flex justify-content-end">
-                    <div class="text-white">
-                        <h1>Digital Product Design & Consulting Services</h1>
-                        <p style="color: rgba(186, 186, 186, 1)">
-                          Our Global digital product design agency helps brands to
-                          make top-quality SaaS, MVP, software, mobile apps, and
-                          websites. We focus on user-friendly designs that look great
-                          and work smoothly. Let us help your business grow with our
-                          expert digital product solutions. Get Started
-                        </p>
-                      </div>
-                </div>
-                <div class="col-md-6 d-flex justify-content-end">
-                    <div>
-                        <img class="d-md-none d-sm-none d-lg-block d-none" style="height: 300px"
-                          src="../../assets/img/Hybritech Innovations.png" alt="" />
-                      </div>
-                </div>
-            </div>
+  <div class="banner-overlay">
+    <div class="container banner-items">
+      <div class="row">
+        <div class="col-md-6 d-flex justify-content-end">
+          <div class="text-white">
+            <h1>Digital Product Design & Consulting Services</h1>
+            <p style="color: rgba(186, 186, 186, 1)">
+              Our Global digital product design agency helps brands to make
+              top-quality SaaS, MVP, software, mobile apps, and websites. We
+              focus on user-friendly designs that look great and work smoothly.
+              Let us help your business grow with our expert digital product
+              solutions. Get Started
+            </p>
+          </div>
         </div>
+        <div class="col-md-6 d-flex justify-content-end">
+          <div>
+            <img
+              class="d-md-none d-sm-none d-lg-block d-none"
+              style="height: 300px"
+              src="../../assets/img/Hybritech Innovations.png"
+              alt=""
+            />
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <div class="service-area style-two">
@@ -31,7 +35,11 @@
       <div *ngFor="let service of services" class="col-lg-4 col-md-6">
         <div class="single-services-box">
           <div class="service-icon-thumb">
-            <img [src]="service.image_path" alt="{{ service.title }} icon" class="service-icon my-4">
+            <img
+              [src]="service.media[0].original_url"
+              alt="{{ service.title }} icon"
+              class="service-icon my-4"
+            />
           </div>
           <div class="service-content">
             <h4>{{ service.title }}</h4>
@@ -43,8 +51,5 @@
   </div>
 </div>
 
-
-
-
-  <app-faq></app-faq>
-  <app-form></app-form>
+<app-faq></app-faq>
+<app-form></app-form>
