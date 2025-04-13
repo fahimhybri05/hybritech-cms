@@ -22,7 +22,9 @@ import { ToastMessageComponent } from "@app/components/toast-message/toast-messa
     JobAddComponent,
     JobDetailsComponent,
     ToastMessageComponent,
+    CommonModule,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: "./job-list.component.html",
   styleUrl: "./job-list.component.css",
 })
@@ -208,7 +210,10 @@ export class JobListComponent {
         this.isSuccess = true;
         this.isDeleteOpen = false;
         this.isDeleteLoading = false;
-        this.sucessMessage = "Job deleted successfully";
+        this.ToastType = "delete";
+        setTimeout(() => {
+          this.IsOpenToastAlert.emit();
+        }, 1000);
         this.refreshTable.emit();
       },
       error: (error: any) => {
