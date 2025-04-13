@@ -233,5 +233,4 @@ export class JobListComponent {
     this.refreshTable.emit();
     this.loadJobs();
   }
-  
 }

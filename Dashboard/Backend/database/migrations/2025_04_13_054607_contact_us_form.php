@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('contact_us_forms', function (Blueprint $table) {
             $table->id();
+            $table->boolean('is_read')->default(false);
             $table->string('full_name');
             $table->string('number')->unique();
             $table->string('email')->unique();

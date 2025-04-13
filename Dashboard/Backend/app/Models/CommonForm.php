@@ -10,11 +10,15 @@ class CommonForm extends Model
     use HasFactory;
 
     protected $fillable = [
+        'is_read',
         'full_name',
         'project_name',
         'email',
         'project_type',
         'project_budget',
         'description',
+    ];
+    protected $casts = [
+        'is_read' => 'boolean',
     ];
 }

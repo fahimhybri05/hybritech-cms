@@ -37,13 +37,14 @@ export class CommonFormComponent implements OnInit {
   odata: boolean;
   loading: boolean = false;
   isDetails: boolean = false;
+  is_read: boolean = false;
 
   filter: string = "";
   Title: string;
   type: string | null = null;
   selectedFormId: number | null = null;
   selectedFormData: any = null;
-  isOpen: boolean = false; 
+  isOpen: boolean = false;
 
   constructor(
     private commonService: CommonService,
@@ -58,6 +59,14 @@ export class CommonFormComponent implements OnInit {
   ngOnInit(): void {}
 
   tableColum() {
+    if (this.is_read === false) {
+      const element = document.getElementsByClassName(
+        "custom-class-name"
+      )[0] as HTMLElement;
+      if (element) {
+        element.style.fontWeight = "bold";
+      }
+    }
     const columns = [
       {
         Header: "Sl No.",
@@ -71,6 +80,18 @@ export class CommonFormComponent implements OnInit {
           return React.createElement("span", null, row.index + 1);
         },
         width: 60,
+      },
+      {
+        Header: "Read",
+        accessor: "",
+        autoResizable: true,
+        disableGroupBy: true,
+        disableFilters: true,
+        className: "custom-class-name",
+        width: 100,
+        hAlign: "Center" as TextAlign,
+        Cell: ({ value }: any) =>
+          value ? <Icon name="accept" /> : <Icon name="decline" />,
       },
       {
         Header: "Name",
@@ -152,6 +173,6 @@ export class CommonFormComponent implements OnInit {
   }
 
   closeModal() {
-	this.isOpen = false;	
+    this.isOpen = false;
   }
 }
