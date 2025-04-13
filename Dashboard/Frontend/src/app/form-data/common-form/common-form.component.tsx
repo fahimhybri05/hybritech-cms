@@ -9,13 +9,12 @@ import {
   ChangeDetectorRef,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { Router, RouterLink } from "@angular/router";
-import { CommonService } from "../../services/common-service/common.service";
-import { ReactAnalyticalTable } from "../../components/analytical-table/react-table";
+import { CommonService } from "@app/services/common-service/common.service";
+import { ReactAnalyticalTable } from "@app/components/analytical-table/react-table";
 import { Icon, TextAlign } from "@ui5/webcomponents-react";
 import React from "react";
 import { Button } from "@ui5/webcomponents-react";
-import { FormDetailsComponent } from "../form.details/form.details.component";
+import { FormDetailsComponent } from "@app/form-data/form.details/form.details.component";
 
 @Component({
   selector: "app-common-form",
@@ -69,18 +68,6 @@ export class CommonFormComponent implements OnInit {
     }
     const columns = [
       {
-        Header: "Read",
-        accessor: "is_read",
-        autoResizable: true,
-        disableGroupBy: true,
-        disableFilters: true,
-        className: "custom-class-name",
-        width: 100,
-        hAlign: "Center" as TextAlign,
-        Cell: ({ value }: any) =>
-          value ? <Icon name="accept" /> : <Icon name="decline" />,
-      },
-      {
         Header: "Sl No.",
         accessor: ".",
         autoResizable: true,
@@ -92,6 +79,18 @@ export class CommonFormComponent implements OnInit {
           return React.createElement("span", null, row.index + 1);
         },
         width: 60,
+      },
+      {
+        Header: "Read",
+        accessor: "is_read",
+        autoResizable: true,
+        disableGroupBy: true,
+        disableFilters: true,
+        className: "custom-class-name",
+        width: 100,
+        hAlign: "Center" as TextAlign,
+        Cell: ({ value }: any) =>
+          value ? <Icon name="accept" /> : <Icon name="decline" />,
       },
       {
         Header: "Name",
@@ -174,5 +173,6 @@ export class CommonFormComponent implements OnInit {
 
   closeModal() {
     this.isOpen = false;
+    this.cdr.detectChanges();
   }
 }

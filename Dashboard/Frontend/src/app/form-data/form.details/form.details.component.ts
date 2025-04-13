@@ -5,6 +5,7 @@ import {
   Input,
   Output,
   EventEmitter,
+  ChangeDetectorRef,
   OnInit,
 } from '@angular/core';
 import { Forms } from '@app/shared/Model/forms';
@@ -24,19 +25,18 @@ export class FormDetailsComponent implements OnInit {
   @Input() isOpen: boolean = false;
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
   @Output() updated: EventEmitter<Forms> = new EventEmitter<Forms>();
+  @Output() refreshTable = new EventEmitter<void>();
 
-  constructor(private commonService: CommonService) {}
+  constructor(
+    private commonService: CommonService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {}
 
-  closeDialog() {
-    this.isOpen = false;
-    this.close.emit();
-  }
-
   markAsRead() {
     if (!this.formData || !this.formData.id || this.formData.is_read) {
-      alert('Invalid form data or the form is already marked as read.');
+          
       return;
     }
 
@@ -67,12 +67,17 @@ export class FormDetailsComponent implements OnInit {
         const newForm = new Forms().deserialize(response);
         this.formData = newForm;
         this.updated.emit(newForm);
-
         this.isOpen = false;
+        this.cdr.detectChanges();
+        this.refreshTable.emit();
       },
       error: (error: any) => {
-        alert('An error occurred while marking the form as read.');
+        console.log('Error updating form:', error);
       },
     });
+  }
+  closeDialog() {
+    this.isOpen = false;
+    this.close.emit();
   }
 }

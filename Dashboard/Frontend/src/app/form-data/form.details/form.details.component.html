@@ -27,10 +27,10 @@
     </p>
 
     <div class="d-flex justify-content-end m-2">
-      <ui5-button design="Emphasized" (click)="markAsRead()"
+      <ui5-button *ngIf="!formData.is_read" design="Emphasized" (click)="markAsRead()"
         >Mark as Read</ui5-button
       >
-      <ui5-button design="Default" (click)="closeDialog()">Close</ui5-button>
+      <ui5-button class="ms-2" design="Default" (click)="closeDialog()">Close</ui5-button>
     </div>
   </div>
 </ui5-dialog>
