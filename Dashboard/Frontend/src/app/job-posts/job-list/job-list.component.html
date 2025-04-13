@@ -22,11 +22,17 @@
 ></react-analytical-table>
 
 <app-job-add [isOpen]="isInsert" (close)="closeAddJobModal()"></app-job-add>
-
+<app-job-edit
+  [isOpen]="isEdit"
+  [jobId]="selectedJobId"
+  [jobData]="selectedJobData"
+  (close)="closeEditJobModal()"
+  (refreshTable)="refreshTable.emit()"
+></app-job-edit>
 <app-job-details
   [jobId]="selectedJobId"
   [jobData]="selectedJobData"
-  [isOpen]="isDetails"  
+  [isOpen]="isDetails"
   (close)="closeJobDetailsModal()"
 ></app-job-details>
 <app-toast-message

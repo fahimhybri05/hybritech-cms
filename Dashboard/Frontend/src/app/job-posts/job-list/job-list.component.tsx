@@ -14,6 +14,7 @@ import React from "react";
 import { JobAddComponent } from "../job-add/job-add.component";
 import { JobDetailsComponent } from "../job-details/job-details.component";
 import { ToastMessageComponent } from "@app/components/toast-message/toast-message.component";
+import { JobEditComponent } from "../job-edit/job-edit.component";
 @Component({
   selector: "app-job-list",
   standalone: true,
@@ -22,6 +23,7 @@ import { ToastMessageComponent } from "@app/components/toast-message/toast-messa
     JobAddComponent,
     JobDetailsComponent,
     ToastMessageComponent,
+    JobEditComponent,
     CommonModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -227,6 +229,7 @@ export class JobListComponent {
   }
   editJob(original: any): void {
     this.selectedJobId = original.id;
+    console.log(original);
     this.selectedJobData = original;
     this.isEdit = true;
     this.cdr.detectChanges();
