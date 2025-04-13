@@ -17,7 +17,7 @@ import {
 import { LabelComponent, TextAreaComponent } from '@ui5/webcomponents-ngx';
 import { FormPreloaderComponent } from '@app/components/form-preloader/form-preloader.component';
 import { Joblist } from '@app/shared/Model/joblist';
-
+import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
 @Component({
   selector: 'app-job-add',
   standalone: true,
@@ -29,6 +29,7 @@ import { Joblist } from '@app/shared/Model/joblist';
     LabelComponent,
     FormPreloaderComponent,
     TextAreaComponent,
+    ToastMessageComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './job-add.component.html',
@@ -37,7 +38,8 @@ import { Joblist } from '@app/shared/Model/joblist';
 export class JobAddComponent {
   @Input() isOpen: boolean | null = null;
   @Output() close = new EventEmitter<void>();
-
+  @Output() IsOpenToastAlert = new EventEmitter<void>();
+  ToastType: string = '';
   loading: boolean = false;
   isSuccess: boolean = false;
   isAddError: boolean = false;
@@ -94,6 +96,10 @@ export class JobAddComponent {
         console.log(response);
         this.loading = false;
         this.isSuccess = true;
+             this.ToastType = 'add';
+             setTimeout(() => {
+               this.IsOpenToastAlert.emit();
+             }, 1000);
         this.rersetForm();
         this.closeDialog();
       },
