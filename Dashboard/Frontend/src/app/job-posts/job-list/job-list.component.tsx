@@ -94,7 +94,8 @@ export class JobListComponent {
         Cell: ({ row }: { row: any }) => {
           return React.createElement("span", null, row.index + 1);
         },
-        width: 60,
+        hAlign: "Center" as TextAlign,
+        width: 70,
       },
       {
         Header: "Active",
@@ -102,8 +103,8 @@ export class JobListComponent {
         autoResizable: true,
         disableGroupBy: true,
         disableFilters: true,
-        width: 60,
         className: "custom-class-name",
+        width: 100,
         hAlign: "Center" as TextAlign,
         Cell: ({ value }: any) =>
           value ? <Icon name="accept" /> : <Icon name="decline" />,
@@ -113,28 +114,18 @@ export class JobListComponent {
         accessor: "title",
         autoResizable: true,
         className: "custom-class-name",
-        width: 300,
       },
       {
         Header: "Header Description",
         accessor: "header_description",
         autoResizable: true,
         className: "custom-class-name",
-        width: 400,
-      },
-      {
-        Header: "Job Description",
-        accessor: "job_description",
-        autoResizable: true,
-        className: "custom-class-name",
-        width: 400,
       },
       {
         Header: "Created At",
         accessor: "created_at",
         autoResizable: true,
         className: "custom-class-name",
-        width: 75,
         hAlign: "Center" as TextAlign,
         Cell: ({ value }: any) => new Date(value).toLocaleDateString(),
       },
@@ -147,7 +138,6 @@ export class JobListComponent {
         disableSortBy: true,
         autoResizable: true,
         id: "actions",
-        width: 150,
         className: "custom-class-name",
         hAlign: "Center" as TextAlign,
         Cell: ({ row }: any) => (

@@ -23,7 +23,11 @@
   background: transparent;
   border: none;
 }
-
+.form-style h6,
+input,
+textarea {
+  font-family: var(--description-font);
+}
 .form-hr {
   margin-top: 0.5px;
   color: inherit;
@@ -31,7 +35,13 @@
   border: 0.5px;
   opacity: var(--form-hr-opacity);
 }
-
+.info-title h1 {
+  font-family: var(--header-font);
+}
+.info-title p {
+  font-size: var(--font-size-midium);
+  font-family: var(--description-font);
+}
 h6 {
   margin-bottom: var(--padding-small);
 }
@@ -41,7 +51,10 @@ h6 {
   font-size: var(--form-control-font-size);
   text-align: left;
 }
-
+.btn-submit {
+  display: flex;
+  justify-content: center;
+}
 @media screen and (max-width: 768px) {
   .common-bg {
     padding: var(--padding-medium);

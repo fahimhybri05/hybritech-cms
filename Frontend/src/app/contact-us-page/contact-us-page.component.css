@@ -65,6 +65,18 @@
     display: flex;
     justify-content: center;
   }
+  .contact-us-text h1,p,span{
+    font-family: var(--description-font);
+  }
+  .center h6{
+    font-family: var(--description-font);
+  }
+  .form-submit p{
+    font-family: var(--description-font);
+  }
+.contact-us-form-bg h5,h6,input{
+  font-family: var(--description-font);
+}
   @media screen and (max-width: 768px) {
     .contact-us-form-bg {
         width: 100%;
