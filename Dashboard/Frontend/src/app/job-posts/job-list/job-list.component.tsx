@@ -53,14 +53,13 @@ export class JobListComponent {
   type: string | null = null;
   selectedJobId: number | null = null;
   selectedJobData: any = null;
-Joblists = Joblist;
-joblists = new Joblist().deserialize({});
+  Joblists = Joblist;
+  joblists = new Joblist().deserialize({});
   constructor(
     private commonService: CommonService,
     private datePipe: DatePipe,
     private cdr: ChangeDetectorRef
   ) {
-    console.log("JobListComponent initialized");
     this.itemsPerPage = this.commonService.itemsPerPage;
     this.odata = this.commonService.odata;
     this.Title = "Job List";

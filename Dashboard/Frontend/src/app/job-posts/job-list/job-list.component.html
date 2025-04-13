@@ -18,6 +18,7 @@
   [emptyDataText]="'No Data Found'"
   [tableColumn]="tableColum()"
   [refreshTrigger]="refreshTable"
+  [showStatusFilter]="true"
   (isInsertDataChange)="handleInsertData($event)"
   (rowDoubleClick)="editJob($event)"
 ></react-analytical-table>
@@ -27,7 +28,7 @@
 <app-job-details
   [jobId]="selectedJobId"
   [jobData]="selectedJobData"
-  [isOpen]="isDetails"  
+  [isOpen]="isDetails"
   (close)="closeJobDetailsModal()"
 ></app-job-details>
 <app-toast-message

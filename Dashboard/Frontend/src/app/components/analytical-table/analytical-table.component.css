@@ -4,7 +4,6 @@
 
 .analytical-table {
 	height: calc(100% - 40px);
-	/* border-radius: 10px; */
 }
 .toolbar {
 	height: 60px !important;
