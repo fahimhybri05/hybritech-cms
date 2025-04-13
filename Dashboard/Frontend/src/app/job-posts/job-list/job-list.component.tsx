@@ -208,7 +208,6 @@ export class JobListComponent {
     const id = this.selectedJobId;
     this.commonService.delete(`JobLists/${id}`, this.odata).subscribe({
       next: (response: any) => {
-        console.log(response);
         this.isSuccess = true;
         this.isDeleteOpen = false;
         this.isDeleteLoading = false;
@@ -219,7 +218,6 @@ export class JobListComponent {
         this.refreshTable.emit();
       },
       error: (error: any) => {
-        console.log(error);
         this.isDeleteError = true;
         this.isDeleteOpen = false;
         this.isDeleteLoading = false;
