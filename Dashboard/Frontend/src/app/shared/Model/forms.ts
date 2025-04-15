@@ -4,6 +4,7 @@ export class Forms implements Deserializable {
   id?: number;
   title: string = '';
   is_read: boolean = false;
+  is_active: boolean = false;
   full_name: string = '';
   email: string = '';
   number: string = '';
@@ -19,12 +20,15 @@ export class Forms implements Deserializable {
     if (input) {
       Object.assign(this, input);
     }
+    if(this.is_active) {
+      this.is_read = this.is_active;
+    }
     return this;
   }
 
   toOdata(): Object {
     return {
-      is_read: this.is_read,
+      is_active: this.is_read,
       id: this.id,
       title: undefined,
       full_name: undefined,

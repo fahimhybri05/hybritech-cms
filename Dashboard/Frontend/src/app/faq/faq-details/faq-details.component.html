@@ -1,5 +1,14 @@
 <ui5-dialog [open]="isOpen" header-text="Details" state="Information">
   <div *ngIf="faqData">
+        <div class="d-flex align-items-center">
+      <ui5-label show-colon>Avtive</ui5-label>
+      <ui5-switch
+        accessible-name="graphical"
+        design="Graphical"
+        disabled
+        [checked]="faqData.is_active"
+      ></ui5-switch>
+    </div>
     <ng-container>
       <ui5-label show-colon>Question</ui5-label>
       <ui5-input

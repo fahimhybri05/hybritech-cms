@@ -10,7 +10,7 @@ class CommonForm extends Model
     use HasFactory;
 
     protected $fillable = [
-        'is_read',
+        'is_active',
         'full_name',
         'project_name',
         'email',
@@ -19,6 +19,6 @@ class CommonForm extends Model
         'description',
     ];
     protected $casts = [
-        'is_read' => 'boolean',
+        'is_active' => 'boolean',
     ];
 }

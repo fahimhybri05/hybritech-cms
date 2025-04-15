@@ -1,12 +1,12 @@
-import { CommonModule } from "@angular/common";
+import { CommonModule, DatePipe } from "@angular/common";
 import {
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
-  OnInit,
-  ChangeDetectorRef,
-  Output,
-  Input,
   EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ChangeDetectorRef,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { CommonService } from "@app/services/common-service/common.service";
@@ -15,10 +15,9 @@ import { Icon, TextAlign } from "@ui5/webcomponents-react";
 import React from "react";
 import { Button } from "@ui5/webcomponents-react";
 import { FormDetailsComponent } from "@app/form-data/form.details/form.details.component";
-import { Forms } from '@app/shared/Model/forms'; 
-
+import { Forms } from "@app/shared/Model/forms";
 @Component({
-  selector: "app-common-form",
+  selector: "app-contactus-form",
   standalone: true,
   imports: [
     CommonModule,
@@ -31,36 +30,34 @@ import { Forms } from '@app/shared/Model/forms';
   styleUrl: "./contact.us.form.component.css",
 })
 export class ContactUsFormComponent implements OnInit {
-  @Output() refreshTable: EventEmitter<void> = new EventEmitter<void>();
-  @Output() IsOpenToastAlert = new EventEmitter<void>();
-
-  ToastType: string = "";
+  @Output() refreshTrigger = new EventEmitter();
   itemsPerPage: number;
   currentPage = 1;
-  tableData: Forms[] = [];
 
   odata: boolean;
   loading: boolean = false;
   isDetails: boolean = false;
+  is_read: boolean = false;
 
   filter: string = "";
   Title: string;
   type: string | null = null;
   selectedFormId: number | null = null;
-  selectedFormData: Forms | null = null;
+  selectedFormData: any = null;
   isOpen: boolean = false;
-
+  FormsData = Forms;
   constructor(
-    private commonService: CommonService,
-    private cdr: ChangeDetectorRef
+    private commonService: CommonService
   ) {
     this.itemsPerPage = this.commonService.itemsPerPage;
     this.odata = this.commonService.odata;
-    this.Title = "Contact Us Form Data:";
+    this.Title = "Common Form Data:";
+    this.tableColum();
   }
 
-  ngOnInit(): void {
-    this.tableColum();
+  ngOnInit(): void {}
+  refresh($event: any) {
+    this.refreshTrigger.emit();
   }
 
   tableColum() {
@@ -80,7 +77,7 @@ export class ContactUsFormComponent implements OnInit {
       },
       {
         Header: "Read",
-        accessor: "is_read",
+        accessor: "is_active",
         autoResizable: true,
         disableGroupBy: true,
         disableFilters: true,
@@ -158,25 +155,12 @@ export class ContactUsFormComponent implements OnInit {
     return columns;
   }
 
-  formDetails(form: Forms) {
-    this.selectedFormId = form.id ?? null;
-    this.selectedFormData = form;
+  formDetails(original: any) {
+    this.selectedFormId = original.id;
+    this.selectedFormData = { ...original };
     this.isOpen = true;
-    this.cdr.detectChanges();
-  }
-  onFormUpdated(updatedForm: Forms) {
-    const index = this.tableData.findIndex(
-      (form) => form.id === updatedForm.id
-    );
-    if (index !== -1) {
-      this.tableData[index] = updatedForm;
-    }
-    this.refreshTable.emit();
   }
   closeModal() {
     this.isOpen = false;
-    this.cdr.detectChanges();
-    this.selectedFormId = null;
-    this.selectedFormData = null;
   }
 }

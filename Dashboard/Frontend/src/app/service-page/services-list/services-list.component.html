@@ -7,6 +7,7 @@
   [isOdata]="false"
   [isGroupable]="false"
   [isSortable]="true"
+  [model]="Services"
   [isTableTree]="false"
   [isInfiniteScroll]="true"
   [infiniteScrollNumber]="10"
@@ -17,6 +18,8 @@
   [emptyDataText]="'No Data Found'"
   [tableColumn]="tableColum()"
   [refreshTrigger]="refreshTable"
+  [showStatusFilter]="false"
+  [isSegmentedState]="false"
   (isInsertDataChange)="handleInsertData($event)"
   (rowDoubleClick)="editFaq($event)"
 ></react-analytical-table>

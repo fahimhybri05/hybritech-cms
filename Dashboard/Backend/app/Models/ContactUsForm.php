@@ -11,13 +11,13 @@ class ContactUsForm extends Model
     use HasFactory;
 
     protected $fillable = [
-        'is_read',
+        'is_active',
         'full_name',
         'number',
         'email',
         'description',
     ];
     protected $casts = [
-        'is_read' => 'boolean',
+        'is_active' => 'boolean',
     ];
 }

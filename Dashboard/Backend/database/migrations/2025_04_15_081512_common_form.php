@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('common_forms', function (Blueprint $table) {
             $table->id();
-            $table->boolean('is_read')->default(false);
+            $table->boolean('is_active')->default(false);
             $table->string('full_name');
             $table->string('project_name');
             $table->string('email')->unique();

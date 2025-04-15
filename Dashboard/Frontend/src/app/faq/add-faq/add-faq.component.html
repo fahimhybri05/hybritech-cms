@@ -18,8 +18,11 @@
   <section>
     <div class="row">
       <div class="col-md-6">
+        <div class="d-flex align-items-center">
+          <span>Active :</span>
+          <ui5-switch checked (click)="toggleActive($event)"></ui5-switch>
+        </div>
         <ui5-label show-colon required>Qustion</ui5-label>
-
         <ui5-textarea
           class="textAreaQuestion"
           [(ngModel)]="question"
@@ -62,7 +65,6 @@
     ></ui5-toolbar-button>
   </ui5-toolbar>
 </ui5-dialog>
-
 
 <app-toast-message
   [IsOpenToastAlert]="IsOpenToastAlert"
