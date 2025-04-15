@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   CUSTOM_ELEMENTS_SCHEMA,
   Component,
+  Input,
   EventEmitter,
   Output,
 } from "@angular/core";
@@ -14,6 +15,7 @@ import React from "react";
 import { JobAddComponent } from "../job-add/job-add.component";
 import { JobDetailsComponent } from "../job-details/job-details.component";
 import { ToastMessageComponent } from "@app/components/toast-message/toast-message.component";
+import { Joblist } from "@app/shared/Model/joblist";
 import { JobEditComponent } from "../job-edit/job-edit.component";
 @Component({
   selector: "app-job-list",
@@ -31,6 +33,7 @@ import { JobEditComponent } from "../job-edit/job-edit.component";
   styleUrl: "./job-list.component.css",
 })
 export class JobListComponent {
+  @Input() model: any;
   @Output() refreshTable: EventEmitter<void> = new EventEmitter<void>();
   @Output() IsOpenToastAlert = new EventEmitter<void>();
   ToastType: string = "";
@@ -54,13 +57,13 @@ export class JobListComponent {
   type: string | null = null;
   selectedJobId: number | null = null;
   selectedJobData: any = null;
-
+  Joblists = Joblist;
+  joblists = new Joblist().deserialize({});
   constructor(
     private commonService: CommonService,
     private datePipe: DatePipe,
     private cdr: ChangeDetectorRef
   ) {
-    console.log("JobListComponent initialized");
     this.itemsPerPage = this.commonService.itemsPerPage;
     this.odata = this.commonService.odata;
     this.Title = "Job List";

@@ -19,6 +19,7 @@ import { AddFaqComponent } from "../add-faq/add-faq.component";
 import { EditFaqComponent } from "../edit-faq/edit-faq.component";
 import { FaqDetailsComponent } from "../faq-details/faq-details.component";
 import { ToastMessageComponent } from "@app/components/toast-message/toast-message.component";
+import { Faq } from "@app/shared/Model/faq";
 @Component({
   selector: "app-faq-list",
   standalone: true,
@@ -57,7 +58,8 @@ export class FaqListComponent implements OnInit {
   type: string | null = null;
   selectedFaqId: number | null = null;
   selectedFaqData: any = null;
-
+  Faqs = Faq;
+  faqs = new Faq().deserialize({});
   constructor(
     private commonService: CommonService,
     private datePipe: DatePipe,
