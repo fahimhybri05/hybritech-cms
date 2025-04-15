@@ -17,7 +17,13 @@ import { CommonService } from 'app/services/common-service/common.service';
 @Component({
   selector: 'app-edit-faq',
   standalone: true,
-  imports: [CommonModule, FormsModule, LabelComponent, TextAreaComponent,ToastMessageComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    LabelComponent,
+    TextAreaComponent,
+    ToastMessageComponent,
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './edit-faq.component.html',
   styleUrl: './edit-faq.component.css',
@@ -92,26 +98,33 @@ export class EditFaqComponent implements OnInit, OnChanges {
       question: this.question,
       answer: this.answer,
     };
+        this.ToastType = 'edit';
     this.formloading = true;
-    this.commonService
-      .put(`Faqs(${this.faqId!})`, formData, true)
-      .subscribe({
-        next: (response: any) => {
-          this.formloading = false;
-          this.ToastType = 'edit';
-          setTimeout(() => {
-            this.IsOpenToastAlert.emit();
-          }, 1000);
-          this.refreshTable.emit();
-          this.closeDialog();
-        },
-        error: (error: any) => {
-          this.formloading = false;
-          this.isEditError = true;
-          this.errorMessage = error.error?.message || 'Error updating FAQ';
-          console.error('Error updating FAQ:', error);
-        },
-      });
+
+    this.commonService.put(`Faqs(${this.faqId!})`, formData, true).subscribe({
+      next: (response: any) => {
+        this.formloading = false;
+
+
+        // Close modal first
+        this.isOpen = false;
+        // this.close.emit();
+
+        // Refresh table immediately
+        this.refreshTable.emit();
+
+        // Show toast (make sure it's listening to this event)
+        this.IsOpenToastAlert.emit();
+
+        console.log('FAQ updated successfully');
+      },
+      error: (error: any) => {
+        this.formloading = false;
+        this.isEditError = true;
+        this.errorMessage = error.error?.message || 'Error updating FAQ';
+        console.error('Error updating FAQ:', error);
+      },
+    });
   }
 
   closeDialog() {

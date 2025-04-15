@@ -14,7 +14,9 @@
   [headerHeight]="30"
   [rowHeight]="30"
   [selectionMode]="'Single'"
+  
   [emptyDataText]="'No Data Found'"
+  [refreshTrigger]="refreshTrigger"
   [tableColumn]="tableColum()"
   (rowDoubleClick)="formDetails($event)"
 ></react-analytical-table>
@@ -23,6 +25,7 @@
   [formId]="selectedFormId"
   [formData]="selectedFormData"
   [isOpen]="isOpen"
+  (refreshTable)="refresh($event)"
   (close)="closeModal()"
 >
 </app-form-details>

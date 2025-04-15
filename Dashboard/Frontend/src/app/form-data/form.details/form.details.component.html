@@ -3,13 +3,34 @@
     <p *ngIf="formData.is_read">
       <strong>Read:</strong> {{ formData.is_read }}
     </p>
-    <p *ngIf="formData.full_name">
-      <strong>Name:</strong> {{ formData.full_name }}
-    </p>
-    <p *ngIf="formData.email"><strong>Email:</strong> {{ formData.email }}</p>
-    <p *ngIf="formData.number">
-      <strong>Number:</strong> {{ formData.number }}
-    </p>
+    <ng-container *ngIf="formData.full_name">
+      <ui5-label show-colon>Full Name</ui5-label>
+      <ui5-input
+        class="w-100"
+        placeholder="Full Name"
+        value="{{ formData.full_name }}"
+        readonly
+      ></ui5-input>
+    </ng-container>
+    <ng-container *ngIf="formData.email">
+      <ui5-label show-colon>Email</ui5-label>
+      <ui5-input
+        class="w-100"
+        value="{{ formData.email }}"
+        readonly
+      ></ui5-input>
+    </ng-container>
+
+    <ng-container *ngIf="formData.number">
+      <ui5-label show-colon>Phone Number</ui5-label>
+      <ui5-input
+        class="w-100"
+        value="{{ formData.number }}"
+        readonly
+      ></ui5-input>
+    </ng-container>
+
+
     <p *ngIf="formData.subject">
       <strong>Subject:</strong> {{ formData.subject }}
     </p>

@@ -30,6 +30,7 @@ import { FormDetailsComponent } from "@app/form-data/form.details/form.details.c
   styleUrl: "./common-form.component.css",
 })
 export class CommonFormComponent implements OnInit {
+  @Output() refreshTrigger = new EventEmitter();
   itemsPerPage: number;
   currentPage = 1;
 
@@ -46,8 +47,7 @@ export class CommonFormComponent implements OnInit {
   isOpen: boolean = false;
 
   constructor(
-    private commonService: CommonService,
-    private cdr: ChangeDetectorRef
+    private commonService: CommonService
   ) {
     this.itemsPerPage = this.commonService.itemsPerPage;
     this.odata = this.commonService.odata;
@@ -56,6 +56,10 @@ export class CommonFormComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+  refresh($event: any) {
+    this.refreshTrigger.emit();
+    console.log("Refresh triggered");
+  }
 
   tableColum() {
     if (this.is_read === false) {
@@ -168,11 +172,11 @@ export class CommonFormComponent implements OnInit {
     this.selectedFormId = original.id;
     this.selectedFormData = { ...original };
     this.isOpen = true;
-    this.cdr.detectChanges();
+    // this.cdr.detectChanges();
   }
 
   closeModal() {
     this.isOpen = false;
-    this.cdr.detectChanges();
+    // this.cdr.detectChanges();
   }
 }
