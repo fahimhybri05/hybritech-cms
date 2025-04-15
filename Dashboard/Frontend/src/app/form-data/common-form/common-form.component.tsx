@@ -15,7 +15,7 @@ import { Icon, TextAlign } from "@ui5/webcomponents-react";
 import React from "react";
 import { Button } from "@ui5/webcomponents-react";
 import { FormDetailsComponent } from "@app/form-data/form.details/form.details.component";
-
+import { Forms } from "@app/shared/Model/forms";
 @Component({
   selector: "app-common-form",
   standalone: true,
@@ -45,7 +45,8 @@ export class CommonFormComponent implements OnInit {
   selectedFormId: number | null = null;
   selectedFormData: any = null;
   isOpen: boolean = false;
-
+  Forms = Forms;
+  forms = new Forms().deserialize({});
   constructor(
     private commonService: CommonService
   ) {

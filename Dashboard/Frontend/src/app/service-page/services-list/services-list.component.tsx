@@ -17,8 +17,8 @@ import React from "react";
 import { Button } from "@ui5/webcomponents-react";
 import { AddServicesComponent } from "../add-services/add-services.component";
 import { EditServicesComponent } from "../edit-services/edit-services.component";
-import { environment } from "../../../environments/environment";
 import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
+import { Services } from "@app/shared/Model/services";
 @Component({
   selector: "app-services-list",
   standalone: true,
@@ -59,7 +59,8 @@ export class ServicesListComponent implements OnInit {
   type: string | null = null;
   selectedFaqId: number | null = null;
   selectedFaqData: any = null;
-
+  Services = Services;
+  services = new Services().deserialize({});
   constructor(
     private commonService: CommonService,
     private datePipe: DatePipe,
