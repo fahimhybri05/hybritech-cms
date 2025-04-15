@@ -6,11 +6,6 @@
       routerLink="/home"
     ></ui5-side-navigation-item>
     <ui5-side-navigation-item
-      text="User Managment"
-      icon="detail-view"
-      routerLink="/user-managment"
-    ></ui5-side-navigation-item>
-    <ui5-side-navigation-item
       text="Service Page"
       icon="settings"
       routerLink="/service-list"
@@ -20,11 +15,16 @@
       icon="question-mark"
       routerLink="/faq-list"
     ></ui5-side-navigation-item>
-    <ui5-side-navigation-item
-      text="Job Posts"
-      icon="work-history"
-      routerLink="/job-list"
-    ></ui5-side-navigation-item>
+    <ui5-side-navigation-item text="Jobs" expanded icon="work-history">
+      <ui5-side-navigation-sub-item
+        text="Job Applications"
+        routerLink="/job-applications"
+      ></ui5-side-navigation-sub-item>
+      <ui5-side-navigation-sub-item
+        text="Post Job"
+        routerLink="/job-list"
+      ></ui5-side-navigation-sub-item>
+    </ui5-side-navigation-item>
     <ui5-side-navigation-item text="Form Submission" expanded icon="form">
       <ui5-side-navigation-sub-item
         text="Form Data"

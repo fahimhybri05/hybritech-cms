@@ -6,8 +6,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { CommonService } from '../../services/common-service/common.service';
-import { Router } from '@angular/router';
+import { CommonService } from '@app/services/common-service/common.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -17,7 +16,6 @@ import {
 } from '@kolkov/angular-editor';
 import { LabelComponent, TextAreaComponent } from '@ui5/webcomponents-ngx';
 import { FormPreloaderComponent } from '@app/components/form-preloader/form-preloader.component';
-import { Joblist } from '@app/shared/Model/joblist';
 
 @Component({
   selector: 'app-job-edit',

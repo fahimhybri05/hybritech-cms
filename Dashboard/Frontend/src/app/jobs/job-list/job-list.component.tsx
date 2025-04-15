@@ -9,14 +9,14 @@ import {
   Output,
 } from "@angular/core";
 import { Button, Icon, TextAlign } from "@ui5/webcomponents-react";
-import { ReactAnalyticalTable } from "app/components/analytical-table/react-table";
-import { CommonService } from "app/services/common-service/common.service";
+import { ReactAnalyticalTable } from "@app/components/analytical-table/react-table";
+import { CommonService } from "@app/services/common-service/common.service";
 import React from "react";
-import { JobAddComponent } from "../job-add/job-add.component";
-import { JobDetailsComponent } from "../job-details/job-details.component";
+import { JobAddComponent } from "@app/jobs/job-add/job-add.component";
+import { JobDetailsComponent } from "@app/jobs/job-details/job-details.component";
 import { ToastMessageComponent } from "@app/components/toast-message/toast-message.component";
 import { Joblist } from "@app/shared/Model/joblist";
-import { JobEditComponent } from "../job-edit/job-edit.component";
+import { JobEditComponent } from "@app/jobs/job-edit/job-edit.component";
 @Component({
   selector: "app-job-list",
   standalone: true,
