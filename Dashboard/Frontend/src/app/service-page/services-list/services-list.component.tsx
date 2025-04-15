@@ -72,7 +72,9 @@ export class ServicesListComponent implements OnInit {
     this.Title = "Our Services";
     this.tableColum();
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.refreshTable.emit();
+  }
 
   tableColum() {
     const columns = [
@@ -101,22 +103,23 @@ export class ServicesListComponent implements OnInit {
         autoResizable: true,
         className: "custom-class-name",
       },
-      {
-        Header: "Image",
-        accessor: "media",
-        autoResizable: true,
-        className: "custom-class-name",
-        hAlign: "Center" as TextAlign,
-        Cell: ({ row }: any) => (
-          <img
-            src={row.original.media[0].original_url}
-            alt="Signature"
-            style={{ width: "120px", height: "80px", objectFit: "cover" }}
-            width="40"
-            height="40"
-          />
-        ),
-      },
+      // {
+      //   Header: "Image",
+      //   accessor: "media[0].original_url",
+      //   autoResizable: true,
+      //   className: "custom-class-name",
+      //   hAlign: "Center" as TextAlign,
+      //   Cell: ({ value }: any) => (
+      //     value && <img
+      //       src={value}
+      //       alt="Service"
+      //       style={{ width: "120px", height: "80px", objectFit: "cover" }}
+      //       width="40"
+      //       height="40"
+      //     />
+      //   ),
+      // },
+    
       {
         Header: "Created At",
         accessor: "created_at",
@@ -179,9 +182,7 @@ export class ServicesListComponent implements OnInit {
     this.selectedFaqId = null;
     this.selectedFaqData = null;
   }
-  // insert modal
   handleInsertData(isInsert: boolean): void {
-    console.log("Received isInsertData:", isInsert);
     if (isInsert) {
       this.isInsert = isInsert;
       this.cdr.detectChanges();

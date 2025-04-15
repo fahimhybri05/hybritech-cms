@@ -49,8 +49,8 @@ export class ContactUsFormComponent implements OnInit {
   selectedFormId: number | null = null;
   selectedFormData: Forms | null = null;
   isOpen: boolean = false;
-  Forms = Forms;
-  forms = new Forms().deserialize({});
+  FormsData = Forms;
+  // forms = new Forms().deserialize({});
   constructor(
     private commonService: CommonService,
     private cdr: ChangeDetectorRef
