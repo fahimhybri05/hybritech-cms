@@ -45,8 +45,7 @@ export class CommonFormComponent implements OnInit {
   selectedFormId: number | null = null;
   selectedFormData: any = null;
   isOpen: boolean = false;
-  Forms = Forms;
-  forms = new Forms().deserialize({});
+  FormsData = Forms;
   constructor(
     private commonService: CommonService
   ) {
@@ -59,18 +58,9 @@ export class CommonFormComponent implements OnInit {
   ngOnInit(): void {}
   refresh($event: any) {
     this.refreshTrigger.emit();
-    console.log("Refresh triggered");
   }
 
   tableColum() {
-    if (this.is_read === false) {
-      const element = document.getElementsByClassName(
-        "custom-class-name"
-      )[0] as HTMLElement;
-      if (element) {
-        element.style.fontWeight = "bold";
-      }
-    }
     const columns = [
       {
         Header: "Sl No.",
@@ -173,11 +163,8 @@ export class CommonFormComponent implements OnInit {
     this.selectedFormId = original.id;
     this.selectedFormData = { ...original };
     this.isOpen = true;
-    // this.cdr.detectChanges();
   }
-
   closeModal() {
     this.isOpen = false;
-    // this.cdr.detectChanges();
   }
 }

@@ -1,6 +1,6 @@
 <ui5-dialog [open]="isOpen" header-text="Form Details" state="Information">
   <div *ngIf="formData">
-    <ng-container *ngIf="formData.is_read">
+    <div class="d-flex align-items-center">
       <ui5-label show-colon>Read</ui5-label>
       <ui5-switch
         accessible-name="graphical"
@@ -8,7 +8,8 @@
         disabled
         [checked]="formData.is_read"
       ></ui5-switch>
-    </ng-container>
+  </div>
+
     <ng-container *ngIf="formData.full_name">
       <ui5-label show-colon>Full Name</ui5-label>
       <ui5-input

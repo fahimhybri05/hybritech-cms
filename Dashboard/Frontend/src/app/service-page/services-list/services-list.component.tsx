@@ -9,14 +9,13 @@ import {
   ChangeDetectorRef 
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { Router, RouterLink } from "@angular/router";
-import { CommonService } from "../../services/common-service/common.service";
-import { ReactAnalyticalTable } from "../../components/analytical-table/react-table";
+import { CommonService } from "@app/services/common-service/common.service";
+import { ReactAnalyticalTable } from "@app/components/analytical-table/react-table";
 import { Icon, TextAlign } from "@ui5/webcomponents-react";
 import React from "react";
 import { Button } from "@ui5/webcomponents-react";
-import { AddServicesComponent } from "../add-services/add-services.component";
-import { EditServicesComponent } from "../edit-services/edit-services.component";
+import { AddServicesComponent } from "@app/service-page/add-services/add-services.component";
+import { EditServicesComponent } from "@app/service-page/edit-services/edit-services.component";
 import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
 import { Services } from "@app/shared/Model/services";
 @Component({
@@ -109,7 +108,7 @@ export class ServicesListComponent implements OnInit {
         hAlign: "Center" as TextAlign,
         Cell: ({ row }: any) => (
           <img
-            src={row.original.media[0].original_url}
+            src={row.service.imageUrl}
             alt="Signature"
             style={{ width: "120px", height: "80px", objectFit: "cover" }}
             width="40"

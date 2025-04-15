@@ -15,11 +15,11 @@
   [rowHeight]="30"
   [selectionMode]="'Single'"
   [emptyDataText]="'No Data Found'"
-  [model]="Forms"
+  [model]="FormsData"
   [refreshTrigger]="refreshTrigger"
   [tableColumn]="tableColum()"
-  [showStatusFilter]="false"
-  [isSegmentedState]="false"
+  [showStatusFilter]="true"
+  [isSegmentedState]="true"
   (rowDoubleClick)="formDetails($event)"
 ></react-analytical-table>
 
