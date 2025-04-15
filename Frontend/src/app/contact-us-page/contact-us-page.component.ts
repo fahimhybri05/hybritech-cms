@@ -48,7 +48,7 @@ export class ContactUsPageComponent {
       email: this.email,
       subject: this.subject,
       number: this.number,
-      is_read: false,
+      is_active: false,
       description: this.description,
     };
 
