@@ -2,6 +2,7 @@ import { Deserializable } from '@app/shared/interfaces/deserializable';
 
 export class Faq implements Deserializable {
   id?: number;
+  is_active: boolean = false;
   question: string = '';
   answer: string = '';
   created_at?: string;
