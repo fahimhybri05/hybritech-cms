@@ -14,20 +14,20 @@
   [headerHeight]="30"
   [rowHeight]="30"
   [selectionMode]="'Single'"
+  
   [emptyDataText]="'No Data Found'"
+  [refreshTrigger]="refreshTrigger"
   [tableColumn]="tableColum()"
   [showStatusFilter]="false"
   [isSegmentedState]="false"
   (rowDoubleClick)="formDetails($event)"
 ></react-analytical-table>
 
-
 <app-form-details
-[formId]="selectedFormId"
-[formData]="selectedFormData"
-[isOpen]="isOpen"
-(close)="closeModal()">
+  [formId]="selectedFormId"
+  [formData]="selectedFormData"
+  [isOpen]="isOpen"
+  (refreshTable)="refresh($event)"
+  (close)="closeModal()"
+>
 </app-form-details>
-
-
-

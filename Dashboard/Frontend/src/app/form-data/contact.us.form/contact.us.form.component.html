@@ -23,11 +23,9 @@
 
 
 <app-form-details
-[formId]="selectedFormId"
-[formData]="selectedFormData"
-[isOpen]="isOpen"
-(close)="closeModal()">
+  [formId]="selectedFormId"
+  [formData]="selectedFormData"
+  [isOpen]="isOpen"
+  (close)="closeModal()"
+  (updated)="onFormUpdated($event)">
 </app-form-details>
-
-
-

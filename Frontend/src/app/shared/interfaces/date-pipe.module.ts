@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
-import { DatePipe } from "@angular/common"; // Import DatePipe
+import { DatePipe } from "@angular/common"; 
 
 @NgModule({
-	providers: [DatePipe], // Provide DatePipe globally
+	providers: [DatePipe],
 })
 export class DatePipeModule {}
