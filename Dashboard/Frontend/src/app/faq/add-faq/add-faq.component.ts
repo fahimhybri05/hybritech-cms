@@ -49,7 +49,7 @@ export class AddFaqComponent implements OnInit {
 
   insertData() {
     if (!this.question || !this.answer) {
-      this.errorMessage = 'Both Question and Answer fields are required.';
+      this.errorMessage =  'Both Question and Answer fields are required.';
       return;
     }
 

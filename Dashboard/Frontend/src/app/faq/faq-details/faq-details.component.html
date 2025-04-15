@@ -1,11 +1,26 @@
 <ui5-dialog [open]="isOpen" header-text="Details" state="Information">
-    <div *ngIf="faqData">
-      <p><strong>Question:</strong> {{ faqData.question }}</p>
-      <p><strong>Answer:</strong> {{ faqData.answer }}</p>
-    </div>
-  
-    <div slot="footer" style="display: flex; justify-content: flex-end;">
-      <ui5-button (click)="closeDialog()">Close</ui5-button>
-    </div>
-  </ui5-dialog>
-  
+  <div *ngIf="faqData">
+    <ng-container>
+      <ui5-label show-colon>Question</ui5-label>
+      <ui5-input
+        class="w-100"
+        placeholder="Question"
+        value="{{ faqData.question }}"
+        readonly
+      ></ui5-input>
+    </ng-container>
+    <ng-container>
+      <ui5-label show-colon>Answer</ui5-label>
+      <ui5-textarea
+        class="w-100"
+        placeholder="Answer"
+        value="{{ faqData.answer }}"
+        readonly
+      ></ui5-textarea>
+    </ng-container>
+  </div>
+
+  <div slot="footer" style="display: flex; justify-content: flex-end">
+    <ui5-button (click)="closeDialog()">Close</ui5-button>
+  </div>
+</ui5-dialog>

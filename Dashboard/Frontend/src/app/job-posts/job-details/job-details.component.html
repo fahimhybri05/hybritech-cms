@@ -1,13 +1,37 @@
 <ui5-dialog [open]="isOpen" header-text="Details" state="Information">
   <div *ngIf="jobData">
-    <p><strong>Avtive:  </strong> <strong>{{ jobData.is_active }}</strong></p>
-    <p><strong>Title:</strong> {{ jobData.title }}</p>
-    <p><strong>Header Description:</strong> {{ jobData.header_description }}</p>
+    <div class="d-flex align-items-center">
+      <ui5-label show-colon>Avtive</ui5-label>
+      <ui5-switch
+        accessible-name="graphical"
+        design="Graphical"
+        disabled
+        [checked]="jobData.is_active"
+      ></ui5-switch>
+    </div>
 
-    <p><strong> <u>Job Description:</u> </strong></p>
+    <ng-container>
+      <ui5-label show-colon>Title</ui5-label>
+      <ui5-input
+        class="w-100"
+        placeholder="Full Name"
+        value="{{ jobData.title }}"
+        readonly
+      ></ui5-input>
+    </ng-container>
+    <ng-container>
+      <ui5-label show-colon>Header Description</ui5-label>
+      <ui5-textarea
+        class="w-100"
+        placeholder="Header Description"
+        value="{{ jobData.header_description }}"
+        readonly
+      ></ui5-textarea>
+    </ng-container>
+      <ui5-label show-colon>Job Description</ui5-label>
     <div class="job-details" [innerHTML]="jobData.job_description"></div>
   </div>
-  <div slot="footer" style="display: flex; justify-content: flex-end;">
+  <div slot="footer" class="d-flex justify-content-end mt-2">
     <ui5-button (click)="closeDialog()">Close</ui5-button>
   </div>
 </ui5-dialog>

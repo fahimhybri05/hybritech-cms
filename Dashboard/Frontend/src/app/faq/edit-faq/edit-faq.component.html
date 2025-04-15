@@ -1,6 +1,6 @@
-<ui5-dialog [open]="isOpen" header-text="Update FAQ" id="dialog">
+<ui5-dialog [open]="isOpen">
 	<ui5-bar slot="header" design="Header">
-	  <ui5-title level="H5" slot="startContent">Edit FAQ</ui5-title>
+	  <ui5-title level="H5" slot="startContent">Edit</ui5-title>
 	  <ui5-button
 		class="dialogCloser"
 		design="Transparent"
@@ -16,16 +16,15 @@
 		<div>
 		  <ui5-label show-colon required>Qustion</ui5-label>
 		  <ui5-textarea
-		  	class="textarea"
+		  	class="textAreaQuestion"
 			[(ngModel)]="question"
 			required
 		  ></ui5-textarea>
   
 		  <ui5-label show-colon required>Answer</ui5-label>
 		  <ui5-textarea
-		  	class="textarea"
+		  	class="textAreaAnswer"
 			[(ngModel)]="answer"
-			placeholder="Enter answer"
 			required
 		  ></ui5-textarea>
 		</div>

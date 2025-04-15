@@ -1,10 +1,14 @@
 ui5-dialog {
 	width: 40%;
-    height: 500px;
+    height: 440px;
 }
-ui5-textarea {
-    width: 100% !important;
-    height: 150px !important;
+.textAreaAnswer {
+    width: 520px ;
+    height: 200px ;
+}
+.textAreaQuestion {
+	width: 520px ;
+	height: 50% ;
 }
 
 #dialog::part(header),
