@@ -7,12 +7,13 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormsModule} from '@angular/forms';
+import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
 import { LabelComponent } from '@ui5/webcomponents-ngx';
 import { TextAreaComponent } from '@ui5/webcomponents-ngx/main/text-area';
-import { FormPreloaderComponent } from 'app/components/form-preloader/form-preloader.component';
-import { CommonService } from 'app/services/common-service/common.service';
+import { FormPreloaderComponent } from '@app/components/form-preloader/form-preloader.component';
+import { CommonService } from '@app/services/common-service/common.service';
+
 
 @Component({
   selector: 'app-add-faq',
@@ -23,6 +24,7 @@ import { CommonService } from 'app/services/common-service/common.service';
     LabelComponent,
     FormPreloaderComponent,
     TextAreaComponent,
+    ToastMessageComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './add-faq.component.html',
@@ -31,24 +33,20 @@ import { CommonService } from 'app/services/common-service/common.service';
 export class AddFaqComponent implements OnInit {
   @Input() isOpen: boolean | null = null;
   @Output() close = new EventEmitter<void>();
+  @Output() IsOpenToastAlert = new EventEmitter<void>();
 
   loading: boolean = false;
-  isSuccess: boolean = false;
   isAddError: boolean = false;
-
+  isActive: boolean = true;
+  ToastType: string = '';
   errorMessage: string = '';
   answer: string = '';
   question: string = '';
 
-  constructor(
-    private commonService: CommonService,
-    private router: Router,
-    private datePipe: DatePipe
-  ) {}
+  constructor(private commonService: CommonService) {}
   ngOnInit(): void {}
 
   insertData() {
-    // Check if both question and answer fields are filled
     if (!this.question || !this.answer) {
       this.errorMessage = 'Both Question and Answer fields are required.';
       return;
@@ -57,15 +55,19 @@ export class AddFaqComponent implements OnInit {
     const data = {
       question: this.question,
       answer: this.answer,
+      is_active: this.isActive,
     };
 
-    this.loading = true; 
+    this.loading = true;
     this.commonService.post('Faqs', data).subscribe(
       (response) => {
         console.log(response);
         this.loading = false;
-        this.isSuccess = true;
-		this.rersetForm();
+        this.ToastType = 'add';
+        setTimeout(() => {
+          this.IsOpenToastAlert.emit();
+        }, 1000);
+        this.rersetForm();
         this.closeDialog();
       },
       (error) => {
@@ -75,15 +77,21 @@ export class AddFaqComponent implements OnInit {
       }
     );
   }
-  rersetForm(){
-	this.errorMessage = '';
-	this.question = '';
-	this.answer = '';
+  toggleActive($event: any) {
+    if ($event.target.checked) {
+      this.isActive = true;
+    } else {
+      this.isActive = false;
+    }
+  }
+  rersetForm() {
+    this.errorMessage = '';
+    this.question = '';
+    this.answer = '';
   }
 
   closeDialog() {
     this.isOpen = false;
     this.close.emit();
   }
-
 }

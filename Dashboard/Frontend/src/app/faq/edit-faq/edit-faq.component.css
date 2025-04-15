@@ -1,22 +1,19 @@
 ui5-dialog {
-	width: 30%;
-    height: 500px;
+	width: 40%;
+    height: 440px;
 }
-.textArea {
-    width: 520px !important;
-    height: 300px !important;
+.textAreaAnswer {
+    width: 520px ;
+    height: 200px ;
+}
+.textAreaQuestion {
+	width: 520px ;
+	height: 50% ;
 }
 
 #dialog::part(header),
 #dialog::part(footer) {
 	padding-inline: 0;
-}
-
-
-@media screen and (max-width: 1400px) {
-	ui5-dialog {
-		width: 50%;
-	}
 }
 
 ui5-panel {

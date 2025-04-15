@@ -4,13 +4,15 @@ import { environment } from "../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class DataService {
   private apiUrl = environment.ServerApi;
-  private commonFromData = this.apiUrl + "/odata/CommonForms";
-  private commonConatactFormData = this.apiUrl + "/odata/ContactUsForms";
-  private faqData = this.apiUrl + "/odata/Faqs"; 
+  private commonFromData = this.apiUrl + '/odata/CommonForms';
+  private commonConatactFormData = this.apiUrl + '/odata/ContactUsForms';
+  private faqData = this.apiUrl + '/odata/Faqs?$filter=is_active eq true';
+  private serviceData = this.apiUrl + '/api/service-pages';
+  private jobPostData = this.apiUrl + '/odata/JobLists?$filter=is_active eq true';
 
   constructor(private http: HttpClient) {}
 
@@ -20,8 +22,13 @@ export class DataService {
   insertCotactForm(formData: any): Observable<any> {
     return this.http.post(this.commonConatactFormData, formData);
   }
-  
   getFaqData(): Observable<any> {
     return this.http.get<any>(this.faqData);
+  }
+  getServiceData(): Observable<any> {
+    return this.http.get<any>(`${this.serviceData}`);
+  }
+  getJobPostData(): Observable<any> {
+    return this.http.get<any>(this.jobPostData);
   }
 }

@@ -3,8 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class ServicePageDetails extends Model
+
+class ServicePageDetails extends Model implements HasMedia
 {
-        protected $fillable = ['title', 'description', 'image_path'];
+    use InteractsWithMedia;
+    
+    protected $fillable = ['title', 'description', 'media'];
+    
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('image');
+    }
 }

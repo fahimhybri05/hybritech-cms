@@ -9,28 +9,40 @@ import {
   ChangeDetectorRef 
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { Router, RouterLink } from "@angular/router";
-import { CommonService } from "../../services/common-service/common.service";
-import { ReactAnalyticalTable } from "../../components/analytical-table/react-table";
+import { CommonService } from "@app/services/common-service/common.service";
+import { ReactAnalyticalTable } from "@app/components/analytical-table/react-table";
 import { Icon, TextAlign } from "@ui5/webcomponents-react";
 import React from "react";
 import { Button } from "@ui5/webcomponents-react";
+import { AddServicesComponent } from "@app/service-page/add-services/add-services.component";
+import { EditServicesComponent } from "@app/service-page/edit-services/edit-services.component";
+import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
+import { Services } from "@app/shared/Model/services";
 @Component({
-	selector: "app-services-list",
+  selector: "app-services-list",
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactAnalyticalTable, ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactAnalyticalTable,
+    AddServicesComponent,
+    EditServicesComponent,
+    ToastMessageComponent,
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-	templateUrl: './services-list.component.html',
-	styleUrl: './services-list.component.css'
+  templateUrl: "./services-list.component.html",
+  styleUrl: "./services-list.component.css",
 })
 export class ServicesListComponent implements OnInit {
   @Output() refreshTable: EventEmitter<void> = new EventEmitter<void>();
-
+  @Output() IsOpenToastAlert = new EventEmitter<void>();
+  ToastType: string = "";
   totalFaqs: number = 0;
   itemsPerPage: number;
   currentPage = 1;
 
   odata: boolean;
+  api: boolean;
   loading: boolean = false;
   isInsert: boolean = false;
   isEdit: boolean = false;
@@ -46,14 +58,16 @@ export class ServicesListComponent implements OnInit {
   type: string | null = null;
   selectedFaqId: number | null = null;
   selectedFaqData: any = null;
-
+  Services = Services;
+  services = new Services().deserialize({});
   constructor(
     private commonService: CommonService,
     private datePipe: DatePipe,
-    private cdr: ChangeDetectorRef 
+    private cdr: ChangeDetectorRef
   ) {
     this.itemsPerPage = this.commonService.itemsPerPage;
     this.odata = this.commonService.odata;
+    this.api = this.commonService.api;
     this.Title = "Our Services";
     this.tableColum();
   }
@@ -82,15 +96,25 @@ export class ServicesListComponent implements OnInit {
       },
       {
         Header: "Description",
-        accessor: "header",
+        accessor: "description",
         autoResizable: true,
         className: "custom-class-name",
       },
       {
         Header: "Image",
-        accessor: "image_path",
+        accessor: "media",
         autoResizable: true,
         className: "custom-class-name",
+        hAlign: "Center" as TextAlign,
+        Cell: ({ row }: any) => (
+          <img
+            src={row.service.imageUrl}
+            alt="Signature"
+            style={{ width: "120px", height: "80px", objectFit: "cover" }}
+            width="40"
+            height="40"
+          />
+        ),
       },
       {
         Header: "Created At",
@@ -159,6 +183,7 @@ export class ServicesListComponent implements OnInit {
     console.log("Received isInsertData:", isInsert);
     if (isInsert) {
       this.isInsert = isInsert;
+      this.cdr.detectChanges();
     }
   }
   closeAddFaqModal() {
@@ -174,13 +199,16 @@ export class ServicesListComponent implements OnInit {
   deleteItemConfirm() {
     this.isDeleteLoading = true;
     const id = this.selectedFaqId;
-    this.commonService.delete(`Faqs/${id}`, this.odata).subscribe({
+    this.commonService.delete(`service-pages/${id}`, this.api).subscribe({
       next: (response: any) => {
         console.log(response);
         this.isSuccess = true;
         this.isDeleteOpen = false;
         this.isDeleteLoading = false;
-        this.sucessMessage = "Faq deleted successfully";
+        this.ToastType = "delete";
+        setTimeout(() => {
+          this.IsOpenToastAlert.emit();
+        }, 1000);
         this.refreshTable.emit();
       },
       error: (error: any) => {
@@ -193,14 +221,12 @@ export class ServicesListComponent implements OnInit {
     });
   }
 
-  // edit modal
   editFaq(original: any) {
-    this.isEdit = true;  // Open the edit modal
+    this.isEdit = true;
     this.selectedFaqId = original.id;
-    this.selectedFaqData = { ...original };  // Store the full FAQ data
+    this.selectedFaqData = { ...original };
   }
 
-  // Close the edit modal and refresh the table
   closeEditFaqModal() {
     this.isEdit = false;
   }

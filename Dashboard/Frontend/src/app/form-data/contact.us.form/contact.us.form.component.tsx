@@ -9,16 +9,15 @@ import {
   ChangeDetectorRef,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { Router, RouterLink } from "@angular/router";
-import { CommonService } from "../../services/common-service/common.service";
-import { ReactAnalyticalTable } from "../../components/analytical-table/react-table";
+import { CommonService } from "@app/services/common-service/common.service";
+import { ReactAnalyticalTable } from "@app/components/analytical-table/react-table";
 import { Icon, TextAlign } from "@ui5/webcomponents-react";
 import React from "react";
 import { Button } from "@ui5/webcomponents-react";
-import { FormDetailsComponent } from "../form.details/form.details.component";
-
+import { FormDetailsComponent } from "@app/form-data/form.details/form.details.component";
+import { Forms } from "@app/shared/Model/forms";
 @Component({
-  selector: "app-common-form",
+  selector: "app-contactus-form",
   standalone: true,
   imports: [
     CommonModule,
@@ -27,27 +26,28 @@ import { FormDetailsComponent } from "../form.details/form.details.component";
     FormDetailsComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  templateUrl: './contact.us.form.component.html',
-  styleUrl: './contact.us.form.component.css'
+  templateUrl: "./contact.us.form.component.html",
+  styleUrl: "./contact.us.form.component.css",
 })
 export class ContactUsFormComponent implements OnInit {
+  @Output() refreshTrigger = new EventEmitter();
   itemsPerPage: number;
   currentPage = 1;
 
   odata: boolean;
   loading: boolean = false;
   isDetails: boolean = false;
+  is_read: boolean = false;
 
   filter: string = "";
   Title: string;
   type: string | null = null;
   selectedFormId: number | null = null;
   selectedFormData: any = null;
-  isOpen: boolean = false; 
-
+  isOpen: boolean = false;
+  FormsData = Forms;
   constructor(
-    private commonService: CommonService,
-    private cdr: ChangeDetectorRef
+    private commonService: CommonService
   ) {
     this.itemsPerPage = this.commonService.itemsPerPage;
     this.odata = this.commonService.odata;
@@ -56,6 +56,9 @@ export class ContactUsFormComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+  refresh($event: any) {
+    this.refreshTrigger.emit();
+  }
 
   tableColum() {
     const columns = [
@@ -67,10 +70,22 @@ export class ContactUsFormComponent implements OnInit {
         disableGroupBy: true,
         disableSortBy: true,
         className: "custom-class-name",
-        Cell: ({ row }: { row: any }) => {
-          return React.createElement("span", null, row.index + 1);
-        },
+        Cell: ({ row }: { row: { index: number } }) => (
+          <span>{row.index + 1}</span>
+        ),
         width: 60,
+      },
+      {
+        Header: "Read",
+        accessor: "is_active",
+        autoResizable: true,
+        disableGroupBy: true,
+        disableFilters: true,
+        className: "custom-class-name",
+        width: 100,
+        hAlign: "Center" as TextAlign,
+        Cell: ({ value }: { value: boolean }) =>
+          value ? <Icon name="accept" /> : <Icon name="decline" />,
       },
       {
         Header: "Name",
@@ -108,12 +123,13 @@ export class ContactUsFormComponent implements OnInit {
         autoResizable: true,
         className: "custom-class-name",
         hAlign: "Center" as TextAlign,
-        Cell: ({ value }: any) => new Date(value).toLocaleDateString(),
+        Cell: ({ value }: { value: string | undefined }) =>
+          value ? new Date(value).toLocaleDateString() : "-",
       },
       {
         Header: "Actions",
         accessor: ".",
-        cellLabel: () => "",
+        cellLabel: () => "Actions",
         disableFilters: true,
         disableGroupBy: true,
         disableSortBy: true,
@@ -122,15 +138,16 @@ export class ContactUsFormComponent implements OnInit {
         width: 150,
         className: "custom-class-name",
         hAlign: "Center" as TextAlign,
-        Cell: ({ row }: any) => (
-          <div>
+        Cell: ({ row }: { row: { original: Forms } }) => (
+          <div
+            style={{ display: "flex", gap: "8px", justifyContent: "center" }}
+          >
             <Button
               icon="information"
               design="Transparent"
-              onClick={() => {
-                this.formDetails(row.original);
-              }}
-            ></Button>
+              aria-label="View details"
+              onClick={() => this.formDetails(row.original)}
+            />
           </div>
         ),
       },
@@ -142,10 +159,8 @@ export class ContactUsFormComponent implements OnInit {
     this.selectedFormId = original.id;
     this.selectedFormData = { ...original };
     this.isOpen = true;
-    this.cdr.detectChanges();
   }
-
   closeModal() {
-	this.isOpen = false;	
+    this.isOpen = false;
   }
 }

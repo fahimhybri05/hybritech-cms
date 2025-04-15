@@ -11,9 +11,13 @@ class ContactUsForm extends Model
     use HasFactory;
 
     protected $fillable = [
+        'is_active',
         'full_name',
         'number',
         'email',
         'description',
+    ];
+    protected $casts = [
+        'is_active' => 'boolean',
     ];
 }

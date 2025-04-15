@@ -1,22 +1,40 @@
 <div class="tool-layout">
-    <ui5-side-navigation #sidenav [collapsed]="collapsed">
-        <ui5-side-navigation-item text="Home" icon="home" routerLink="/home"></ui5-side-navigation-item>
-        <ui5-side-navigation-item text="User Managment" icon="detail-view" routerLink="/user-managment"></ui5-side-navigation-item>
-		  <ui5-side-navigation-item text="Service Page" icon="settings" routerLink="/service-list"></ui5-side-navigation-item>
-		  <ui5-side-navigation-item text="FAQ List" icon="question-mark" routerLink="/faq-list"></ui5-side-navigation-item>
-		  <ui5-side-navigation-item text="Form Submission"  expanded icon="form">
-			<ui5-side-navigation-sub-item 
-			text="Form Data"
-			icon="create-form"
-			routerLink="/common-form"
-			></ui5-side-navigation-sub-item>
-			<ui5-side-navigation-sub-item
-			  text="Contact Us Form Data"
-			  icon="documents"
-			  routerLink="/contact-us-form"
-			></ui5-side-navigation-sub-item>
-		  </ui5-side-navigation-item>
-
-    </ui5-side-navigation>
-    <div class="content"></div>
+  <ui5-side-navigation #sidenav [collapsed]="collapsed">
+    <ui5-side-navigation-item
+      text="Home"
+      icon="home"
+      routerLink="/home"
+    ></ui5-side-navigation-item>
+    <ui5-side-navigation-item
+      text="User Managment"
+      icon="detail-view"
+      routerLink="/user-managment"
+    ></ui5-side-navigation-item>
+    <ui5-side-navigation-item
+      text="Service Page"
+      icon="settings"
+      routerLink="/service-list"
+    ></ui5-side-navigation-item>
+    <ui5-side-navigation-item
+      text="FAQ List"
+      icon="question-mark"
+      routerLink="/faq-list"
+    ></ui5-side-navigation-item>
+    <ui5-side-navigation-item
+      text="Job Posts"
+      icon="work-history"
+      routerLink="/job-list"
+    ></ui5-side-navigation-item>
+    <ui5-side-navigation-item text="Form Submission" expanded icon="form">
+      <ui5-side-navigation-sub-item
+        text="Form Data"
+        routerLink="/common-form"
+      ></ui5-side-navigation-sub-item>
+      <ui5-side-navigation-sub-item
+        text="Contact Us Form Data"
+        routerLink="/contact-us-form"
+      ></ui5-side-navigation-sub-item>
+    </ui5-side-navigation-item>
+  </ui5-side-navigation>
+  <div class="content"></div>
 </div>

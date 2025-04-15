@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../../services/data.service'; // Import the DataService
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-faq',

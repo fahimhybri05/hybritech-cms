@@ -4,12 +4,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFaqsTable extends Migration
+ return New class extends Migration
 {
     public function up()
     {
         Schema::create('faqs', function (Blueprint $table) {
             $table->id();
+            $table->boolean('is_active')->default(true);
             $table->string('question');
             $table->text('answer');
             $table->timestamps();
@@ -20,5 +21,5 @@ class CreateFaqsTable extends Migration
     {
         Schema::dropIfExists('faqs');
     }
-}
+};
 

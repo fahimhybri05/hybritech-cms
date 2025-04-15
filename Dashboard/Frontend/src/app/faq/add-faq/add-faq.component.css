@@ -1,6 +1,10 @@
 ui5-dialog {
-	width: 30%;
-    height: 500px;
+	width: 40%;
+    height: 400px;
+}
+.textAreaQuestion {
+	width: 520px;
+	height: 50%;
 }
 .textArea {
     width: 520px;
@@ -10,13 +14,6 @@ ui5-dialog {
 #dialog::part(header),
 #dialog::part(footer) {
 	padding-inline: 0;
-}
-
-
-@media screen and (max-width: 1400px) {
-	ui5-dialog {
-		width: 50%;
-	}
 }
 
 ui5-panel {

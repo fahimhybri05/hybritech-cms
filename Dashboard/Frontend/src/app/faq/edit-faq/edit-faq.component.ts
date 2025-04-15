@@ -10,13 +10,22 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
+import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
+import { Faq } from '@app/shared/Model/faq';
+import { Forms } from '@app/shared/Model/forms';
 import { LabelComponent, TextAreaComponent } from '@ui5/webcomponents-ngx';
 import { CommonService } from 'app/services/common-service/common.service';
 
 @Component({
   selector: 'app-edit-faq',
   standalone: true,
-  imports: [CommonModule, FormsModule, LabelComponent, TextAreaComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    LabelComponent,
+    TextAreaComponent,
+    ToastMessageComponent,
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './edit-faq.component.html',
   styleUrl: './edit-faq.component.css',
@@ -27,16 +36,16 @@ export class EditFaqComponent implements OnInit, OnChanges {
   @Input() isOpen: boolean = false;
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
   @Output() refreshTable: EventEmitter<void> = new EventEmitter<void>();
+  @Output() IsOpenToastAlert = new EventEmitter<void>();
 
   loading: boolean = true;
   errorMessage: string = '';
   formloading: boolean = false;
-
+  ToastType: string = '';
   odata: boolean;
   api: boolean;
-
-  isSuccess: boolean = false;
   isEditError: boolean = false;
+  isActive: any;
   sucessMessage: string = '';
   faq: any = {};
   answer: string = '';
@@ -54,6 +63,7 @@ export class EditFaqComponent implements OnInit, OnChanges {
     if (this.faqData) {
       this.question = this.faqData.question;
       this.answer = this.faqData.answer;
+      this.isActive = this.faqData.is_active;
     }
   }
 
@@ -91,27 +101,29 @@ export class EditFaqComponent implements OnInit, OnChanges {
     const formData = {
       question: this.question,
       answer: this.answer,
+      is_active: this.isActive ? true : false,
     };
+    this.ToastType = 'edit';
     this.formloading = true;
-    this.commonService
-      .put(`Faqs(${this.faqId!})`, formData, true)
-      .subscribe({
-        next: (response: any) => {
-          this.formloading = false;
-          this.isSuccess = true;
-          this.sucessMessage = 'FAQ updated successfully';
-          this.refreshTable.emit();
-          this.closeDialog();
-        },
-        error: (error: any) => {
-          this.formloading = false;
-          this.isEditError = true;
-          this.errorMessage = error.error?.message || 'Error updating FAQ';
-          console.error('Error updating FAQ:', error);
-        },
-      });
-  }
 
+    this.commonService.put(`Faqs(${this.faqId!})`, formData, true).subscribe({
+      next: (response: any) => {
+        this.formloading = false;
+        this.isOpen = false;
+        this.refreshTable.emit();
+        this.IsOpenToastAlert.emit();
+      },
+      error: (error: any) => {
+        this.formloading = false;
+        this.isEditError = true;
+        this.errorMessage = error.error?.message || 'Error updating FAQ';
+        console.error('Error updating FAQ:', error);
+      },
+    });
+  }
+  toggleActive($event: any) {
+    this.isActive = $event.target.checked;
+  }
   closeDialog() {
     this.isOpen = false;
     this.close.emit();

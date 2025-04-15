@@ -23,7 +23,10 @@
       "@env/*": ["environments/*"],
       "app/*": ["app/*"]
     },
-    "lib": ["ES2022", "dom"]
+    "lib": [
+      "ES2022",
+      "dom"
+    ]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
