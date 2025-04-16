@@ -49,7 +49,6 @@ export class JobListComponent {
   isDeleteOpen: boolean = false;
   isDeleteLoading: boolean = false;
   isSuccess: boolean = false;
-
   isDeleteError: boolean = false;
   sucessMessage: string = "";
   filter: string = "";
@@ -68,25 +67,25 @@ export class JobListComponent {
     this.odata = this.commonService.odata;
     this.Title = "Job List";
   }
-  ngOnInit(): void {
-    this.loadJobs();
-  }
+  // ngOnInit(): void {
+  //   this.loadJobs();
+  // }
 
-  loadJobs(): void {
-    this.loading = true;
-    this.commonService.get("JobLists").subscribe({
-      next: (response: any) => {
-        this.jobData = response.value || response || [];
-        this.totalJobs = this.jobData.length;
-        this.loading = false;
-        this.cdr.detectChanges();
-      },
-      error: (error) => {
-        this.loading = false;
-        this.cdr.detectChanges();
-      },
-    });
-  }
+  // loadJobs(): void {
+  //   this.loading = true;
+  //   this.commonService.get("JobLists").subscribe({
+  //     next: (response: any) => {
+  //       this.jobData = response.value || response || [];
+  //       this.totalJobs = this.jobData.length;
+  //       this.loading = false;
+  //       this.cdr.detectChanges();
+  //     },
+  //     error: (error) => {
+  //       this.loading = false;
+  //       this.cdr.detectChanges();
+  //     },
+  //   });
+  // }
 
   tableColum() {
     const columns = [
@@ -198,7 +197,7 @@ export class JobListComponent {
   closeAddJobModal() {
     this.isInsert = false;
     this.refreshTable.emit();
-    this.loadJobs();
+    // this.loadJobs();
   }
 
   deleteJobs(original: any) {
@@ -230,7 +229,6 @@ export class JobListComponent {
   }
   editJob(original: any): void {
     this.selectedJobId = original.id;
-    console.log(original);
     this.selectedJobData = original;
     this.isEdit = true;
     this.cdr.detectChanges();
@@ -240,6 +238,6 @@ export class JobListComponent {
     this.selectedJobId = null;
     this.selectedJobData = null;
     this.refreshTable.emit();
-    this.loadJobs();
+    // this.loadJobs();
   }
 }

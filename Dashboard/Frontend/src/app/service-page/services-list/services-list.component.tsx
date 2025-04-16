@@ -6,7 +6,7 @@ import {
   Input,
   OnInit,
   Output,
-  ChangeDetectorRef 
+  ChangeDetectorRef,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { CommonService } from "@app/services/common-service/common.service";
@@ -17,6 +17,7 @@ import { Button } from "@ui5/webcomponents-react";
 import { AddServicesComponent } from "@app/service-page/add-services/add-services.component";
 import { EditServicesComponent } from "@app/service-page/edit-services/edit-services.component";
 import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
+
 import { Services } from "@app/shared/Model/services";
 @Component({
   selector: "app-services-list",
@@ -40,7 +41,6 @@ export class ServicesListComponent implements OnInit {
   totalFaqs: number = 0;
   itemsPerPage: number;
   currentPage = 1;
-
   odata: boolean;
   api: boolean;
   loading: boolean = false;
@@ -50,7 +50,6 @@ export class ServicesListComponent implements OnInit {
   isDeleteOpen: boolean = false;
   isDeleteLoading: boolean = false;
   isSuccess: boolean = false;
-
   isDeleteError: boolean = false;
   sucessMessage: string = "";
   filter: string = "";
@@ -59,10 +58,8 @@ export class ServicesListComponent implements OnInit {
   selectedFaqId: number | null = null;
   selectedFaqData: any = null;
   Services = Services;
-  services = new Services().deserialize({});
   constructor(
     private commonService: CommonService,
-    private datePipe: DatePipe,
     private cdr: ChangeDetectorRef
   ) {
     this.itemsPerPage = this.commonService.itemsPerPage;
@@ -71,7 +68,9 @@ export class ServicesListComponent implements OnInit {
     this.Title = "Our Services";
     this.tableColum();
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.refreshTable.emit();
+  }
 
   tableColum() {
     const columns = [
@@ -105,15 +104,19 @@ export class ServicesListComponent implements OnInit {
         accessor: "media",
         autoResizable: true,
         className: "custom-class-name",
-        hAlign: "Center" as TextAlign,
-        Cell: ({ row }: any) => (
-          <img
-            src={row.service.imageUrl}
-            alt="Signature"
-            style={{ width: "120px", height: "80px", objectFit: "cover" }}
-            width="40"
-            height="40"
-          />
+        Cell: ({ value }: any) => (
+          value?.[0]?.original_url ? (
+            <img
+              src={value[0].original_url}
+              alt="Service"
+              style={{ margin: "5px" }}
+              width="60"
+              height="60"
+            />
+          ) : (
+            <span>No Image</span>
+          )
+
         ),
       },
       {
@@ -178,9 +181,7 @@ export class ServicesListComponent implements OnInit {
     this.selectedFaqId = null;
     this.selectedFaqData = null;
   }
-  // insert modal
   handleInsertData(isInsert: boolean): void {
-    console.log("Received isInsertData:", isInsert);
     if (isInsert) {
       this.isInsert = isInsert;
       this.cdr.detectChanges();
@@ -190,7 +191,7 @@ export class ServicesListComponent implements OnInit {
     this.isInsert = false;
     this.refreshTable.emit();
   }
-  // delete modal
+
   deleteFaqs(original: any) {
     this.isDeleteOpen = true;
     this.selectedFaqId = original.id;
@@ -229,5 +230,8 @@ export class ServicesListComponent implements OnInit {
 
   closeEditFaqModal() {
     this.isEdit = false;
+  }
+  handleRefresh() {
+    this.refreshTable.emit();
   }
 }
