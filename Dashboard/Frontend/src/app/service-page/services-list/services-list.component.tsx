@@ -6,7 +6,7 @@ import {
   Input,
   OnInit,
   Output,
-  ChangeDetectorRef 
+  ChangeDetectorRef,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { Router, RouterLink } from "@angular/router";
@@ -17,7 +17,7 @@ import React from "react";
 import { Button } from "@ui5/webcomponents-react";
 import { AddServicesComponent } from "../add-services/add-services.component";
 import { EditServicesComponent } from "../edit-services/edit-services.component";
-import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
+import { ToastMessageComponent } from "@app/components/toast-message/toast-message.component";
 import { Services } from "@app/shared/Model/services";
 @Component({
   selector: "app-services-list",
@@ -41,7 +41,6 @@ export class ServicesListComponent implements OnInit {
   totalFaqs: number = 0;
   itemsPerPage: number;
   currentPage = 1;
-
   odata: boolean;
   api: boolean;
   loading: boolean = false;
@@ -51,7 +50,6 @@ export class ServicesListComponent implements OnInit {
   isDeleteOpen: boolean = false;
   isDeleteLoading: boolean = false;
   isSuccess: boolean = false;
-
   isDeleteError: boolean = false;
   sucessMessage: string = "";
   filter: string = "";
@@ -60,10 +58,8 @@ export class ServicesListComponent implements OnInit {
   selectedFaqId: number | null = null;
   selectedFaqData: any = null;
   Services = Services;
-  services = new Services().deserialize({});
   constructor(
     private commonService: CommonService,
-    private datePipe: DatePipe,
     private cdr: ChangeDetectorRef
   ) {
     this.itemsPerPage = this.commonService.itemsPerPage;
@@ -103,23 +99,25 @@ export class ServicesListComponent implements OnInit {
         autoResizable: true,
         className: "custom-class-name",
       },
-      // {
-      //   Header: "Image",
-      //   accessor: "media[0].original_url",
-      //   autoResizable: true,
-      //   className: "custom-class-name",
-      //   hAlign: "Center" as TextAlign,
-      //   Cell: ({ value }: any) => (
-      //     value && <img
-      //       src={value}
-      //       alt="Service"
-      //       style={{ width: "120px", height: "80px", objectFit: "cover" }}
-      //       width="40"
-      //       height="40"
-      //     />
-      //   ),
-      // },
-    
+      {
+        Header: "Image",
+        accessor: "media",
+        autoResizable: true,
+        className: "custom-class-name",
+        Cell: ({ value }: any) => (
+          value?.[0]?.original_url ? (
+            <img
+              src={value[0].original_url}
+              alt="Service"
+              style={{ margin: "5px" }}
+              width="60"
+              height="60"
+            />
+          ) : (
+            <span>No Image</span>
+          )
+        ),
+      },
       {
         Header: "Created At",
         accessor: "created_at",
@@ -192,7 +190,7 @@ export class ServicesListComponent implements OnInit {
     this.isInsert = false;
     this.refreshTable.emit();
   }
-  // delete modal
+
   deleteFaqs(original: any) {
     this.isDeleteOpen = true;
     this.selectedFaqId = original.id;
@@ -231,5 +229,8 @@ export class ServicesListComponent implements OnInit {
 
   closeEditFaqModal() {
     this.isEdit = false;
+  }
+  handleRefresh() {
+    this.refreshTable.emit();
   }
 }

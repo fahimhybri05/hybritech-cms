@@ -100,7 +100,7 @@ export class JobAddComponent {
              setTimeout(() => {
                this.IsOpenToastAlert.emit();
              }, 1000);
-        this.rersetForm();
+        this.resetForm();
         this.closeDialog();
       },
       (error: any) => {
