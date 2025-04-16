@@ -46,6 +46,7 @@ export class ContactUsFormComponent implements OnInit {
   selectedFormData: any = null;
   isOpen: boolean = false;
   FormsData = Forms;
+  
   constructor(
     private commonService: CommonService
   ) {

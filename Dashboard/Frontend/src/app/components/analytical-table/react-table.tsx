@@ -161,10 +161,11 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
     this.render();
     this.fetchData(this.offset, this.limit, this.status).subscribe({
       next: (response: any) => {
+        console.log(response);
         if (this.isSyncPermission) {
           this.data = response.syncPermissions;
         } else {
-          this.data = response.value;
+          this.data = response.value  || response; 
         }
         if (Array.isArray(this.data)) {
           const data = this.data.map((item: any) =>

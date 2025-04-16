@@ -1,7 +1,8 @@
 <react-analytical-table
   [headerTitle]="Title"
-  [insertTitle]="'View  Only'"
-  [apiUrl]="'CommonForms?'"
+
+  [insertTitle]="'View Only'"
+  [apiUrl]="'ContactUsForms?'"
   [isSearchFilter]="true"
   [isFilterable]="true"
   [isOdata]="true"
@@ -12,6 +13,7 @@
   [infiniteScrollNumber]="10"
   [minRowsNumber]="15"
   [headerHeight]="30"
+  [model]="FormsData"
   [rowHeight]="30"
   [selectionMode]="'Single'"
   [emptyDataText]="'No Data Found'"
