@@ -19,8 +19,8 @@ export class Services implements Deserializable {
     if (input.created_at) {
       this.created_at = new Date(input.created_at);
     }
-    if (input.media?.length) {
-      this.imageUrl = input.media[0].original_url;
+    if (this.media && this.media.length > 0) {
+      this.imageUrl = this.media[0].original_url;
     }
     return this;
   }

@@ -75,7 +75,6 @@ export class JobAddComponent {
     } else {
       this.isActive = false;
     }
-    console.log('Switch state:', this.isActive);
   }
   insertData() {
     if (!this.headerDescription || !this.title) {

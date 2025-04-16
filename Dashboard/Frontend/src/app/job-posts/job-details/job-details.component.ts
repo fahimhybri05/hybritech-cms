@@ -11,20 +11,18 @@ import {
 @Component({
   selector: 'app-job-details',
   standalone: true,
-  imports: [
-    CommonModule,
-  ],
+  imports: [CommonModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './job-details.component.html',
-  styleUrl: './job-details.component.css'
+  styleUrl: './job-details.component.css',
 })
-export class JobDetailsComponent  {
+export class JobDetailsComponent {
   @Input() jobId: number | null = null;
   @Input() jobData: any = {};
   @Input() isOpen: boolean = false;
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
 
-  formloading: boolean = false
+  formloading: boolean = false;
 
   closeDialog() {
     this.isOpen = false;

@@ -9,15 +9,15 @@ import {
   ChangeDetectorRef,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { Router, RouterLink } from "@angular/router";
-import { CommonService } from "../../services/common-service/common.service";
-import { ReactAnalyticalTable } from "../../components/analytical-table/react-table";
+import { CommonService } from "@app/services/common-service/common.service";
+import { ReactAnalyticalTable } from "@app/components/analytical-table/react-table";
 import { Icon, TextAlign } from "@ui5/webcomponents-react";
 import React from "react";
 import { Button } from "@ui5/webcomponents-react";
-import { AddServicesComponent } from "../add-services/add-services.component";
-import { EditServicesComponent } from "../edit-services/edit-services.component";
-import { ToastMessageComponent } from "@app/components/toast-message/toast-message.component";
+import { AddServicesComponent } from "@app/service-page/add-services/add-services.component";
+import { EditServicesComponent } from "@app/service-page/edit-services/edit-services.component";
+import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
+
 import { Services } from "@app/shared/Model/services";
 @Component({
   selector: "app-services-list",
@@ -116,6 +116,7 @@ export class ServicesListComponent implements OnInit {
           ) : (
             <span>No Image</span>
           )
+
         ),
       },
       {

@@ -89,6 +89,18 @@ export class FaqListComponent implements OnInit {
         width: 70,
       },
       {
+        Header: "Active",
+        accessor: "is_active",
+        autoResizable: true,
+        disableGroupBy: true,
+        disableFilters: true,
+        className: "custom-class-name",
+        width: 100,
+        hAlign: "Center" as TextAlign,
+        Cell: ({ value }: any) =>
+          value ? <Icon name="accept" /> : <Icon name="decline" />,
+      },
+      {
         Header: " Quastion",
         accessor: "question",
         autoResizable: true,

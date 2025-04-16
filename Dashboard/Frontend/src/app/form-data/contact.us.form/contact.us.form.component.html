@@ -1,5 +1,6 @@
 <react-analytical-table
   [headerTitle]="Title"
+
   [insertTitle]="'View Only'"
   [apiUrl]="'ContactUsForms?'"
   [isSearchFilter]="true"
@@ -15,18 +16,20 @@
   [model]="FormsData"
   [rowHeight]="30"
   [selectionMode]="'Single'"
-  [showStatusFilter]="false"
-  [isSegmentedState]="false"
   [emptyDataText]="'No Data Found'"
+  [model]="FormsData"
+  [refreshTrigger]="refreshTrigger"
   [tableColumn]="tableColum()"
+  [showStatusFilter]="true"
+  [isSegmentedState]="true"
   (rowDoubleClick)="formDetails($event)"
 ></react-analytical-table>
-
 
 <app-form-details
   [formId]="selectedFormId"
   [formData]="selectedFormData"
   [isOpen]="isOpen"
+  (refreshTable)="refresh($event)"
   (close)="closeModal()"
-  (updated)="onFormUpdated($event)">
+>
 </app-form-details>

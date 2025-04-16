@@ -24,7 +24,7 @@ import { CommonService } from '@app/services/common-service/common.service';
     LabelComponent,
     FormPreloaderComponent,
     TextAreaComponent,
-    ToastMessageComponent
+    ToastMessageComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './add-faq.component.html',
@@ -37,14 +37,13 @@ export class AddFaqComponent implements OnInit {
 
   loading: boolean = false;
   isAddError: boolean = false;
+  isActive: boolean = true;
   ToastType: string = '';
   errorMessage: string = '';
   answer: string = '';
   question: string = '';
 
-  constructor(
-    private commonService: CommonService,
-  ) {}
+  constructor(private commonService: CommonService) {}
   ngOnInit(): void {}
 
   insertData() {
@@ -56,6 +55,7 @@ export class AddFaqComponent implements OnInit {
     const data = {
       question: this.question,
       answer: this.answer,
+      is_active: this.isActive,
     };
 
     this.loading = true;
@@ -76,6 +76,13 @@ export class AddFaqComponent implements OnInit {
         console.error(error);
       }
     );
+  }
+  toggleActive($event: any) {
+    if ($event.target.checked) {
+      this.isActive = true;
+    } else {
+      this.isActive = false;
+    }
   }
   rersetForm() {
     this.errorMessage = '';
