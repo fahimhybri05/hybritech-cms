@@ -8,51 +8,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ServicePageController extends Controller
 {
-    // Store a new service page (picture with title and description)
-    // public function store(Request $request)
-    // {
-    //     try {
-    //         $request->validate([
-    //             'title' => 'required|string|max:255',
-    //             'description' => 'required|string',
-              
-    //         ]);
-    
-    //         $servicePage = ServicePageDetails::create([
-    //             'title' => $request->title,
-    //             'description' => $request->description,
-    //         ]);
-    
-    //         // if ($request->hasFile('image')) {
-    //         //     // dd($request->file('image'));
-    //         //     $servicePage->addMediaFromRequest('image')
-    //         //         ->toMediaCollection('images');
-    //         // }
-
-    //         $media = $servicePage->addMedia($request->file('image'))
-    //         ->toMediaCollection('image');
-    //         dd('here');
-    //         // Load latest media relation for API response
-    //         // $servicePage->load('media');
-    
-    //         return response()->json([
-    //             'message' => 'Service Page created successfully.',
-    //             'data' => $this->formatServicePageResponse($servicePage)
-    //         ], 201);
-    
-    //     } catch (\Illuminate\Validation\ValidationException $e) {
-    //         return response()->json([
-    //             'message' => 'Validation Error.',
-    //             'errors' => $e->errors()
-    //         ], 422);
-    
-    //     } catch (\Exception $e) {
-    //         return response()->json([
-    //             'message' => 'Something went wrong.',
-    //             'error' => $e->getMessage()
-    //         ], 500);
-    //     }
-    // }
 
     public function store(Request $request)
     {
@@ -183,5 +138,13 @@ class ServicePageController extends Controller
                 ]
             ] : [],
         ];
+    }
+    public function count()
+    {
+        $count = ServicePage::count();
+        
+        return response()->json([
+            '@count' => $count
+        ]);
     }
 }

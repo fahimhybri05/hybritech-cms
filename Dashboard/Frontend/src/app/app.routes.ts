@@ -6,9 +6,12 @@ import { ServicesListComponent } from './service-page/services-list/services-lis
 import { FaqListComponent } from './faq/faq-list/faq-list.component';
 import { ContactUsFormComponent } from './form-data/contact.us.form/contact.us.form.component';
 import { JobListComponent } from './job-posts/job-list/job-list.component';
+import { HomeComponent } from './home/home.component';
 
 export const routes: Routes = [
-    {path: '', component: LoginComponent},
+    {path: 'login', component: LoginComponent},
+    {path: '', component: HomeComponent},
+    {path: 'home', component: HomeComponent},
     {path: 'user-managment', component: UserListComponent},
     {path: 'common-form', component: CommonFormComponent},
     {path: 'contact-us-form', component: ContactUsFormComponent},
