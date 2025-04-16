@@ -1,36 +1,40 @@
-
 import { Deserializable } from '@app/shared/interfaces/deserializable';
 
 export class JobApplication implements Deserializable {
-
-  id: number;
-  is_active: boolean;
-  full_name: string;
-  email: string;
-  number: string;
-  designation: string;
-  experience: string;
-  created_at: string; // Keep as string (API returns ISO format)
-
-  constructor(data: any = {}) {
-    this.id = data.id || 0;
-    this.is_active = Boolean(data.is_active);
-    this.full_name = data.full_name || '';
-    this.email = data.email || '';
-    this.number = data.number || '';
-    this.designation = data.designation || '';
-    this.experience = data.experience || '';
-    this.created_at = data.created_at || new Date().toISOString();
+  id?: number;
+  is_active?: boolean;
+  full_name: string = '';
+  email: string = '';
+  number: string = '';
+  designation: string = '';
+  experience: string = '';
+  created_at?: string | Date;
+  [key: string]: any;
+  constructor(data?: Partial<JobApplication>) {
+    if (data) {
+      Object.assign(this, data);
+    }
   }
-
-  // Simple deserialize method for table compatibility
-
-
-
-
-  // Simple deserialize method that matches what your table expects
   deserialize(input: any): this {
     Object.assign(this, input);
+
+    if (input.created_at) {
+      this.created_at = new Date(input.created_at);
+    }
+
     return this;
+  }
+
+  serialize(): any {
+    return {
+      id: this.id,
+      is_active: this.is_active,
+      full_name: this.full_name,
+      email: this.email,
+      number: this.number,
+      designation: this.designation,
+      experience: this.experience,
+      created_at: this.created_at,
+    };
   }
 }
