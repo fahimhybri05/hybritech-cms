@@ -71,7 +71,6 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
   @Output() rowDoubleClick: EventEmitter<any> = new EventEmitter<any>();
   @Output() onResponseData: EventEmitter<any> = new EventEmitter();
   @Input() showStatusFilter?: boolean;
-
   isSettingOpen: boolean = false;
   settingSearchText: string = "";
   segmentedState: string = "all";
@@ -107,13 +106,11 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
       this.data = [];
       this.fetchData(this.offset, this.limit, this.status).subscribe({
         next: (response: any) => {
-          
           if (this.isSyncPermission) {
             this.data = response.syncPermissions;
           } else if (this.isOdata) {
             this.data = response.value;
           } else {
-            
             this.data =
               response.data || response.items || response.results || response;
           }
@@ -160,54 +157,65 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
   onDialogFilter() {
     this.isSettingOpen = !this.isSettingOpen;
   }
+  fetchData(offset: number, limit: number, status: string) {
+    let apiUrl = this.apiUrl;
+    if (apiUrl.includes("?")) {
+      apiUrl = apiUrl.split("?")[0];
+    }
+
+    if (this.isOdata) {
+      apiUrl += "?";
+      if (status && this.isStatusFilterEnabled) {
+        apiUrl += `$filter=(is_active eq ${status})&`;
+      }
+      apiUrl += `$skip=${offset}&$top=${limit}`;
+    } else {
+      const page = Math.floor(offset / limit) + 1;
+      apiUrl += `?page=${page}&per_page=${limit}`;
+      if (status && this.isStatusFilterEnabled) {
+        apiUrl += `&is_active=${status}`;
+      }
+    }
+
+    console.log("Fetching data from:", apiUrl);
+    return this.commonService.get(apiUrl, this.isOdata);
+  }
 
   loadInitialData() {
     this.loading = true;
     this.render();
+
     this.fetchData(this.offset, this.limit, this.status).subscribe({
       next: (response: any) => {
-        console.log(response);
-        // In react-table.tsx
+        console.log("hel", response);
+        this.data = [];
+        this.dataList = [];
+
         if (this.isSyncPermission) {
           this.data = response.syncPermissions;
         } else if (this.isOdata) {
-          this.data = response.value;
+          this.data = response.value || [];
+          this.tableDataCount =
+            response["@odata.count"] || response.value?.length || 0;
         } else {
-          
-          this.data =
-            response.data || response.items || response.results || response;
+          this.data = response.data || response || [];
+          this.tableDataCount = response.total || response.length || 0;
         }
-        if (Array.isArray(this.data)) {
-          const data = this.data.map((item: any) =>
-            new this.model().deserialize(item)
-          );
-          this.dataList = data;
-          this.tableDataCount = response["@count"] || this.data.length;
-        }
+        this.dataList = this.data.map((item: any) => {
+          const deserialized = new this.model().deserialize(item);
+          return deserialized;
+        });
+
         this.offset += this.limit;
         this.loading = false;
         this.onResponseData.emit(this.data);
         this.render();
       },
       error: (error: any) => {
-        console.log(error);
         this.loading = false;
         this.render();
       },
     });
-  }
-  fetchData(offset: number, limit: number, status: string) {
-    let apiUrl = "";
-    if (this.isOdata) {
-      if (status && this.isStatusFilterEnabled) {
-        apiUrl = `${this.apiUrl}&$filter=(is_active eq ${status})&$skip=${offset}&$top=${limit}`;
-      } else {
-        apiUrl = `${this.apiUrl}&$skip=${offset}&$top=${limit}`;
-      }
-    } else {
-      apiUrl = `${this.apiUrl}?offset=${offset}&limit=${limit}`;
-    }
-    return this.commonService.get(apiUrl, this.isOdata);
   }
   handleSearch(event: any) {
     clearTimeout(this.debounceTimeout);

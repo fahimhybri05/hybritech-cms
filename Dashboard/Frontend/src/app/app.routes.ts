@@ -7,7 +7,8 @@ import { FaqListComponent } from './faq/faq-list/faq-list.component';
 import { ContactUsFormComponent } from './form-data/contact.us.form/contact.us.form.component';
 import { HomeComponent } from './home/home.component';
 import { JobListComponent } from './jobs/job-list/job-list.component';
-import { JobDetailsComponent } from './jobs/job-details/job-details.component';
+import { JobApplicationsComponent } from './jobs/job-applications/job-applications.component';
+
 
 export const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -19,5 +20,5 @@ export const routes: Routes = [
     {path: 'service-list', component: ServicesListComponent},
     {path: 'faq-list', component: FaqListComponent},
     { path: 'job-list', component: JobListComponent },
-    {path : 'job-applications', component: JobDetailsComponent}
+    {path : 'job-applications', component: JobApplicationsComponent}
 ];
