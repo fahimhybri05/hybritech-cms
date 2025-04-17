@@ -24,14 +24,12 @@ return new class extends Migration
         // Inserting static data into the footers table
         DB::table('footers')->insert([
             ['name' => 'Facebook', 'icon' => '<i class="fa-brands fa-square-facebook"></i>'],
-            ['name' => 'WhatsApp','icon' => '<<i class="fa-brands fa-square-whatsapp"></i>'],
+            ['name' => 'WhatsApp','icon' => '<i class="fa-brands fa-square-whatsapp"></i>'],
             ['name' => 'LinkedIn','icon' => '<i class="fa-brands fa-linkedin"></i>'],
             ['name' => 'X','icon' => '<i class="fa-brands fa-square-x-twitter"></i>'],
             ['name' => 'Instagram','icon' => '<i class="fa-brands fa-square-instagram"></i>'],
             ['name' => 'Reddit','icon' => '<i class="fa-brands fa-square-reddit"></i>'],
             ['name' => 'Discord','icon' => '<i class="fa-brands fa-discord"></i>'],
-            ['name' => 'Telegram','icon' => '<i class="fa-brands fa-telegram"></i>'],
-            ['name' => 'YouTube','icon' => '<i class="fa-brands fa-youtube"></i>'],
             ['name' => 'GitHub','icon' => '<i class="fa-brands fa-github"></i>'],
         ]);
     }
