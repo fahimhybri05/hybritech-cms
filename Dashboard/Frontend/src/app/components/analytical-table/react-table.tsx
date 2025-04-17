@@ -107,10 +107,15 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
       this.data = [];
       this.fetchData(this.offset, this.limit, this.status).subscribe({
         next: (response: any) => {
+          
           if (this.isSyncPermission) {
             this.data = response.syncPermissions;
-          } else {
+          } else if (this.isOdata) {
             this.data = response.value;
+          } else {
+            
+            this.data =
+              response.data || response.items || response.results || response;
           }
           if (Array.isArray(this.data)) {
             const data = this.data.map((item: any) =>
@@ -162,10 +167,15 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
     this.fetchData(this.offset, this.limit, this.status).subscribe({
       next: (response: any) => {
         console.log(response);
+        // In react-table.tsx
         if (this.isSyncPermission) {
           this.data = response.syncPermissions;
+        } else if (this.isOdata) {
+          this.data = response.value;
         } else {
-          this.data = response.value  || response; 
+          
+          this.data =
+            response.data || response.items || response.results || response;
         }
         if (Array.isArray(this.data)) {
           const data = this.data.map((item: any) =>
@@ -253,8 +263,11 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
       next: (response: any) => {
         if (this.isSyncPermission) {
           this.data = response.syncPermissions;
-        } else {
+        } else if (this.isOdata) {
           this.data = response.value;
+        } else {
+          this.data =
+            response.data || response.items || response.results || response;
         }
         if (Array.isArray(this.data)) {
           const data = this.data.map((item: any) =>

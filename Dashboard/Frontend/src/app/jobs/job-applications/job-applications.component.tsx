@@ -1,5 +1,4 @@
 import { CommonModule, DatePipe } from "@angular/common";
-
 import {
   ChangeDetectorRef,
   CUSTOM_ELEMENTS_SCHEMA,
@@ -9,30 +8,20 @@ import {
   Output,
 } from "@angular/core";
 import { Button, Icon, TextAlign } from "@ui5/webcomponents-react";
-import { ReactAnalyticalTable } from "app/components/analytical-table/react-table";
-import { CommonService } from "app/services/common-service/common.service";
+import { ReactAnalyticalTable } from "@app/components/analytical-table/react-table";
+import { CommonService } from "@app/services/common-service/common.service";
 import React from "react";
-import { JobAddComponent } from "../job-add/job-add.component";
-import { JobDetailsComponent } from "../job-details/job-details.component";
 import { ToastMessageComponent } from "@app/components/toast-message/toast-message.component";
-import { Joblist } from "@app/shared/Model/joblist";
-import { JobEditComponent } from "@app/job-posts/job-edit/job-edit.component";
+import { JobApplication } from "@app/shared/Model/jobapplication";
 @Component({
-  selector: "app-job-list",
+  selector: "app-job-applications",
   standalone: true,
-  imports: [
-    ReactAnalyticalTable,
-    JobAddComponent,
-    JobDetailsComponent,
-    ToastMessageComponent,
-    JobEditComponent,
-    CommonModule,
-  ],
+  imports: [ReactAnalyticalTable, ToastMessageComponent, CommonModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  templateUrl: "./job-list.component.html",
-  styleUrl: "./job-list.component.css",
+  templateUrl: "./job-applications.component.html",
+  styleUrl: "./job-applications.component.css",
 })
-export class JobListComponent {
+export class JobApplicationsComponent {
   @Input() model: any;
   @Output() refreshTable: EventEmitter<void> = new EventEmitter<void>();
   @Output() IsOpenToastAlert = new EventEmitter<void>();
@@ -50,14 +39,12 @@ export class JobListComponent {
   isDeleteLoading: boolean = false;
   isSuccess: boolean = false;
   isDeleteError: boolean = false;
-  sucessMessage: string = "";
   filter: string = "";
   Title: string;
-  type: string | null = null;
   selectedJobId: number | null = null;
   selectedJobData: any = null;
-  Joblists = Joblist;
-  joblists = new Joblist().deserialize({});
+  JobApplications = JobApplication;
+  jobApplications = new JobApplication().deserialize({});
   constructor(
     private commonService: CommonService,
     private datePipe: DatePipe,
@@ -65,8 +52,10 @@ export class JobListComponent {
   ) {
     this.itemsPerPage = this.commonService.itemsPerPage;
     this.odata = this.commonService.odata;
-    this.Title = "Job List";
+    this.Title = "Job Applications";
   }
+  ngOnInit(): void {}
+
   tableColum() {
     const columns = [
       {
@@ -96,62 +85,42 @@ export class JobListComponent {
           value ? <Icon name="accept" /> : <Icon name="decline" />,
       },
       {
-        Header: " Title",
-        accessor: "title",
+        Header: "Full Name",
+        accessor: "full_name",
         autoResizable: true,
         className: "custom-class-name",
       },
       {
-        Header: "Header Description",
-        accessor: "header_description",
+        Header: "Email",
+        accessor: "email",
         autoResizable: true,
         className: "custom-class-name",
       },
       {
-        Header: "Created At",
+        Header: "Number",
+        accessor: "number",
+        autoResizable: true,
+        className: "custom-class-name",
+      },
+      {
+        Header: "Designation",
+        accessor: "designation",
+        autoResizable: true,
+        className: "custom-class-name",
+      },
+      {
+        Header: "Experience",
+        accessor: "experience",
+        autoResizable: true,
+        className: "custom-class-name",
+      },
+      {
+        Header: "Submitted At",
         accessor: "created_at",
         autoResizable: true,
         className: "custom-class-name",
         hAlign: "Center" as TextAlign,
         Cell: ({ value }: any) => new Date(value).toLocaleDateString(),
-      },
-      {
-        Header: "   Actions",
-        accessor: ".",
-        cellLabel: () => "",
-        disableFilters: true,
-        disableGroupBy: true,
-        disableSortBy: true,
-        autoResizable: true,
-        id: "actions",
-        className: "custom-class-name",
-        hAlign: "Center" as TextAlign,
-        Cell: ({ row }: any) => (
-          <div>
-            <Button
-              icon="edit"
-              design="Transparent"
-              onClick={() => {
-                this.editJob(row.original);
-              }}
-            />
-            <Button
-              icon="information"
-              design="Transparent"
-              onClick={() => {
-                this.JobsDetails(row.original);
-              }}
-            ></Button>
-
-            <Button
-              icon="delete"
-              design="Transparent"
-              onClick={() => {
-                this.deleteJobs(row.original);
-              }}
-            ></Button>
-          </div>
-        ),
       },
     ];
     return columns;
@@ -167,17 +136,6 @@ export class JobListComponent {
     this.isDetails = false;
     this.selectedJobId = null;
     this.selectedJobData = null;
-  }
-
-  handleInsertData(isInsert: boolean): void {
-    if (isInsert) {
-      this.isInsert = isInsert;
-    }
-  }
-  closeAddJobModal() {
-    this.isInsert = false;
-    this.refreshTable.emit();
-    // this.loadJobs();
   }
 
   deleteJobs(original: any) {
@@ -206,18 +164,5 @@ export class JobListComponent {
         this.refreshTable.emit();
       },
     });
-  }
-  editJob(original: any): void {
-    this.selectedJobId = original.id;
-    this.selectedJobData = original;
-    this.isEdit = true;
-    this.cdr.detectChanges();
-  }
-  closeEditJobModal(): void {
-    this.isEdit = false;
-    this.selectedJobId = null;
-    this.selectedJobData = null;
-    this.refreshTable.emit();
-    // this.loadJobs();
   }
 }

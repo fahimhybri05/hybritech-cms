@@ -5,8 +5,9 @@ import { CommonFormComponent } from './form-data/common-form/common-form.compone
 import { ServicesListComponent } from './service-page/services-list/services-list.component';
 import { FaqListComponent } from './faq/faq-list/faq-list.component';
 import { ContactUsFormComponent } from './form-data/contact.us.form/contact.us.form.component';
-import { JobListComponent } from './job-posts/job-list/job-list.component';
 import { HomeComponent } from './home/home.component';
+import { JobListComponent } from './jobs/job-list/job-list.component';
+import { JobDetailsComponent } from './jobs/job-details/job-details.component';
 
 export const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -17,5 +18,6 @@ export const routes: Routes = [
     {path: 'contact-us-form', component: ContactUsFormComponent},
     {path: 'service-list', component: ServicesListComponent},
     {path: 'faq-list', component: FaqListComponent},
-    {path: 'job-list', component: JobListComponent}
+    { path: 'job-list', component: JobListComponent },
+    {path : 'job-applications', component: JobDetailsComponent}
 ];

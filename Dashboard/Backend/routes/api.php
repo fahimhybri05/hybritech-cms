@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServicePageController;
+use App\Http\Controllers\JobApplicationAPIController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();

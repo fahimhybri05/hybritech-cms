@@ -8,7 +8,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ServicePageController extends Controller
 {
-
     public function store(Request $request)
     {
         try {
@@ -50,13 +49,6 @@ class ServicePageController extends Controller
         }
     }
     
-    
-    // Removed duplicate method to resolve redeclaration error.
-    
-
-    
-    
-
     // Get all service pages
     public function index()
     {
