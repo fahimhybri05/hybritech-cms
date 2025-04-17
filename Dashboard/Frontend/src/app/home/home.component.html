@@ -1,0 +1,26 @@
+<div class="dashboard-container">
+  <ui5-title level="H5" aria-label="Data Management Section">Data Management</ui5-title>
+
+  <div *ngIf="isLoading" class="loading-state" aria-live="polite">
+    <ui5-busy-indicator active size="Medium" aria-label="Loading data"></ui5-busy-indicator>
+  </div>
+
+  <div class="dashboard-grid" role="grid">
+    <ui5-card
+      *ngFor="let item of countArray"
+      class="dashboard-card"
+      [routerLink]="item.route"
+      role="gridcell"
+    >
+      <div class="card-header d-flex justify-content-between">
+        <ui5-title slot="header" level="H5" class="card-title">{{item.name}}</ui5-title>
+        <ui5-icon class="header-icon" name="arrow-right" aria-hidden="true"></ui5-icon>
+      </div>
+      
+      <div class="card-content">
+        <ui5-icon class="item-icon" [name]="item.icon" aria-hidden="true"></ui5-icon>
+        <ui5-title level="H2">{{item.count | number}}</ui5-title>
+      </div>
+    </ui5-card>
+  </div>
+</div>

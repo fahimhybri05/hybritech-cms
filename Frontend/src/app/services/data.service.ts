@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { environment } from "../../environments/environment";
+import { environment } from "@env/environment";
 import { HttpClient } from "@angular/common/http";
 
 @Injectable({
@@ -13,6 +13,7 @@ export class DataService {
   private faqData = this.apiUrl + '/odata/Faqs?$filter=is_active eq true';
   private serviceData = this.apiUrl + '/api/service-pages';
   private jobPostData = this.apiUrl + '/odata/JobLists?$filter=is_active eq true';
+  private footerData = this.apiUrl + '/odata/Footers?$filter=is_active eq true';
 
   constructor(private http: HttpClient) {}
 
@@ -30,5 +31,8 @@ export class DataService {
   }
   getJobPostData(): Observable<any> {
     return this.http.get<any>(this.jobPostData);
+  }
+  getFooterData(): Observable<any> {
+    return this.http.get<any>(this.footerData);
   }
 }

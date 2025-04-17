@@ -35,6 +35,15 @@
         routerLink="/contact-us-form"
       ></ui5-side-navigation-sub-item>
     </ui5-side-navigation-item>
+      <ui5-side-navigation-item
+      text="Social Media"
+      (click)="onSocialMediaClick($event)"
+      icon="detail-view"
+    ></ui5-side-navigation-item>
   </ui5-side-navigation>
   <div class="content"></div>
 </div>
+<app-social-media
+  [isOpen]="isOpen"
+  (close)="this.isOpen = false;"
+></app-social-media>

@@ -1,15 +1,17 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from '@app/components/login/login.component';
-import { UserListComponent } from '@app/user-managment/user-list/user-list.component';
-import { CommonFormComponent } from '@app/form-data/common-form/common-form.component'
-import { ServicesListComponent } from '@app/service-page/services-list/services-list.component';
-import { FaqListComponent } from '@app/faq/faq-list/faq-list.component';
-import { ContactUsFormComponent } from '@app/form-data/contact.us.form/contact.us.form.component';
-import { JobListComponent } from '@app/jobs/job-list/job-list.component';
-import { JobApplicationsComponent } from '@app/jobs/job-applications/job-applications.component';
+import { LoginComponent } from './components/login/login.component';
+import { UserListComponent } from './user-managment/user-list/user-list.component';
+import { CommonFormComponent } from './form-data/common-form/common-form.component'
+import { ServicesListComponent } from './service-page/services-list/services-list.component';
+import { FaqListComponent } from './faq/faq-list/faq-list.component';
+import { ContactUsFormComponent } from './form-data/contact.us.form/contact.us.form.component';
+import { JobListComponent } from './job-posts/job-list/job-list.component';
+import { HomeComponent } from './home/home.component';
 
 export const routes: Routes = [
-    {path: '', component: LoginComponent},
+    {path: 'login', component: LoginComponent},
+    {path: '', component: HomeComponent},
+    {path: 'home', component: HomeComponent},
     {path: 'user-managment', component: UserListComponent},
     {path: 'common-form', component: CommonFormComponent},
     {path: 'contact-us-form', component: ContactUsFormComponent},

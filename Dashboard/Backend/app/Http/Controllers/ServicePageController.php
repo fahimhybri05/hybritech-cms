@@ -8,6 +8,10 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ServicePageController extends Controller
 {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 29be46d44a7490c344a15d0f65bc45001d92c994
     public function store(Request $request)
     {
         try {
@@ -130,5 +134,13 @@ class ServicePageController extends Controller
                 ]
             ] : [],
         ];
+    }
+    public function count()
+    {
+        $count = ServicePage::count();
+        
+        return response()->json([
+            '@count' => $count
+        ]);
     }
 }
