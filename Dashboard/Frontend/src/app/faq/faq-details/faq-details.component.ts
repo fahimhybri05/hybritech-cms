@@ -10,9 +10,7 @@ import {
 	SimpleChanges,
 } from "@angular/core";
 import { FormsModule, NgForm } from "@angular/forms";
-import { FormPreloaderComponent } from "app/components/form-preloader/form-preloader.component";
-import {	LabelComponent,TextAreaComponent} from "@ui5/webcomponents-ngx";
-import { CommonService } from "app/services/common-service/common.service";
+
 
 @Component({
   selector: 'app-faq-details',
@@ -26,8 +24,8 @@ import { CommonService } from "app/services/common-service/common.service";
   styleUrl: './faq-details.component.css'
 })
 export class FaqDetailsComponent implements OnInit {
-  @Input() faqId: number | null = null;   // FAQ ID passed from parent
-  @Input() faqData: any = {};             // FAQ data passed from parent
+  @Input() faqId: number | null = null;
+  @Input() faqData: any = {};
   @Input() isOpen: boolean = false;
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
 
@@ -44,6 +42,6 @@ export class FaqDetailsComponent implements OnInit {
 
   closeDialog() {
     this.isOpen = false;
-    this.close.emit();  // Emit the close event to parent component
+    this.close.emit();  
   }
 }

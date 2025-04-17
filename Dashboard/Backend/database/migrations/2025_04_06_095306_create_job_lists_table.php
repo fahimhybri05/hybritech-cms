@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contact_us_forms', function (Blueprint $table) {
+        Schema::create('job_lists', function (Blueprint $table) {
             $table->id();
-            $table->string('full_name');
-            $table->string('number')->unique();
-            $table->string('email')->unique();
-            $table->string('subject');
-            $table->text('description');
+            $table->boolean('is_active')->default(true);
+            $table->string('title');
+            $table->text('header_description');
+            $table->text('job_description');
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('contact_us_forms');
+        Schema::dropIfExists('job_lists');
     }
 };

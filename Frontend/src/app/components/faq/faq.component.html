@@ -3,7 +3,7 @@
     <div class="row align-items-center">
       <div class="col-lg">
         <div class="section-title left style-two">
-          <h1 class="my-5">Frequently Asked Questions</h1>
+          <h1 class="faq-title my-5">Frequently Asked Questions</h1>
         </div>
         <div *ngIf="faq.length > 0">
           <div
@@ -11,7 +11,7 @@
             class="faq-singular"
             [ngClass]="{ active: i === activeIndex }"
           >
-            <h2 class="faq-question" (click)="toggleFaq(i)">
+            <h2 class="faq-question letter-space" (click)="toggleFaq(i)">
               {{ faq.question }}
             </h2>
             <div class="faq-answer" *ngIf="i === activeIndex">
@@ -22,7 +22,7 @@
           </div>
         </div>
         <div *ngIf="faq.length === 0">
-          <p>Loading FAQs...</p> <!-- Display a loading message while fetching data -->
+          <p>Loading FAQs...</p>
         </div>
       </div>
     </div>

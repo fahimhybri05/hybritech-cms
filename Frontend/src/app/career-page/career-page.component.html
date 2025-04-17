@@ -14,7 +14,8 @@
               <p class="col-8">
                 You will not work for us, You will work with us. Here, you will
                 learn from the best, and lead the rest! Take off to the next
-                chapter with <span class="fw-bold">HYBRITECH INNOVATIONS</span>
+                chapter with
+                <span class="fw-bold letter-space">HYBRITECH INNOVATIONS</span>
               </p>
             </div>
           </div>
@@ -38,7 +39,7 @@
           </div>
         </div>
         <div class="col-md-6">
-          <div>
+          <div class="work-text">
             <h1>Working with dynamic People</h1>
             <p>
               we put people at the heart of our business. We believe in
@@ -58,44 +59,29 @@
   <div class="container">
     <div class="row align-items-center">
       <div class="col-lg">
-        <div class="section-title left style-two">
-          <h1 class="my-5">Frequently Asked Questions</h1>
+        <div class="grow-together">
+          <h6 class="my-1 text-white">Current Openings</h6>
+          <h1 class="my-3">Let’s grow together</h1>
+          <hr class="my-5" />
         </div>
+
         <div
           *ngFor="let job of jobs; let i = index"
           class="faq-singular"
           [ngClass]="{ active: i === activeIndex }"
         >
-          <h2 class="faq-question" (click)="toggleJob(i)">
+          <h2 class="job-title" (click)="toggleJob(i)">
             {{ job.title }}
           </h2>
-          <p class="bold-font text-muted mt-3" style="padding-right: 70px">
-            {{ job.headerdesc }}
+          <p
+            class="bold-font text-muted mt-3 pe-auto"
+            style="padding-right: 70px; cursor: pointer"
+            (click)="toggleJob(i)"
+          >
+            {{ job.header_description }}
           </p>
-          <div class="faq-answer" *ngIf="i === activeIndex">
-            <div class="desc">
-              <p><strong>Location:</strong> {{ job.location }}</p>
-              <p><strong>Experience Required:</strong> {{ job.experience }}</p>
-              <p>{{ job.description }}</p>
-              <p><strong>Responsibilities:</strong></p>
-              <ul>
-                <li *ngFor="let responsibility of job.responsibilities">
-                  {{ responsibility }}
-                </li>
-              </ul>
-              <p><strong>Requirements:</strong></p>
-              <ul>
-                <li *ngFor="let requirement of job.requirements">
-                  {{ requirement }}
-                </li>
-              </ul>
-              <p><strong>Salary:</strong> {{ job.salary }}</p>
-              <p><strong>Benefits:</strong></p>
-              <ul>
-                <li *ngFor="let benefit of job.benefits">{{ benefit }}</li>
-              </ul>
-              <p><strong>How to Apply:</strong> {{ job.applyInstructions }}</p>
-            </div>
+          <div class="job-description" *ngIf="i === activeIndex">
+            <div class="desc" [innerHTML]="job.job_description"></div>
           </div>
         </div>
       </div>

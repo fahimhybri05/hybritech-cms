@@ -1,16 +1,93 @@
 <ui5-dialog [open]="isOpen" header-text="Form Details" state="Information">
-    <div *ngIf="formData">
-      <p *ngIf="formData.full_name"><strong>Name:</strong> {{ formData.full_name }}</p>
-      <p *ngIf="formData.email"><strong>Email:</strong> {{ formData.email }}</p>
-      <p *ngIf="formData.number"><strong>Number:</strong> {{ formData.number }}</p>
-      <p *ngIf="formData.subject"><strong>Subject:</strong> {{ formData.subject }}</p>
-      <p *ngIf="formData.project_name"><strong>Project Name:</strong> {{ formData.project_name }}</p>
-      <p *ngIf="formData.project_type"><strong>Project Type:</strong> {{ formData.project_type }}</p>
-      <p *ngIf="formData.project_budget"><strong>Project Budget:</strong> {{ formData.project_budget }}</p>
-      <p *ngIf="formData.description"><strong>Description:</strong> {{ formData.description }}</p>
-      
-      <div style="display: flex; justify-content: flex-end;">
-        <ui5-button (click)="this.isOpen = false">Close</ui5-button>
-      </div>
+  <div *ngIf="formData">
+    <div class="d-flex align-items-center">
+      <ui5-label show-colon>Read</ui5-label>
+      <ui5-switch
+        accessible-name="graphical"
+        design="Graphical"
+        disabled
+        [checked]="formData.is_read"
+      ></ui5-switch>
+  </div>
+
+    <ng-container *ngIf="formData.full_name">
+      <ui5-label show-colon>Full Name</ui5-label>
+      <ui5-input
+        class="w-100"
+        placeholder="Full Name"
+        value="{{ formData.full_name }}"
+        readonly
+      ></ui5-input>
+    </ng-container>
+    <ng-container *ngIf="formData.email">
+      <ui5-label show-colon>Email</ui5-label>
+      <ui5-input
+        class="w-100"
+        value="{{ formData.email }}"
+        readonly
+      ></ui5-input>
+    </ng-container>
+
+    <ng-container *ngIf="formData.number">
+      <ui5-label show-colon>Phone Number</ui5-label>
+      <ui5-input
+        class="w-100"
+        value="{{ formData.number }}"
+        readonly
+      ></ui5-input>
+    </ng-container>
+
+    <ng-container *ngIf="formData.subject">
+      <ui5-label show-colon>Subject</ui5-label>
+      <ui5-input
+        class="w-100"
+        value="{{ formData.subject }}"
+        readonly
+      ></ui5-input>
+    </ng-container>
+    <ng-container *ngIf="formData.project_name">
+      <ui5-label show-colon>Project Name</ui5-label>
+      <ui5-input
+        class="w-100"
+        value="{{ formData.project_name }}"
+        readonly
+      ></ui5-input>
+    </ng-container>
+    <ng-container *ngIf="formData.project_type">
+      <ui5-label show-colon>Project Type</ui5-label>
+      <ui5-input
+        class="w-100"
+        value="{{ formData.project_type }}"
+        readonly
+      ></ui5-input>
+    </ng-container>
+    <ng-container *ngIf="formData.project_budget">
+      <ui5-label show-colon>Project Budget</ui5-label>
+      <ui5-input
+        class="w-100"
+        value="{{ formData.project_budget }}"
+        readonly
+      ></ui5-input>
+    </ng-container>
+    <ng-container *ngIf="formData.description">
+      <ui5-label show-colon>Description</ui5-label>
+      <ui5-input
+        class="w-100"
+        value="{{ formData.description }}"
+        readonly
+      ></ui5-input>
+    </ng-container>
+
+    <div class="d-flex justify-content-end m-2">
+      <ui5-button
+        *ngIf="!formData.is_read"
+        design="Emphasized"
+        (click)="markAsRead()"
+        >Mark as Read</ui5-button
+      >
+      <ui5-button class="ms-2" design="Default" (click)="closeDialog()"
+        >Close</ui5-button
+      >
     </div>
-  </ui5-dialog>
+  </div>
+</ui5-dialog>

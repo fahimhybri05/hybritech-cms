@@ -14,4 +14,7 @@ class Faq extends Model
         'question',
         'answer',
     ];
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
 }

@@ -51,6 +51,7 @@ export class FormComponent {
     const formData = {
       full_name: this.name,
       email: this.email,
+      is_active : false,
       project_name: this.projectName,
       description: this.projectDescription,
       project_type: this.projectType,
