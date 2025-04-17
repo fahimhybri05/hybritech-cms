@@ -8,19 +8,28 @@
 
 .footer-items {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  /* justify-content: space-between;  */
+
+}
+.footer-text{
+justify-content:left;
 }
 .footer-text h6 {
   font-family: var(--description-font);
 }
 .footer-logo {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding-left: 20vh;
+  justify-content: end;
+align-content: end;
 }
+a {
+  text-decoration: none !important;
+  color: var(--text-color)!important;
+}
+a:hover {
+  color: var(--brand-color-two) !important;
+}
+
 @media screen and (max-width: 768px) {
   .footer {
     padding: 32px 20px;
