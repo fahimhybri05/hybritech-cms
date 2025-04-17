@@ -16,7 +16,7 @@ import { JobAddComponent } from "../job-add/job-add.component";
 import { JobDetailsComponent } from "../job-details/job-details.component";
 import { ToastMessageComponent } from "@app/components/toast-message/toast-message.component";
 import { Joblist } from "@app/shared/Model/joblist";
-import { JobEditComponent } from "../job-edit/job-edit.component";
+import { JobEditComponent } from "@app/job-posts/job-edit/job-edit.component";
 @Component({
   selector: "app-job-list",
   standalone: true,
@@ -67,26 +67,6 @@ export class JobListComponent {
     this.odata = this.commonService.odata;
     this.Title = "Job List";
   }
-  // ngOnInit(): void {
-  //   this.loadJobs();
-  // }
-
-  // loadJobs(): void {
-  //   this.loading = true;
-  //   this.commonService.get("JobLists").subscribe({
-  //     next: (response: any) => {
-  //       this.jobData = response.value || response || [];
-  //       this.totalJobs = this.jobData.length;
-  //       this.loading = false;
-  //       this.cdr.detectChanges();
-  //     },
-  //     error: (error) => {
-  //       this.loading = false;
-  //       this.cdr.detectChanges();
-  //     },
-  //   });
-  // }
-
   tableColum() {
     const columns = [
       {

@@ -10,6 +10,7 @@ use App\Models\CommonForm;
 use App\Models\Faq;
 use App\Models\ContactUsForm;
 use App\Models\JobList;
+use App\Models\Footer;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,5 +32,6 @@ class AppServiceProvider extends ServiceProvider
         Lodata::discover(ContactUsForm::class);
         Lodata::discover(Faq::class);
         Lodata::discover(JobList::class);
+        Lodata::discover(Footer::class);
     }
 }

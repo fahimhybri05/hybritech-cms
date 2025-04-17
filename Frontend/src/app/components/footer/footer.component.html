@@ -1,12 +1,19 @@
 <footer class="footer">
-  <div class="footer-items">
-    <div class="footer-text">
-      <h6>Ⓒ 2024 Hybritech Innovations, Inc. All rights reserved</h6>
+<div class="container-fluid">
+  <div class="row d-flex justify-content-end">
+    <div class="col-6 footer-text">
+            <h4>Ⓒ 2024 Hybritech Innovations, Inc. All rights reserved</h4>
     </div>
-    <div class="footer-logo">
-      <img src="../../../assets/img/Frame 13.png" alt="" />
-
-      <img src="../../../assets/img/Frame 16.png" alt="" />
+    <div class="col-6 d-flex justify-content-end">
+          <div class="ms-4" *ngFor="let item of footer; let i = index">
+    <h1> <a href="{{item.link}}" [innerHTML]="item.icon" *ngIf="item.link"></a></h1>
+   
+    </div>
     </div>
   </div>
+</div>
+
 </footer>
+
+
+

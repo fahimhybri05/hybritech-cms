@@ -85,6 +85,26 @@ export class CommonService {
   }
 
   /**
+   * Generic PATCH request
+   * @param url Endpoint URL
+   * @param body Request payload
+   * @param isLodata Use Lodata prefix
+   * @param headers Optional custom headers
+   */
+  patch<T>(
+    url: string,
+    body: any,
+    isLodata: boolean = true,
+    headers: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+  ): Observable<T> {
+    const urlPrefix = isLodata ? this.lodataPrefix : this.apiPrefix;
+    const modifiedUrl = `${urlPrefix}/${url}`;
+    return this.http.patch<T>(modifiedUrl, body, { headers });
+  }
+
+  /**
    * Generic DELETE request
    * @param url Endpoint URL
    * @param isLodata Use Lodata prefix
