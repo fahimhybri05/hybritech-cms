@@ -60,7 +60,6 @@ export class AddServicesComponent {
         return;
       }
       if (file.size > 2 * 1024 * 1024) {
-        // 2MB in bytes
         this.fileTypeError = 'File size should not exceed 2MB.';
         return;
       }
@@ -87,7 +86,6 @@ export class AddServicesComponent {
       this.errorMessage = 'All fields are required.';
       return;
     }
-
     if (this.wordCount > this.maxWords) {
       this.errorMessage = `Description cannot exceed ${this.maxWords} words.`;
       return;
@@ -97,7 +95,6 @@ export class AddServicesComponent {
     formData.append('title', this.title);
     formData.append('description', this.description);
     formData.append('image', this.selectedFile);
-
     this.loading = true;
     console.log(formData);
     this.commonService.post('service-pages', formData, false).subscribe(
@@ -107,7 +104,6 @@ export class AddServicesComponent {
         this.isSuccess = true;
         if (response && response.media && response.media.length > 0) {
           const mediaUrl = response.media[0].original_url;
-          console.log('Media URL:', mediaUrl);
         }
         this.ToastType = 'add';
         setTimeout(() => {
