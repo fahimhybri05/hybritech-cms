@@ -8,16 +8,14 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\JobApplicationSubmittedMail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
 class JobApplicationAPIController extends Controller
 {
-    /**
-     * Store a new job application with file and send email.
-     */
     public function store(Request $request)
     {
         try {
-            // Validate incoming request
             $validated = $request->validate([
                 'is_active' => 'required|boolean',
                 'designation' => 'required|string|max:255',
@@ -25,15 +23,11 @@ class JobApplicationAPIController extends Controller
                 'full_name' => 'required|string|max:255',
                 'email' => 'required|email|max:255',
                 'number' => 'required|string|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
-                'attachment' => 'required|file|max:10240', // Any file, max 10MB
+                'attachment' => 'required|file|max:10240',
             ]);
 
             DB::beginTransaction();
-
-            // Store the file
             $filePath = $request->file('attachment')->store('attachments', 'public');
-
-            // Create job application
             $jobApplication = JobApplication::create([
                 'is_active' => $validated['is_active'],
                 'designation' => $validated['designation'],
@@ -43,8 +37,6 @@ class JobApplicationAPIController extends Controller
                 'number' => $validated['number'],
                 'attachment' => $filePath,
             ]);
-
-            // Send email with attachment
             Mail::to(env('JOB_APPLICATION_RECIPIENT', 'default@example.com'))
                 ->send(new JobApplicationSubmittedMail($jobApplication));
 
@@ -59,53 +51,73 @@ class JobApplicationAPIController extends Controller
             if (isset($filePath)) {
                 Storage::disk('public')->delete($filePath);
             }
-            \Log::error('Job application submission failed: ' . $e->getMessage());
+            Log::error('Job application submission failed: ' . $e->getMessage());
             return response()->json([
                 'message' => 'Failed to submit job application',
                 'error' => $e->getMessage(),
             ], 500);
         }
     }
-
-    /**
-     * Retrieve all job applications with pagination.
-     */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $jobApplications = JobApplication::paginate(10)->through(function ($jobApplication) {
-                return [
-                    'id' => $jobApplication->id,
-                    'is_active' => $jobApplication->is_active,
-                    'designation' => $jobApplication->designation,
-                    'experience' => $jobApplication->experience,
-                    'full_name' => $jobApplication->full_name,
-                    'email' => $jobApplication->email,
-                    'number' => $jobApplication->number,
-                    'attachment_url' => Storage::disk('public')->url($jobApplication->attachment),
-                    'created_at' => $jobApplication->created_at,
-                    'updated_at' => $jobApplication->updated_at,
-                ];
-            });
+            $odataFilter = $request->input('$filter');
+            $isOdataRequest = !empty($odataFilter);
 
-            return response()->json($jobApplications);
+            $query = JobApplication::query();
+            if ($isOdataRequest) {
+                if (str_contains($odataFilter, 'is_active eq true')) {
+                    $query->where('is_active', true);
+                } elseif (str_contains($odataFilter, 'is_active eq false')) {
+                    $query->where('is_active', false);
+                }
+            } else {
+                if ($request->has('is_active')) {
+                    $isActive = filter_var($request->input('is_active'), FILTER_VALIDATE_BOOLEAN);
+                    $query->where('is_active', $isActive);
+                }
+            }
+            if ($request->has('$orderby')) {
+                $orderBy = explode(' ', $request->input('$orderby'));
+                $query->orderBy($orderBy[0], $orderBy[1] ?? 'asc');
+            } elseif ($request->has('sort_by')) {
+                $query->orderBy(
+                    $request->input('sort_by'),
+                    $request->input('sort_dir', 'asc')
+                );
+            }
+
+            if ($isOdataRequest) {
+                $top = $request->input('$top', 20);
+                $skip = $request->input('$skip', 0);
+                $query->skip($skip)->take($top);
+                $results = $query->get();
+                
+                return response()->json([
+                    '@odata.context' => $request->url(),
+                    'value' => $results,
+                    '@odata.count' => $query->count()
+                ]);
+            } else {
+
+                $perPage = $request->input('per_page', 20);
+                $results = $query->paginate($perPage);
+                
+                return response()->json($results);
+            }
+
         } catch (\Exception $e) {
-            \Log::error('Failed to retrieve job applications: ' . $e->getMessage());
-            return response()->json(['message' => 'Failed to retrieve job applications'], 500);
+            Log::error('Failed to retrieve job applications: ' . $e->getMessage());
+            return response()->json([
+                'message' => 'Failed to retrieve job applications',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
-
-    /**
-     * Retrieve a specific job application.
-     */
     public function show($id)
     {
         try {
-            $jobApplication = JobApplication::find($id);
-
-            if (!$jobApplication) {
-                return response()->json(['message' => 'Job application not found'], 404);
-            }
+            $jobApplication = JobApplication::findOrFail($id);
 
             return response()->json([
                 'data' => [
@@ -122,22 +134,17 @@ class JobApplicationAPIController extends Controller
                 ],
             ]);
         } catch (\Exception $e) {
-            \Log::error('Failed to retrieve job application: ' . $e->getMessage());
-            return response()->json(['message' => 'Failed to retrieve job application'], 500);
+            Log::error('Failed to retrieve job application: ' . $e->getMessage());
+            return response()->json([
+                'message' => 'Job application not found',
+                'error' => $e->getMessage()
+            ], 404);
         }
     }
-
-    /**
-     * Download the attachment of a specific job application.
-     */
     public function downloadAttachment($id)
     {
         try {
-            $jobApplication = JobApplication::find($id);
-
-            if (!$jobApplication) {
-                return response()->json(['message' => 'Job application not found'], 404);
-            }
+            $jobApplication = JobApplication::findOrFail($id);
 
             if (!Storage::disk('public')->exists($jobApplication->attachment)) {
                 return response()->json(['message' => 'Attachment not found'], 404);
@@ -145,33 +152,29 @@ class JobApplicationAPIController extends Controller
 
             return Storage::disk('public')->download($jobApplication->attachment);
         } catch (\Exception $e) {
-            \Log::error('Failed to download attachment: ' . $e->getMessage());
-            return response()->json(['message' => 'Failed to download attachment'], 500);
+            Log::error('Failed to download attachment: ' . $e->getMessage());
+            return response()->json([
+                'message' => 'Failed to download attachment',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
-
-    /**
-     * Delete a specific job application.
-     */
     public function destroy($id)
     {
         try {
-            $jobApplication = JobApplication::find($id);
-
-            if (!$jobApplication) {
-                return response()->json(['message' => 'Job application not found'], 404);
-            }
-
-            // Delete the file
+            $jobApplication = JobApplication::findOrFail($id);
             Storage::disk('public')->delete($jobApplication->attachment);
-
-            // Delete the record
             $jobApplication->delete();
 
-            return response()->json(['message' => 'Job application deleted successfully'], 200);
+            return response()->json([
+                'message' => 'Job application deleted successfully'
+            ], 200);
         } catch (\Exception $e) {
-            \Log::error('Failed to delete job application: ' . $e->getMessage());
-            return response()->json(['message' => 'Failed to delete job application'], 500);
+            Log::error('Failed to delete job application: ' . $e->getMessage());
+            return response()->json([
+                'message' => 'Failed to delete job application',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 }
