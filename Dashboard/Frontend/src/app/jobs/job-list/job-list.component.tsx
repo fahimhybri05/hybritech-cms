@@ -16,11 +16,8 @@ import { JobAddComponent } from "@app/jobs/job-add/job-add.component";
 import { JobDetailsComponent } from "@app/jobs/job-details/job-details.component";
 import { ToastMessageComponent } from "@app/components/toast-message/toast-message.component";
 import { Joblist } from "@app/shared/Model/joblist";
-<<<<<<< HEAD:Dashboard/Frontend/src/app/jobs/job-list/job-list.component.tsx
 import { JobEditComponent } from "@app/jobs/job-edit/job-edit.component";
-=======
-import { JobEditComponent } from "@app/job-posts/job-edit/job-edit.component";
->>>>>>> 29be46d44a7490c344a15d0f65bc45001d92c994:Dashboard/Frontend/src/app/job-posts/job-list/job-list.component.tsx
+
 @Component({
   selector: "app-job-list",
   standalone: true,
