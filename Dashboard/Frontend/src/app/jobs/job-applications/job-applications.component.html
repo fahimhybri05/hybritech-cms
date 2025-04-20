@@ -56,7 +56,15 @@
     </ui5-button>
   </div>
 </ui5-dialog>
+
 <app-toast-message
   [IsOpenToastAlert]="IsOpenToastAlert"
   [ToastType]="ToastType"
 ></app-toast-message>
+
+<app-job-details
+  [jobId]="selectedJobId"
+  [jobData]="selectedJobData"
+  [isOpen]="isDetails"
+  (close)="closeJobDetailsModal()"
+></app-job-details>

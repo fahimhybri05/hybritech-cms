@@ -13,10 +13,12 @@ import { CommonService } from "@app/services/common-service/common.service";
 import React from "react";
 import { ToastMessageComponent } from "@app/components/toast-message/toast-message.component";
 import { JobApplication } from "@app/shared/Model/jobapplication";
+import { ApplicantDetailsComponent } from "@app/jobs/job-applications/applicant-details/applicant-details.component";
+
 @Component({
   selector: "app-job-applications",
   standalone: true,
-  imports: [ReactAnalyticalTable, ToastMessageComponent, CommonModule],
+  imports: [ReactAnalyticalTable, ToastMessageComponent, CommonModule, ApplicantDetailsComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: "./job-applications.component.html",
   styleUrl: "./job-applications.component.css",
@@ -30,24 +32,18 @@ export class JobApplicationsComponent {
   itemsPerPage: number;
   currentPage = 1;
   jobData: any[] = [];
-  api: boolean ;
+  api: boolean;
   loading: boolean = false;
-  isInsert: boolean = false;
-  isEdit: boolean = false;
   isDetails: boolean = false;
   isDeleteOpen: boolean = false;
   isDeleteLoading: boolean = false;
-  isSuccess: boolean = false;
-  isDeleteError: boolean = false;
   filter: string = "";
   Title: string;
   selectedJobId: number | null = null;
   selectedJobData: any = null;
   JobApplications = JobApplication;
-  jobApplications = new JobApplication().deserialize({});
   constructor(
     private commonService: CommonService,
-    private datePipe: DatePipe,
     private cdr: ChangeDetectorRef
   ) {
     this.itemsPerPage = this.commonService.itemsPerPage;
@@ -122,37 +118,37 @@ export class JobApplicationsComponent {
         hAlign: "Center" as TextAlign,
         Cell: ({ value }: any) => new Date(value).toLocaleDateString(),
       },
-            {
-              Header: "   Actions",
-              accessor: ".",
-              cellLabel: () => "",
-              disableFilters: true,
-              disableGroupBy: true,
-              disableSortBy: true,
-              autoResizable: true,
-              id: "actions",
-              className: "custom-class-name",
-              hAlign: "Center" as TextAlign,
-              Cell: ({ row }: any) => (
-                <div>
-                  <Button
-                    icon="information"
-                    design="Transparent"
-                    onClick={() => {
-                      this.JobsDetails(row.original);
-                    }}
-                  ></Button>
-      
-                  <Button
-                    icon="delete"
-                    design="Transparent"
-                    onClick={() => {
-                      this.deleteJobs(row.original);
-                    }}
-                  ></Button>
-                </div>
-              ),
-            },
+      {
+        Header: "   Actions",
+        accessor: ".",
+        cellLabel: () => "",
+        disableFilters: true,
+        disableGroupBy: true,
+        disableSortBy: true,
+        autoResizable: true,
+        id: "actions",
+        className: "custom-class-name",
+        hAlign: "Center" as TextAlign,
+        Cell: ({ row }: any) => (
+          <div>
+            <Button
+              icon="information"
+              design="Transparent"
+              onClick={() => {
+                this.JobsDetails(row.original);
+              }}
+            ></Button>
+
+            <Button
+              icon="delete"
+              design="Transparent"
+              onClick={() => {
+                this.deleteJobs(row.original);
+              }}
+            ></Button>
+          </div>
+        ),
+      },
     ];
     return columns;
   }
@@ -179,7 +175,6 @@ export class JobApplicationsComponent {
     const id = this.selectedJobId;
     this.commonService.delete(`job-applications/${id}`, this.api).subscribe({
       next: (response: any) => {
-        this.isSuccess = true;
         this.isDeleteOpen = false;
         this.isDeleteLoading = false;
         this.ToastType = "delete";
@@ -189,7 +184,6 @@ export class JobApplicationsComponent {
         this.refreshTable.emit();
       },
       error: (error: any) => {
-        this.isDeleteError = true;
         this.isDeleteOpen = false;
         this.isDeleteLoading = false;
         this.refreshTable.emit();
