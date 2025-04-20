@@ -10,6 +10,7 @@ import { JobListComponent } from './jobs/job-list/job-list.component';
 import { JobApplicationsComponent } from './jobs/job-applications/job-applications.component';
 
 
+
 export const routes: Routes = [
     {path: 'login', component: LoginComponent},
     {path: '', component: HomeComponent},
