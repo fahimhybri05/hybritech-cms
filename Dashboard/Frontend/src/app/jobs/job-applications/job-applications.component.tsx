@@ -30,7 +30,7 @@ export class JobApplicationsComponent {
   itemsPerPage: number;
   currentPage = 1;
   jobData: any[] = [];
-  odata: boolean;
+  api: boolean ;
   loading: boolean = false;
   isInsert: boolean = false;
   isEdit: boolean = false;
@@ -51,7 +51,7 @@ export class JobApplicationsComponent {
     private cdr: ChangeDetectorRef
   ) {
     this.itemsPerPage = this.commonService.itemsPerPage;
-    this.odata = this.commonService.odata;
+    this.api = this.commonService.api;
     this.Title = "Job Applications";
   }
   ngOnInit(): void {}
@@ -122,6 +122,37 @@ export class JobApplicationsComponent {
         hAlign: "Center" as TextAlign,
         Cell: ({ value }: any) => new Date(value).toLocaleDateString(),
       },
+            {
+              Header: "   Actions",
+              accessor: ".",
+              cellLabel: () => "",
+              disableFilters: true,
+              disableGroupBy: true,
+              disableSortBy: true,
+              autoResizable: true,
+              id: "actions",
+              className: "custom-class-name",
+              hAlign: "Center" as TextAlign,
+              Cell: ({ row }: any) => (
+                <div>
+                  <Button
+                    icon="information"
+                    design="Transparent"
+                    onClick={() => {
+                      this.JobsDetails(row.original);
+                    }}
+                  ></Button>
+      
+                  <Button
+                    icon="delete"
+                    design="Transparent"
+                    onClick={() => {
+                      this.deleteJobs(row.original);
+                    }}
+                  ></Button>
+                </div>
+              ),
+            },
     ];
     return columns;
   }
@@ -146,7 +177,7 @@ export class JobApplicationsComponent {
   deleteItemConfirm() {
     this.isDeleteLoading = true;
     const id = this.selectedJobId;
-    this.commonService.delete(`JobLists/${id}`, this.odata).subscribe({
+    this.commonService.delete(`job-applications/${id}`, this.api).subscribe({
       next: (response: any) => {
         this.isSuccess = true;
         this.isDeleteOpen = false;
