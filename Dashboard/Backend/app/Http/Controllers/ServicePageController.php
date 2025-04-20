@@ -131,12 +131,12 @@ class ServicePageController extends Controller
             ] : [],
         ];
     }
-    public function count()
-    {
-        $count = ServicePage::count();
-        
-        return response()->json([
-            '@count' => $count
-        ]);
-    }
+public function count()
+{
+    $count = ServicePageDetails::count();
+    return response()->json([
+        dd($response),
+        'count' => $count
+    ]);
+}
 }
