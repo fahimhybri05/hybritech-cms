@@ -62,9 +62,9 @@
   [ToastType]="ToastType"
 ></app-toast-message>
 
-<app-job-details
-  [jobId]="selectedJobId"
-  [jobData]="selectedJobData"
-  [isOpen]="isDetails"
+<app-applicant-details
+  [jobApplicantId]="selectedJobId"
+  [jobApplicantData]="selectedJobData"
+  [isOpen]="isApplicantDetails"
   (close)="closeJobDetailsModal()"
-></app-job-details>
+></app-applicant-details>

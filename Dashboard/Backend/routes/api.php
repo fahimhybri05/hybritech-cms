@@ -22,3 +22,4 @@ Route::get('/job-applications', [JobApplicationAPIController::class, 'index']);
 Route::get('/job-applications/{id}', [JobApplicationAPIController::class, 'show']);
 Route::get('/job-applications/{id}/attachment', [JobApplicationAPIController::class, 'downloadAttachment']);
 Route::delete('/job-applications/{id}', [JobApplicationAPIController::class, 'destroy']);
+Route::patch('/job-applications/{id}', [JobApplicationAPIController::class, 'update']);

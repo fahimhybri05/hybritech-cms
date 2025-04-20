@@ -18,7 +18,12 @@ import { ApplicantDetailsComponent } from "@app/jobs/job-applications/applicant-
 @Component({
   selector: "app-job-applications",
   standalone: true,
-  imports: [ReactAnalyticalTable, ToastMessageComponent, CommonModule, ApplicantDetailsComponent],
+  imports: [
+    ReactAnalyticalTable,
+    ToastMessageComponent,
+    CommonModule,
+    ApplicantDetailsComponent,
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: "./job-applications.component.html",
   styleUrl: "./job-applications.component.css",
@@ -34,7 +39,7 @@ export class JobApplicationsComponent {
   jobData: any[] = [];
   api: boolean;
   loading: boolean = false;
-  isDetails: boolean = false;
+  isApplicantDetails: boolean = false;
   isDeleteOpen: boolean = false;
   isDeleteLoading: boolean = false;
   filter: string = "";
@@ -69,11 +74,12 @@ export class JobApplicationsComponent {
         width: 70,
       },
       {
-        Header: "Active",
+        Header: "Read",
         accessor: "is_active",
         autoResizable: true,
-        disableGroupBy: true,
         disableFilters: true,
+        disableGroupBy: true,
+        disableSortBy: true,
         className: "custom-class-name",
         width: 100,
         hAlign: "Center" as TextAlign,
@@ -155,12 +161,12 @@ export class JobApplicationsComponent {
   JobsDetails(original: any) {
     this.selectedJobId = original.id;
     this.selectedJobData = { ...original };
-    this.isDetails = true;
-    this.cdr.detectChanges();
+    this.isApplicantDetails = true;
+    this.refreshTable.emit();
   }
 
   closeJobDetailsModal() {
-    this.isDetails = false;
+    this.isApplicantDetails = false;
     this.selectedJobId = null;
     this.selectedJobData = null;
   }
