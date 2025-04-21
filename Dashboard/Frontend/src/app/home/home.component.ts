@@ -53,14 +53,26 @@ export class HomeComponent implements OnInit, OnDestroy {
   private get batchApiConfig() {
     return {
       requests: [
-        { id: 'services', method: 'GET', url: '/api/service-pages/count' },
-        { id: 'jobPosts', method: 'GET', url: '/odata/JobLists?$count=true' },
         {
-          id: 'jobApplications',
+          id: 'services',
           method: 'GET',
-          url: '/api/job-applications?$count=true',
+          url: '/odata/ServicePageDetails?$count=true',
         },
-        { id: 'faqList', method: 'GET', url: '/odata/Faqs?$count=true' },
+        {
+          id: 'jobPosts',
+          method: 'GET',
+          url: '/odata/JobLists?$count=true',
+        },
+        {
+          id: 'jobApplicants',
+          method: 'GET',
+          url: '/odata/JobApplications?$count=true',
+        },
+        {
+          id: 'faqList',
+          method: 'GET',
+          url: '/odata/Faqs?$count=true',
+        },
         {
           id: 'commonFormData',
           method: 'GET',
@@ -118,8 +130,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         '/job-list',
       ]),
       this.createCountItem(
-        'Job Applications',
-        counts['jobApplications'],
+        'Job Applicants',
+        counts['jobApplicants'],
         'employee',
         ['/job-applications']
       ),
@@ -139,6 +151,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         ['']
       ),
     ];
+    console.log(this.countArray);
   }
 
   private createCountItem(

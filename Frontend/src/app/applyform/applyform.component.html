@@ -1,0 +1,87 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="closeModal()">&times;</button>
+    <div>
+      <h6>Full Name</h6>
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="full_name"
+        name="full_name"
+        placeholder="Ashraf Chowdhury"
+      />
+
+      <hr class="form-hr" />
+    </div>
+    <div class="form-mid">
+      <div>
+        <h6>Email</h6>
+        <input
+          type="email"
+          class="form-control"
+          [(ngModel)]="email"
+          name="email"
+          placeholder="You@example.com"
+        />
+
+        <hr class="form-hr" />
+      </div>
+      <div>
+        <h6>Contact Number</h6>
+        <input
+          type="number"
+          class="form-control"
+          [(ngModel)]="number"
+          name="number"
+          placeholder="You@example.com"
+        />
+
+        <hr class="form-hr" />
+      </div>
+    </div>
+    <div class="form-mid">
+      <div>
+        <h6>Designation</h6>
+        <select
+          class="form-control"
+          [(ngModel)]="selectedDesignation"
+          name="designation"
+          required
+        >
+          <option value="" disabled selected>Select your designation</option>
+          <option *ngFor="let job of jobTitles" [value]="job.title">
+            {{ job.title }}
+          </option>
+        </select>
+        <hr class="form-hr" />
+      </div>
+      <div>
+        <h6>Experience</h6>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="experience"
+          name="experience"
+          placeholder="Write here"
+        />
+        <hr class="form-hr" />
+      </div>
+    </div>
+    <div class="form-group">
+      <h6>Upload CV</h6>
+      <input
+        type="file"
+        id="attachment"
+        class="form-control"
+        name="attachment"
+        accept=".pdf,.doc,.docx"
+        required
+        (change)="onFileChange($event)"
+      />
+    </div>
+
+    <div class="btn-submit">
+      <a (click)="insertJobData()" class="btn-common">Submit</a>
+    </div>
+  </div>
+</div>

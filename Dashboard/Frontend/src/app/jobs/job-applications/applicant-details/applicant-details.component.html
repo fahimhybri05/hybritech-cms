@@ -1,0 +1,76 @@
+<ui5-dialog [open]="isOpen" header-text="Applicant Details" state="Information">
+  <div *ngIf="jobApplicantData">
+    <div class="d-flex align-items-center">
+      <ui5-label show-colon>Read</ui5-label>
+      <ui5-switch
+        accessible-name="graphical"
+        design="Graphical"
+        disabled
+        [checked]="jobApplicantData.is_active"
+      ></ui5-switch>
+    </div>
+
+    <ng-container>
+      <ui5-label show-colon>Full Name</ui5-label>
+      <ui5-input
+        class="w-100"
+        placeholder="No data found"
+        value="{{ jobApplicantData.full_name }}"
+        readonly
+      ></ui5-input>
+    </ng-container>
+    <ng-container>
+      <ui5-label show-colon>Email</ui5-label>
+      <ui5-textarea
+        class="w-100"
+        placeholder="No data found"
+        value="{{ jobApplicantData.email }}"
+        readonly
+      ></ui5-textarea>
+    </ng-container>
+    <ng-container>
+      <ui5-label show-colon>Phone Number</ui5-label>
+      <ui5-textarea
+        class="w-100"
+        placeholder="No data found"
+        value="{{ jobApplicantData.number }}"
+        readonly
+      ></ui5-textarea>
+    </ng-container>
+    <ng-container>
+      <ui5-label show-colon>Applied For</ui5-label>
+      <ui5-textarea
+        class="w-100"
+        placeholder="No data found"
+        value="{{ jobApplicantData.designation }}"
+        readonly
+      ></ui5-textarea>
+    </ng-container>
+    <ng-container>
+      <ui5-label show-colon>Experience</ui5-label>
+      <ui5-textarea
+        class="w-100"
+        placeholder="No data found"
+        value="{{ jobApplicantData.experience }}"
+        readonly
+      ></ui5-textarea>
+    </ng-container>
+    <ng-container>
+      <ui5-label class="my-5" show-colon>Download Resume </ui5-label>
+      <ui5-button
+        class="h-100 w-40 p-2 ms-3"
+        design="Default"
+        (click)="downloadResume()"
+        ><span class="h1"><i class="fa-solid fa-file-arrow-down"></i></span
+      ></ui5-button>
+    </ng-container>
+  </div>
+  <div slot="footer" class="d-flex justify-content-end mt-2">
+        <ui5-button
+        design="Emphasized"
+        (click)="markAsRead()"
+        >Mark as Read</ui5-button
+      >
+    <ui5-button (click)="closeDialog()">Close</ui5-button>
+  </div>
+</ui5-dialog>

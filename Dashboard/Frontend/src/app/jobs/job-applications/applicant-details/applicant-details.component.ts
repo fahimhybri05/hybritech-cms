@@ -1,0 +1,78 @@
+import { CommonModule, DatePipe } from '@angular/common';
+import {
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { CommonService } from '@app/services/common-service/common.service';
+import { Forms } from '@app/shared/Model/forms';
+import { environment } from '@env/environment';
+
+@Component({
+  selector: 'app-applicant-details',
+  standalone: true,
+  imports: [CommonModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  templateUrl: './applicant-details.component.html',
+  styleUrl: './applicant-details.component.css',
+})
+export class ApplicantDetailsComponent implements OnInit {
+  @Input() jobApplicantId: number | null = null;
+  @Input() jobApplicantData: any = [];
+  @Input() isOpen: boolean = false;
+  @Output() close: EventEmitter<void> = new EventEmitter<void>();
+  @Output() updated: EventEmitter<Forms> = new EventEmitter<Forms>();
+  @Output() refreshTable = new EventEmitter<void>();
+
+  formloading: boolean = false;
+  api: boolean;
+  cdr: any;
+
+  constructor(private commonservice: CommonService) {
+    this.api = this.commonservice.api;
+  }
+
+  ngOnInit(): void {}
+
+  downloadResume() {
+    const url = environment.ServerApi + '/api/job-applications/';
+
+    window.open(url + this.jobApplicantId + '/attachment', '_blank');
+  }
+
+  markAsRead() {
+    if (
+      !this.jobApplicantData ||
+      !this.jobApplicantData.id ||
+      this.jobApplicantData.is_active
+    ) {
+      return;
+    }
+
+    const data = {
+      id: this.jobApplicantData.id,
+      is_active: true,
+    };
+
+
+    this.commonservice
+      .patch(`job-applications/${this.jobApplicantId}`, data, this.api)
+      .subscribe({
+        next: (response: any) => {
+          this.isOpen = false;
+          this.refreshTable.emit();
+        },
+        error: (error: any) => {
+          console.log('Error updating form:', error);
+        },
+      });
+  }
+
+  closeDialog() {
+    this.isOpen = false;
+    this.close.emit();
+  }
+}
