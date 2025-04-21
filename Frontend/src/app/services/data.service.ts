@@ -14,6 +14,7 @@ export class DataService {
   private serviceData = this.apiUrl + '/api/service-pages';
   private jobPostData = this.apiUrl + '/odata/JobLists?$filter=is_active eq true';
   private footerData = this.apiUrl + '/odata/Footers?$filter=is_active eq true';
+  private applicationData = this.apiUrl + '/api/job-applications';
 
   constructor(private http: HttpClient) {}
 
@@ -34,5 +35,8 @@ export class DataService {
   }
   getFooterData(): Observable<any> {
     return this.http.get<any>(this.footerData);
+  }
+  insertApplication(formData: any): Observable<any> {
+    return this.http.post(this.applicationData, formData);
   }
 }

@@ -17,7 +17,6 @@ import { JobDetailsComponent } from "@app/jobs/job-details/job-details.component
 import { ToastMessageComponent } from "@app/components/toast-message/toast-message.component";
 import { Joblist } from "@app/shared/Model/joblist";
 import { JobEditComponent } from "@app/jobs/job-edit/job-edit.component";
-
 @Component({
   selector: "app-job-list",
   standalone: true,

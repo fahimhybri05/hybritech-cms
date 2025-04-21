@@ -1,59 +1,66 @@
 import { CommonModule, DatePipe } from "@angular/common";
 import {
-  ChangeDetectorRef,
-  CUSTOM_ELEMENTS_SCHEMA,
   Component,
-  Input,
+  CUSTOM_ELEMENTS_SCHEMA,
   EventEmitter,
+  Input,
+  OnInit,
   Output,
+  ChangeDetectorRef,
 } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { Router, RouterLink } from "@angular/router";
+import { CommonService } from "../../services/common-service/common.service";
+import { ReactAnalyticalTable } from "../../components/analytical-table/react-table";
 import { Button, Icon, TextAlign } from "@ui5/webcomponents-react";
-import { ReactAnalyticalTable } from "@app/components/analytical-table/react-table";
-import { CommonService } from "@app/services/common-service/common.service";
 import React from "react";
 import { ToastMessageComponent } from "@app/components/toast-message/toast-message.component";
-import { JobApplication } from "@app/shared/Model/jobapplication";
-import { ApplicantDetailsComponent } from "@app/jobs/job-applications/applicant-details/applicant-details.component";
-
+import { AddUserComponent } from "@app/user-managment/add-user/add-user.component";
+import { User } from "@app/shared/Model/user";
 @Component({
-  selector: "app-job-applications",
+	selector: "app-user-list",
   standalone: true,
   imports: [
+    CommonModule,
+    FormsModule,
     ReactAnalyticalTable,
     ToastMessageComponent,
-    CommonModule,
-    ApplicantDetailsComponent,
+    AddUserComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  templateUrl: "./job-applications.component.html",
-  styleUrl: "./job-applications.component.css",
+  templateUrl: './user-list.component.html',
+  styleUrl: './user-list.component.css'
 })
-export class JobApplicationsComponent {
-  @Input() model: any;
+export class UserListComponent implements OnInit {
   @Output() refreshTable: EventEmitter<void> = new EventEmitter<void>();
   @Output() IsOpenToastAlert = new EventEmitter<void>();
   ToastType: string = "";
-  totalJobs: number = 0;
   itemsPerPage: number;
   currentPage = 1;
-  jobData: any[] = [];
-  api: boolean;
+  odata: boolean;
   loading: boolean = false;
-  isApplicantDetails: boolean = false;
+  isInsert: boolean = false;
+  isEdit: boolean = false;
+
   isDeleteOpen: boolean = false;
   isDeleteLoading: boolean = false;
+  isSuccess: boolean = false;
+  isDeleteError: boolean = false;
   filter: string = "";
   Title: string;
-  selectedJobId: number | null = null;
-  selectedJobData: any = null;
-  JobApplications = JobApplication;
+  type: string | null = null;
+  selectedUserId: number | null = null;
+  selectedUserData: any = null;
+  Users = User;
   constructor(
     private commonService: CommonService,
+    private datePipe: DatePipe,
     private cdr: ChangeDetectorRef
   ) {
     this.itemsPerPage = this.commonService.itemsPerPage;
-    this.api = this.commonService.api;
-    this.Title = "Job Applications";
+    this.odata = this.commonService.odata;
+    this.Title = "User Managment";
+    this.tableColum();
   }
   ngOnInit(): void {}
 
@@ -74,20 +81,7 @@ export class JobApplicationsComponent {
         width: 70,
       },
       {
-        Header: "Read",
-        accessor: "is_active",
-        autoResizable: true,
-        disableFilters: true,
-        disableGroupBy: true,
-        disableSortBy: true,
-        className: "custom-class-name",
-        width: 100,
-        hAlign: "Center" as TextAlign,
-        Cell: ({ value }: any) =>
-          value ? <Icon name="accept" /> : <Icon name="decline" />,
-      },
-      {
-        Header: "Full Name",
+        Header: " Name",
         accessor: "full_name",
         autoResizable: true,
         className: "custom-class-name",
@@ -99,25 +93,13 @@ export class JobApplicationsComponent {
         className: "custom-class-name",
       },
       {
-        Header: "Number",
-        accessor: "number",
+        Header: "Position",
+        accessor: "position",
         autoResizable: true,
         className: "custom-class-name",
       },
       {
-        Header: "Designation",
-        accessor: "designation",
-        autoResizable: true,
-        className: "custom-class-name",
-      },
-      {
-        Header: "Experience",
-        accessor: "experience",
-        autoResizable: true,
-        className: "custom-class-name",
-      },
-      {
-        Header: "Submitted At",
+        Header: "Created At",
         accessor: "created_at",
         autoResizable: true,
         className: "custom-class-name",
@@ -134,22 +116,22 @@ export class JobApplicationsComponent {
         autoResizable: true,
         id: "actions",
         className: "custom-class-name",
+        width: 150,
         hAlign: "Center" as TextAlign,
         Cell: ({ row }: any) => (
           <div>
             <Button
-              icon="information"
+              icon="edit"
               design="Transparent"
               onClick={() => {
-                this.JobsDetails(row.original);
+                this.editFaq(row.original);
               }}
-            ></Button>
-
+            />
             <Button
               icon="delete"
               design="Transparent"
               onClick={() => {
-                this.deleteJobs(row.original);
+                this.deleteFaqs(row.original);
               }}
             ></Button>
           </div>
@@ -158,28 +140,27 @@ export class JobApplicationsComponent {
     ];
     return columns;
   }
-  JobsDetails(original: any) {
-    this.selectedJobId = original.id;
-    this.selectedJobData = { ...original };
-    this.isApplicantDetails = true;
+
+  handleInsertData(isInsert: boolean): void {
+    if (isInsert) {
+      this.isInsert = isInsert;
+      this.refreshTable.emit();
+    }
+  }
+  closeAddFaqModal() {
+    this.isInsert = false;
     this.refreshTable.emit();
   }
 
-  closeJobDetailsModal() {
-    this.isApplicantDetails = false;
-    this.selectedJobId = null;
-    this.selectedJobData = null;
-  }
-
-  deleteJobs(original: any) {
+  deleteFaqs(original: any) {
     this.isDeleteOpen = true;
-    this.selectedJobId = original.id;
+    this.selectedUserId = original.id;
   }
 
   deleteItemConfirm() {
     this.isDeleteLoading = true;
-    const id = this.selectedJobId;
-    this.commonService.delete(`job-applications/${id}`, this.api).subscribe({
+    const id = this.selectedUserId;
+    this.commonService.delete(`Users/${id}`, this.odata).subscribe({
       next: (response: any) => {
         this.isDeleteOpen = false;
         this.isDeleteLoading = false;
@@ -190,11 +171,22 @@ export class JobApplicationsComponent {
         this.refreshTable.emit();
       },
       error: (error: any) => {
+        console.log(error);
+        this.isDeleteError = true;
         this.isDeleteOpen = false;
         this.isDeleteLoading = false;
         this.refreshTable.emit();
       },
     });
   }
-}
 
+  editFaq(original: any) {
+    this.isEdit = true;
+    this.selectedUserId = original.id;
+    this.selectedUserData = { ...original };
+  }
+
+  closeEditFaqModal() {
+    this.isEdit = false;
+  }
+}
