@@ -24,7 +24,6 @@
     </div>
   </div>
 </section>
-
 <section>
   <div class="common-bg">
     <div class="container career-part" id="career-part">
@@ -96,4 +95,10 @@
 </div>
 <app-faq></app-faq>
 <app-form></app-form>
-<app-applyform [isOpen]="isOpen" (closed)="onModalClosed()"></app-applyform>
+<app-applyform
+  [isOpen]="isOpen"
+  (closed)="onModalClosed()"
+  [jobId]="selectedJobId"
+  [jobData]="selectedJobData"
+  [jobTitles]="jobs"
+></app-applyform>

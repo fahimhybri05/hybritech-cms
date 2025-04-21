@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DataService } from '@app/services/data.service';
@@ -11,10 +11,16 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './applyform.component.html',
   styleUrl: './applyform.component.css',
 })
-export class ApplyformComponent {
+export class ApplyformComponent implements OnInit {
   @Input() isOpen = false;
   @Output() closed = new EventEmitter<void>();
   @Output() submitted = new EventEmitter<FormData>();
+  @Input() jobData: any = {};
+  @Input() jobId: number | null = null;
+  @Input() jobTitles: any[] = [];
+
+  designations: any[] = [];
+  selectedDesignation: string = '';
   [x: string]: any;
   is_active = 0;
   full_name: string = '';
@@ -31,6 +37,12 @@ export class ApplyformComponent {
     this.isOpen = false;
     this.closed.emit();
   }
+  ngOnInit() {
+    if (this.jobData) {
+      this.selectedDesignation = this.jobData.title;
+    }
+  }
+
   onFileChange(event: any) {
     if (event.target.files.length > 0) {
       this.attachment = event.target.files[0];
@@ -41,23 +53,21 @@ export class ApplyformComponent {
     formData.append('full_name', this.full_name);
     formData.append('email', this.email);
     formData.append('is_active', this.is_active.toString());
-    formData.append('designation', this.designation);
+    formData.append('designation', this.selectedDesignation);
     formData.append('experience', this.experience);
     formData.append('number', this.number.toString());
     formData.append('attachment', this.attachment);
     console.log('hello', formData);
     this.dataService.insertApplication(formData).subscribe({
-      next: () =>{
+      next: () => {
         this.swalService.showSuccess(
           'Application submitted successfully. We will contact with you soon.'
-    
         );
         this.closeModal();
         this.resetForm();
       },
       error: (error) => {
         this.swalService.showError('There was an error submitting the form');
-        console.log(error);
       },
     });
   }
@@ -65,7 +75,7 @@ export class ApplyformComponent {
     this.full_name = '';
     this.email = '';
     this.number = '';
-    this.designation = '';
+    this.selectedDesignation ='';
     this.experience = '';
     this.attachment = null;
   }

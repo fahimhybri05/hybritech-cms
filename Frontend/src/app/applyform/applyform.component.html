@@ -42,13 +42,17 @@
     <div class="form-mid">
       <div>
         <h6>Designation</h6>
-        <input
-          type="text"
+        <select
           class="form-control"
-          [(ngModel)]="designation"
+          [(ngModel)]="selectedDesignation"
           name="designation"
-          placeholder="Write here"
-        />
+          required
+        >
+          <option value="" disabled selected>Select your designation</option>
+          <option *ngFor="let job of jobTitles" [value]="job.title">
+            {{ job.title }}
+          </option>
+        </select>
         <hr class="form-hr" />
       </div>
       <div>

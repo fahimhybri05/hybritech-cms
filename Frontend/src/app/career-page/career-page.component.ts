@@ -18,6 +18,8 @@ export class CareerPageComponent {
   isOpen = false;
   activeIndex: number | null = -1;
   showApplyModal = false;
+  selectedJobId: number | null = null;
+  selectedJobData: any = null;
   constructor(
     private dataService: DataService,
     private swalService: SwalService
@@ -32,6 +34,8 @@ export class CareerPageComponent {
     this.dataService.getJobPostData().subscribe(
       (response) => {
         this.jobs = response?.value || [];
+        this.selectedJobId = response.id;
+        this.selectedJobData = response;
       },
       (error) => {
         this.swalService.showError('There was an error submitting the form');
