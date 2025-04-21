@@ -81,7 +81,7 @@
                 (click)="errorMessage = ''"
               >
                 <ui5-icon slot="icon" name="message-error"></ui5-icon>
-                {{ errorMessage }}
+                {{ errorMessage  || validationMessage}}
               </ui5-message-strip>
 
               <ui5-message-strip

@@ -9,11 +9,12 @@ import { LayoutComponent } from '@app/components/layout/layout.component';
 import { AuthLayoutComponent } from '@app/components/auth-layout/auth-layout.component';
 import { filter } from 'rxjs';
 import { AuthService } from './services/auth/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, LayoutComponent, AuthLayoutComponent],
+  imports: [RouterOutlet, LayoutComponent, AuthLayoutComponent,CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
