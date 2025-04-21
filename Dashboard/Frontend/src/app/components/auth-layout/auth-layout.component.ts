@@ -1,14 +1,23 @@
-import { Component, OnInit,AfterViewInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+  CUSTOM_ELEMENTS_SCHEMA,
+} from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-auth-layout',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterLink],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './auth-layout.component.html',
-  styleUrl: './auth-layout.component.css'
+  styleUrls: ['./auth-layout.component.css'],
 })
 export class AuthLayoutComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {}
+
   ngOnInit(): void {}
 }

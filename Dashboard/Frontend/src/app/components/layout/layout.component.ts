@@ -1,22 +1,70 @@
-
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { SidebarComponent } from "../side-bar/side-bar.component";
-import { AvatarComponent, BarComponent, PopoverComponent } from "@ui5/webcomponents-ngx";
-
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService, User } from '@app/services/auth/auth.service';
+import { CommonModule } from '@angular/common';
+import { SidebarComponent } from '@app/components/side-bar/side-bar.component';
+import { AvatarComponent, BarComponent, PopoverComponent } from '@ui5/webcomponents-ngx';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [SidebarComponent,PopoverComponent, BarComponent, AvatarComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  imports: [
+    SidebarComponent,
+    PopoverComponent,
+    BarComponent,
+    AvatarComponent,
+    CommonModule,
+  ],
   templateUrl: './layout.component.html',
-  styleUrl: './layout.component.css'
+  styleUrl: './layout.component.css',
 })
-export class LayoutComponent {
+export class LayoutComponent implements OnInit {
+  user: User | null = null;
+  errorMessage = '';
+  successMessage = '';
+  loading = false;
   isCollapsed: boolean = false;
-  toggleSidenav(): void {
-		this.isCollapsed = !this.isCollapsed;
-		console.log(this.isCollapsed);
-	}
-}
 
+  constructor(private authService: AuthService, private router: Router) {}
+
+  toggleSidenav(): void {
+    this.isCollapsed = !this.isCollapsed;
+  }
+
+  ngOnInit(): void {
+    this.user = {
+      id: 1,
+      name: 'John Doe',
+      email: 'john@example.com',
+      image_url: localStorage.getItem('image_url') || '',
+    };
+  }
+
+  onLogout(): void {
+    this.loading = true;
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    this.authService.logout().subscribe({
+      next: () => {
+        this.authService.clearToken();
+        this.successMessage = 'Logged out successfully!';
+        this.loading = false;
+        this.router
+          .navigate(['/login'])
+          .then((success) => {
+            console.log('Navigation to login successful:', success);
+          })
+          .catch((error) => {
+            console.error('Navigation to login failed:', error);
+          });
+      },
+      error: (error) => {
+        console.error('Logout error:', error);
+        this.loading = false;
+        this.errorMessage = error.error.message || 'Logout failed';
+      },
+    });
+  }
+}

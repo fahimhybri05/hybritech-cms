@@ -1,3 +1,13 @@
-<app-layout>
-    <router-outlet></router-outlet>
+<app-auth-layout *ngIf="showAuthLayout">
+  <router-outlet></router-outlet>
+</app-auth-layout>
+<app-layout *ngIf="!showAuthLayout && isLoggedIn">
+  <router-outlet></router-outlet>
 </app-layout>
+<div *ngIf="!showAuthLayout && !isLoggedIn">
+  <router-outlet></router-outlet>
+</div>
+
+<!-- <app-layout>
+  <router-outlet></router-outlet>
+</app-layout> -->

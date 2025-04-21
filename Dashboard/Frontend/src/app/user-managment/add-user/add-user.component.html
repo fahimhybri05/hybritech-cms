@@ -1,1 +1,103 @@
-<p>add-user works!</p>
+<ui5-dialog header-text="Add" [open]="isOpen" id="dialog">
+  <ui5-bar slot="header" design="Header">
+    <ui5-title level="H5" slot="startContent">Add</ui5-title>
+    <ui5-button
+      class="dialogCloser"
+      design="Transparent"
+      id="closeDialogButton"
+      slot="endContent"
+      (click)="closeDialog()"
+      icon="decline"
+    ></ui5-button>
+  </ui5-bar>
+
+  <app-form-preloader *ngIf="loading"></app-form-preloader>
+  <ui5-message-strip class="w-100 mt-3" design="Critical" *ngIf="errorMessage">
+    <ui5-icon name="alert" slot="icon"></ui5-icon> {{ errorMessage }}
+  </ui5-message-strip>
+  <section>
+    <div class="row">
+      <div class="col-md-12">
+        <ui5-label show-colon required>Name</ui5-label>
+        <ui5-textarea
+          class="textAreaName"
+          [(ngModel)]="name"
+          placeholder="Name"
+          required
+          type="Text"
+        ></ui5-textarea>
+        </div>
+
+
+        <div class="col-md-6">
+        <ui5-label show-colon required>Email</ui5-label>
+        <ui5-textarea
+          class="textArea"
+          [(ngModel)]="email"
+          placeholder="Email"
+          required
+          type="Email"
+        ></ui5-textarea>
+        </div>
+        <div class="col-md-6">
+        <ui5-label show-colon required>Password</ui5-label>
+        <ui5-textarea
+          class="textArea"
+          [(ngModel)]="password"
+          placeholder="password"
+          required
+          type="password"
+        ></ui5-textarea>
+        </div>
+
+        <div class="col-md-12">
+        <ui5-label show-colon required>Position</ui5-label>
+        <ui5-textarea
+          class="textAreaName"
+          [(ngModel)]="position"
+          placeholder="Position"
+          required
+          type="Position"
+        ></ui5-textarea>
+        </div>
+        <div class="col-md-12">
+        <ui5-label show-colon required>Image Url</ui5-label>
+        <ui5-textarea
+          class="textAreaName"
+          [(ngModel)]="image_url"
+          placeholder="Image Url"
+          required
+          type="Image Url"
+        ></ui5-textarea>
+        </div>
+
+
+    </div>
+  </section>
+  <ui5-toolbar slot="footer">
+    <ui5-toolbar-button
+      design="Emphasized"
+      [disabled]="loading"
+      (click)="insertData()"
+      text="Submit"
+    >
+    </ui5-toolbar-button>
+    <!-- <ui5-toolbar-button
+  design="Emphasized"
+  [disabled]="loading || !question || !answer"
+  (click)="insertData()"
+  text="Submit">
+	</ui5-toolbar-button> -->
+
+    <ui5-toolbar-button
+      design="Transparent"
+      text="Cancel"
+      (click)="closeDialog()"
+    ></ui5-toolbar-button>
+  </ui5-toolbar>
+</ui5-dialog>
+
+<app-toast-message
+  [IsOpenToastAlert]="IsOpenToastAlert"
+  [ToastType]="ToastType"
+></app-toast-message>
