@@ -79,6 +79,12 @@
             (click)="toggleJob(i)"
           >
             {{ job.header_description }}
+            <button class="btn-common" (click)="openModal()">
+              Apply Now
+              <span style="transform: rotate(45deg); display: inline-block">
+                <i class="fa-solid fa-arrow-up"></i>
+              </span>
+            </button>
           </p>
           <div class="job-description" *ngIf="i === activeIndex">
             <div class="desc" [innerHTML]="job.job_description"></div>
@@ -90,3 +96,4 @@
 </div>
 <app-faq></app-faq>
 <app-form></app-form>
+<app-applyform [isOpen]="isOpen" (closed)="onModalClosed()"></app-applyform>
