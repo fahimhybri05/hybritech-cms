@@ -71,6 +71,12 @@
         >
           <h2 class="job-title" (click)="toggleJob(i)">
             {{ job.title }}
+            <button class="btn-apply" (click)="openModal()">
+              Apply Now
+              <span style="transform: rotate(45deg); display: inline-block">
+                <i class="fa-solid fa-arrow-up"></i>
+              </span>
+            </button>
           </h2>
           <p
             class="bold-font text-muted mt-3 pe-auto"
@@ -78,12 +84,6 @@
             (click)="toggleJob(i)"
           >
             {{ job.header_description }}
-            <button class="btn-common" (click)="openModal()">
-              Apply Now
-              <span style="transform: rotate(45deg); display: inline-block">
-                <i class="fa-solid fa-arrow-up"></i>
-              </span>
-            </button>
           </p>
           <div class="job-description" *ngIf="i === activeIndex">
             <div class="desc" [innerHTML]="job.job_description"></div>
