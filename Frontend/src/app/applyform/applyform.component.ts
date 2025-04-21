@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { DataService } from '@app/services/data.service';
 import { SwalService } from '@app/services/shared/swal.service';
 import { HttpErrorResponse } from '@angular/common/http';
+
 @Component({
   selector: 'app-applyform',
   standalone: true,
@@ -11,6 +12,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './applyform.component.html',
   styleUrl: './applyform.component.css',
 })
+
 export class ApplyformComponent implements OnInit {
   @Input() isOpen = false;
   @Output() closed = new EventEmitter<void>();
@@ -75,7 +77,7 @@ export class ApplyformComponent implements OnInit {
     this.full_name = '';
     this.email = '';
     this.number = '';
-    this.selectedDesignation ='';
+    this.selectedDesignation = '';
     this.experience = '';
     this.attachment = null;
   }
