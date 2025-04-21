@@ -13,7 +13,7 @@
               </h1>
               <p class="col-8">
                 You will not work for us, You will work with us. Here, you will
-                learn from the best, and lead the rest! Take off to the next
+                learn from the best,and lead the rest! Take off to the next
                 chapter with
                 <span class="fw-bold letter-space">HYBRITECH INNOVATIONS</span>
               </p>
@@ -24,7 +24,6 @@
     </div>
   </div>
 </section>
-
 <section>
   <div class="common-bg">
     <div class="container career-part" id="career-part">
@@ -79,6 +78,12 @@
             (click)="toggleJob(i)"
           >
             {{ job.header_description }}
+            <button class="btn-common" (click)="openModal()">
+              Apply Now
+              <span style="transform: rotate(45deg); display: inline-block">
+                <i class="fa-solid fa-arrow-up"></i>
+              </span>
+            </button>
           </p>
           <div class="job-description" *ngIf="i === activeIndex">
             <div class="desc" [innerHTML]="job.job_description"></div>
@@ -90,3 +95,10 @@
 </div>
 <app-faq></app-faq>
 <app-form></app-form>
+<app-applyform
+  [isOpen]="isOpen"
+  (closed)="onModalClosed()"
+  [jobId]="selectedJobId"
+  [jobData]="selectedJobData"
+  [jobTitles]="jobs"
+></app-applyform>
