@@ -15,7 +15,7 @@ import { ReactAnalyticalTable } from "../../components/analytical-table/react-ta
 import { Button, Icon, TextAlign } from "@ui5/webcomponents-react";
 import React from "react";
 import { ToastMessageComponent } from "@app/components/toast-message/toast-message.component";
-import { Faq } from "@app/shared/Model/faq";
+import { AddUserComponent } from "@app/user-managment/add-user/add-user.component";
 import { User } from "@app/shared/Model/user";
 @Component({
 	selector: "app-user-list",
@@ -25,6 +25,7 @@ import { User } from "@app/shared/Model/user";
     FormsModule,
     ReactAnalyticalTable,
     ToastMessageComponent,
+    AddUserComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './user-list.component.html',
@@ -34,26 +35,23 @@ export class UserListComponent implements OnInit {
   @Output() refreshTable: EventEmitter<void> = new EventEmitter<void>();
   @Output() IsOpenToastAlert = new EventEmitter<void>();
   ToastType: string = "";
-  totalFaqs: number = 0;
   itemsPerPage: number;
   currentPage = 1;
   odata: boolean;
   loading: boolean = false;
   isInsert: boolean = false;
   isEdit: boolean = false;
-  isDetails: boolean = false;
+
   isDeleteOpen: boolean = false;
   isDeleteLoading: boolean = false;
   isSuccess: boolean = false;
   isDeleteError: boolean = false;
-  sucessMessage: string = "";
   filter: string = "";
   Title: string;
   type: string | null = null;
-  selectedFaqId: number | null = null;
-  selectedFaqData: any = null;
+  selectedUserId: number | null = null;
+  selectedUserData: any = null;
   Users = User;
-  faqs = new Faq().deserialize({});
   constructor(
     private commonService: CommonService,
     private datePipe: DatePipe,
@@ -130,14 +128,6 @@ export class UserListComponent implements OnInit {
               }}
             />
             <Button
-              icon="information"
-              design="Transparent"
-              onClick={() => {
-                this.FaqsDetails(row.original);
-              }}
-            ></Button>
-
-            <Button
               icon="delete"
               design="Transparent"
               onClick={() => {
@@ -150,23 +140,11 @@ export class UserListComponent implements OnInit {
     ];
     return columns;
   }
-  FaqsDetails(original: any) {
-    this.selectedFaqId = original.id;
-    this.selectedFaqData = { ...original };
-    this.isDetails = true;
-    this.cdr.detectChanges();
-  }
-
-  closeFaqDetailsModal() {
-    this.isDetails = false;
-    this.selectedFaqId = null;
-    this.selectedFaqData = null;
-  }
 
   handleInsertData(isInsert: boolean): void {
-    console.log("Received isInsertData:", isInsert);
     if (isInsert) {
       this.isInsert = isInsert;
+      this.refreshTable.emit();
     }
   }
   closeAddFaqModal() {
@@ -176,12 +154,12 @@ export class UserListComponent implements OnInit {
 
   deleteFaqs(original: any) {
     this.isDeleteOpen = true;
-    this.selectedFaqId = original.id;
+    this.selectedUserId = original.id;
   }
 
   deleteItemConfirm() {
     this.isDeleteLoading = true;
-    const id = this.selectedFaqId;
+    const id = this.selectedUserId;
     this.commonService.delete(`Users/${id}`, this.odata).subscribe({
       next: (response: any) => {
         this.isDeleteOpen = false;
@@ -204,8 +182,8 @@ export class UserListComponent implements OnInit {
 
   editFaq(original: any) {
     this.isEdit = true;
-    this.selectedFaqId = original.id;
-    this.selectedFaqData = { ...original };
+    this.selectedUserId = original.id;
+    this.selectedUserData = { ...original };
   }
 
   closeEditFaqModal() {
