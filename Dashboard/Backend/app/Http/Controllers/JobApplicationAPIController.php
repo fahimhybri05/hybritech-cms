@@ -58,6 +58,7 @@ class JobApplicationAPIController extends Controller
             ], 500);
         }
     }
+
     public function index(Request $request)
     {
         try {
@@ -99,7 +100,6 @@ class JobApplicationAPIController extends Controller
                     '@odata.count' => $query->count()
                 ]);
             } else {
-
                 $perPage = $request->input('per_page', 20);
                 $results = $query->paginate($perPage);
                 
@@ -114,6 +114,7 @@ class JobApplicationAPIController extends Controller
             ], 500);
         }
     }
+
     public function show($id)
     {
         try {
@@ -141,6 +142,7 @@ class JobApplicationAPIController extends Controller
             ], 404);
         }
     }
+
     public function downloadAttachment($id)
     {
         try {
@@ -159,6 +161,7 @@ class JobApplicationAPIController extends Controller
             ], 500);
         }
     }
+
     public function destroy($id)
     {
         try {
@@ -174,6 +177,66 @@ class JobApplicationAPIController extends Controller
             return response()->json([
                 'message' => 'Failed to delete job application',
                 'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        try {
+            $jobApplication = JobApplication::findOrFail($id);
+
+            $validated = $request->validate([
+                'is_active' => 'sometimes|boolean',
+                'designation' => 'sometimes|string|max:255',
+                'experience' => 'sometimes|string|max:255',
+                'full_name' => 'sometimes|string|max:255',
+                'email' => 'sometimes|email|max:255',
+                'number' => 'sometimes|string|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+                'attachment' => 'sometimes|file|max:10240',
+            ]);
+
+            DB::beginTransaction();
+
+            $filePath = null;
+            if ($request->hasFile('attachment')) {
+                // Delete the old attachment if it exists
+                if ($jobApplication->attachment) {
+                    Storage::disk('public')->delete($jobApplication->attachment);
+                }
+                // Store the new attachment
+                $filePath = $request->file('attachment')->store('attachments', 'public');
+                $validated['attachment'] = $filePath;
+            }
+
+            $jobApplication->update($validated);
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Job application updated successfully!',
+                'data' => [
+                    'id' => $jobApplication->id,
+                    'is_active' => $jobApplication->is_active,
+                    'designation' => $jobApplication->designation,
+                    'experience' => $jobApplication->experience,
+                    'full_name' => $jobApplication->full_name,
+                    'email' => $jobApplication->email,
+                    'number' => $jobApplication->number,
+                    'attachment_url' => $jobApplication->attachment ? Storage::disk('public')->url($jobApplication->attachment) : null,
+                    'created_at' => $jobApplication->created_at,
+                    'updated_at' => $jobApplication->updated_at,
+                ],
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            if (isset($filePath)) {
+                Storage::disk('public')->delete($filePath);
+            }
+            Log::error('Failed to update job application: ' . $e->getMessage());
+            return response()->json([
+                'message' => 'Failed to update job application',
+                'error' => $e->getMessage(),
             ], 500);
         }
     }
