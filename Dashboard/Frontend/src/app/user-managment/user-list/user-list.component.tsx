@@ -41,7 +41,6 @@ export class UserListComponent implements OnInit {
   loading: boolean = false;
   isInsert: boolean = false;
   isEdit: boolean = false;
-
   isDeleteOpen: boolean = false;
   isDeleteLoading: boolean = false;
   isSuccess: boolean = false;
@@ -107,7 +106,7 @@ export class UserListComponent implements OnInit {
         Cell: ({ value }: any) => new Date(value).toLocaleDateString(),
       },
       {
-        Header: "   Actions",
+        Header: "Actions",
         accessor: ".",
         cellLabel: () => "",
         disableFilters: true,
@@ -119,28 +118,33 @@ export class UserListComponent implements OnInit {
         width: 150,
         hAlign: "Center" as TextAlign,
         Cell: ({ row }: any) => (
-          <div>
-            <Button
-              icon="edit"
-              design="Transparent"
-              onClick={() => {
-                this.editFaq(row.original);
-              }}
-            />
-            <Button
-              icon="delete"
-              design="Transparent"
-              onClick={() => {
-                this.deleteFaqs(row.original);
-              }}
-            ></Button>
-          </div>
+            <div>
+                <Button
+                    icon="edit"
+                    design="Transparent"
+                    disabled={row.original.id === 1}
+                    onClick={() => {
+                        if (row.original.id !== 1) {
+                            this.editFaq(row.original);
+                        }
+                    }}
+                />
+                <Button
+                    icon="delete"
+                    design="Transparent"
+                    disabled={row.original.id === 1}
+                    onClick={() => {
+                        if (row.original.id !== 1) {
+                            this.deleteFaqs(row.original);
+                        }
+                    }}
+                />
+            </div>
         ),
-      },
+    }
     ];
     return columns;
   }
-
   handleInsertData(isInsert: boolean): void {
     if (isInsert) {
       this.isInsert = isInsert;
