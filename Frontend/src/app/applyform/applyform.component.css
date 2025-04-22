@@ -67,6 +67,7 @@ textarea {
 }
 h6 {
   margin-bottom: var(--padding-small);
+  font-family: var(--description-font);
 }
 
 .form-control::placeholder {

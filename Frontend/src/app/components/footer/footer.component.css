@@ -8,23 +8,21 @@
 
 .footer-items {
   display: flex;
-  /* justify-content: space-between;  */
-
 }
-.footer-text{
-justify-content:left;
+.footer-text {
+  justify-content: left;
 }
-.footer-text h6 {
+.footer-text h4 {
   font-family: var(--description-font);
 }
 .footer-logo {
   display: flex;
   justify-content: end;
-align-content: end;
+  align-content: end;
 }
 a {
   text-decoration: none !important;
-  color: var(--text-color)!important;
+  color: var(--text-color) !important;
 }
 a:hover {
   color: var(--brand-color-two) !important;
@@ -42,7 +40,9 @@ a:hover {
     gap: 2px;
     padding-top: 10px;
   }
-
+.footer-text h4{
+  font-size: var(--font-size-sm);
+}
   .footer-items {
     display: flex;
     flex-direction: column;
