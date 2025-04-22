@@ -14,7 +14,7 @@
 
 
 ui5-bar {
-	height: 50px;
+	height: 70px;
 	margin-bottom: 7px;
 	grid-column: 1 / span 2;
 	grid-row: 1 / 2;
@@ -24,6 +24,7 @@ ui5-bar {
 .logo {
 	width: 70px;
 	height: 30px;
+	cursor: pointer;
 }
 
 .tool-layout {
@@ -37,7 +38,7 @@ ui5-bar {
 .content {
 	position: relative;
 	padding-left: 5px;
-	height: calc(100vh - 66px);
+	height: calc(100vh - px);
 	overflow: hidden;
 	border-radius: 10px;
 }

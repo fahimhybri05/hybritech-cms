@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Mail\UserRegistered;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -30,6 +32,8 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
             'image_url' => $request->image_url
         ]);
+
+        Mail::to($user->email)->send(new UserRegistered($user, $request->password));
 
         $token = $user->createToken('auth_token')->plainTextToken;
 

@@ -3,7 +3,11 @@ import { Router } from '@angular/router';
 import { AuthService, User } from '@app/services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '@app/components/side-bar/side-bar.component';
-import { AvatarComponent, BarComponent, PopoverComponent } from '@ui5/webcomponents-ngx';
+import {
+  AvatarComponent,
+  BarComponent,
+  PopoverComponent,
+} from '@ui5/webcomponents-ngx';
 
 @Component({
   selector: 'app-layout',
@@ -25,20 +29,31 @@ export class LayoutComponent implements OnInit {
   successMessage = '';
   loading = false;
   isCollapsed: boolean = false;
+  popoverOpen = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  toggleSidenav(): void {
-    this.isCollapsed = !this.isCollapsed;
+  ngOnInit(): void {
+    this.user = this.authService.getUser();
+
+    if (!this.user && this.authService.isLoggedIn()) {
+      this.authService.fetchUser().subscribe({
+        next: (user) => {
+          this.user = user;
+        },
+        error: (error) => {
+          console.error('Failed to fetch user:', error);
+          this.errorMessage = 'Failed to load user data';
+        },
+      });
+    }
+    this.authService.getUserObservable().subscribe((user) => {
+      this.user = user;
+    });
   }
 
-  ngOnInit(): void {
-    this.user = {
-      id: 1,
-      name: 'John Doe',
-      email: 'john@example.com',
-      image_url: localStorage.getItem('image_url') || '',
-    };
+  toggleSidenav(): void {
+    this.isCollapsed = !this.isCollapsed;
   }
 
   onLogout(): void {
@@ -66,5 +81,12 @@ export class LayoutComponent implements OnInit {
         this.errorMessage = error.error.message || 'Logout failed';
       },
     });
+  }
+
+  togglePopover(): void {
+    this.popoverOpen = !this.popoverOpen;
+  }
+  redirect(): void {
+    window.open('https://hybri.tech', '_blank');
   }
 }

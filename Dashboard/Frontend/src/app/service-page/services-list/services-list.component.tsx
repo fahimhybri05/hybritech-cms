@@ -104,20 +104,19 @@ export class ServicesListComponent implements OnInit {
         accessor: "media",
         autoResizable: true,
         className: "custom-class-name",
-        Cell: ({ value }: any) => (
+        hAlign: "Center" as TextAlign,
+        Cell: ({ value }: any) =>
           value?.[0]?.original_url ? (
             <img
               src={value[0].original_url}
               alt="Service"
               style={{ margin: "5px" }}
-              width="60"
-              height="60"
+              width="90"
+              height="70"
             />
           ) : (
             <span>No Image</span>
-          )
-
-        ),
+          ),
       },
       {
         Header: "Created At",
