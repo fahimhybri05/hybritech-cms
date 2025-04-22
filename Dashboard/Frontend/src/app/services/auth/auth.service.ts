@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { environment } from '@env/environment';
 
 export interface User {
   id: number;
@@ -13,7 +15,8 @@ export interface User {
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8000/api';
+  private apiUrl = environment.ServerApi + '/api';
+  private userSubject = new BehaviorSubject<User | null>(null);
 
   constructor(private http: HttpClient) {}
 
@@ -22,17 +25,29 @@ export class AuthService {
   }
 
   login(credentials: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, credentials);
+    return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
+      tap((response: any) => {
+        this.saveToken(response.token);
+        this.userSubject.next(response.user);
+      })
+    );
   }
 
   logout(): Observable<any> {
-    return this.http.post(
-      `${this.apiUrl}/logout`,
-      {},
-      {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      }
-    );
+    return this.http
+      .post(
+        `${this.apiUrl}/logout`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        }
+      )
+      .pipe(
+        tap(() => {
+          this.clearToken();
+          this.userSubject.next(null);
+        })
+      );
   }
 
   saveToken(token: string): void {
@@ -49,5 +64,24 @@ export class AuthService {
 
   clearToken(): void {
     localStorage.removeItem('token');
+  }
+
+  getUser(): User | null {
+    return this.userSubject.value;
+  }
+
+  getUserObservable(): Observable<User | null> {
+    return this.userSubject.asObservable();
+  }
+  fetchUser(): Observable<User> {
+    return this.http
+      .get<User>(`${this.apiUrl}/user`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      })
+      .pipe(
+        tap((user: User) => {
+          this.userSubject.next(user);
+        })
+      );
   }
 }
