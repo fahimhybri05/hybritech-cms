@@ -86,4 +86,7 @@ export class LayoutComponent implements OnInit {
   togglePopover(): void {
     this.popoverOpen = !this.popoverOpen;
   }
+  redirect(): void {
+    window.open('https://hybri.tech', '_blank');
+  }
 }

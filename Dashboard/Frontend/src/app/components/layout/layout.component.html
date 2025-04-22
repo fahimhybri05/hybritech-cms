@@ -8,7 +8,7 @@
       slot="startContent"
       class="ms-3 nav_button"
     ></ui5-button>
-    <img slot="startContent" class="logo" src="/assets/img/logo.png" />
+    <img slot="startContent" (click)="redirect()" class="logo" src="/assets/img/logo.png" />
 
     <ui5-label id="basic-label"></ui5-label>
     <ui5-avatar
@@ -18,15 +18,17 @@
       id="btn"
       (click)="popover.open = true"
     >
-      <img
-        alt="Woman"
-        [src]="user?.image_url"
+      <img alt="Woman" [src]="user?.image_url"
     /></ui5-avatar>
   </ui5-bar>
 
   <ui5-popover #popover="ui5Popover" opener="btn" placement="Bottom">
-    <ui5-label for="emailInput" class="m-auto ms-1 d-block">   <b>{{ user?.name }}</b> </ui5-label>
-    <ui5-label for="emailInput" class="m-auto text-center ms-1 d-block">    {{ user?.position || 'Guest' }}</ui5-label>
+    <ui5-label for="emailInput" class="m-auto ms-1 d-block">
+      <b>{{ user?.name }}</b>
+    </ui5-label>
+    <ui5-label for="emailInput" class="m-auto text-center ms-1 d-block">
+      {{ user?.position || "Guest" }}</ui5-label
+    >
     <ui5-button
       icon="sap-icon://log"
       class="w-100"

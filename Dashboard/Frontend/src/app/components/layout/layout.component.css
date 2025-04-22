@@ -24,6 +24,7 @@ ui5-bar {
 .logo {
 	width: 70px;
 	height: 30px;
+	cursor: pointer;
 }
 
 .tool-layout {
