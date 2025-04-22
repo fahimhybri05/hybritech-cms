@@ -7,6 +7,7 @@ import { environment } from '@env/environment';
 export interface User {
   id: number;
   name: string;
+  position: string;
   email: string;
   image_url?: string;
 }
