@@ -120,16 +120,6 @@ export class UserListComponent implements OnInit {
         Cell: ({ row }: any) => (
             <div>
                 <Button
-                    icon="edit"
-                    design="Transparent"
-                    disabled={row.original.id === 1}
-                    onClick={() => {
-                        if (row.original.id !== 1) {
-                            this.editFaq(row.original);
-                        }
-                    }}
-                />
-                <Button
                     icon="delete"
                     design="Transparent"
                     disabled={row.original.id === 1}
