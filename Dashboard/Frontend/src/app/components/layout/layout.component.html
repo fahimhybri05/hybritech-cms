@@ -25,7 +25,7 @@
   </ui5-bar>
 
   <ui5-popover #popover="ui5Popover" opener="btn" placement="Bottom">
-    <ui5-label for="emailInput" class="m-auto ms-1 d-block">    {{ user?.name || 'Guest' }}</ui5-label>
+    <ui5-label for="emailInput" class="m-auto ms-1 d-block">   <b>{{ user?.name }}</b> </ui5-label>
     <ui5-label for="emailInput" class="m-auto text-center ms-1 d-block">    {{ user?.position || 'Guest' }}</ui5-label>
     <ui5-button
       icon="sap-icon://log"
