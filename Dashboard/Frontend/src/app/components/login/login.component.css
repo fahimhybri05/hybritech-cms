@@ -1,0 +1,27 @@
+.login-container {
+  background-image: url("/assets/img/background.jpg");
+  background-size: cover;
+  height: 100vh;
+}
+.overlay {
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.726);
+}
+.login-container:focus {
+  backdrop-filter: blur(500px);
+}
+.login-card {
+  margin-top: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 500px;
+  height: 400px;
+  background-color: rgba(255, 255, 255, 0.651);
+  border-radius: 10px;
+}
+ui5-input {
+  background-color: transparent;
+}
