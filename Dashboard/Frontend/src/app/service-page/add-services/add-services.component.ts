@@ -96,10 +96,8 @@ export class AddServicesComponent {
     formData.append('description', this.description);
     formData.append('image', this.selectedFile);
     this.loading = true;
-    console.log(formData);
     this.commonService.post('service-pages', formData, false).subscribe(
       (response: any) => {
-        console.log(response);
         this.loading = false;
         this.isSuccess = true;
         if (response && response.media && response.media.length > 0) {

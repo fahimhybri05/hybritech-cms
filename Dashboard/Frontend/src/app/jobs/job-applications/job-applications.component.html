@@ -16,12 +16,12 @@
   [rowHeight]="30"
   [selectionMode]="'Single'"
   [emptyDataText]="'No Data Found'"
- [refreshTrigger]="refreshTable"
+  [refreshTrigger]="refreshTable"
   [tableColumn]="tableColum()"
   [showStatusFilter]="true"
   [isSegmentedState]="true"
+  (rowDoubleClick)="JobsDetails($event)"
 ></react-analytical-table>
-
 
 <ui5-dialog [open]="isDeleteOpen" header-text="Warning" state="Critical">
   <p *ngIf="!isDeleteLoading">Are you sure you want to delete this data?</p>
