@@ -1,5 +1,5 @@
 .banner {
-  min-height: var(--height);
+  min-height: 100vh;
   background-image: url(../../assets/img/about\ us\ banner.jpeg);
   text-align: center;
 }
@@ -20,7 +20,6 @@
 }
 #aboutus-banner-text p {
   font-size: var(--font-size-midium);
-  font-family: var(--description-font);
   font-family: var(--description-font);
 }
 .banner-items {
@@ -134,7 +133,6 @@
   margin-bottom: 40px;
   padding: 20px;
   border-left: 4px solid var(--primary-color);
-
   cursor: pointer;
 }
 .facality-content:hover {
@@ -164,10 +162,10 @@
   font-family: var(--description-font);
 }
 .text-card {
-  font-family: var(--description-font);
+  font-family: var(--header-font);
 }
 .text-card span {
-  font-family: var(--description-font);
+  font-family: var(--header-font);
 }
 
 @media screen and (max-width: 768px) {

@@ -92,7 +92,12 @@
 p {
   text-wrap: initial;
 }
-
+.service-content h4{
+  font-family: var(--header-font);
+}
+.service-content p{
+  font-family: var(--description-font);
+}
 .style-two .service-number h1 {
   background: #e6eefb;
   position: absolute;
@@ -140,5 +145,8 @@ p {
     width: 100%;
     height: 100%;
     padding-bottom: 2vh;
+  }
+  .service-text h1 {
+    font-size: var(--font-size-midium);
   }
 }

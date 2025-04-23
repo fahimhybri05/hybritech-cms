@@ -37,16 +37,12 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Nunito";
 }
 .bold-font {
   font-weight: 600;
   font-size: 19px;
 }
-.dm-sans {
-  font-family: "DM Sans", sans-serif;
-  font-size: 20px;
-}
+
 .letter-space{
   letter-spacing: 2px;
 }

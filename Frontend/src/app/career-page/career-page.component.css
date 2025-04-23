@@ -25,8 +25,8 @@
 .banner-text-career {
   position: absolute;
   top: 100%;
-  left: 10%;
-  transform: translateY(250%);
+  left: 5%;
+  transform: translateY(200%);
   color: white;
   max-width: 80%;
 }
@@ -34,12 +34,13 @@
   font-family: var(--header-font);
   font-size: var(--font-size-large);
 }
-.banner-text-career span {
+.banner-text-career span{
   font-family: var(--header-font);
 }
 
 .banner-text-career p {
   font-size: 1.2rem;
+  font-family: var(--description-font);
 }
 
 .career-logo {
@@ -51,6 +52,7 @@
 }
 .work-text p {
   font-family: var(--description-font);
+  font-size: var(--font-size-midium);
 }
 .grow-together h6 {
   font-family: var(--description-font);
@@ -162,7 +164,6 @@ p {
   opacity: 0.502;
   font-size: 16px;
   color: var(--text-color) !important;
-  font-weight: 400;
 }
 
 .style-two .faq-singular .job-title:before {
@@ -195,7 +196,9 @@ p {
 .faq-singular.active .job-description {
   display: block;
 }
-
+.bold-font {
+  font-family: var(--description-font);
+}
 .job-title {
   cursor: pointer;
   font-size: 1.1rem;
@@ -212,7 +215,24 @@ hr {
   border: 1px solid var(--text-color);
   width: 100%;
 }
-
+.btn-apply {
+  text-decoration: none;
+  background: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  font-family: var(--description-font);
+  border-radius: 5px;
+  font-size: 1rem;
+  padding: 4px 8px 4px 8px;
+  color: rgb(248, 248, 248);
+  margin: 5px;
+}
+.btn-apply:hover {
+  background-color: rgb(248, 248, 248);
+  color: var(--primary-color);
+}
+.desc {
+  font-family: var(--description-font);
+}
 @media screen and (max-width: 768px) {
   .career-logo {
     width: 200px;
@@ -230,16 +250,16 @@ hr {
   .banner-text-career {
     transform: translateY(25%);
     left: 5%;
-    max-width: 90%;
+    max-width: 100%;
   }
 
   .banner-text-career h1 {
-    font-size: 2.2rem;
+    font-size: 2rem;
     margin-bottom: 15px;
   }
 
   .banner-text-career p {
-    font-size: 1rem;
+    font-size: var(--font-size-sm);
   }
 
   .background-video {
