@@ -48,10 +48,8 @@ export class EditServicesComponent implements OnChanges {
       this.title = this.serviceData.title || '';
       this.description = this.serviceData.description || '';
       this.updateWordCount();
-
-      // Set the current image URL if available
       if (this.serviceData.media) {
-        this.currentImageUrl = this.serviceData.media.original_url;
+        this.currentImageUrl = this.serviceData.media[0].original_url;
       } else {
         this.currentImageUrl = null;
       }
@@ -71,7 +69,6 @@ export class EditServicesComponent implements OnChanges {
         return;
       }
       if (file.size > 2 * 1024 * 1024) {
-        // 2MB in bytes
         this.fileTypeError = 'File size should not exceed 2MB.';
         return;
       }
@@ -110,8 +107,7 @@ export class EditServicesComponent implements OnChanges {
     if (this.selectedFile) {
       formData.append('image', this.selectedFile);
     }
-    formData.append('_method', 'PUT'); // Laravel requires this for PUT requests via FormData
-
+    formData.append('_method', 'PUT');
     this.loading = true;
     this.commonService
       .post(`service-pages/${this.serviceId}`, formData, false)

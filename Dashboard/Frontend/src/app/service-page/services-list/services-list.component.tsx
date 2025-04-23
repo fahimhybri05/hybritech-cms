@@ -1,4 +1,4 @@
-import { CommonModule, DatePipe } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import {
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
@@ -19,6 +19,7 @@ import { EditServicesComponent } from "@app/service-page/edit-services/edit-serv
 import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
 
 import { Services } from "@app/shared/Model/services";
+import { ServiceDetailsComponent } from "@app/service-page/service-details/service-details.component";
 @Component({
   selector: "app-services-list",
   standalone: true,
@@ -29,6 +30,7 @@ import { Services } from "@app/shared/Model/services";
     AddServicesComponent,
     EditServicesComponent,
     ToastMessageComponent,
+    ServiceDetailsComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: "./services-list.component.html",
@@ -38,7 +40,7 @@ export class ServicesListComponent implements OnInit {
   @Output() refreshTable: EventEmitter<void> = new EventEmitter<void>();
   @Output() IsOpenToastAlert = new EventEmitter<void>();
   ToastType: string = "";
-  totalFaqs: number = 0;
+  totalItems: number = 0;
   itemsPerPage: number;
   currentPage = 1;
   odata: boolean;
@@ -55,8 +57,8 @@ export class ServicesListComponent implements OnInit {
   filter: string = "";
   Title: string;
   type: string | null = null;
-  selectedFaqId: number | null = null;
-  selectedFaqData: any = null;
+  selectedItemId: number | null = null;
+  selectedItemData: any = null;
   Services = Services;
   constructor(
     private commonService: CommonService,
@@ -144,14 +146,14 @@ export class ServicesListComponent implements OnInit {
               icon="edit"
               design="Transparent"
               onClick={() => {
-                this.editFaq(row.original);
+                this.editservice(row.original);
               }}
             />
             <Button
               icon="information"
               design="Transparent"
               onClick={() => {
-                this.FaqsDetails(row.original);
+                this.details(row.original);
               }}
             ></Button>
 
@@ -159,7 +161,7 @@ export class ServicesListComponent implements OnInit {
               icon="delete"
               design="Transparent"
               onClick={() => {
-                this.deleteFaqs(row.original);
+                this.deleteItem(row.original);
               }}
             ></Button>
           </div>
@@ -168,17 +170,16 @@ export class ServicesListComponent implements OnInit {
     ];
     return columns;
   }
-  FaqsDetails(original: any) {
-    this.selectedFaqId = original.id;
-    this.selectedFaqData = { ...original };
+  details(original: any) {
     this.isDetails = true;
-    this.cdr.detectChanges();
+    this.selectedItemId = original.id;
+    this.selectedItemData = { ...original };
   }
 
-  closeFaqDetailsModal() {
+  closeDetailsModal() {
     this.isDetails = false;
-    this.selectedFaqId = null;
-    this.selectedFaqData = null;
+    this.selectedItemId = null;
+    this.selectedItemData = null;
   }
   handleInsertData(isInsert: boolean): void {
     if (isInsert) {
@@ -186,19 +187,19 @@ export class ServicesListComponent implements OnInit {
       this.cdr.detectChanges();
     }
   }
-  closeAddFaqModal() {
+  closeAddModal() {
     this.isInsert = false;
     this.refreshTable.emit();
   }
 
-  deleteFaqs(original: any) {
+  deleteItem(original: any) {
     this.isDeleteOpen = true;
-    this.selectedFaqId = original.id;
+    this.selectedItemId = original.id;
   }
 
   deleteItemConfirm() {
     this.isDeleteLoading = true;
-    const id = this.selectedFaqId;
+    const id = this.selectedItemId;
     this.commonService.delete(`service-pages/${id}`, this.api).subscribe({
       next: (response: any) => {
         console.log(response);
@@ -221,13 +222,13 @@ export class ServicesListComponent implements OnInit {
     });
   }
 
-  editFaq(original: any) {
+  editservice(original: any) {
     this.isEdit = true;
-    this.selectedFaqId = original.id;
-    this.selectedFaqData = { ...original };
+    this.selectedItemId = original.id;
+    this.selectedItemData = { ...original };
   }
 
-  closeEditFaqModal() {
+  closeEditModal() {
     this.isEdit = false;
   }
   handleRefresh() {

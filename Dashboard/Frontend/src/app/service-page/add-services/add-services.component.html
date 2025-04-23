@@ -42,9 +42,6 @@
         ></ui5-textarea>
         <div class="img-upload">
           <ui5-label show-colon required>Image</ui5-label>
-          <ui5-message-strip class="img-message-strip my-3" design="Negative">
-            <ui5-icon name="alert" slot="icon"></ui5-icon> Make sure that your picture doesn't have any background.
-          </ui5-message-strip>
           <div class="d-flex ">
           <ui5-file-uploader hide-input
           type="file"
@@ -56,8 +53,9 @@
             <ui5-avatar icon="upload"></ui5-avatar>
             Upload image
           </ui5-file-uploader>
-          <img *ngIf="selectedFileUrl" class="col-6 view-img" [src]="selectedFileUrl" alt="Selected Image"/>
+          
         </div>
+        <img *ngIf="selectedFileUrl" class="col-6 view-img" [src]="selectedFileUrl" alt="Selected Image"/>
         </div>
        
       </div>
