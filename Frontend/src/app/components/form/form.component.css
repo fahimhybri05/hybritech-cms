@@ -59,4 +59,7 @@ h6 {
   .common-bg {
     padding: var(--padding-medium);
   }
+  #form-part{
+padding-top: 20px;
+  }
 }

@@ -1,5 +1,5 @@
 .banner {
-  min-height: 100vh;
+  height: 82vh;
   background-image: url(../../assets/img/about\ us\ banner.jpeg);
   text-align: center;
 }
@@ -170,13 +170,15 @@
 
 @media screen and (max-width: 768px) {
   .banner {
-    min-height: 35vh;
+    height: 35vh;
   }
 
   .banner-overlay {
     height: 35vh;
   }
-
+.text-card{
+  margin-top: 30px;
+}
   .banner-items {
     padding-top: 6vh;
   }
@@ -187,4 +189,17 @@
   .card-content-title {
     width: 100%;
   }
+  #aboutus-banner-text h1 {
+    font-size: 25px;
+    font-family: var(--header-font);
+  }
+  #aboutus-banner-text span {
+    font-size: 25px;
+    font-family: var(--header-font);
+  }
+  #aboutus-banner-text p {
+    font-size: var(--font-size-sm);
+    font-family: var(--description-font);
+  }
+
 }
