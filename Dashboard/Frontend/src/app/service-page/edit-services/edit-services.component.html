@@ -23,12 +23,12 @@
       <div class="col-md-6">
         <ui5-label show-colon required>Title</ui5-label>
         <ui5-input
-        class="titleInput"
-        [(ngModel)]="title"
-        name="title"
-        placeholder="Enter title"
-        required
-      ></ui5-input>
+          class="titleInput"
+          [(ngModel)]="title"
+          name="title"
+          placeholder="Enter title"
+          required
+        ></ui5-input>
 
         <ui5-label show-colon required>Description</ui5-label>
         <ui5-textarea
@@ -39,26 +39,39 @@
           required
           (input)="updateWordCount()"
         ></ui5-textarea>
-        <div class="word-count" [ngClass]="{'text-danger': wordCount > maxWords}">
-          Words: {{wordCount}}/{{maxWords}}
+        <div
+          class="word-count"
+          [ngClass]="{ 'text-danger': wordCount > maxWords }"
+        >
+          Words: {{ wordCount }}/{{ maxWords }}
         </div>
-          <ui5-label show-colon>Image</ui5-label>
-          <div class="d-flex">
-          <ui5-file-uploader hide-input
-          type="file"
-          class="form-control col-6"
-          (change)="onFileSelect($event)"
-          accept="image/*"
+        <ui5-label show-colon>Image</ui5-label>
+        <div class="d-flex">
+          <ui5-file-uploader
+            hide-input
+            type="file"
+            class="form-control col-6 file-upload"
+            (change)="onFileSelect($event)"
+            accept="image/*"
           >
             <ui5-avatar icon="upload"></ui5-avatar>
             Upload new image
           </ui5-file-uploader>
-          <div class="col-6" style="margin-left: 10px;">
-            <img *ngIf="selectedFileUrl" [src]="selectedFileUrl" alt="New Selected Image" style="max-width: 100px;"/>
-            <img *ngIf="!selectedFileUrl && currentImageUrl" [src]="currentImageUrl" alt="Current Image" style="max-width: 100px;"/>
-          </div>
         </div>
-       
+        <div class="col-6 mt-2" style="margin-left: 10px">
+          <img
+            *ngIf="selectedFileUrl"
+            [src]="selectedFileUrl"
+            alt="New Selected Image"
+            style="max-width: 400px"
+          />
+          <img
+            *ngIf="!selectedFileUrl && currentImageUrl"
+            [src]="currentImageUrl"
+            alt="Current Image"
+            style="max-width: 400px"
+          />
+        </div>
       </div>
     </div>
   </section>

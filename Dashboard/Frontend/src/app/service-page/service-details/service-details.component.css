@@ -1,0 +1,13 @@
+ui5-dialog {
+  width: 450px;
+}
+.titleInput {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  height: 70px;
+}
+.textArea {
+  width: 400px;
+  height: 140px;
+}

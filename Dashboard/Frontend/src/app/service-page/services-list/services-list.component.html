@@ -21,27 +21,28 @@
   [showStatusFilter]="false"
   [isSegmentedState]="false"
   (isInsertDataChange)="handleInsertData($event)"
-  (rowDoubleClick)="editFaq($event)"
+  (rowDoubleClick)="editservice($event)"
 ></react-analytical-table>
 
 <app-add-services
   [isOpen]="isInsert"
-  (close)="closeAddFaqModal()"
+  (close)="closeAddModal()"
 ></app-add-services>
 
 <app-edit-services
   [isOpen]="isEdit"
-  [serviceId]="selectedFaqId"
-  [serviceData]="selectedFaqData"
-  (close)="closeEditFaqModal()"
+  [serviceId]="selectedItemId"
+  [serviceData]="selectedItemData"
+  (close)="closeEditModal()"
 ></app-edit-services>
 
-<app-faq-details
-  [faqId]="selectedFaqId"
-  [faqData]="selectedFaqData"
+<app-service-details
   [isOpen]="isDetails"
-  (close)="closeFaqDetailsModal()"
-></app-faq-details>
+  [serviceId]="selectedItemId"
+  [serviceData]="selectedItemData"
+  (close)="closeEditModal()"
+></app-service-details>
+
 <app-toast-message
   [IsOpenToastAlert]="IsOpenToastAlert"
   [ToastType]="ToastType"
@@ -77,23 +78,6 @@
     >
       Close
     </ui5-button>
-  </div>
-</ui5-dialog>
-
-<ui5-dialog [open]="isSuccess" header-text="Success" state="Positive">
-  <p>{{ sucessMessage }}</p>
-
-  <div
-    slot="footer"
-    style="
-      display: flex;
-      align-items: center;
-      justify-content: end;
-      width: 100%;
-      box-sizing: border-box;
-    "
-  >
-    <ui5-button (click)="isSuccess = false">Close</ui5-button>
   </div>
 </ui5-dialog>
 
