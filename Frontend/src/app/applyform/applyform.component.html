@@ -81,7 +81,14 @@
     </div>
 
     <div class="btn-submit">
-      <a (click)="insertJobData()" class="btn-common">Submit</a>
+      <a
+        (click)="!isLoading && insertJobData()"
+        class="btn-common"
+        [class.disabled]="isLoading"
+      >
+        <span *ngIf="!isLoading">Submit</span>
+        <span *ngIf="isLoading">Submitting...</span>
+      </a>
     </div>
   </div>
 </div>

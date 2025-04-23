@@ -12,7 +12,6 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './applyform.component.html',
   styleUrl: './applyform.component.css',
 })
-
 export class ApplyformComponent implements OnInit {
   @Input() isOpen = false;
   @Output() closed = new EventEmitter<void>();
@@ -31,6 +30,7 @@ export class ApplyformComponent implements OnInit {
   designation: string = '';
   experience: string = '';
   attachment: any = null;
+  isLoading: boolean = false;
   constructor(
     private dataService: DataService,
     private swalService: SwalService
@@ -51,6 +51,7 @@ export class ApplyformComponent implements OnInit {
     }
   }
   insertJobData() {
+    this.isLoading = true;
     const formData = new FormData();
     formData.append('full_name', this.full_name);
     formData.append('email', this.email);
@@ -67,9 +68,11 @@ export class ApplyformComponent implements OnInit {
         );
         this.closeModal();
         this.resetForm();
+        this.isLoading = false;
       },
       error: (error) => {
         this.swalService.showError('There was an error submitting the form');
+        this.isLoading = false;
       },
     });
   }
