@@ -8,7 +8,7 @@ import {
   Output,
 } from '@angular/core';
 import { CommonService } from '@app/services/common-service/common.service';
-import { Forms } from '@app/shared/Model/forms';
+import { JobApplication } from '@app/shared/Model/jobapplication';
 import { environment } from '@env/environment';
 
 @Component({
@@ -21,10 +21,10 @@ import { environment } from '@env/environment';
 })
 export class ApplicantDetailsComponent implements OnInit {
   @Input() jobApplicantId: number | null = null;
-  @Input() jobApplicantData: any = [];
+  @Input() jobApplicantData: JobApplication | null = null;
   @Input() isOpen: boolean = false;
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
-  @Output() updated: EventEmitter<Forms> = new EventEmitter<Forms>();
+  @Output() updated: EventEmitter<JobApplication> = new EventEmitter<JobApplication>();
   @Output() refreshTable = new EventEmitter<void>();
 
   formloading: boolean = false;

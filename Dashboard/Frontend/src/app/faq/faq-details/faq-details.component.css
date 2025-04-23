@@ -1,4 +1,10 @@
 ui5-dialog {
-    width: 40%;
-    height: auto;
+	width: 555px;
+    height: 460px;
+}
+ui5-input{
+    height: 90px;
+}
+ui5-textarea{
+    height: 160px;
 }

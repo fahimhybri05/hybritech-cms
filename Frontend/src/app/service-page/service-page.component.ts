@@ -27,9 +27,7 @@ export class ServicePageComponent {
   getServiceData() {
     this.dataService.getServiceData().subscribe(
       (response) => {
-        console.log('Raw API response:', response);
         this.services = Array.isArray(response) ? response : [];
-        console.log('Processed services:', this.services);
       },
       (error) => {
         console.error('Error fetching services:', error);

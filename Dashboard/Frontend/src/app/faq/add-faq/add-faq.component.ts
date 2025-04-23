@@ -61,7 +61,6 @@ export class AddFaqComponent implements OnInit {
     this.loading = true;
     this.commonService.post('Faqs', data).subscribe(
       (response) => {
-        console.log(response);
         this.loading = false;
         this.ToastType = 'add';
         setTimeout(() => {

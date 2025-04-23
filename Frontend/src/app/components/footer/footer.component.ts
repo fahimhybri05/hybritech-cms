@@ -23,7 +23,6 @@ export class FooterComponent implements OnInit{
     this.dataService.getFooterData().subscribe(
       (response) => {
         this.footer = response.value;
-        console.log(this.footer);
       },
       (error) => {
         console.error('Error fetching FAQs:', error);

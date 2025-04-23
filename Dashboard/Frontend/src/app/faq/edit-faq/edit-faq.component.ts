@@ -88,7 +88,6 @@ export class EditFaqComponent implements OnInit, OnChanges {
     const selectedItem = combobox.item;
     if (selectedItem) {
       this.faq.id = selectedItem.id;
-      console.log(selectedItem);
     } else {
     }
   }

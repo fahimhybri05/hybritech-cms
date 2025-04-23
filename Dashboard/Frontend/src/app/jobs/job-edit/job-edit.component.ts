@@ -78,7 +78,6 @@ export class JobEditComponent {
     }
   }
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('Changes detected:', changes);
     if (changes['isOpen']?.currentValue === true) {
       if (this.jobData) {
         this.loadJobData();

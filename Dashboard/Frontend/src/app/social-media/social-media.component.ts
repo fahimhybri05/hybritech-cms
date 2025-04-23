@@ -45,7 +45,6 @@ export class SocialMediaComponent implements OnInit {
   loadData() {
     this.commonService.get('Footers', this.odata).subscribe({
       next: (response: any) => {
-        console.log('Fetched data:', response.value);
         this.socialMedia = response.value || [];
       },
       error: (error: any) => {

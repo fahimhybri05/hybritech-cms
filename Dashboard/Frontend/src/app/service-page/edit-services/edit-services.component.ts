@@ -113,7 +113,6 @@ export class EditServicesComponent implements OnChanges {
       .post(`service-pages/${this.serviceId}`, formData, false)
       .subscribe(
         (response: any) => {
-          console.log(response);
           this.loading = false;
           this.isSuccess = true;
                        this.ToastType = 'edit';

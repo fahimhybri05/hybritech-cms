@@ -69,7 +69,6 @@ export class AddUserComponent implements OnInit {
       position: this.position,
       image_url: this.image_url,
     };
-    console.log(data);
     this.loading = true;
     this.commonService.post('register', data, this.api).subscribe(
       (response) => {
