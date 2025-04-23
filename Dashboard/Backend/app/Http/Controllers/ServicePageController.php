@@ -48,18 +48,29 @@ class ServicePageController extends Controller
             ], 500);
         }
     }
-    
-    // Get all service pages
-    public function index()
-    {
-        $servicePages = ServicePageDetails::all();
-        $formattedServicePages = $servicePages->map(function ($servicePage) {
-            return $this->formatServicePageResponse($servicePage);
-        });
-        return response()->json($formattedServicePages);
-    }
 
-    // Get a specific service page
+    public function index(Request $request)
+{
+    $query = ServicePageDetails::query();
+    if ($request->has('search')) {
+        $searchTerm = $request->input('search');
+        $query->where(function($q) use ($searchTerm) {
+            $q->where('title', 'like', "%{$searchTerm}%")
+              ->orWhere('description', 'like', "%{$searchTerm}%");
+        });
+    }
+    if ($request->has('per_page')) {
+        $servicePages = $query->paginate($request->input('per_page'));
+    } else {
+        $servicePages = $query->get();
+    }
+    
+    $formattedServicePages = $servicePages->map(function ($servicePage) {
+        return $this->formatServicePageResponse($servicePage);
+    });
+    
+    return response()->json($formattedServicePages);
+}
     public function show($id)
     {
         $servicePage = ServicePageDetails::findOrFail($id);

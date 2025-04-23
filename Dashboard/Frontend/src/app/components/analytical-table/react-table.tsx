@@ -127,7 +127,6 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
           this.render();
         },
         error: (error: any) => {
-          console.log(error);
           this.loading = false;
           this.render();
         },
@@ -162,7 +161,6 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
     if (apiUrl.includes("?")) {
       apiUrl = apiUrl.split("?")[0];
     }
-
     if (this.isOdata) {
       apiUrl += "?";
       if (status && this.isStatusFilterEnabled) {
@@ -176,8 +174,6 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
         apiUrl += `&is_active=${status}`;
       }
     }
-
-    console.log("Fetching data from:", apiUrl);
     return this.commonService.get(apiUrl, this.isOdata);
   }
 
@@ -187,7 +183,6 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
 
     this.fetchData(this.offset, this.limit, this.status).subscribe({
       next: (response: any) => {
-        console.log("hel", response);
         this.data = [];
         this.dataList = [];
 
@@ -225,65 +220,84 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
       this.filterData(filter);
     }, 300);
   }
-
   filterData(filter: string) {
     this.offset = 0;
     this.loading = true;
     this.render();
     this.searchFilter = filter;
+
     let url = "";
+    const queryParams: string[] = [];
 
-    const filters: string[] = [];
+    if (this.isOdata) {
+      const filters: string[] = [];
+      if (filter) {
+        const encodedFilter = encodeURIComponent(filter);
+        this.tableColumn.forEach((column: any) => {
+          if (
+            column.accessor &&
+            column.accessor !== "." &&
+            column.accessor !== "id" &&
+            column.accessor !== " "
+          ) {
+            filters.push(`contains(${column.accessor}, '${encodedFilter}')`);
+          }
+        });
+      }
+      let filterParam = filters.length ? `(${filters.join(" or ")})` : "";
+      if (this.status !== "") {
+        const statusFilter = `is_active eq ${this.status === "true"}`;
+        filterParam = filterParam
+          ? `$filter=${filterParam} and ${statusFilter}`
+          : `$filter=${statusFilter}`;
+      } else if (filterParam) {
+        filterParam = `$filter=${filterParam}`;
+      }
+      const orderBy = "&$orderby=created_at desc";
+      url = `${this.apiUrl}${filterParam ? `&${filterParam}` : ""}&$skip=${
+        this.offset
+      }&$top=${this.limit}${orderBy}`;
+    } else {
+      url = `${this.apiUrl}`;
 
-    if (filter) {
-      const encodedFilter = encodeURIComponent(filter);
-      this.tableColumn.forEach((column: any) => {
-        if (
-          column.accessor &&
-          column.accessor !== "." &&
-          column.accessor !== "id" &&
-          column.accessor !== " "
-        ) {
-          filters.push(`contains(${column.accessor}, '${encodedFilter}')`);
-        }
-      });
+      queryParams.push(`per_page=${this.limit}`);
+      queryParams.push(`page=${Math.floor(this.offset / this.limit) + 1}`);
+
+      if (this.status !== "") {
+        queryParams.push(`is_active=${this.status === "true"}`);
+      }
+      if (filter) {
+        queryParams.push(`search=${encodeURIComponent(filter)}`);
+      }
+      queryParams.push(`sort_by=created_at`);
+      queryParams.push(`sort_dir=desc`);
+      if (queryParams.length > 0) {
+        url += `?${queryParams.join("&")}`;
+      }
     }
 
-    let filterParam = filters.length ? `(${filters.join(" or ")})` : "";
-
-    if (this.status !== "") {
-      const statusFilter = `is_active eq ${this.status === "true"}`;
-      filterParam = filterParam
-        ? `$filter=${filterParam} and ${statusFilter}`
-        : `$filter=${statusFilter}`;
-    } else if (filterParam) {
-      filterParam = `$filter=${filterParam}`;
-    }
-    const orderBy = "&$orderby=created_at desc";
-    const apiUrl = `${this.apiUrl}${
-      filterParam ? `&${filterParam}` : ""
-    }&$skip=${this.offset}&$top=${this.limit}${orderBy}`;
-    url = apiUrl;
-    if (!this.isOdata) {
-      url = `${this.apiUrl}/${this.limit}/${this.offset}?status=is_active eq ${this.status}&filter=${filter}`;
-    }
     this.commonService.get(url, this.isOdata).subscribe({
       next: (response: any) => {
         if (this.isSyncPermission) {
           this.data = response.syncPermissions;
         } else if (this.isOdata) {
           this.data = response.value;
+          this.tableDataCount =
+            response["@odata.count"] || response.value.length;
         } else {
-          this.data =
-            response.data || response.items || response.results || response;
+          this.data = response.data || response.items || response;
+          this.tableDataCount =
+            response.total ||
+            (response.data ? response.data.length : response.length);
         }
+
         if (Array.isArray(this.data)) {
           const data = this.data.map((item: any) =>
             new this.model().deserialize(item)
           );
           this.dataList = data;
-          this.tableDataCount = response["@count"] || this.data.length;
         }
+
         this.offset += this.limit;
         this.loading = false;
         this.onResponseData.emit(this.data);
@@ -295,7 +309,6 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
       },
     });
   }
-
   handleLoadMore = () => {
     if (this.searchFilter !== "")
       this.handleSearch({ target: { value: this.searchFilter } });

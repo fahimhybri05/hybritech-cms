@@ -87,7 +87,16 @@ class JobApplicationAPIController extends Controller
                     $request->input('sort_dir', 'asc')
                 );
             }
-
+            if ($request->has('search') && !empty($request->input('search'))) {
+                $searchTerm = $request->input('search');
+                $query->where(function($q) use ($searchTerm) {
+                    $q->where('full_name', 'like', "%{$searchTerm}%")
+                      ->orWhere('email', 'like', "%{$searchTerm}%")
+                      ->orWhere('designation', 'like', "%{$searchTerm}%")
+                      ->orWhere('experience', 'like', "%{$searchTerm}%")
+                      ->orWhere('number', 'like', "%{$searchTerm}%");
+                });
+            }
             if ($isOdataRequest) {
                 $top = $request->input('$top', 20);
                 $skip = $request->input('$skip', 0);
