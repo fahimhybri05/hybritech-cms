@@ -1,6 +1,6 @@
 .banner {
   height: 82vh;
-  background-image: url(../../assets/img/about\ us\ banner.jpeg);
+  background-image: url(/assets/img/about\ us\ banner.jpeg);
   text-align: center;
 }
 
@@ -29,105 +29,6 @@
 .banner-title {
   font-size: var(--font-size-large);
 }
-
-/* .card-content-title {
-    font-size: 20px;
-    font-weight: 500;
-    margin-bottom: 10px;
-    padding-bottom: 10vh;
-    width: 40%;
-  }
-
-
-
-  .card-content {
-    position: relative;
-    display: inline;
-  }
-  
-  .card-content-line::after {
-    content: "";
-    height: 100%;
-    width: 3px;
-    display: block;
-    background-color: #00aeff;
-    position: absolute;
-    border-radius: 2px;
-    top: -0.5vh;
-    left: -2vh;
-  }
-  
-  #card-content-line1::after {
-    content: "";
-    height: 100%;
-    width: 3px;
-    display: block;
-    background-color: #00a9ae;
-    position: absolute;
-    border-radius: 2px;
-    top: -0.5vh;
-    left: -2vh;
-  }
-  
-  #card-content-line2::after {
-    content: "";
-    height: 100%;
-    width: 3px;
-    display: block;
-    background-color: #3773de;
-    position: absolute;
-    border-radius: 2px;
-    top: -0.5vh;
-    left: -2vh;
-  }
-  
-  #card-content-line3::after {
-    content: "";
-    height: 100%;
-    width: 3px;
-    display: block;
-    background-color: #ffac60;
-    position: absolute;
-    border-radius: 2px;
-    top: -0.5vh;
-    left: -2vh;
-  }
-  
-  #card-content-line4::after {
-    content: "";
-    height: 100%;
-    width: 3px;
-    display: block;
-    background-color: #00a9ae;
-    position: absolute;
-    border-radius: 2px;
-    top: -0.5vh;
-    left: -2vh;
-  }
-  
-  #card-content-line5::after {
-    content: "";
-    height: 100%;
-    width: 3px;
-    display: block;
-    background-color: #3773de;
-    position: absolute;
-    border-radius: 2px;
-    top: -0.5vh;
-    left: -2vh;
-  }
-  
-  #card-content-line6::after {
-    content: "";
-    height: 100%;
-    width: 3px;
-    display: block;
-    background-color: #ffac60;
-    position: absolute;
-    border-radius: 2px;
-    top: -0.5vh;
-    left: -2vh;
-  } */
 
 .facality-content {
   margin-bottom: 40px;
@@ -176,9 +77,9 @@
   .banner-overlay {
     height: 35vh;
   }
-.text-card{
-  margin-top: 30px;
-}
+  .text-card {
+    margin-top: 30px;
+  }
   .banner-items {
     padding-top: 6vh;
   }
@@ -201,5 +102,4 @@
     font-size: var(--font-size-sm);
     font-family: var(--description-font);
   }
-
 }
