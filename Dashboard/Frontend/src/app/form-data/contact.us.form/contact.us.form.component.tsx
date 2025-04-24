@@ -31,6 +31,7 @@ import { Forms } from "@app/shared/Model/forms";
 })
 export class ContactUsFormComponent implements OnInit {
   @Output() refreshTrigger = new EventEmitter();
+  @Output() refreshTable: EventEmitter<void> = new EventEmitter<void>();
   itemsPerPage: number;
   currentPage = 1;
 
@@ -46,13 +47,14 @@ export class ContactUsFormComponent implements OnInit {
   selectedFormData: any = null;
   isOpen: boolean = false;
   FormsData = Forms;
-  
+
   constructor(
-    private commonService: CommonService
+    private commonService: CommonService,
+    private cdr: ChangeDetectorRef
   ) {
     this.itemsPerPage = this.commonService.itemsPerPage;
     this.odata = this.commonService.odata;
-    this.Title = "Common Form Data:";
+    this.Title = "Contact Us Form Data:";
     this.tableColum();
   }
 
@@ -157,11 +159,17 @@ export class ContactUsFormComponent implements OnInit {
   }
 
   formDetails(original: any) {
+    this.isOpen = false;
+    this.cdr.detectChanges();
+
     this.selectedFormId = original.id;
     this.selectedFormData = { ...original };
     this.isOpen = true;
+    this.cdr.detectChanges();
+    this.refreshTable.emit();
   }
   closeModal() {
     this.isOpen = false;
+    this.cdr.detectChanges(); 
   }
 }

@@ -28,6 +28,7 @@ export class EditServicesComponent implements OnChanges {
   @Input() serviceData: any = null;
   @Output() close = new EventEmitter<void>();
   @Output() IsOpenToastAlert = new EventEmitter<void>();
+  @Output() refreshTable = new EventEmitter();
   ToastType: string = '';
   loading: boolean = false;
   isSuccess: boolean = false;
@@ -119,6 +120,7 @@ export class EditServicesComponent implements OnChanges {
                        setTimeout(() => {
                          this.IsOpenToastAlert.emit();
                        }, 1000);
+                       this.refreshTable.emit();
           this.closeDialog();
         },
         (error) => {

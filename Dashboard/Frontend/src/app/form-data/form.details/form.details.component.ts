@@ -67,8 +67,7 @@ export class FormDetailsComponent implements OnInit {
         const newForm = new Forms().deserialize(response);
         this.formData = newForm;
         this.updated.emit(newForm);
-        this.isOpen = false;
-        this.cdr.detectChanges();
+        this.closeDialog();
         this.refreshTable.emit();
       },
       error: (error: any) => {

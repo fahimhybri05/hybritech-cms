@@ -56,7 +56,9 @@ export class JobApplicationsComponent {
     this.Title = "Job Applications";
   }
   ngOnInit(): void {}
-
+  refresh($event: any) {
+    this.refreshTable.emit();
+  }
   tableColum() {
     const columns = [
       {
@@ -159,9 +161,12 @@ export class JobApplicationsComponent {
     return columns;
   }
   JobsDetails(original: any) {
+    this.isApplicantDetails = false;
+    this.cdr.detectChanges(); 
     this.selectedJobId = original.id;
     this.selectedJobData = { ...original };
     this.isApplicantDetails = true;
+    this.cdr.detectChanges();
     this.refreshTable.emit();
   }
 
@@ -169,6 +174,7 @@ export class JobApplicationsComponent {
     this.isApplicantDetails = false;
     this.selectedJobId = null;
     this.selectedJobData = null;
+    this.cdr.detectChanges(); 
   }
 
   deleteJobs(original: any) {
