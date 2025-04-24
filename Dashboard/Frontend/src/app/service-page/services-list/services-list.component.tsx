@@ -70,7 +70,8 @@ export class ServicesListComponent implements OnInit {
     this.Title = "Our Services";
     this.tableColum();
   }
-  ngOnInit(): void {
+  ngOnInit(): void {}
+  refresh($event: any) {
     this.refreshTable.emit();
   }
 
@@ -180,6 +181,7 @@ export class ServicesListComponent implements OnInit {
     this.isDetails = false;
     this.selectedItemId = null;
     this.selectedItemData = null;
+    this.cdr.detectChanges(); 
   }
   handleInsertData(isInsert: boolean): void {
     if (isInsert) {

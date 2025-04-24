@@ -3,11 +3,13 @@ import {
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
   Input,
+  EventEmitter,
+  Output,
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {  LabelComponent } from '@ui5/webcomponents-ngx';
+import { LabelComponent } from '@ui5/webcomponents-ngx';
 import { TextAreaComponent } from '@ui5/webcomponents-ngx/main/text-area';
 import { FormPreloaderComponent } from '@app/components/form-preloader/form-preloader.component';
 @Component({
@@ -28,6 +30,7 @@ export class ServiceDetailsComponent implements OnChanges {
   @Input() isOpen: boolean | null = null;
   @Input() serviceId: number | null = null;
   @Input() serviceData: any = null;
+  @Output() close = new EventEmitter<void>();
   loading: boolean = false;
   title: string = '';
   description: string = '';
@@ -48,6 +51,6 @@ export class ServiceDetailsComponent implements OnChanges {
   }
   closeDialog() {
     this.isOpen = false;
+    this.close.emit();
   }
 }
-

@@ -2,3 +2,7 @@ ui5-toast{
     border: none;
     padding: none;
 }
+ui5-message-strip{
+
+    font-size: 10px !important;
+}

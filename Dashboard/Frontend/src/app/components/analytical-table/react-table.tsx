@@ -13,6 +13,7 @@ import {
 } from "@angular/core";
 import "@ui5/webcomponents/dist/Input.js";
 import * as React from "react";
+import { CommonModule, DatePipe } from "@angular/common";
 import { createRoot } from "react-dom/client";
 import {
   Button,
@@ -74,6 +75,7 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
   isSettingOpen: boolean = false;
   settingSearchText: string = "";
   segmentedState: string = "all";
+  customTableColumns: any[] = [];
   status: string = "";
   searchFilter: string = "";
   offset = 0;
@@ -85,7 +87,7 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
   private debounceTimeout: any = null;
   private lastClickTime: number = 0;
 
-  constructor(private commonService: CommonService) {}
+  constructor(private commonService: CommonService, private datePipe: DatePipe) {}
   get isStatusFilterEnabled(): boolean {
     if (typeof this.showStatusFilter === "boolean") {
       return this.showStatusFilter;
@@ -95,6 +97,7 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
     return this.tableColumn.some((col) => col && col.accessor === "is_active");
   }
   ngOnInit(): void {
+    this.customTableColumn();
     if (!this.isStatusFilterEnabled) {
       this.segmentedState = "all";
       this.status = "";
@@ -140,7 +143,18 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
     }
     this.render();
   }
-
+  customTableColumn() {
+    this.customTableColumns = this.tableColumn.map((column: any) => {
+      if (column.accessor === "created_at") {
+        return {
+          ...column,
+          Cell: ({ value }: any) =>
+            value ? this.datePipe.transform(value, "dd/MM/yyyy") : "N/A",
+        };
+      }
+      return column;
+    });
+  }
   openAddModal(): void {
     this.isInsertDataChange.emit(true);
     this.render();

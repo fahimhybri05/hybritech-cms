@@ -158,7 +158,7 @@ export class UserListComponent implements OnInit {
       next: (response: any) => {
         this.isDeleteOpen = false;
         this.isDeleteLoading = false;
-        this.ToastType = "delete";
+        this.ToastType = "remove";
         setTimeout(() => {
           this.IsOpenToastAlert.emit();
         }, 1000);

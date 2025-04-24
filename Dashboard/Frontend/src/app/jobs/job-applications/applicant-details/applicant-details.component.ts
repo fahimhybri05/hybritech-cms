@@ -24,7 +24,8 @@ export class ApplicantDetailsComponent implements OnInit {
   @Input() jobApplicantData: JobApplication | null = null;
   @Input() isOpen: boolean = false;
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
-  @Output() updated: EventEmitter<JobApplication> = new EventEmitter<JobApplication>();
+  @Output() updated: EventEmitter<JobApplication> =
+    new EventEmitter<JobApplication>();
   @Output() refreshTable = new EventEmitter<void>();
 
   formloading: boolean = false;
@@ -57,13 +58,12 @@ export class ApplicantDetailsComponent implements OnInit {
       is_active: true,
     };
 
-
     this.commonservice
       .patch(`job-applications/${this.jobApplicantId}`, data, this.api)
       .subscribe({
         next: (response: any) => {
-          this.isOpen = false;
-          this.refreshTable.emit();
+         this.closeDialog();
+         this.refreshTable.emit();
         },
         error: (error: any) => {
           console.log('Error updating form:', error);

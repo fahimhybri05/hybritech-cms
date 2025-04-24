@@ -34,13 +34,15 @@
   [serviceId]="selectedItemId"
   [serviceData]="selectedItemData"
   (close)="closeEditModal()"
+  (refreshTable)="refresh($event)"
 ></app-edit-services>
 
 <app-service-details
   [isOpen]="isDetails"
   [serviceId]="selectedItemId"
   [serviceData]="selectedItemData"
-  (close)="closeEditModal()"
+  (refreshTable)="refresh($event)"
+  (close)="closeDetailsModal()"
 ></app-service-details>
 
 <app-toast-message

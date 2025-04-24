@@ -66,5 +66,6 @@
   [jobApplicantId]="selectedJobId"
   [jobApplicantData]="selectedJobData"
   [isOpen]="isApplicantDetails"
+  (refreshTable)="refresh($event)"
   (close)="closeJobDetailsModal()"
 ></app-applicant-details>

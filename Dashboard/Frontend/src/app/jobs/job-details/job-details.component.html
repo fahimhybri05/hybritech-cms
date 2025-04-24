@@ -1,7 +1,7 @@
 <ui5-dialog [open]="isOpen" header-text="Details" state="Information">
   <div *ngIf="jobData">
     <div class="d-flex align-items-center">
-      <ui5-label show-colon>Avtive</ui5-label>
+      <ui5-label show-colon>Active</ui5-label>
       <ui5-switch
         accessible-name="graphical"
         design="Graphical"
@@ -31,7 +31,7 @@
       <ui5-label show-colon>Job Description</ui5-label>
     <div class="job-details" [innerHTML]="jobData.job_description"></div>
   </div>
-  <div slot="footer" class="d-flex justify-content-end mt-2">
+  <div slot="footer" class="d-flex justify-content-end w-100 gap-2 pt-2">
     <ui5-button (click)="closeDialog()">Close</ui5-button>
   </div>
 </ui5-dialog>
