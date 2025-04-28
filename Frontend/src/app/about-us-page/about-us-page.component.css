@@ -1,7 +1,7 @@
 .banner {
   height: 82vh;
   background-image: url(/assets/img/about\ us\ banner.jpeg);
-  text-align: center;
+  background-color: #000 !important;
 }
 
 .banner-overlay {
@@ -10,9 +10,13 @@
   width: 100%;
   height: var(--height);
 }
+#aboutus-banner-text {
+  text-align: center;
+}
 #aboutus-banner-text h1 {
   font-size: var(--font-size-large);
   font-family: var(--header-font);
+  width: 100%;
 }
 #aboutus-banner-text span {
   font-size: var(--font-size-large);
@@ -54,10 +58,10 @@
 }
 .facality-content h4 {
   color: white;
-  font-size: 30px;
+  font-size: 20px;
   margin-left: 0px;
   padding-left: 0px !important;
-  font-family: var(--description-font);
+  font-family: var(--header-font);
 }
 .facality-content p {
   font-family: var(--description-font);

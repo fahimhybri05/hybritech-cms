@@ -1,14 +1,15 @@
 .banner {
   min-height: var(--height);
   background-image: url(../../assets/img/Frame\ 43.png);
+  background-color: #000 !important;
 }
 
-.banner-overlay {
+/* .banner-overlay {
   background: radial-gradient(29.22% 167.9% at 76.69% 62.63%, #24494b81 0%, #0000009a 100%);;
   position: absolute;
   width: 100%;
   height: var(--height);
-}
+} */
 
 .banner-items {
   padding-top: 20vh;
@@ -28,7 +29,13 @@
   width: 80%;
   height: 80%;
 }
-
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}
+.img-fluid img {
+  vertical-align: middle;
+}
 .style-two.service-area {
   background: var(--background-dark);
 
@@ -92,11 +99,19 @@
 p {
   text-wrap: initial;
 }
-.service-content h4{
+.service-content h4 {
   font-family: var(--header-font);
+  font-weight: 800;
+  font-size: 28px;
 }
-.service-content p{
+.service-content p {
   font-family: var(--description-font);
+}
+.title-font {
+  font-size: 50px;
+  font-family: "Rajdhani";
+  width: 90%;
+  font-weight: 700;
 }
 .style-two .service-number h1 {
   background: #e6eefb;
@@ -126,13 +141,13 @@ p {
 }
 
 @media screen and (max-width: 768px) {
-  .banner {
+  /* .banner {
     min-height: 35vh;
   }
 
   .banner-overlay {
     height: 35vh;
-  }
+  } */
 
   .banner-items {
     padding-top: 6vh;
@@ -149,4 +164,6 @@ p {
   .service-text h1 {
     font-size: var(--font-size-midium);
   }
+}
+@media screen and (min-width: 769px) and (max-width: 1260px) {
 }
