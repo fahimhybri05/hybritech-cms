@@ -3,14 +3,6 @@
   background-image: url(../../assets/img/Frame\ 43.png);
   background-color: #000 !important;
 }
-
-/* .banner-overlay {
-  background: radial-gradient(29.22% 167.9% at 76.69% 62.63%, #24494b81 0%, #0000009a 100%);;
-  position: absolute;
-  width: 100%;
-  height: var(--height);
-} */
-
 .banner-items {
   padding-top: 20vh;
 }
