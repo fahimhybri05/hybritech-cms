@@ -1,7 +1,18 @@
 .form-mid {
   display: flex;
-  justify-content: baseline;
+  justify-content: space-between;
   gap: var(--padding-small);
+}
+.form-mid > div {
+  flex: 1;
+  min-width: 0; 
+}
+.form-mid .form-hr {
+  width: 100%;
+}
+.form-mid .form-control {
+  width: 100%;
+  box-sizing: border-box;
 }
 .title-font {
   font-size: 50px;
@@ -50,7 +61,9 @@ input:focus {
 }
 .info-title p {
   font-size: var(--font-size-midium);
-  font-family: var(--description-font);
+  font-weight: 700;
+  font-family: var(--header-font);
+  padding-top: 20px;
 }
 h6 {
   margin-bottom: var(--padding-small);

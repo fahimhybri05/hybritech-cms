@@ -83,6 +83,7 @@
   margin-left: auto;
   margin-right: auto;
   font-family: "Rajdhani";
+  color: var(--white);
 }
 .head h1 {
   font-family: "Rajdhani";
@@ -92,9 +93,6 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-}
-
-.develop-smart-text {
 }
 
 .circle {
@@ -324,32 +322,39 @@
 }
 .banner2-text p {
   font-size: var(--font-size-midium);
-  font-family: var(--description-font);
+  font-weight: 700;
+  font-family: var(--header-font);
 }
 .develop-smart-text h1 {
   font-family: var(--header-font);
+  font-size: 48px;
+  font-weight: 800;
 }
 .develop-smart-text p {
+  padding-top: 30px;
   font-size: var(--font-size-midium);
-  font-family: var(--description-font);
+  font-family: "Rajdhani";
+  font-weight: 700;
 }
 .service-header h1 {
   font-family: var(--header-font);
 }
 .service-header p {
   font-size: var(--font-size-midium);
-  font-family: var(--description-font);
+  font-family: var(--header-font);
 }
 .card-title {
   font-family: var(--header-font);
 }
 .service-p {
   font-size: var(--font-size-midium);
-  font-family: var(--description-font);
+  font-weight: 700;
+  font-family: var(--header-font);
 }
 .last-part p {
   font-size: var(--font-size-sm);
-  font-family: var(--description-font);
+  font-weight: 700;
+  font-family: var(--header-font);
 }
 @media screen and (max-width: 768px) {
   .banner {

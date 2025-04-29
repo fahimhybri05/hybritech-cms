@@ -24,11 +24,12 @@
 }
 .banner-text-career {
   position: absolute;
-  top: 100%;
+  top: 0;
   left: 5%;
   transform: translateY(200%);
   color: white;
   max-width: 80%;
+  margin-top: -200px;
 }
 .banner-text-career h1 {
   font-family: var(--header-font);
@@ -251,9 +252,11 @@ hr {
     max-height: 35vh;
   }
   .banner-text-career {
+    position: absolute;
     transform: translateY(25%);
     left: 5%;
     max-width: 100%;
+    margin-top: 10px;
   }
 
   .banner-text-career h1 {

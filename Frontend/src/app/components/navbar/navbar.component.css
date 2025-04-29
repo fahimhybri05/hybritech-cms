@@ -119,9 +119,6 @@
     width: 9vh;
   }
   .nav-content {
-    display: none; 
-  }
-  .nav-links {
     position: absolute;
     top: 100%;
     left: 0;
@@ -135,13 +132,15 @@
     align-items: center;
     z-index: 1;
   }
+  .nav-links {
+    width: 100%;
+  }
 
   .nav-links ul {
     flex-direction: column;
     width: 100%;
     padding: 0;
     margin: 0;
-    z-index: 1;
   }
 
   .nav-links a {
@@ -156,10 +155,16 @@
   .nav-links a:hover {
     color: var(--secondary-color);
   }
-
-  #nav-toggle:checked + .nav-toggle-label + .nav-links {
+  .nav-toggle-label {
+    display: flex;
+    z-index: 1000;
+  }
+  #nav-toggle:checked ~ .nav-content {
     display: flex;
   }
+  /* #nav-toggle:checked + .nav-toggle-label + .nav-links {
+    display: flex;
+  } */
 
   #nav-toggle:checked + .nav-toggle-label .hamburger-icon {
     background-color: transparent;
@@ -177,6 +182,5 @@
 
   .nav-toggle-label {
     display: flex;
-    order: 1;
   }
 }

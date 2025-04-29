@@ -77,8 +77,9 @@ p,
 span {
   font-family: var(--description-font);
 }
-.center h6 {
-  font-family: var(--description-font);
+.center h5 {
+  font-family: var(--header-font);
+  font-weight: 700;
 }
 .form-submit p {
   font-family: var(--description-font);

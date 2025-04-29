@@ -105,7 +105,8 @@ p {
   font-size: 28px;
 }
 .service-content p {
-  font-family: var(--description-font);
+  font-weight: 700;
+  font-family: var(--header-font);
 }
 .title-font {
   font-size: 50px;
@@ -141,16 +142,15 @@ p {
 }
 
 @media screen and (max-width: 768px) {
-  /* .banner {
+  .banner {
     min-height: 35vh;
   }
-
   .banner-overlay {
     height: 35vh;
-  } */
+  } 
 
   .banner-items {
-    padding-top: 6vh;
+    padding-top: 5vh;
   }
 
   .banner-title {
