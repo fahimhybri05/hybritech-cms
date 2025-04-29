@@ -1,43 +1,49 @@
 .banner {
   min-height: var(--height);
 }
-.banner{
+.banner {
   position: relative;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
 }
- .banner .banner-video {
+.banner .banner-video {
   background-size: cover;
   position: absolute;
   z-index: -1;
   top: 0;
-  left: 0; 
+  left: 0;
   width: 100%;
   height: 100%;
-} 
+}
 .banner-overlay {
-  background: var(--overlay-color);
+  background: radial-gradient(
+    29.22% 167.9% at 76.69% 62.63%,
+    #142d2ea1 0%,
+    #0f0f0fb1 100%
+  );
   position: absolute;
   width: 100%;
   height: var(--height);
 }
-.banner-logoimg img{
+/* .banner-logoimg img {
   height: 300px;
-}
+} */
 .banner-items {
   padding-top: 20vh;
 }
 
-.banner-title {
+/* .banner-title {
   font-size: var(--font-size-large);
-  font-family: var(--header-font);
+  font-family: "Rajdhani";
+  font-weight: 700;
 }
 .banner-title span{
   font-size: var(--font-size-large);
-  font-family: var(--header-font);
-}
-.home-banner-text{
+  font-family: "Rajdhani";
+  font-weight: 700;
+} */
+.home-banner-text {
   font-size: var(--font-size-midium);
   font-family: var(--description-font);
 }
@@ -51,27 +57,42 @@
   position: relative;
   align-items: center;
 }
-.banner2-text {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: var(--height);
+.experience-font {
+  font-size: 50px;
+  font-family: "Rajdhani";
+  width: 90%;
+  font-weight: 700;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
-.head h1{
-  font-family: "Bebas Neue", sans-serif;
+.title-font {
+  font-size: 50px;
+  font-family: "Rajdhani";
+  width: 90%;
+  font-weight: 700;
+}
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}
+.banner2-text p {
+  width: 65%;
+  justify-items: center;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: "Rajdhani";
+  color: var(--white);
+}
+.head h1 {
+  font-family: "Rajdhani";
 }
 .develop-smart-main {
   color: white;
   display: flex;
   justify-content: space-around;
   align-items: center;
-}
-
-.develop-smart-text {
-  gap: 10px;
-  width: 80%;
-  padding-left: 50px;
 }
 
 .circle {
@@ -296,37 +317,44 @@
 .service-icon .js {
   color: rgb(211, 214, 31) !important;
 }
-.banner2-text h1{
+.banner2-text h1 {
   font-family: var(--header-font);
 }
-.banner2-text p{
+.banner2-text p {
   font-size: var(--font-size-midium);
-  font-family: var(--description-font);
-}
-.develop-smart-text h1{
+  font-weight: 700;
   font-family: var(--header-font);
 }
-.develop-smart-text p{
-  font-size: var(--font-size-midium);
-  font-family: var(--description-font);
+.develop-smart-text h1 {
+  font-family: var(--header-font);
+  font-size: 48px;
+  font-weight: 800;
 }
-.service-header h1{
+.develop-smart-text p {
+  padding-top: 30px;
+  font-size: var(--font-size-midium);
+  font-family: "Rajdhani";
+  font-weight: 700;
+}
+.service-header h1 {
   font-family: var(--header-font);
 }
-.service-header p{
+.service-header p {
   font-size: var(--font-size-midium);
-  font-family: var(--description-font);
-}
-.card-title{
   font-family: var(--header-font);
 }
-.service-p{
-  font-size: var(--font-size-midium);
-  font-family: var(--description-font);
+.card-title {
+  font-family: var(--header-font);
 }
-.last-part p{
+.service-p {
+  font-size: var(--font-size-midium);
+  font-weight: 700;
+  font-family: var(--header-font);
+}
+.last-part p {
   font-size: var(--font-size-sm);
-  font-family: var(--description-font);
+  font-weight: 700;
+  font-family: var(--header-font);
 }
 @media screen and (max-width: 768px) {
   .banner {
@@ -344,10 +372,10 @@
   .banner-title {
     font-size: var(--font-size-midium);
   }
-  .banner-title span{
+  .banner-title span {
     font-size: var(--font-size-midium);
   }
-  .home-banner-text{
+  .home-banner-text {
     font-size: var(--font-size-sm);
   }
   .service-header {
@@ -391,21 +419,21 @@
     border: none;
     cursor: pointer;
     transition: color 0.3s ease;
-}
+  }
 
-.service-icon i {
-  font-size: 50px !important;
-  margin-top: 30px;
-  margin-right: 20px;
-}
+  .service-icon i {
+    font-size: 50px !important;
+    margin-top: 30px;
+    margin-right: 20px;
+  }
 
-.strt-btn a{
-  font-size: 10px;
-  padding: 5px 10px;
+  .strt-btn a {
+    font-size: 10px;
+    padding: 5px 10px;
+  }
 }
-}
-@media screen and (max-width: 393px){
-  .strt-btn a{
+@media screen and (max-width: 393px) {
+  .strt-btn a {
     font-size: 10px;
     padding: 5px 10px;
   }
@@ -414,24 +442,23 @@
   .banner {
     min-height: 50vh;
   }
-
   .banner-overlay {
     height: 50vh;
   }
   .banner-title {
-    font-size: 25px;
+    font-size: 20px;
   }
-  .banner-title span{
-    font-size: 25px;
+  .banner-title span {
+    font-size: 20px;
   }
-  .home-banner-text{
-    font-size: var(--font-size-midium);
+  .home-banner-text {
+    font-size: var(--font-size-small);
   }
-  .banner-logoimg img{
-    height: 200px;
+  .banner-logoimg img {
+    height: 150px;
   }
   .service-icon i {
-    font-size: 30px !important;
+    font-size: 25px !important;
     margin-top: 30px;
     margin-right: 20px;
   }

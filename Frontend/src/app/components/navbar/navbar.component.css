@@ -16,6 +16,11 @@
 .logo img {
   max-height: 50px;
 }
+.nav-content {
+  display: flex;
+  align-items: center;
+  gap: var(--padding-large);
+}
 
 .nav-links {
   padding-top: 8px;
@@ -113,20 +118,22 @@
     margin-right: 13vh;
     width: 9vh;
   }
-
-  .nav-links {
+  .nav-content {
     position: absolute;
-    top: 60px;
-    right: 0;
+    top: 100%;
+    left: 0;
     width: 100%;
     background-color: var(--black);
     display: none;
     flex-direction: column;
-    padding: 50px 0 0;
+    padding: 20px 0;
     border: 1px solid var(--primary-color);
     border-radius: var(--border-radius-large);
     align-items: center;
     z-index: 1;
+  }
+  .nav-links {
+    width: 100%;
   }
 
   .nav-links ul {
@@ -134,7 +141,6 @@
     width: 100%;
     padding: 0;
     margin: 0;
-    z-index: 1;
   }
 
   .nav-links a {
@@ -149,10 +155,16 @@
   .nav-links a:hover {
     color: var(--secondary-color);
   }
-
-  #nav-toggle:checked + .nav-toggle-label + .nav-links {
+  .nav-toggle-label {
+    display: flex;
+    z-index: 1000;
+  }
+  #nav-toggle:checked ~ .nav-content {
     display: flex;
   }
+  /* #nav-toggle:checked + .nav-toggle-label + .nav-links {
+    display: flex;
+  } */
 
   #nav-toggle:checked + .nav-toggle-label .hamburger-icon {
     background-color: transparent;
