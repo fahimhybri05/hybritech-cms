@@ -14,7 +14,7 @@
   padding: 2rem;
   border-radius: 8px;
   width: 100%;
-  max-width: 500px;
+  max-width: 400px;
   position: relative;
 }
 .close-btn {
@@ -42,11 +42,13 @@
   padding-bottom: var(--form-control-padding);
   width: 100%;
   font-size: var(--form-control-font-size);
+  outline: none;
 }
 .form-control:focus {
   outline: none;
   background: transparent;
   border: none;
+  box-shadow: none;
 }
 .form-style h6,
 input,

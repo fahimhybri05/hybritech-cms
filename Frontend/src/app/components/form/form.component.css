@@ -1,9 +1,25 @@
 .form-mid {
   display: flex;
-  justify-content: baseline;
+  justify-content: space-between;
   gap: var(--padding-small);
 }
-
+.form-mid > div {
+  flex: 1;
+  min-width: 0;
+}
+.form-mid .form-hr {
+  width: 100%;
+}
+.form-mid .form-control {
+  width: 100%;
+  box-sizing: border-box;
+}
+.title-font {
+  font-size: 50px;
+  font-family: "Rajdhani";
+  width: 90%;
+  font-weight: 700;
+}
 .form-control {
   display: block;
   margin-bottom: var(--form-control-margin-bottom);
@@ -15,18 +31,23 @@
   padding-bottom: var(--form-control-padding);
   width: 100%;
   font-size: var(--form-control-font-size);
+  outline: none;
 }
-
 .form-control:focus {
   outline: none;
   color: var(--white);
   background: transparent;
   border: none;
+  box-shadow: none;
 }
 .form-style h6,
 input,
 textarea {
   font-family: var(--description-font);
+}
+input:focus {
+  outline: none;
+  border-color: #444;
 }
 .form-hr {
   margin-top: 0.5px;
@@ -40,7 +61,9 @@ textarea {
 }
 .info-title p {
   font-size: var(--font-size-midium);
-  font-family: var(--description-font);
+  font-weight: 700;
+  font-family: var(--header-font);
+  padding-top: 20px;
 }
 h6 {
   margin-bottom: var(--padding-small);
@@ -59,7 +82,7 @@ h6 {
   .common-bg {
     padding: var(--padding-medium);
   }
-  #form-part{
-padding-top: 20px;
+  #form-part {
+    padding-top: 20px;
   }
 }
