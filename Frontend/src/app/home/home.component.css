@@ -83,13 +83,11 @@
   margin-left: auto;
   margin-right: auto;
   font-family: "Rajdhani";
-  color: var(--white);
 }
 .head h1 {
   font-family: "Rajdhani";
 }
 .develop-smart-main {
-  color: white;
   display: flex;
   justify-content: space-around;
   align-items: center;
