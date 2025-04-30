@@ -57,7 +57,6 @@
   transition: 0.4s;
 }
 .facality-content h4 {
-  color: white;
   font-size: 20px;
   margin-left: 0px;
   padding-left: 0px !important;
@@ -69,6 +68,9 @@
 }
 .text-card {
   font-family: var(--header-font);
+  padding-left: 100px;
+  padding-top: 50px;
+  padding-bottom: 20px;
 }
 .text-card span {
   font-family: var(--header-font);

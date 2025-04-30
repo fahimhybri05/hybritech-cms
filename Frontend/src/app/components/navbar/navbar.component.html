@@ -28,6 +28,12 @@
               Contact Us
             </button>
           </div>
+          <div class="theme-toggle-container">
+            <label class="theme-switch">
+              <input type="checkbox" (change)="toggleTheme($event)" [checked]="isDarkTheme" />
+              <span class="slider round"></span>
+            </label>
+          </div>
         </div>
         </nav>
       </div>
