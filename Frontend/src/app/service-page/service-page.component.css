@@ -28,6 +28,11 @@
 .img-fluid img {
   vertical-align: middle;
 }
+.team-font-service{
+  font-family: var(--header-font);
+  font-weight: 600;
+  font-size: 20px;
+}
 .style-two.service-area {
   background: var(--background-dark);
 

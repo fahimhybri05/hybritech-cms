@@ -68,6 +68,9 @@
 }
 .text-card {
   font-family: var(--header-font);
+  padding-left: 100px;
+  padding-top: 50px;
+  padding-bottom: 20px;
 }
 .text-card span {
   font-family: var(--header-font);
