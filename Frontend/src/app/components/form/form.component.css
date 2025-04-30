@@ -51,8 +51,6 @@ input:focus {
 }
 .form-hr {
   margin-top: 0.5px;
-  color: inherit;
-  background-color: var(--form-hr-color);
   border: 0.5px;
   opacity: var(--form-hr-opacity);
 }

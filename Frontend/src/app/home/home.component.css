@@ -76,6 +76,11 @@
   max-width: 100%;
   height: auto;
 }
+.team-font-home{
+  font-family: var(--header-font);
+  font-weight: 600;
+  font-size: 20px;
+}
 .banner2-text p {
   width: 65%;
   justify-items: center;
@@ -83,13 +88,11 @@
   margin-left: auto;
   margin-right: auto;
   font-family: "Rajdhani";
-  color: var(--white);
 }
 .head h1 {
   font-family: "Rajdhani";
 }
 .develop-smart-main {
-  color: white;
   display: flex;
   justify-content: space-around;
   align-items: center;

@@ -1,14 +1,22 @@
-.style-two.pricing-area {
+/* .style-two.pricing-area {
   background: var(--background-dark);
   background-repeat: no-repeat;
   background-size: cover;
   padding: 139px 0 80px;
+} */
+.style-two.faq-section {
+  background: var(--section-bg);
+  color: var(--text-color);
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 139px 0 80px;
 }
-
-.style-two.pricing-area h1 {
+.style-two.faq-section h1 {
+  /* color: var(--text-color) !important; */
+}
+/* .style-two.pricing-area h1 {
   color: var(--text-color) !important;
-}
-
+} */
 .faqs-container {
   overflow: hidden;
 }
@@ -65,7 +73,7 @@
 
 .style-two .faq-singular.active .faq-question {
   background: var(--primary-color);
-  color: #ffff !important;
+  /* color: #ffff !important; */
   padding: 17px 20px 17px 32px;
 }
 
@@ -87,7 +95,7 @@
   z-index: 2;
   transition: 0.5s;
   background: transparent;
-  color: #fff;
+  /* color: #fff; */
 }
 
 .style-two .faq-answer {
