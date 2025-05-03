@@ -9,8 +9,8 @@
     <ul>
         <li><strong>Full Name:</strong> {{ $contactUsForm->full_name }}</li>
         <li><strong>Email:</strong> {{ $contactUsForm->email }}</li>
-        <li><strong>Details:</strong> {{ $contactUsForm->description }}</li>
         <li><strong>Contact Number:</strong> {{ $contactUsForm->number }}</li>
+        <li><strong>Details:</strong> {{ $contactUsForm->description }}</li>
     </ul>
 </body>
 </html>
