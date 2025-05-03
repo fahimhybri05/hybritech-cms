@@ -21,7 +21,7 @@ class ContactFormApiController extends Controller
                 'is_active' => 'required|boolean',
                 'full_name' => 'required|string|max:255',
                 'subject' => 'required|string|max:255',
-                'description' => 'required|string|max:255',
+                'description' => 'required|string',
                 'email' => 'required|email|max:255',
                 'number' => 'required|string|min:10',
             ]);
@@ -35,7 +35,7 @@ class ContactFormApiController extends Controller
                 'email' => $validated['email'],
                 'number' => $validated['number'],
             ]);
-            Mail::to(env('CONTACT_FORM_RECIPIENT', 'default@example.com'))
+            Mail::to(env('MAIL_TO', 'default@example.com'))
                 ->send(new ContactFormSubmissionMail($contactUsForm));
 
             DB::commit();

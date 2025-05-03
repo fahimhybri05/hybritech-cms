@@ -21,7 +21,7 @@ class FormEmailApiController extends Controller
                 'full_name' => 'required|string|max:255',
                 'project_name' => 'required|string|max:255',
                 'project_type' => 'required|string|max:255',
-                'description' => 'required|string|max:255',
+                'description' => 'required|string',
                 'email' => 'required|email|max:255',
                 'project_budget' => 'required|string|max:10',
             ]);
@@ -36,7 +36,7 @@ class FormEmailApiController extends Controller
                 'email' => $validated['email'],
                 'project_budget' => $validated['project_budget'],
             ]);
-            Mail::to(env('FORM_DATA_RECIPIENT', 'default@example.com'))
+            Mail::to(env('MAIL_TO', 'default@example.com'))
                 ->send(new FormSubmissionMail($commonForm));
 
             DB::commit();
