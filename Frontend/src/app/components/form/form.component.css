@@ -52,6 +52,8 @@ input:focus {
 .form-hr {
   margin-top: 0.5px;
   border: 0.5px;
+  color: var(--form-hr-color);
+  height: 2px;
   opacity: var(--form-hr-opacity);
 }
 .info-title h1 {
@@ -76,6 +78,7 @@ h6 {
   display: flex;
   justify-content: center;
 }
+
 @media screen and (max-width: 768px) {
   .common-bg {
     padding: var(--padding-medium);

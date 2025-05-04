@@ -13,6 +13,8 @@
 .service-text p {
   font-size: var(--font-size-midium);
   font-family: var(--description-font);
+  text-align: justify !important;
+  text-justify: inter-word !important;
 }
 .banner-title {
   font-size: var(--font-size-large);
@@ -163,4 +165,5 @@ p {
   }
 }
 @media screen and (min-width: 769px) and (max-width: 1260px) {
+  
 }

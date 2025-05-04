@@ -35,7 +35,7 @@
   --form-control-placeholder-color: #bbb;
   --form-control-padding: 5px;
   --form-control-margin-bottom: 10px;
-  --form-hr-color: #ffffff;
+  --form-hr-color: #0f4546;
   --form-hr-opacity: 1;
   --header-font: "Rajdhani";
   --description-font: "DM Sans", sans-serif;
@@ -70,11 +70,12 @@
   background: var(--primary-color);
   border: 1px solid var(--primary-color);
   font-family: var(--description-font);
-  padding: 8px 12px 8px 12px;
+  padding: var(--padding-small) var(--padding-medium);
   border-radius: 8px;
   color: rgb(248, 248, 248);
   margin: 5px;
   cursor: pointer;
+  
 }
 
 .btn-common:hover {

@@ -3,7 +3,6 @@
   background-image: url(/assets/img/about\ us\ banner.jpeg);
   background-color: #000 !important;
 }
-
 .banner-overlay {
   background: var(--overlay-color);
   position: absolute;
@@ -25,6 +24,9 @@
 #aboutus-banner-text p {
   font-size: var(--font-size-midium);
   font-family: var(--description-font);
+  text-align: justify !important;
+  text-justify: inter-word !important;
+  width: 800px;
 }
 .banner-items {
   padding-top: 20vh;

@@ -26,9 +26,7 @@
   width: 100%;
   height: var(--height);
 }
-/* .banner-logoimg img {
-  height: 300px;
-} */
+
 .banner-items {
   padding-top: 20vh;
 }
@@ -46,6 +44,8 @@
 .home-banner-text {
   font-size: var(--font-size-midium);
   font-family: var(--description-font);
+  text-align: justify !important;
+  text-justify: inter-word !important;
 }
 .color-overlay-banner-2 {
   background: var(--overlay-color);
@@ -76,7 +76,7 @@
   max-width: 100%;
   height: auto;
 }
-.team-font-home{
+.team-font-home {
   font-family: var(--header-font);
   font-weight: 600;
   font-size: 20px;
@@ -430,26 +430,48 @@
     margin-right: 20px;
   }
 
-  .strt-btn a {
+  .btn-common {
+    display: none;
     font-size: 10px;
     padding: 5px 10px;
   }
 }
 @media screen and (max-width: 393px) {
-  .strt-btn a {
+  .btn-common {
+    display: none;
+  }
+  .banner {
+    min-height: 20vh;
+  }
+
+  .banner-overlay {
+    height: 20vh;
+  }
+  .home-banner-text {
     font-size: 10px;
-    padding: 5px 10px;
+  }
+  .experience-font{
+    font-size: 30px;
+  }
+  .banner2-text p {
+font-size: 15px;
+  }
+  .title-font{
+font-size: 30px;
   }
 }
 @media screen and (min-width: 769px) and (max-width: 1260px) {
   .banner {
-    min-height: 50vh;
+    min-height: 40vh;
   }
   .banner-overlay {
-    height: 50vh;
+    height: 40vh;
   }
   .banner-title {
     font-size: 20px;
+  }
+  .banner-items {
+    padding-top: 10vh;
   }
   .banner-title span {
     font-size: 20px;

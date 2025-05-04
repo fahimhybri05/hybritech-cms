@@ -13,7 +13,7 @@
 
       <hr class="form-hr" />
     </div>
-    <div class="form-mid">
+    <div>
       <div>
         <h6>Email</h6>
         <input
@@ -33,13 +33,13 @@
           class="form-control"
           [(ngModel)]="number"
           name="number"
-          placeholder="01725746565"
+          placeholder="01700000000"
         />
 
         <hr class="form-hr" />
       </div>
     </div>
-    <div class="form-mid">
+    <div>
       <div>
         <h6>Designation</h6>
         <select
@@ -67,7 +67,7 @@
         <hr class="form-hr" />
       </div>
     </div>
-    <div class="form-group">
+    <!-- <div class="form-group">
       <h6>Upload CV</h6>
       <input
         type="file"
@@ -78,12 +78,41 @@
         required
         (change)="onFileChange($event)"
       />
+    </div> -->
+    <div class="form-group">
+      <h6>Upload CV</h6>
+      <p class="subtitle">Attach your CV/Resume</p>
+      <div class="file-upload-container">
+        <label for="attachment" class="file-upload-label">
+          <div class="file-upload-box">
+            <p class="file-upload-text">
+              <!-- Only show the file name if a file is selected -->
+              <span *ngIf="attachment; else defaultText" class="file-name">
+                {{ attachment.name }}
+              </span>
+              <ng-template #defaultText>
+                <span class="default-text">
+                  <span class="highlight">Choose file</span> or drop here
+                </span>
+              </ng-template>
+            </p>
+            <input
+              type="file"
+              id="attachment"
+              class="file-input"
+              name="attachment"
+              accept=".pdf,.doc,.docx"
+              required
+              (change)="onFileChange($event)"
+            />
+          </div>
+        </label>
+      </div>
     </div>
-
-    <div class="btn-submit">
+    <div class="btn-submit-container">
       <a
         (click)="!isLoading && insertJobData()"
-        class="btn-common"
+        class="btn-submit"
         [class.disabled]="isLoading"
       >
         <span *ngIf="!isLoading">Submit</span>

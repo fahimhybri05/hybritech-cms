@@ -1,12 +1,11 @@
 <section class="common-bg">
-  <div class="container">
+  <div class="container pt-5 pb-5">
     <div class="row m-auto">
       <div class="col-md-6">
         <div class="info-title">
           <h1 class="title-font">Let’s Build the Future Together!</h1>
           <p>
-            Have a project in mind? 
-            Contact us today to schedule a free
+            Have a project in mind? Contact us today to schedule a free
             consultation! We’re excited to bring your ideas to life.
           </p>
         </div>
@@ -51,7 +50,6 @@
           </div>
         </div>
 
-        <!-- Project Type & Project Budget -->
         <div class="form-mid">
           <div>
             <h6>Project Type</h6>
@@ -88,7 +86,12 @@
         </div>
 
         <div class="btn-submit">
-          <a (click)="insertFormData()" class="btn-common">Send Message</a>
+          <a
+            (click)="insertFormData()"
+            class="btn-common"
+            [class.disabled]="isLoading"
+            >Send Message</a
+          >
         </div>
       </div>
     </div>

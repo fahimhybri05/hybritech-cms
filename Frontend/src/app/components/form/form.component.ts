@@ -19,7 +19,7 @@ export class FormComponent {
   projectDescription: string = '';
   projectType: string = '';
   projectBudget: any = '';
-
+  isLoading: boolean = false;
   constructor(private dataService: DataService, private swalService: SwalService) {}
 
   private emailExists(email: string): boolean {
@@ -27,6 +27,7 @@ export class FormComponent {
   }
 
   insertFormData() {
+    this.isLoading = true;
     if (!this.name || !this.email || !this.projectName || !this.projectType || 
         !this.projectBudget || !this.projectDescription) {
       this.swalService.showError('Please fill all fields correctly.');
@@ -72,5 +73,6 @@ export class FormComponent {
   private resetForm() {
     this.name = this.email = this.projectName = this.projectDescription = 
     this.projectType = this.projectBudget = '';
+ 
   }
 }
