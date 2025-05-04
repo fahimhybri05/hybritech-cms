@@ -13,6 +13,7 @@ class ContactUsForm extends Model
     protected $fillable = [
         'is_active',
         'full_name',
+        'subject',
         'number',
         'email',
         'description',

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('project_type');
             $table->decimal('project_budget', 10, 2);
-            $table->text('description');
+            $table->LONGTEXT('description');
             $table->timestamps();
         });
     }
