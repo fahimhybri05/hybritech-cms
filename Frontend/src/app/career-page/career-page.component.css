@@ -283,3 +283,18 @@ hr {
     max-height: 35vh;
   }
 }
+@media screen and (max-width: 393px) {
+
+  .title-font {
+    font-size: 30px;
+    width: 100%;
+
+  }
+}
+@media screen and (min-width: 769px) and (max-width: 1260px) {
+.dark-image{
+  width: 300px;
+  height: 150px;
+  padding-bottom: 2vh;
+}
+}

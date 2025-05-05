@@ -18,7 +18,7 @@
             class="form-control"
             [(ngModel)]="name"
             name="name"
-            placeholder="Carl Henderson"
+            placeholder="Enter your name"
           />
 
           <hr class="form-hr" />
@@ -31,7 +31,7 @@
               class="form-control"
               [(ngModel)]="projectName"
               name="projectName"
-              placeholder="Software"
+              placeholder="write here"
             />
 
             <hr class="form-hr" />
@@ -87,11 +87,13 @@
 
         <div class="btn-submit">
           <a
-            (click)="insertFormData()"
-            class="btn-common"
-            [class.disabled]="isLoading"
-            >Send Message</a
-          >
+          class="btn-common m-3"
+          (click)="!isSubmitting && insertFormData()"
+          [class.disabled]="isSubmitting"
+          [attr.disabled]="isSubmitting ? true : null"
+        >
+          {{ isSubmitting ? "Submitting..." : "Send Message" }}
+        </a>
         </div>
       </div>
     </div>

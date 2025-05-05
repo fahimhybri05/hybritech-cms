@@ -2,7 +2,7 @@
   <div class="common-bg">
     <div class="container">
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 pt-5">
           <div class="contact-us-text mt-5">
             <h1 class="title-font col-7">Let’s Build the Future Together!</h1>
             <p>
@@ -24,7 +24,7 @@
                 class="form-control"
                 [(ngModel)]="fullName"
                 name="fullName"
-                placeholder="Ashraf Chowdhury"
+                placeholder="Enter your name"
               />
               <hr class="form-hr" />
             </div>
@@ -76,9 +76,14 @@
 
             <div class="form-submit mt-5">
               <div>
-                <a class="btn-common m-3" (click)="insertFormData()"
-                  >Send Message</a
+                <a
+                  class="btn-common m-3"
+                  (click)="!isSubmitting && insertFormData()"
+                  [class.disabled]="isSubmitting"
+                  [attr.disabled]="isSubmitting ? true : null"
                 >
+                  {{ isSubmitting ? "Submitting..." : "Send Message" }}
+                </a>
               </div>
             </div>
           </div>

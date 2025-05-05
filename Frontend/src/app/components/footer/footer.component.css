@@ -1,9 +1,9 @@
 .footer {
   background-color: var(--black);
   color: white;
-  height: 160px;
+  height: 120px;
   width: auto;
-  padding: 64px 123px 64px 123px;
+  padding: 50px 123px 55px 123px;
 }
 
 .footer-items {
@@ -20,14 +20,31 @@
   justify-content: end;
   align-content: end;
 }
-a {
-  text-decoration: none !important;
+.footer-logo a {
+  background-color: #354662;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
   color: var(--text-color) !important;
-}
-a:hover {
-  color: var(--brand-color-two) !important;
+  padding: 8px;
+  text-decoration: none !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 8px;
+  transition: all 0.3s ease;
 }
 
+.footer-logo a:hover {
+  background-color: var(--brand-color-two);
+  color: var(--text-color) !important;
+  transform: scale(1.1);
+}
+
+.footer-logo h1 {
+  margin: 0;
+  font-size: 1.2rem;
+}
 @media screen and (max-width: 768px) {
   .footer {
     padding: 32px 20px;
@@ -40,12 +57,17 @@ a:hover {
     gap: 2px;
     padding-top: 10px;
   }
-.footer-text h4{
-  font-size: var(--font-size-sm);
-}
+  .footer-text h4 {
+    font-size: var(--font-size-sm);
+  }
   .footer-items {
     display: flex;
     flex-direction: column;
     align-items: start;
+  }
+  .footer-logo a {
+    width: 36px;
+    height: 36px;
+    padding: 6px;
   }
 }

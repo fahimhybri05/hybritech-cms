@@ -19,7 +19,7 @@ export class FormComponent {
   projectDescription: string = '';
   projectType: string = '';
   projectBudget: any = '';
-  isLoading: boolean = false;
+  isSubmitting: boolean = false;
   constructor(private dataService: DataService, private swalService: SwalService) {}
 
   private emailExists(email: string): boolean {
@@ -27,10 +27,11 @@ export class FormComponent {
   }
 
   insertFormData() {
-    this.isLoading = true;
+    this.isSubmitting = true;
     if (!this.name || !this.email || !this.projectName || !this.projectType || 
         !this.projectBudget || !this.projectDescription) {
       this.swalService.showError('Please fill all fields correctly.');
+      this.isSubmitting = false;
       return;
     }
 
@@ -60,14 +61,17 @@ export class FormComponent {
     };
 
     this.dataService.insertCommonForm(formData).subscribe({
-      next: () => this.swalService.showSuccess('Form submitted successfully. We will contact with you soon.'),
+      next: (data) =>{
+       this.swalService.showSuccess('Form submitted successfully. We will contact with you soon.');
+       this.resetForm();
+       this.isSubmitting = false;
+      },
       error: (error) => {
         this.swalService.showError('There was an error submitting the form');
         console.log(error);
+        this.isSubmitting = false;
       }
     });
-
-    this.resetForm();
   }
 
   private resetForm() {

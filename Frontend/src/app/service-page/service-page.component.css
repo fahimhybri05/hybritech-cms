@@ -13,6 +13,7 @@
 .service-text p {
   font-size: var(--font-size-midium);
   font-family: var(--description-font);
+  width: 80%;
   text-align: justify !important;
   text-justify: inter-word !important;
 }
@@ -163,7 +164,25 @@ p {
   .service-text h1 {
     font-size: var(--font-size-midium);
   }
-}
+  .service-text p {
+    font-size: var(--font-size-sm);
+  }
+  }
+
 @media screen and (min-width: 769px) and (max-width: 1260px) {
   
+}
+@media screen and (max-width: 393px) {
+  .title-font {
+    font-size: 30px;
+    width: 100%;
+    font-weight: 700;
+  }
+  .style-two .single-services-box {
+    height: auto;
+  }
+  .service-content p{
+    text-align: justify !important;
+  text-justify: inter-word !important;
+  }
 }

@@ -10,6 +10,8 @@
 }
 .faq-title {
   font-family: var(--header-font);
+  font-size: 50px;
+  font-weight: 800;
 }
 .faq-singular {
   position: relative;
@@ -134,4 +136,11 @@
 
 .faq-answer .desc {
   margin-top: 10px;
+}
+@media screen and (max-width: 393px) {
+  .faq-title {
+   font-size: 30px;
+   font-weight: 700;
+  }
+
 }

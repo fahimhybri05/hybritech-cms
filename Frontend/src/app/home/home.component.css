@@ -1,7 +1,5 @@
 .banner {
   min-height: var(--height);
-}
-.banner {
   position: relative;
   background-repeat: no-repeat;
   background-size: cover;
@@ -16,7 +14,7 @@
   width: 100%;
   height: 100%;
 }
-.banner-overlay {
+.banner-overlay{
   background: radial-gradient(
     29.22% 167.9% at 76.69% 62.63%,
     #142d2ea1 0%,
@@ -30,7 +28,6 @@
 .banner-items {
   padding-top: 20vh;
 }
-
 /* .banner-title {
   font-size: var(--font-size-large);
   font-family: "Rajdhani";
@@ -44,9 +41,12 @@
 .home-banner-text {
   font-size: var(--font-size-midium);
   font-family: var(--description-font);
+  width: 80%;
   text-align: justify !important;
   text-justify: inter-word !important;
+  
 }
+
 .color-overlay-banner-2 {
   background: var(--overlay-color);
 }
@@ -363,7 +363,9 @@
   .banner {
     min-height: 25vh;
   }
-
+  /* .home-banner-text {
+    width: auto;
+  } */
   .banner-overlay {
     height: 25vh;
   }
@@ -443,7 +445,6 @@
   .banner {
     min-height: 20vh;
   }
-
   .banner-overlay {
     height: 20vh;
   }
@@ -459,6 +460,31 @@ font-size: 15px;
   .title-font{
 font-size: 30px;
   }
+  .develop-smart-text h1 {
+    font-size: 30px;
+    font-weight: 700;
+    padding-top: 50px;
+  }
+  .develop-smart-text p {
+    text-align: justify !important;
+    text-justify: inter-word !important;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .service-icon i {
+    font-size: 25px !important;
+    margin-top: 30px;
+    margin-right: 20px;
+  }
+  .service-icon .ts{
+    height: 20px !important; 
+    margin-top: 30px;
+  }
+  .service-icon .mysql{
+    height: 60px !important;
+    margin-top: 30px;
+    margin-right: 20px;
+  }
 }
 @media screen and (min-width: 769px) and (max-width: 1260px) {
   .banner {
@@ -469,6 +495,7 @@ font-size: 30px;
   }
   .banner-title {
     font-size: 20px;
+    width: 100%;
   }
   .banner-items {
     padding-top: 10vh;
@@ -484,6 +511,16 @@ font-size: 30px;
   }
   .service-icon i {
     font-size: 25px !important;
+    margin-top: 30px;
+    margin-right: 20px;
+  }
+  .service-icon .ts{
+    height: 25px !important;
+    margin-top: 30px;
+    margin-right: 20px;
+  }
+  .service-icon .mysql{
+    height: 60px !important;
     margin-top: 30px;
     margin-right: 20px;
   }

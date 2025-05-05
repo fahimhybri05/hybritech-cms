@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DataService } from '../services/data.service';
-import { SwalService } from '../services/shared/swal.service'; 
+import { SwalService } from '../services/shared/swal.service';
 
 @Component({
   selector: 'app-contact-us-page',
@@ -16,32 +16,35 @@ export class ContactUsPageComponent {
   subject: string = '';
   number: string = '';
   description: string = '';
-
+  isSubmitting: boolean = false;
   constructor(
     private dataService: DataService,
-    private swalService: SwalService 
+    private swalService: SwalService
   ) {}
 
-
   insertFormData() {
-
-    if (!this.fullName || !this.email || !this.number || !this.subject || !this.description) {
+    this.isSubmitting = true;
+    if (
+      !this.fullName ||
+      !this.email ||
+      !this.number ||
+      !this.subject ||
+      !this.description
+    ) {
       this.swalService.showError('Please fill all fields correctly.');
+      this.isSubmitting = false;
       return;
     }
-
 
     if (!this.email.includes('@')) {
       this.swalService.showError('Email must be valid.');
       return;
     }
 
-
     if (isNaN(Number(this.number))) {
       this.swalService.showError('Phone number must be numeric.');
       return;
     }
-
 
     const formData = {
       full_name: this.fullName,
@@ -54,17 +57,25 @@ export class ContactUsPageComponent {
 
     this.dataService.insertCotactForm(formData).subscribe({
       next: (data) => {
-        this.swalService.showSuccess('Form submitted successfully. We will contact with you soon.');
+        this.swalService.showSuccess(
+          'Form submitted successfully. We will contact with you soon.'
+        );
         this.resetForm();
+        this.isSubmitting = false;
       },
       error: (error) => {
         console.log(error);
         this.swalService.showError('There was an error submitting the form');
+        this.isSubmitting = false;
       },
     });
   }
   private resetForm() {
-    this.fullName = this.email = this.subject = this.description = 
-    this.number  = '';
+    this.fullName =
+      this.email =
+      this.subject =
+      this.description =
+      this.number =
+        '';
   }
 }

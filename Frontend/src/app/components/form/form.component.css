@@ -20,6 +20,11 @@
   width: 90%;
   font-weight: 700;
 }
+.btn-common.disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  pointer-events: none;
+}
 .form-control {
   display: block;
   margin-bottom: var(--form-control-margin-bottom);
@@ -86,4 +91,12 @@ h6 {
   #form-part {
     padding-top: 20px;
   }
+}
+@media screen and (max-width: 393px) {
+  .title-font {
+    font-size: 30px;
+    width: 100%;
+    font-weight: 700;
+  }
+
 }
