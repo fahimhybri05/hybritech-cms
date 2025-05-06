@@ -79,7 +79,7 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
   status: string = "";
   searchFilter: string = "";
   offset = 0;
-  limit = 20;
+  limit = 30;
   tableDataCount: number = 0;
   data: any[] = [];
   dataList: any[] = [];
@@ -196,7 +196,9 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
     this.render();
 
     this.fetchData(this.offset, this.limit, this.status).subscribe({
+
       next: (response: any) => {
+        console.log("hello",this.offset, this.limit, this.status);
         this.data = [];
         this.dataList = [];
 

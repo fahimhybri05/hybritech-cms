@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DataService } from '../services/data.service';
 import { SwalService } from '../services/shared/swal.service';
-
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-contact-us-page',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule,CommonModule],
   templateUrl: './contact-us-page.component.html',
   styleUrls: ['./contact-us-page.component.css'],
 })
@@ -17,11 +17,27 @@ export class ContactUsPageComponent {
   number: string = '';
   description: string = '';
   isSubmitting: boolean = false;
+  info: any = {};
   constructor(
     private dataService: DataService,
     private swalService: SwalService
   ) {}
+  ngOnInit(): void {
+    this.fetchData();
+  }
 
+  fetchData() {
+    this.dataService.getAddressData().subscribe(
+      (response) => {
+        this.info = response?.value?.[0] || {};
+        console.log(this.info);
+        console.log(response);
+      },
+      (error) => {
+        console.error('Error fetching data:', error);
+      }
+    );
+  }
   insertFormData() {
     this.isSubmitting = true;
     if (

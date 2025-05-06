@@ -1,0 +1,64 @@
+/* contact-info.component.css */
+.contact-dialog {
+    --ui5-dialog-content-padding: 1rem;
+    min-width: 500px; /* Ensure dialog has enough width */
+  }
+  
+  .form-container {
+    padding: 0.5rem;
+  }
+  
+  .form-field-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .readonly-field {
+    margin-bottom: 0.5rem;
+    background-color: var(--sapField_ReadOnly_Background);
+  }
+  
+  .editable-field {
+    margin-top: 0.5rem;
+  }
+  
+  /* Address display container - shows full text */
+  .address-display-container,
+  .address-edit-container {
+    width: 100%;
+  }
+  
+  .address-display {
+    min-height: auto;
+    height: auto;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    resize: none;
+    line-height: 1.4;
+    padding: 0.5rem;
+  }
+  
+  .address-edit {
+    min-height: 80px;
+    white-space: normal;
+    overflow-y: auto;
+    line-height: 1.4;
+    padding: 0.5rem;
+    resize: vertical; /* Allows manual resizing */
+  }
+  
+  /* Force the input to behave like a textarea */
+  ui5-input.address-display::part(input),
+  ui5-input.address-edit::part(input) {
+    white-space: normal;
+    height: auto;
+    min-height: 60px;
+    overflow-y: visible;
+    word-wrap: break-word;
+  }
+  
+  ui5-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+  }
