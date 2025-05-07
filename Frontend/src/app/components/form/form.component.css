@@ -20,6 +20,11 @@
   width: 90%;
   font-weight: 700;
 }
+.btn-common.disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  pointer-events: none;
+}
 .form-control {
   display: block;
   margin-bottom: var(--form-control-margin-bottom);
@@ -52,6 +57,8 @@ input:focus {
 .form-hr {
   margin-top: 0.5px;
   border: 0.5px;
+  color: var(--form-hr-color);
+  height: 2px;
   opacity: var(--form-hr-opacity);
 }
 .info-title h1 {
@@ -76,6 +83,7 @@ h6 {
   display: flex;
   justify-content: center;
 }
+
 @media screen and (max-width: 768px) {
   .common-bg {
     padding: var(--padding-medium);
@@ -83,4 +91,12 @@ h6 {
   #form-part {
     padding-top: 20px;
   }
+}
+@media screen and (max-width: 393px) {
+  .title-font {
+    font-size: 30px;
+    width: 100%;
+    font-weight: 700;
+  }
+
 }

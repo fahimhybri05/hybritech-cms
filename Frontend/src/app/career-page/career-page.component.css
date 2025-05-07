@@ -40,8 +40,11 @@
 }
 
 .banner-text-career p {
-  font-size: 1.2rem;
+  font-size: var(--font-size-midium);
   font-family: var(--description-font);
+  text-align: justify !important;
+  text-justify: inter-word !important;
+  width: 63%;
 }
 
 .career-logo {
@@ -67,7 +70,7 @@
 
 .career-part {
   padding-top: 15vh;
-  padding-bottom: 20vh!important;
+  padding-bottom: 20vh !important;
 }
 
 .style-two.pricing-area {
@@ -93,7 +96,12 @@
 p {
   font-family: var(--description-font);
 }
-
+.faq-singular p {
+  padding-right: 70px;
+  cursor: pointer;
+  text-align: justify !important;
+  text-justify: inter-word !important;
+}
 .faq-singular .job-title {
   position: relative;
   cursor: pointer;
@@ -266,6 +274,7 @@ hr {
 
   .banner-text-career p {
     font-size: var(--font-size-sm);
+    width: auto;
   }
 
   .background-video {
@@ -275,4 +284,19 @@ hr {
   .color-overlay {
     max-height: 35vh;
   }
+}
+@media screen and (max-width: 393px) {
+
+  .title-font {
+    font-size: 30px;
+    width: 100%;
+
+  }
+}
+@media screen and (min-width: 769px) and (max-width: 1260px) {
+.dark-image{
+  width: 300px;
+  height: 150px;
+  padding-bottom: 2vh;
+}
 }

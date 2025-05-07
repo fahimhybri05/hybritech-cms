@@ -1,12 +1,11 @@
 <section class="common-bg">
-  <div class="container">
+  <div class="container pt-5 pb-5">
     <div class="row m-auto">
       <div class="col-md-6">
         <div class="info-title">
           <h1 class="title-font">Let’s Build the Future Together!</h1>
           <p>
-            Have a project in mind? 
-            Contact us today to schedule a free
+            Have a project in mind? Contact us today to schedule a free
             consultation! We’re excited to bring your ideas to life.
           </p>
         </div>
@@ -19,7 +18,7 @@
             class="form-control"
             [(ngModel)]="name"
             name="name"
-            placeholder="Carl Henderson"
+            placeholder="Enter your name"
           />
 
           <hr class="form-hr" />
@@ -32,7 +31,7 @@
               class="form-control"
               [(ngModel)]="projectName"
               name="projectName"
-              placeholder="Software"
+              placeholder="write here"
             />
 
             <hr class="form-hr" />
@@ -51,7 +50,6 @@
           </div>
         </div>
 
-        <!-- Project Type & Project Budget -->
         <div class="form-mid">
           <div>
             <h6>Project Type</h6>
@@ -88,7 +86,14 @@
         </div>
 
         <div class="btn-submit">
-          <a (click)="insertFormData()" class="btn-common">Send Message</a>
+          <a
+          class="btn-common m-3"
+          (click)="!isSubmitting && insertFormData()"
+          [class.disabled]="isSubmitting"
+          [attr.disabled]="isSubmitting ? true : null"
+        >
+          {{ isSubmitting ? "Submitting..." : "Send Message" }}
+        </a>
         </div>
       </div>
     </div>

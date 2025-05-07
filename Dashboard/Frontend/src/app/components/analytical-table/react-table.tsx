@@ -79,7 +79,7 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
   status: string = "";
   searchFilter: string = "";
   offset = 0;
-  limit = 20;
+  limit = 30;
   tableDataCount: number = 0;
   data: any[] = [];
   dataList: any[] = [];
@@ -87,7 +87,10 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
   private debounceTimeout: any = null;
   private lastClickTime: number = 0;
 
-  constructor(private commonService: CommonService, private datePipe: DatePipe) {}
+  constructor(
+    private commonService: CommonService,
+    private datePipe: DatePipe
+  ) {}
   get isStatusFilterEnabled(): boolean {
     if (typeof this.showStatusFilter === "boolean") {
       return this.showStatusFilter;
@@ -194,7 +197,6 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
   loadInitialData() {
     this.loading = true;
     this.render();
-
     this.fetchData(this.offset, this.limit, this.status).subscribe({
       next: (response: any) => {
         this.data = [];

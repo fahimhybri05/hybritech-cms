@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -10,7 +10,7 @@ import { RouterLink } from '@angular/router';
 })
 export class NavbarComponent {
   isDarkTheme = false; // Added
-
+  isScrolled = false;
   ngOnInit(): void {
     // Load saved theme on init (Added)
     const savedTheme = localStorage.getItem('theme');
@@ -32,5 +32,11 @@ export class NavbarComponent {
       document.body.classList.remove('dark-theme');
       localStorage.setItem('theme', 'light');
     }
+  }
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    this.isScrolled = scrollPosition > 50; // You can adjust this value (50px) based on when you want the background to appear
   }
 }

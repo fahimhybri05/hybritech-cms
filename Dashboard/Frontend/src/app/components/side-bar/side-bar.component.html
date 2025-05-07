@@ -35,6 +35,11 @@
         routerLink="/contact-us-form"
       ></ui5-side-navigation-sub-item>
     </ui5-side-navigation-item>
+    <ui5-side-navigation-item
+    text="Contact Info"
+    (click)="onContactInfoClick($event)"
+    icon="address-book"
+  ></ui5-side-navigation-item>
       <ui5-side-navigation-item
       text="Social Media"
       (click)="onSocialMediaClick($event)"
@@ -54,3 +59,7 @@
   [isOpen]="isOpen"
   (close)="this.isOpen = false;"
 ></app-social-media>
+<app-contact-info
+  [isContactOpen]="isContactOpen"
+  (close)="this.isContactOpen = false;"
+></app-contact-info>

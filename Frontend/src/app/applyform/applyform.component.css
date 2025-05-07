@@ -14,7 +14,7 @@
   padding: 2rem;
   border-radius: 8px;
   width: 100%;
-  max-width: 400px;
+  max-width: 600px;
   position: relative;
 }
 .close-btn {
@@ -44,6 +44,7 @@
   font-size: var(--form-control-font-size);
   outline: none;
 }
+
 .form-control:focus {
   outline: none;
   background: transparent;
@@ -77,12 +78,78 @@ h6 {
   font-size: var(--form-control-font-size);
   text-align: left;
 }
-.btn-submit {
+
+.btn-submit-container {
   display: flex;
   justify-content: center;
+  margin-top: 20px;
 }
-.btn-submit:hover {
+
+.btn-submit {
+  display: inline-block;
+  text-decoration: none;
+  background: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  font-family: var(--description-font);
+  padding: 8px 24px;
+  border-radius: 8px;
+  color: rgb(248, 248, 248);
   cursor: pointer;
+  width: 120px;
+  text-align: center;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+  background-color: rgb(248, 248, 248);
+  color: var(--primary-color);
+}
+
+.btn-submit.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.subtitle {
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 15px 0;
+  font-weight: normal;
+}
+
+.file-upload-container {
+  width: 100%;
+}
+
+.file-upload-label {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+}
+
+.file-upload-box {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 20px;
+  text-align: center;
+  background-color: #fff;
+}
+
+.file-upload-text {
+  font-size: 14px;
+  margin: 0;
+}
+
+.file-upload-text .highlight {
+  color: #0d6efd;
+  font-weight: 500;
+}
+
+.file-input {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
 }
 @media screen and (max-width: 768px) {
   .common-bg {

@@ -60,7 +60,7 @@ export class ApplyformComponent implements OnInit {
     formData.append('experience', this.experience);
     formData.append('number', this.number.toString());
     formData.append('attachment', this.attachment);
-    
+
     this.dataService.insertApplication(formData).subscribe({
       next: () => {
         this.swalService.showSuccess(

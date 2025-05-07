@@ -6,11 +6,11 @@ import { DataService } from '@app/services/data.service';
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [CommonModule,RouterModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.css',
 })
-export class FooterComponent implements OnInit{
+export class FooterComponent implements OnInit {
   footer: any;
 
   constructor(private dataService: DataService) {}

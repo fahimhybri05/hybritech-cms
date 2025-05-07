@@ -9,7 +9,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--padding-small) var(--padding-large);
+  padding: 20px var(--padding-large);
   position: relative;
 }
 
@@ -51,14 +51,14 @@
   color: var(--secondary-color);
 }
 
-.btn-contactus {
+/* .btn-contactus {
   text-decoration: none;
   background: none;
   border: 1px solid var(--primary-color);
   padding: var(--padding-small) var(--padding-medium);
   border-radius: var(--border-radius);
   color: var(--secondary-color);
-}
+} */
 
 .btn-contactus:hover {
   background-color: var(--primary-color);

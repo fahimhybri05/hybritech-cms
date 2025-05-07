@@ -3,7 +3,6 @@
   background-image: url(/assets/img/about\ us\ banner.jpeg);
   background-color: #000 !important;
 }
-
 .banner-overlay {
   background: var(--overlay-color);
   position: absolute;
@@ -16,7 +15,6 @@
 #aboutus-banner-text h1 {
   font-size: var(--font-size-large);
   font-family: var(--header-font);
-  width: 100%;
 }
 #aboutus-banner-text span {
   font-size: var(--font-size-large);
@@ -25,6 +23,9 @@
 #aboutus-banner-text p {
   font-size: var(--font-size-midium);
   font-family: var(--description-font);
+  width: 63%;
+  text-align: justify !important;
+  text-justify: inter-word !important;
 }
 .banner-items {
   padding-top: 20vh;
@@ -67,13 +68,9 @@
   font-family: var(--description-font);
 }
 .text-card {
-  font-family: var(--header-font);
-  padding-left: 100px;
+  padding-left: 150px;
   padding-top: 50px;
   padding-bottom: 20px;
-}
-.text-card span {
-  font-family: var(--header-font);
 }
 
 @media screen and (max-width: 768px) {
@@ -86,6 +83,7 @@
   }
   .text-card {
     margin-top: 30px;
+    padding-left: 50px;
   }
   .banner-items {
     padding-top: 6vh;
@@ -108,5 +106,15 @@
   #aboutus-banner-text p {
     font-size: var(--font-size-sm);
     font-family: var(--description-font);
+  }
+  @media screen and (max-width: 393px) {
+    .text-card {
+      padding-left: 0;
+      font-size: 30px;
+    }
+    #aboutus-banner-text p {
+      width: 100%;
+    }
+
   }
 }

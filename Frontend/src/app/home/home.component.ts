@@ -11,4 +11,6 @@ import { FormComponent } from '../components/form/form.component';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent {}
+export class HomeComponent {
+  
+}

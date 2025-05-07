@@ -1,8 +1,12 @@
-ui5-toast{
-    border: none;
-    padding: none;
+ui5-toast {
+  border: none;
+  padding: none;
+  min-width: 200px;
 }
-ui5-message-strip{
-
-    font-size: 10px !important;
+ui5-message-strip {
+  font-size: 10px !important;
+  white-space: nowrap;
+  width: 100%;
+  min-width: 100%;
+  display: inline-block;
 }

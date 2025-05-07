@@ -13,7 +13,7 @@ use App\Models\JobList;
 use App\Models\Footer;
 use App\Models\ServicePageDetails;
 use App\Models\JobApplication;
-
+use App\Models\AddressInfo;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -37,5 +37,7 @@ class AppServiceProvider extends ServiceProvider
         Lodata::discover(Footer::class);
         Lodata::discover(ServicePageDetails::class);
         Lodata::discover(JobApplication::class);
+        Lodata::discover(AddressInfo::class);
+
     }
 }
