@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-contact-us-page',
   standalone: true,
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './contact-us-page.component.html',
   styleUrls: ['./contact-us-page.component.css'],
 })
@@ -30,8 +30,6 @@ export class ContactUsPageComponent {
     this.dataService.getAddressData().subscribe(
       (response) => {
         this.info = response?.value?.[0] || {};
-        console.log(this.info);
-        console.log(response);
       },
       (error) => {
         console.error('Error fetching data:', error);

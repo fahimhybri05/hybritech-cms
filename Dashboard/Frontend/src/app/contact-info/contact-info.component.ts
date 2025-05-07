@@ -60,7 +60,7 @@ export class ContactInfoComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['isContactOpen'] && changes['isContactOpen'].currentValue) {
-      this.getCandidateInfo();
+      this.getContactInfo();
     }
 
     if (changes['contactData'] && changes['contactData'].currentValue) {
@@ -78,7 +78,7 @@ export class ContactInfoComponent implements OnInit {
     this.editPhone = this.phone;
   }
 
-  getCandidateInfo() {
+  getContactInfo() {
     this.loading = true;
     this.commonService.get(`AddressInfos`).subscribe({
       next: (response: any) => {

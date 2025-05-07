@@ -23,9 +23,9 @@ export class Address implements Deserializable {
 
   toOdata(): Object {
     return {
-        address: this.address,
-        email: this.email,
-        phone: this.phone,
+      address: this.address,
+      email: this.email,
+      phone: this.phone,
       created_at: undefined,
       updated_at: undefined,
     };
