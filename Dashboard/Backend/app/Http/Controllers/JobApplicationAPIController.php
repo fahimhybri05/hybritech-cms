@@ -37,7 +37,7 @@ class JobApplicationAPIController extends Controller
                 'number' => $validated['number'],
                 'attachment' => $filePath,
             ]);
-            Mail::to(env('JOB_APPLICATION_RECIPIENT', 'default@example.com'))
+            Mail::to(env('MAIL_TO', 'default@example.com'))
                 ->send(new JobApplicationSubmittedMail($jobApplication));
 
             DB::commit();

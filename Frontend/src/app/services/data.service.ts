@@ -8,8 +8,8 @@ import { HttpClient } from "@angular/common/http";
 })
 export class DataService {
   private apiUrl = environment.ServerApi;
-  private commonFromData = this.apiUrl + '/odata/CommonForms';
-  private commonConatactFormData = this.apiUrl + '/odata/ContactUsForms';
+  private commonFromData = this.apiUrl + '/api/common-forms';
+  private commonConatactFormData = this.apiUrl + '/api/contact-forms';
   private faqData = this.apiUrl + '/odata/Faqs?$filter=is_active eq true';
   private serviceData = this.apiUrl + '/api/service-pages';
   private jobPostData = this.apiUrl + '/odata/JobLists?$filter=is_active eq true';

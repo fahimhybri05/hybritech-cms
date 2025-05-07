@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('number')->unique();
             $table->string('email')->unique();
             $table->string('subject');
-            $table->text('description');
+            $table->LONGTEXT('description');
             $table->timestamps();
         });
     }
