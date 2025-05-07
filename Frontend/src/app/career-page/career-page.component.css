@@ -40,10 +40,11 @@
 }
 
 .banner-text-career p {
-  font-size: 1.2rem;
+  font-size: var(--font-size-midium);
   font-family: var(--description-font);
   text-align: justify !important;
   text-justify: inter-word !important;
+  width: 63%;
 }
 
 .career-logo {
@@ -273,6 +274,7 @@ hr {
 
   .banner-text-career p {
     font-size: var(--font-size-sm);
+    width: auto;
   }
 
   .background-video {

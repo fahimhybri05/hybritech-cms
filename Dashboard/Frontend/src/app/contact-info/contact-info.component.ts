@@ -17,7 +17,7 @@ import { ToastMessageComponent } from '@app/components/toast-message/toast-messa
 @Component({
   selector: 'app-contact-info',
   standalone: true,
-  imports: [CommonModule, FormsModule, InputComponent,ToastMessageComponent],
+  imports: [CommonModule, FormsModule, InputComponent, ToastMessageComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './contact-info.component.html',
   styleUrl: './contact-info.component.css',
@@ -38,12 +38,9 @@ export class ContactInfoComponent implements OnInit {
   ToastType: string = '';
   isActive: any;
   sucessMessage: string = '';
-  // Original values
   address: string = '';
   email: string = '';
   phone: string = '';
-  
-  // Editable values
   editAddress: string = '';
   editEmail: string = '';
   editPhone: string = '';
@@ -65,7 +62,7 @@ export class ContactInfoComponent implements OnInit {
     if (changes['isContactOpen'] && changes['isContactOpen'].currentValue) {
       this.getCandidateInfo();
     }
-    
+
     if (changes['contactData'] && changes['contactData'].currentValue) {
       this.initFormValues();
     }
@@ -76,8 +73,6 @@ export class ContactInfoComponent implements OnInit {
     this.address = data.address || '';
     this.email = data.email || '';
     this.phone = data.phone || '';
-    
-    // Initialize editable fields with current values
     this.editAddress = this.address;
     this.editEmail = this.email;
     this.editPhone = this.phone;
@@ -93,13 +88,11 @@ export class ContactInfoComponent implements OnInit {
           this.address = contactInfo.address || '';
           this.email = contactInfo.email || '';
           this.phone = contactInfo.phone || '';
-          
-          // Update editable fields
           this.editAddress = this.address;
           this.editEmail = this.email;
           this.editPhone = this.phone;
         }
-        
+
         this.loading = false;
         this.cdRef.detectChanges();
       },
@@ -107,26 +100,25 @@ export class ContactInfoComponent implements OnInit {
         console.error('API Error:', err);
         this.loading = false;
         this.IsOpenToastAlert.emit();
-      }
+      },
     });
   }
   updateContactInfo() {
     if (!this.editPhone || !this.editEmail || !this.editAddress) {
       this.IsOpenToastAlert.emit();
       return;
-      }
+    }
 
-  
     this.formloading = true;
-    
+
     const payload = {
       address: this.editAddress,
       email: this.editEmail,
-      phone: this.editPhone
+      phone: this.editPhone,
     };
-  
-    const recordId = this.contactData.id; 
-  
+
+    const recordId = this.contactData.id;
+
     this.commonService.patch(`AddressInfos(${recordId})`, payload).subscribe({
       next: () => {
         this.formloading = false;
@@ -136,41 +128,12 @@ export class ContactInfoComponent implements OnInit {
       },
       error: (error) => {
         this.formloading = false;
-          this.isEditError = true;
-          this.errorMessage = error.error?.message || 'Error updating FAQ';
-      }
+        this.isEditError = true;
+        this.errorMessage = error.error?.message || 'Error updating FAQ';
+      },
     });
   }
-  
-  // private handleUpdateSuccess() {
-  //   this.formloading = false;
-  //   this.address = this.editAddress;
-  //   this.email = this.editEmail;
-  //   this.phone = this.editPhone;
-    
-  //   this.IsOpenToastAlert.emit({
-  //     type: 'Success',
-  //     message: 'Address updated successfully'
-  //   });
-  //   this.refreshTable.emit();
-  //   this.closeDialog();
-  // }
-  
-  // private handleUpdateError(error: any) {
-  //   this.formloading = false;
-    
-  //   let errorMessage = 'Failed to update contact information';
-  //   if (error.error?.message) {
-  //     errorMessage = error.error.message;
-  //   }
-  
-  //   this.IsOpenToastAlert.emit({
-  //     type: 'Error',
-  //     message: errorMessage
-  //   });
-  // }
- 
-    closeDialog() {
+  closeDialog() {
     this.isContactOpen = false;
     this.close.emit();
   }
@@ -183,5 +146,4 @@ export class ContactInfoComponent implements OnInit {
     event.stopPropagation();
     this.errorMessage = '';
   }
-
 }
