@@ -7,7 +7,7 @@ import { ContactInfoComponent } from "@app/contact-info/contact-info.component";
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [RouterLink, CommonModule,SocialMediaComponent,ContactInfoComponent],
+  imports: [RouterLink, CommonModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './side-bar.component.html',
   styleUrl: './side-bar.component.css',
@@ -18,10 +18,5 @@ export class SidebarComponent {
   isContactOpen: boolean = false;
   type: string | null = null;
   showContactModal = false;
-  onSocialMediaClick(event: any) {
-	  this.isOpen = true;
-  }
-  onContactInfoClick(event: Event) {
-   this.isContactOpen =true;
-  }
+
 }

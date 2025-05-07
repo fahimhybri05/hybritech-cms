@@ -1,4 +1,9 @@
-<ui5-dialog [open]="isOpen" header-text="Social Media" state="Information">
+<!-- <ui5-dialog [open]="isOpen" header-text="Social Media" state="Information"> -->
+  <ui5-bar slot="header" design="Header">
+    <ui5-title level="H5" slot="startContent"
+      >Edit Footer Information</ui5-title
+    >
+  </ui5-bar>
   <div *ngFor="let item of socialMedia">
     <div class="container">
       <div class="row d-flex align-items-center">
@@ -19,6 +24,5 @@
 
   <div slot="footer" class="d-flex justify-content-end w-100 gap-2 p-2">
     <ui5-button design="Emphasized" (click)="onSubmit()">Submit</ui5-button>
-    <ui5-button (click)="closeDialog()" class="ms-2">Close</ui5-button>
   </div>
-</ui5-dialog>
+<!-- </ui5-dialog> -->
