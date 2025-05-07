@@ -66,6 +66,9 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
   @Input() isStatic: boolean = false;
   @Input() isSetting: boolean = true;
   @Input() filterquery: string = "";
+  @Input() public button1Text: string = "";
+  @Input() public button2Text: string = "";
+  @Input() public button3Text: string = "";
   @Output() isInsertDataChange: EventEmitter<boolean> =
     new EventEmitter<boolean>();
   @Input() refreshTrigger: EventEmitter<void> = new EventEmitter<void>();
@@ -413,19 +416,19 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
                         selected={this.segmentedState === "all"}
                         onClick={() => this.checkSegement("all")}
                       >
-                        All
+                        {this.button1Text || "All"}
                       </SegmentedButtonItem>
                       <SegmentedButtonItem
                         selected={this.segmentedState === "active"}
                         onClick={() => this.checkSegement("active")}
                       >
-                        Active
+                        {this.button2Text || "Active"}
                       </SegmentedButtonItem>
                       <SegmentedButtonItem
                         selected={this.segmentedState === "inactive"}
                         onClick={() => this.checkSegement("inactive")}
                       >
-                        Inactive
+                        {this.button3Text || "Inactive"}
                       </SegmentedButtonItem>
                     </React.Fragment>
                   </SegmentedButton>
