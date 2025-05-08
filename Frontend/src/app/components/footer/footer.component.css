@@ -1,7 +1,7 @@
 .footer {
   background-color: var(--black);
-  color: white;
   height: 120px;
+  color: var(--white);
   width: auto;
   padding: 50px 123px 55px 123px;
 }
@@ -25,7 +25,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  color: var(--text-color) !important;
+  color: white;
   padding: 8px;
   text-decoration: none !important;
   display: inline-flex;
@@ -37,7 +37,7 @@
 
 .footer-logo a:hover {
   background-color: var(--brand-color-two);
-  color: var(--text-color) !important;
+  color: white;
   transform: scale(1.1);
 }
 
