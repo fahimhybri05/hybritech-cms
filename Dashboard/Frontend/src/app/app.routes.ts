@@ -9,6 +9,7 @@ import { ContactUsFormComponent } from './form-data/contact.us.form/contact.us.f
 import { HomeComponent } from './home/home.component';
 import { JobListComponent } from './jobs/job-list/job-list.component';
 import { JobApplicationsComponent } from './jobs/job-applications/job-applications.component';
+import { InfoFooterComponent } from './info-footer/info-footer.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -59,6 +60,11 @@ export const routes: Routes = [
   {
     path: 'job-applications',
     component: JobApplicationsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'info-footer',
+    component: InfoFooterComponent,
     canActivate: [AuthGuard],
   },
 ];

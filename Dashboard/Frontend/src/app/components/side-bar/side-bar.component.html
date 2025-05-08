@@ -36,16 +36,10 @@
       ></ui5-side-navigation-sub-item>
     </ui5-side-navigation-item>
     <ui5-side-navigation-item
-    text="Contact Info"
-    (click)="onContactInfoClick($event)"
+    text="Info Footer"
+    routerLink="/info-footer"
     icon="address-book"
   ></ui5-side-navigation-item>
-      <ui5-side-navigation-item
-      text="Social Media"
-      (click)="onSocialMediaClick($event)"
-      routerLink="/home"
-      icon="detail-view"
-    ></ui5-side-navigation-item>
       <ui5-side-navigation-item
       text="User Management"
       slot="fixedItems"
@@ -55,11 +49,4 @@
   </ui5-side-navigation>
   <div class="content"></div>
 </div>
-<app-social-media
-  [isOpen]="isOpen"
-  (close)="this.isOpen = false;"
-></app-social-media>
-<app-contact-info
-  [isContactOpen]="isContactOpen"
-  (close)="this.isContactOpen = false;"
-></app-contact-info>
+

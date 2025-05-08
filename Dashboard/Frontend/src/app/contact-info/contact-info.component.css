@@ -1,19 +1,36 @@
-/* contact-info.component.css */
 .form-container {
-  padding: 0.5rem;
+  padding: 0.6rem
 }
 
 .form-field-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.0rem;
+  margin-top: 1.0rem
 }
-
+.ui5-textarea textarea {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
 .readonly-field {
-  margin-bottom: 0.5rem;
-  background-color: var(--sapField_ReadOnly_Background);
+  background-color: #f7f7f7;
+  border: 1px solid #dddddd;
 }
-
 .editable-field {
   margin-top: 0.5rem;
+  width: 100%;
+  height: 2.5rem;
+}
+.readonly-field{
+  width: 100%;
+  height: 2.5rem;
+}
+.editable-field-address {
+  margin-top: 0.5rem;
+  width: 100%;
+  min-height: 100px;
+  padding: 0.5rem;
+  border: 1px solid #05080a;
+  border-radius: 4px;
+  resize: vertical;
 }
 .address-display-container,
 .address-edit-container {
@@ -53,4 +70,31 @@ ui5-label {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: bold;
+}
+
+.centered-toolbar {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 10px;
+  border-bottom: none !important;
+}
+.shadow-container {
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0.125rem 0 rgba(85, 107, 130, 0.16),
+    0 0.5rem 1rem 0 rgba(85, 107, 130, 0.16);
+  margin: 1rem;
+  padding: 1rem;
+}
+.readonly-address {
+  width: 100%;
+  min-height: 3rem;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  background: #f7f7f7;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  white-space: pre-wrap;
+  overflow-y: auto;
+  max-height: 120px;
 }

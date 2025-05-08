@@ -4,20 +4,18 @@ import {
   CUSTOM_ELEMENTS_SCHEMA,
   EventEmitter,
   Input,
-  OnChanges,
   OnInit,
   Output,
-  SimpleChanges,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonService } from '@app/services/common-service/common.service';
 import { InputComponent } from '@ui5/webcomponents-ngx';
 import { forkJoin } from 'rxjs';
-
+import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
 @Component({
   selector: 'app-social-media',
   standalone: true,
-  imports: [CommonModule, FormsModule, InputComponent],
+  imports: [CommonModule, FormsModule, InputComponent, ToastMessageComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './social-media.component.html',
   styleUrl: './social-media.component.css',
@@ -26,8 +24,8 @@ export class SocialMediaComponent implements OnInit {
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
   @Input() isOpen: boolean = false;
   @Output() Global: EventEmitter<void> = new EventEmitter<void>();
+  @Output() IsOpenToastAlert = new EventEmitter<void>();
   ToastType: string = '';
-
   formloading: boolean = false;
   isActive: any;
   odata: boolean;
@@ -60,16 +58,15 @@ export class SocialMediaComponent implements OnInit {
       link: item.link,
       is_active: item.is_active,
     }));
-
+    this.ToastType = 'edit';
     const requests = formData.map((item: any) =>
       this.commonService.patch(`Footers(${item.id})`, item)
     );
-
     forkJoin(requests).subscribe({
       next: (responses: any[]) => {
         this.formloading = false;
+        this.IsOpenToastAlert.emit();
         this.Global.emit();
-        this.closeDialog();
       },
       error: (error: any) => {
         console.error('Error submitting form:', error);
@@ -80,9 +77,5 @@ export class SocialMediaComponent implements OnInit {
 
   toggleActive(item: any, event: any) {
     item.is_active = event.target.checked;
-  }
-  closeDialog() {
-    this.isOpen = false;
-    this.close.emit();
   }
 }
