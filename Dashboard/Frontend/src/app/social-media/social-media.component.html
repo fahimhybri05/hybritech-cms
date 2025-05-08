@@ -1,28 +1,37 @@
-<!-- <ui5-dialog [open]="isOpen" header-text="Social Media" state="Information"> -->
+<div class="shadow-container">
   <ui5-bar slot="header" design="Header">
     <ui5-title level="H5" slot="startContent"
       >Edit Footer Information</ui5-title
     >
   </ui5-bar>
-  <div *ngFor="let item of socialMedia">
+  <div *ngFor="let item of socialMedia" class="pt-2">
     <div class="container">
       <div class="row d-flex align-items-center">
         <div class="col-3">
-          <ui5-title level="H1" size="H1" [innerHTML]="item.icon">
-          </ui5-title>
+          <ui5-title level="H1" size="H1" [innerHTML]="item.icon"> </ui5-title>
         </div>
         <div class="col-6">
-          <ui5-input [(ngModel)]="item.link" placeholder="Enter Social Media URL"></ui5-input>
+          <ui5-input
+            [(ngModel)]="item.link"
+            placeholder="Enter Social Media URL"
+          ></ui5-input>
         </div>
-        <div class=" col-3 d-flex align-items-center">
+        <div class="col-3 d-flex align-items-center">
           <span>Active:</span>
-          <ui5-switch [(checked)]="item.is_active" (change)="toggleActive(item, $event)"></ui5-switch>
+          <ui5-switch
+            [(checked)]="item.is_active"
+            (change)="toggleActive(item, $event)"
+          ></ui5-switch>
         </div>
       </div>
     </div>
   </div>
 
-  <div slot="footer" class="d-flex justify-content-end w-100 gap-2 p-2">
+  <div slot="footer" class="d-flex justify-content-center w-100 pt-3 pb-2">
     <ui5-button design="Emphasized" (click)="onSubmit()">Submit</ui5-button>
   </div>
-<!-- </ui5-dialog> -->
+</div>
+<app-toast-message
+  [IsOpenToastAlert]="IsOpenToastAlert"
+  [ToastType]="ToastType"
+></app-toast-message>

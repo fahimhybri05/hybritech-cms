@@ -1,7 +1,13 @@
-ui5-dialog{
-    width: 600px;
-}
+
 ui5-input{
     height: 50px;
     width: 100%;
 }
+.shadow-container {
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 0.125rem 0 rgba(85, 107, 130, 0.16),
+      0 0.5rem 1rem 0 rgba(85, 107, 130, 0.16);
+    margin: 1rem;
+    padding: 1rem;
+  }

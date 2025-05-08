@@ -24,7 +24,6 @@ import { ToastMessageComponent } from '@app/components/toast-message/toast-messa
 })
 export class ContactInfoComponent implements OnInit {
   @Input() contactData: any = {};
-  @Input() isContactOpen: boolean = false;
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
   @Output() refreshTable: EventEmitter<void> = new EventEmitter<void>();
   @Output() IsOpenToastAlert = new EventEmitter<void>();
@@ -38,12 +37,12 @@ export class ContactInfoComponent implements OnInit {
   ToastType: string = '';
   isActive: any;
   sucessMessage: string = '';
-  address: string = '';
-  email: string = '';
-  phone: string = '';
-  editAddress: string = '';
-  editEmail: string = '';
-  editPhone: string = '';
+  address = '';
+  email = '';
+  phone = '';
+  editAddress = '';
+  editEmail = '';
+  editPhone = '';
 
   constructor(
     private commonService: CommonService,
@@ -53,97 +52,78 @@ export class ContactInfoComponent implements OnInit {
     this.odata = this.commonService.odata;
     this.api = this.commonService.api;
   }
-
   ngOnInit(): void {
-    this.initFormValues();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['isContactOpen'] && changes['isContactOpen'].currentValue) {
+    if (this.hasValidContactData()) {
+      this.initFormValues();
+    } else {
       this.getContactInfo();
     }
-
-    if (changes['contactData'] && changes['contactData'].currentValue) {
-      this.initFormValues();
-    }
   }
 
-  initFormValues() {
-    const data = this.contactData.value?.[0] || this.contactData;
-    this.address = data.address || '';
-    this.email = data.email || '';
-    this.phone = data.phone || '';
+  private hasValidContactData(): boolean {
+    return (
+      this.contactData &&
+      (this.contactData.address ||
+        this.contactData.email ||
+        this.contactData.phone)
+    );
+  }
+
+  private initFormValues(): void {
+    console.log('Initializing form with:', this.contactData);
+    this.address = this.contactData.address || '';
+    this.email = this.contactData.email || '';
+    this.phone = this.contactData.phone || '';
     this.editAddress = this.address;
     this.editEmail = this.email;
     this.editPhone = this.phone;
+    this.loading = false;
   }
 
-  getContactInfo() {
+  getContactInfo(): void {
     this.loading = true;
     this.commonService.get(`AddressInfos`).subscribe({
       next: (response: any) => {
-        const contactInfo = response.value?.[0];
-        this.contactData = contactInfo;
-        if (contactInfo) {
-          this.address = contactInfo.address || '';
-          this.email = contactInfo.email || '';
-          this.phone = contactInfo.phone || '';
-          this.editAddress = this.address;
-          this.editEmail = this.email;
-          this.editPhone = this.phone;
-        }
-
-        this.loading = false;
-        this.cdRef.detectChanges();
+        this.contactData = response.value?.[0] || response;
+        this.initFormValues();
       },
       error: (err) => {
-        console.error('API Error:', err);
         this.loading = false;
-        this.IsOpenToastAlert.emit();
       },
     });
   }
-  updateContactInfo() {
+
+  updateContactInfo(): void {
     if (!this.editPhone || !this.editEmail || !this.editAddress) {
-      this.IsOpenToastAlert.emit();
       return;
     }
 
     this.formloading = true;
+    console.log('Updating with:', {
+      address: this.editAddress,
+      email: this.editEmail,
+      phone: this.editPhone,
+    });
 
     const payload = {
       address: this.editAddress,
       email: this.editEmail,
       phone: this.editPhone,
     };
-
+    this.ToastType = 'edit';
     const recordId = this.contactData.id;
-
     this.commonService.patch(`AddressInfos(${recordId})`, payload).subscribe({
       next: () => {
-        this.formloading = false;
-        this.isContactOpen = false;
         this.refreshTable.emit();
+        this.address = this.editAddress;
+        this.email = this.editEmail;
+        this.phone = this.editPhone;
+        this.formloading = false;
         this.IsOpenToastAlert.emit();
       },
       error: (error) => {
         this.formloading = false;
-        this.isEditError = true;
-        this.errorMessage = error.error?.message || 'Error updating FAQ';
       },
     });
-  }
-  closeDialog() {
-    this.isContactOpen = false;
-    this.close.emit();
-  }
-
-  resetForm(form: NgForm) {
-    form.resetForm();
-  }
-
-  clearErrorMessage(event: Event) {
-    event.stopPropagation();
-    this.errorMessage = '';
   }
 }

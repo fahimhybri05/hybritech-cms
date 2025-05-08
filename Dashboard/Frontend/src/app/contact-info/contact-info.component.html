@@ -1,83 +1,68 @@
-<ui5-bar slot="header" design="Header">
-  <ui5-title level="H5" slot="startContent">Edit Contact Information</ui5-title>
-</ui5-bar>
-
-<section style="padding: 1rem;">
-  <ui5-busy-indicator [active]="formloading" delay="100">
-    <div class="form-container">
-      <div class="form-field-group">
-        <ui5-label show-colon required>Phone</ui5-label>
-        <ui5-input
-          class="readonly-field w-100"
-          value="{{ phone }}"
-          readonly
-            style="width: 100%; height: 2.5rem; margin-bottom: 0.5rem;"
-        ></ui5-input>
-        <ui5-input
-          class="editable-field w-100"
-          [(ngModel)]="editPhone"
-          name="editPhone"
-          placeholder="Enter phone number"
-          required
-          style="width: 100%; height: 2.5rem;"
-        ></ui5-input>
+<div class="shadow-container">
+  <ui5-bar slot="header" design="Header">
+    <ui5-title level="H5" slot="startContent"
+      >Edit Address Information</ui5-title
+    >
+  </ui5-bar>
+  <section>
+    <ui5-busy-indicator [active]="loading" delay="100">
+      <div class="form-container">
+        <div class="form-field-group">
+          <ui5-label show-colon>Phone</ui5-label>
+          <ui5-input
+            class="readonly-field"
+            [value]="phone"
+            readonly
+          ></ui5-input>
+          <ui5-label show-colon class="pt-2">Edit Phone</ui5-label>
+          <ui5-input
+            class="editable-field"
+            [(ngModel)]="editPhone"
+            name="editPhone"
+            placeholder="Enter phone number"
+            required
+          ></ui5-input>
+        </div>
+        <div class="form-field-group">
+          <ui5-label show-colon>Email</ui5-label>
+          <ui5-input
+            class="readonly-field"
+            [value]="email"
+            readonly
+          ></ui5-input>
+          <ui5-label show-colon class="pt-2">Edit Email</ui5-label>
+          <ui5-input
+            class="editable-field"
+            [(ngModel)]="editEmail"
+            name="editEmail"
+            placeholder="Enter email"
+            required
+          ></ui5-input>
+        </div>
+        <div class="form-field-group">
+          <ui5-label show-colon>Address</ui5-label>
+          <div class="readonly-address">
+            {{ address }}
+          </div>
+          <ui5-label show-colon class="pt-2">Edit Address</ui5-label>
+          <textarea
+            class="editable-field-address"
+            [(ngModel)]="editAddress"
+            name="editAddress"
+            required
+          ></textarea>
+        </div>
       </div>
-      
-      <div class="form-field-group" style="margin-top: 1.5rem;">
-        <ui5-label show-colon required>Email</ui5-label>
-        <ui5-input
-          class="readonly-field w-100"
-          value="{{ email }}"
-          readonly
-          style="width: 100%; height: 2.5rem; margin-bottom: 0.5rem;"
-        ></ui5-input>
-        <ui5-input
-          class="editable-field w-100"
-          [(ngModel)]="editEmail"
-          name="editEmail"
-          placeholder="Enter email"
-          required
-          style="width: 100%; height: 2.5rem;"
-        ></ui5-input>
-      </div>
-      
-      <div class="form-field-group" style="margin-top: 1.5rem;">
-        <ui5-label show-colon required>Address</ui5-label>
-        <!-- Readonly address display with wrapping -->
-        <ui5-textarea
-          class="readonly-field w-100"
-          value="{{ address }}"
-          readonly
-          style="width: 100%; min-height: 3rem; margin-bottom: 0.5rem;"
-          rows="2"
-          growing
-          growing-max-lines="4"
-        ></ui5-textarea>
-        <!-- Editable address input -->
-        <ui5-textarea
-          class="editable-field w-100"
-          [(ngModel)]="editAddress"
-          name="editAddress"
-          placeholder="Enter address"
-          required
-          style="width: 100%; min-height: 4rem;"
-          rows="3"
-          growing
-          growing-max-lines="10"
-        ></ui5-textarea>
-      </div>
-    </div>
-  </ui5-busy-indicator>
-</section>
-
-<ui5-toolbar slot="footer">
-  <ui5-toolbar-button
-    design="Emphasized"
-    text="Update"
-    (click)="updateContactInfo()"
-  ></ui5-toolbar-button>
-
+    </ui5-busy-indicator>
+  </section>
+  <ui5-toolbar slot="footer" class="centered-toolbar">
+    <ui5-toolbar-button
+      design="Emphasized"
+      text="Update"
+      (click)="updateContactInfo()"
+    ></ui5-toolbar-button>
   </ui5-toolbar>
+</div>
 <app-toast-message
   [IsOpenToastAlert]="IsOpenToastAlert"
   [ToastType]="ToastType"
