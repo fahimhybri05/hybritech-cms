@@ -11,7 +11,7 @@
             </p>
           </div>
         </div>
-        <div class="col-md-6 common-bg mt-5 mb-5" id="contact-form-section">
+        <div class="col-md-6 common-bg mt-5 mb-5 shadow-container" id="contact-form-section">
           <div>
             <div id="contact-us-title">
               <i class="fa-regular fa-user"></i>
@@ -25,6 +25,7 @@
                 [(ngModel)]="fullName"
                 name="fullName"
                 placeholder="Enter your name"
+                autocomplete="off"
               />
               <hr class="form-hr" />
             </div>
@@ -36,10 +37,10 @@
                 [(ngModel)]="email"
                 name="email"
                 placeholder="You@example.com"
+                autocomplete="off"
               />
               <hr class="form-hr" />
             </div>
-
             <div>
               <h6>Contact Number</h6>
               <input
@@ -48,6 +49,7 @@
                 [(ngModel)]="number"
                 name="number"
                 placeholder="+880 123-45678"
+                autocomplete="off"
               />
               <hr class="form-hr" />
             </div>
@@ -59,6 +61,7 @@
                 [(ngModel)]="subject"
                 name="subject"
                 placeholder="Your subject"
+                autocomplete="off"
               ></textarea>
               <hr class="form-hr" />
             </div>
@@ -70,6 +73,7 @@
                 [(ngModel)]="description"
                 name="description"
                 placeholder="Tell us more about your idea"
+                autocomplete="off"
               ></textarea>
               <hr class="form-hr" />
             </div>

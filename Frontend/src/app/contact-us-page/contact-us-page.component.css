@@ -30,7 +30,7 @@
   display: block;
   margin-bottom: var(--form-control-margin-bottom);
   background-color: transparent;
-  color: var(--white);
+  color: var(--text-color);
   border: none;
   padding-left: 0;
   padding-top: var(--form-control-padding);
@@ -42,12 +42,17 @@
 
 .form-control:focus {
   outline: none;
-  color: var(--white);
+  color: var(--text-color);
   background: transparent;
   border: none;
   box-shadow: none;
 }
-
+.shadow-container {
+  background-color: #ffffff;
+  border-radius:20px;
+  box-shadow: 0 0 0.5rem 0 rgba(85, 107, 130, 0.16),
+    0 0.5rem 1rem 0 rgba(85, 107, 130, 0.16);
+}
 .form-hr {
   margin-top: 0.5px;
   border: 0.5px;

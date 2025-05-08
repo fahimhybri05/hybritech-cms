@@ -486,7 +486,7 @@ font-size: 30px;
     margin-right: 20px;
   }
 }
-@media screen and (min-width: 769px) and (max-width: 1260px) {
+@media screen and (min-width: 769px) and (max-width: 1199px) {
   .banner {
     min-height: 40vh;
   }
@@ -525,3 +525,44 @@ font-size: 30px;
     margin-right: 20px;
   }
 }
+  @media screen and (min-width: 1200px) and (max-width: 1400px) {
+
+    .banner {
+      min-height: 80vh;
+    }
+    .banner-overlay {
+      height: 80vh;
+    }
+    .banner-title {
+      font-size: 60px;
+      width: 100%;
+    }
+    .banner-items {
+      padding-top: 20vh;
+    }
+    .banner-title span {
+      font-size: 60px;
+    }
+    .home-banner-text {
+      font-size: var(--font-size-small);
+    }
+    .banner-logoimg img {
+      height: 150px;
+    }
+    .service-icon i {
+      font-size: 25px !important;
+      margin-top: 30px;
+      margin-right: 20px;
+    }
+    .service-icon .ts{
+      height: 25px !important;
+      margin-top: 30px;
+      margin-right: 20px;
+    }
+    .service-icon .mysql{
+      height: 60px !important;
+      margin-top: 30px;
+      margin-right: 20px;
+    }
+  }
+

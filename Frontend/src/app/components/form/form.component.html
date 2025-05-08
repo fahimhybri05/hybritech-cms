@@ -19,6 +19,7 @@
             [(ngModel)]="name"
             name="name"
             placeholder="Enter your name"
+            autocomplete="off"
           />
 
           <hr class="form-hr" />
@@ -32,6 +33,7 @@
               [(ngModel)]="projectName"
               name="projectName"
               placeholder="write here"
+              autocomplete="off"
             />
 
             <hr class="form-hr" />
@@ -44,6 +46,7 @@
               [(ngModel)]="email"
               name="email"
               placeholder="You@example.com"
+              autocomplete="off"
             />
 
             <hr class="form-hr" />
@@ -59,6 +62,7 @@
               [(ngModel)]="projectType"
               name="projectType"
               placeholder="Write here"
+              autocomplete="off"
             />
             <hr class="form-hr" />
           </div>
@@ -70,6 +74,7 @@
               [(ngModel)]="projectBudget"
               name="projectBudget"
               placeholder="Write here"
+              autocomplete="off"
             />
             <hr class="form-hr" />
           </div>
@@ -81,19 +86,20 @@
             [(ngModel)]="projectDescription"
             name="projectDescription"
             placeholder="Tell us more about your idea"
+            autocomplete="off"
           ></textarea>
           <hr class="form-hr" />
         </div>
 
         <div class="btn-submit">
           <a
-          class="btn-common m-3"
-          (click)="!isSubmitting && insertFormData()"
-          [class.disabled]="isSubmitting"
-          [attr.disabled]="isSubmitting ? true : null"
-        >
-          {{ isSubmitting ? "Submitting..." : "Send Message" }}
-        </a>
+            class="btn-common m-3"
+            (click)="!isSubmitting && insertFormData()"
+            [class.disabled]="isSubmitting"
+            [attr.disabled]="isSubmitting ? true : null"
+          >
+            {{ isSubmitting ? "Submitting..." : "Send Message" }}
+          </a>
         </div>
       </div>
     </div>
