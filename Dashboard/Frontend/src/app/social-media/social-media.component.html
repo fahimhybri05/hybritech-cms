@@ -1,9 +1,11 @@
-<div class="shadow-container">
-  <ui5-bar slot="header" design="Header">
-    <ui5-title level="H5" slot="startContent"
-      >Edit Footer Information</ui5-title
-    >
-  </ui5-bar>
+<ui5-card class="mt-4">
+  <ui5-card-header
+    slot="header"
+    title-text="Edit Footer Information :"
+    interactive
+  >
+  </ui5-card-header>
+
   <div *ngFor="let item of socialMedia" class="pt-2">
     <div class="container">
       <div class="row d-flex align-items-center">
@@ -27,10 +29,11 @@
     </div>
   </div>
 
-  <div slot="footer" class="d-flex justify-content-center w-100 pt-3 pb-2">
-    <ui5-button design="Emphasized" (click)="onSubmit()">Submit</ui5-button>
+  <div class="col-md-11 my-4 d-flex justify-content-end">
+    <ui5-button design="Emphasized" (click)="onSubmit()"> Submit </ui5-button>
   </div>
-</div>
+</ui5-card>
+
 <app-toast-message
   [IsOpenToastAlert]="IsOpenToastAlert"
   [ToastType]="ToastType"
