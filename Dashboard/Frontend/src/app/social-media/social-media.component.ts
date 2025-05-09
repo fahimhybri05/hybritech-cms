@@ -29,6 +29,7 @@ export class SocialMediaComponent implements OnInit {
   formloading: boolean = false;
   isActive: any;
   odata: boolean;
+  loading: boolean = false;
   socialMedia: any[] = [];
   socialMediaUrl: any;
 
@@ -41,18 +42,21 @@ export class SocialMediaComponent implements OnInit {
   }
 
   loadData() {
+    this.loading = true;
     this.commonService.get('Footers', this.odata).subscribe({
       next: (response: any) => {
         this.socialMedia = response.value || [];
+        this.loading = false;
       },
       error: (error: any) => {
         console.error('Error loading data:', error);
+        this.loading = false;
       },
     });
   }
   onSubmit() {
     this.formloading = true;
-
+    this.loading = true;
     const formData = this.socialMedia.map((item: any) => ({
       id: item.id,
       link: item.link,
@@ -65,12 +69,14 @@ export class SocialMediaComponent implements OnInit {
     forkJoin(requests).subscribe({
       next: (responses: any[]) => {
         this.formloading = false;
+        this.loading = false;
         this.IsOpenToastAlert.emit();
         this.Global.emit();
       },
       error: (error: any) => {
         console.error('Error submitting form:', error);
         this.formloading = false;
+        this.loading = false;
       },
     });
   }
