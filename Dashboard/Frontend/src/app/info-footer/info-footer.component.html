@@ -1,10 +1,29 @@
 <div class="container">
-    <div class="row">
-        <div class="col-md-6 ">
-            <app-contact-info></app-contact-info>
-        </div>
-        <div class="col-md-6">
-            <app-social-media></app-social-media>
-        </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div>
+        <app-contact-info></app-contact-info>
+      </div>
+      <div>
+        <ui5-card>
+          <ui5-card-header slot="header" titleText="Our Projects :" interactive>
+          </ui5-card-header>
+          <section>
+            <ui5-busy-indicator [active]="loading" [delay]="100">
+                <span>
+                    Want to show Our Projects in Website? 
+                </span>
+                <div class="d-flex align-items-center">
+                    <strong>Active :</strong>
+                    <ui5-switch checked (click)="toggleActive($event)"></ui5-switch>
+                  </div>
+            </ui5-busy-indicator>
+          </section>
+        </ui5-card>
+      </div>
     </div>
+    <div class="col-md-6">
+      <app-social-media></app-social-media>
+    </div>
+  </div>
 </div>
