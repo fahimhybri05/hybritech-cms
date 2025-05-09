@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('title');
             $table->string('subtitle')->nullable();
             $table->string('description')->nullable();
-            $table->string('image_url');
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('projects');
+        //
     }
 };
