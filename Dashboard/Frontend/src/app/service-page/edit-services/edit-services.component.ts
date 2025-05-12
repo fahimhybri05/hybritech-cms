@@ -108,10 +108,10 @@ export class EditServicesComponent implements OnChanges {
     if (this.selectedFile) {
       formData.append('image', this.selectedFile);
     }
-    formData.append('_method', 'PUT');
+    formData.append('_method', 'POST');
     this.loading = true;
     this.commonService
-      .post(`service-pages/${this.serviceId}`, formData, false)
+      .post(`service-pages-update/${this.serviceId}`, formData, false)
       .subscribe(
         (response: any) => {
           this.loading = false;
