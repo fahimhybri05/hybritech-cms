@@ -41,7 +41,7 @@ export class AddServicesComponent {
   title: string = '';
   description: string = '';
   wordCount: number = 0;
-  maxWords: number = 45;
+  maxWords: number = 60;
   selectedFile: File | null = null;
   selectedFileUrl: string | null = null;
 

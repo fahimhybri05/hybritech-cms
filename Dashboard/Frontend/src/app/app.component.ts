@@ -26,20 +26,15 @@ export class AppComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
-    // Check initial login state
     this.isLoggedIn = this.authService.isLoggedIn();
-
-    // Subscribe to route changes to determine layout
     this.router.events
       .pipe(
         filter((event): event is NavigationEnd => event instanceof NavigationEnd)
       )
       .subscribe((event: NavigationEnd) => {
-        // Show auth layout for login and register routes
         this.showAuthLayout = ['/login', '/register'].includes(
           event.urlAfterRedirects
         );
-        // Update login state on navigation
         this.isLoggedIn = this.authService.isLoggedIn();
       });
   }

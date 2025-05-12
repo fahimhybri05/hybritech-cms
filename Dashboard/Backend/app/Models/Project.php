@@ -10,7 +10,10 @@ class Project extends Model implements HasMedia
 {
     use InteractsWithMedia;
     
-    protected $fillable = ['title', 'subtitle', 'description', 'media'];
+    protected $fillable = ['is_active', 'title', 'subtitle', 'description', 'media'];
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
     
     public function registerMediaCollections(): void
     {

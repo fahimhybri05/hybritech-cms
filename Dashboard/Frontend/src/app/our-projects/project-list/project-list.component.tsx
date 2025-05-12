@@ -1,13 +1,26 @@
-import { ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
+import { CommonModule } from "@angular/common";
+import {
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ChangeDetectorRef,
+} from "@angular/core";
 import { ReactAnalyticalTable } from '@app/components/analytical-table/react-table';
 import { CommonService } from '@app/services/common-service/common.service';
 import { Projects } from '@app/shared/Model/project';
 import { Button, Icon, TextAlign } from '@ui5/webcomponents-react';
+import { AddProjectComponent } from '@app/our-projects/add-project/add-project.component';
+import { EditProjectComponent } from '../edit-project/edit-project.component';
 import React from 'react';
+import { ProjectInfoComponent } from "../project-info/project-info.component";
 @Component({
   selector: 'app-project-list',
   standalone: true,
-  imports: [ReactAnalyticalTable],
+  imports: [ReactAnalyticalTable, AddProjectComponent, EditProjectComponent, ProjectInfoComponent,CommonModule],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './project-list.component.html',
   styleUrl: './project-list.component.css'
 })
@@ -163,6 +176,10 @@ export class ProjectListComponent {
       this.cdr.detectChanges();
     }
   }
+  closeAddModal() {
+    this.isInsert = false;
+    this.refreshTable.emit();
+  }
   editProject(original: any) {
     this.isEdit = true;
     this.selectedItemId = original.id;
@@ -180,6 +197,13 @@ export class ProjectListComponent {
     this.selectedItemId = original.id;
     this.selectedItemData = { ...original };
   }
+
+  closeDetailsModal() {
+    this.isDetails = false;
+    this.selectedItemId = null;
+    this.selectedItemData = null;
+    this.cdr.detectChanges(); 
+  }
   deleteItem(original: any) {
     this.isDeleteOpen = true;
     this.selectedItemId = original.id;
@@ -188,7 +212,7 @@ export class ProjectListComponent {
   deleteItemConfirm() {
     this.isDeleteLoading = true;
     const id = this.selectedItemId;
-    this.commonService.delete(`service-pages/${id}`, this.api).subscribe({
+    this.commonService.delete(`projects/${id}`, this.api).subscribe({
       next: (response: any) => {
         console.log(response);
         this.isSuccess = true;

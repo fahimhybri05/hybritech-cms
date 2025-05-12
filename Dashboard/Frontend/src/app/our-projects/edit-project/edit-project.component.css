@@ -1,0 +1,14 @@
+ui5-dialog {
+    width: 550px;
+  }
+  .titleInput,.file-upload {
+    display: flex;
+    flex-direction: column;
+    width: 540px;
+    height: 70px;
+  }
+  .textArea {
+    width: 540px;
+    height: 80px;
+  }
+  
