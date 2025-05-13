@@ -28,8 +28,14 @@
           name="title"
           placeholder="Enter title"
           required
+          (input)="updateTitleWordCount()"
         ></ui5-input>
-
+        <div
+          class="word-count"
+          [ngClass]="{ 'text-danger': titlewordcount > maxtitlewords }"
+        >
+          Words: {{ titlewordcount }}/{{ maxtitlewords }}
+        </div>
         <ui5-label show-colon required>Description</ui5-label>
         <ui5-textarea
           class="textArea"

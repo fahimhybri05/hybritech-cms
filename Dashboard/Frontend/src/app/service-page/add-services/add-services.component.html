@@ -29,6 +29,7 @@
         name="title"
         placeholder="Enter title"
         required
+        (input)="updateTitleWordCount()"
       ></ui5-input>
 
         <ui5-label show-colon required>Description <span class="word-count" [ngClass]="{'text-danger': wordCount > maxWords}"> ( Words: {{wordCount}}/{{maxWords}} )</span></ui5-label>
@@ -36,7 +37,7 @@
           class="textArea"
           [(ngModel)]="description"
           name="description"
-          placeholder="Enter description (Max 45 words)"
+          placeholder="Enter description (Max 60 words)"
           required
           (input)="updateWordCount()"
         ></ui5-textarea>

@@ -15,8 +15,8 @@ class ContactInfoSeeder extends Seeder
     {
         DB::table('address_infos')->insert([
             'address' => 'House No 32, Road No 05, Block C, Banasree,Rampura,Dhaka-1219',
-            'email' => 'contact@example.com',
-            'phone' => '+1 (123) 456-7890',
+            'email' => 'info@hybri.tech',
+            'phone' => '+8801882541540',
         ]);
     }
 }

@@ -37,7 +37,9 @@ export class EditServicesComponent implements OnChanges {
   title: string = '';
   description: string = '';
   wordCount: number = 0;
-  maxWords: number = 45;
+  maxWords: number = 60;
+  titlewordcount: number = 0;
+  maxtitlewords: number = 25;
   selectedFile: File | null = null;
   selectedFileUrl: string | null = null;
   currentImageUrl: string | null = null;
@@ -90,6 +92,13 @@ export class EditServicesComponent implements OnChanges {
     }
     this.wordCount = this.description.trim().split(/\s+/).length;
   }
+  updateTitleWordCount() {
+    if (!this.title) {
+      this.titlewordcount = 0;
+      return;
+    }
+    this.titlewordcount = this.title.trim().split(/\s+/).length;
+  } 
 
   updateData() {
     if (!this.title || !this.description) {

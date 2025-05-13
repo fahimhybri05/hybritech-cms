@@ -41,6 +41,8 @@ export class AddServicesComponent {
   title: string = '';
   description: string = '';
   wordCount: number = 0;
+  titlewordcount: number = 0;
+  maxtitlewords: number = 25;
   maxWords: number = 60;
   selectedFile: File | null = null;
   selectedFileUrl: string | null = null;
@@ -80,6 +82,13 @@ export class AddServicesComponent {
     }
     this.wordCount = this.description.trim().split(/\s+/).length;
   }
+  updateTitleWordCount() {
+    if (!this.title) {
+      this.titlewordcount = 0;
+      return;
+    }
+    this.titlewordcount = this.title.trim().split(/\s+/).length;
+  }
 
   insertData() {
     if (!this.title || !this.description || !this.selectedFile) {
@@ -88,6 +97,10 @@ export class AddServicesComponent {
     }
     if (this.wordCount > this.maxWords) {
       this.errorMessage = `Description cannot exceed ${this.maxWords} words.`;
+      return;
+    }
+    if(this.titlewordcount > this.maxtitlewords){
+      this.errorMessage = `Title cannot exceed ${this.maxtitlewords} words.`;
       return;
     }
 
