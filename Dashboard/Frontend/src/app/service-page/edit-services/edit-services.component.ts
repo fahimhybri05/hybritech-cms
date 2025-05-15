@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InputComponent, LabelComponent } from '@ui5/webcomponents-ngx';
 import { TextAreaComponent } from '@ui5/webcomponents-ngx/main/text-area';
@@ -98,7 +106,7 @@ export class EditServicesComponent implements OnChanges {
       return;
     }
     this.titlewordcount = this.title.trim().split(/\s+/).length;
-  } 
+  }
 
   updateData() {
     if (!this.title || !this.description) {
@@ -125,11 +133,11 @@ export class EditServicesComponent implements OnChanges {
         (response: any) => {
           this.loading = false;
           this.isSuccess = true;
-                       this.ToastType = 'edit';
-                       setTimeout(() => {
-                         this.IsOpenToastAlert.emit();
-                       }, 1000);
-                       this.refreshTable.emit();
+          this.ToastType = 'edit';
+          setTimeout(() => {
+            this.IsOpenToastAlert.emit();
+          }, 1000);
+          this.refreshTable.emit();
           this.closeDialog();
         },
         (error) => {

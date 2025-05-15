@@ -16,15 +16,16 @@ import { AddProjectComponent } from '@app/our-projects/add-project/add-project.c
 import { EditProjectComponent } from '../edit-project/edit-project.component';
 import React from 'react';
 import { ProjectInfoComponent } from "../project-info/project-info.component";
+import { ToastMessageComponent } from "@app/components/toast-message/toast-message.component";
 @Component({
   selector: 'app-project-list',
   standalone: true,
-  imports: [ReactAnalyticalTable, AddProjectComponent, EditProjectComponent, ProjectInfoComponent,CommonModule],
+  imports: [ReactAnalyticalTable, AddProjectComponent, EditProjectComponent, ProjectInfoComponent,CommonModule,ToastMessageComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './project-list.component.html',
   styleUrl: './project-list.component.css'
 })
-export class ProjectListComponent {
+export class ProjectListComponent implements OnInit {
   @Output() refreshTable: EventEmitter<void> = new EventEmitter<void>();
   @Output() IsOpenToastAlert = new EventEmitter<void>();
   ToastType: string = "";
@@ -53,7 +54,10 @@ export class ProjectListComponent {
     this.api = this.commonService.api;
     this.tableColum();
   }
-
+ngOnInit(): void {}
+    refresh($event: any) {
+    this.refreshTable.emit();
+}
   tableColum() {
     const columns = [
       {

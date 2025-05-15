@@ -25,22 +25,26 @@
 ></react-analytical-table>
 <app-add-project
   [isOpen]="isInsert"
-  (IsOpenToastAlert)="IsOpenToastAlert.emit()"
   (close)="closeAddModal()" 
 ></app-add-project>
 <app-edit-project
   [isOpen]="isEdit"
   [projectId]="selectedItemId"
   [projectData]="selectedItemData"
-  (IsOpenToastAlert)="IsOpenToastAlert.emit()"
+    (refreshTable)="refresh($event)"
   (close)="closeEditModal()" 
 ></app-edit-project>
+
 <app-project-info
   [isOpen]="isDetails"
   [projectId]="selectedItemId"
   [projectData]="selectedItemData"
   (close)="closeDetailsModal()" 
 ></app-project-info>
+<app-toast-message
+  [IsOpenToastAlert]="IsOpenToastAlert"
+  [ToastType]="ToastType"
+></app-toast-message>
 <ui5-dialog [open]="isDeleteOpen" header-text="Warning" state="Critical">
   <p *ngIf="!isDeleteLoading">Are you sure you want to delete this data?</p>
   <div *ngIf="isDeleteLoading">

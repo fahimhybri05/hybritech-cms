@@ -1,6 +1,6 @@
-<ui5-dialog header-text="Edit editProject" [open]="isOpen" id="dialog">
+<ui5-dialog header-text="Edit Project" [open]="isOpen" id="dialog">
     <ui5-bar slot="header" design="Header">
-      <ui5-title level="H5" slot="startContent">Edit Service</ui5-title>
+      <ui5-title level="H5" slot="startContent">Edit Project</ui5-title>
       <ui5-button
         class="dialogCloser"
         design="Transparent"
@@ -38,7 +38,7 @@
           ></ui5-input>
           <ui5-label show-colon required>Subtitle</ui5-label>
           <ui5-textarea
-            class="textArea"
+            class="textArea1"
             [(ngModel)]="subtitle"
             name="subtitle"
             placeholder="Enter subtitle"

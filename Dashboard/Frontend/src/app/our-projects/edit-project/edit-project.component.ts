@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InputComponent, LabelComponent } from '@ui5/webcomponents-ngx';
 import { TextAreaComponent } from '@ui5/webcomponents-ngx/main/text-area';
@@ -21,7 +29,7 @@ import { ToastMessageComponent } from '@app/components/toast-message/toast-messa
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './edit-project.component.html',
-  styleUrl: './edit-project.component.css'
+  styleUrl: './edit-project.component.css',
 })
 export class EditProjectComponent {
   @Input() isOpen: boolean | null = null;
@@ -44,8 +52,8 @@ export class EditProjectComponent {
   selectedFileUrl: string | null = null;
   currentImageUrl: string | null = null;
   isActive: boolean = true;
-   constructor(private commonService: CommonService) {}
-   ngOnChanges(changes: SimpleChanges): void {
+  constructor(private commonService: CommonService) {}
+  ngOnChanges(changes: SimpleChanges): void {
     if (changes['projectData'] && this.projectData) {
       this.title = this.projectData.title || '';
       this.subtitle = this.projectData.subtitle || '';
@@ -109,7 +117,7 @@ export class EditProjectComponent {
     formData.append('title', this.title);
     formData.append('subtitle', this.subtitle);
     formData.append('description', this.description);
-   formData.append('is_active', this.isActive ? '1' : '0');
+    formData.append('is_active', this.isActive ? '1' : '0');
     if (this.selectedFile) {
       formData.append('image', this.selectedFile);
     }
@@ -121,11 +129,11 @@ export class EditProjectComponent {
         (response: any) => {
           this.loading = false;
           this.isSuccess = true;
-                       this.ToastType = 'edit';
-                       setTimeout(() => {
-                         this.IsOpenToastAlert.emit();
-                       }, 1000);
-                       this.refreshTable.emit();
+          this.ToastType = 'edit';
+          setTimeout(() => {
+            this.IsOpenToastAlert.emit();
+          }, 1000);
+          this.refreshTable.emit();
           this.closeDialog();
         },
         (error) => {
