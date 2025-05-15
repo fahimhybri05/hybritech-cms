@@ -10,15 +10,23 @@
           </ui5-card-header>
           <section>
             <ui5-busy-indicator [active]="loading" [delay]="100">
-                <span>
-                    Want to show Our Projects in Website? 
-                </span>
-                <div class="d-flex align-items-center">
-                    <strong>Active :</strong>
-                    <ui5-switch checked (click)="toggleActive($event)"></ui5-switch>
-                  </div>
+              <span> Want to show Our Projects in Website? </span>
+          
+              <div class="d-flex align-items-center">
+                <strong>Active :</strong>
+                <ui5-switch
+                  [checked]="isActive"
+                  (click)="toggleActive($event)"
+                ></ui5-switch>
+              </div>
             </ui5-busy-indicator>
-          </section>
+          </section> 
+            <div class="col-md-11 d-flex justify-content-end my-4">
+    <ui5-button
+      design="Emphasized"
+      (click)="updateData()"
+    >Update</ui5-button>
+  </div>
         </ui5-card>
       </div>
     </div>
@@ -27,3 +35,7 @@
     </div>
   </div>
 </div>
+ <app-toast-message
+  [IsOpenToastAlert]="IsOpenToastAlert"
+  [ToastType]="ToastType"
+></app-toast-message>

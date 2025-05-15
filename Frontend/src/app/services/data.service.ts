@@ -16,6 +16,8 @@ export class DataService {
   private footerData = this.apiUrl + '/odata/Footers?$filter=is_active eq true';
   private applicationData = this.apiUrl + '/api/job-applications';
   private addressData = this.apiUrl + '/odata/AddressInfos';
+  private projectData = this.apiUrl + '/api/projects';
+  private webPages = this.apiUrl + '/odata/WebPages';
   constructor(private http: HttpClient) {}
 
   insertCommonForm(formData: any): Observable<any> {
@@ -29,6 +31,12 @@ export class DataService {
   }
   getAddressData(): Observable<any> {
     return this.http.get<any>(this.addressData);
+  }
+    getProjectData(): Observable<any> {
+    return this.http.get<any>(this.projectData);
+  }
+  getWebPageData(): Observable<any> {
+    return this.http.get<any>(this.webPages);
   }
   getServiceData(): Observable<any> {
     return this.http.get<any>(`${this.serviceData}`);

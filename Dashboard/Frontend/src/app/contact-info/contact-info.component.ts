@@ -70,7 +70,6 @@ export class ContactInfoComponent implements OnInit {
   }
 
   private initFormValues(): void {
-    console.log('Initializing form with:', this.contactData);
     this.address = this.contactData.address || '';
     this.email = this.contactData.email || '';
     this.phone = this.contactData.phone || '';
@@ -99,11 +98,11 @@ export class ContactInfoComponent implements OnInit {
     }
 
     this.formloading = true;
-    console.log('Updating with:', {
-      address: this.editAddress,
-      email: this.editEmail,
-      phone: this.editPhone,
-    });
+    // console.log('Updating with:', {
+    //   address: this.editAddress,
+    //   email: this.editEmail,
+    //   phone: this.editPhone,
+    // });
 
     const payload = {
       address: this.editAddress,
