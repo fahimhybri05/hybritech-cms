@@ -33,7 +33,7 @@ getPermissions() {
       this.isActive = response.is_active;
     },
     error: (error: any) => {
-      console.error('Error updating FAQ:', error);
+      console.error('Error Getting Project Permission:', error);
     },
   });
 }
@@ -50,15 +50,15 @@ toggleActive($event: any) {
     const permissionData = {
       is_active: this.isActive ? true : false,
     };
-    this.ToastType = 'edit';
-
-
+    this.loading = true;
     this.commonService.put(`WebPages(1)`, permissionData, true).subscribe({
       next: (response: any) => {
+        this.loading = false;
+        this.ToastType = 'edit';
         this.IsOpenToastAlert.emit();
       },
       error: (error: any) => {
-        console.error('Error updating FAQ:', error);
+        console.error('Error updating Projects:', error);
       },
     });
   }
