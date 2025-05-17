@@ -24,10 +24,10 @@ constructor(private commonService: CommonService) {
 
 }
 ngOnInit() {
-  this.getPermissions();
+  this.getProjectPermission();
 }
 
-getPermissions() {
+getProjectPermission() {
   this.commonService.get(`WebPages(1)`, true).subscribe({
     next: (response: any) => {
       this.isActive = response.is_active;
@@ -46,7 +46,6 @@ toggleActive($event: any) {
   }
 }
   updateData() {
-
     const permissionData = {
       is_active: this.isActive ? true : false,
     };
