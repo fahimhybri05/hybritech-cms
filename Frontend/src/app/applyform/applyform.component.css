@@ -151,6 +151,67 @@ h6 {
   height: 0;
   opacity: 0;
 }
+.experience-container {
+  padding-bottom: 20px !important;
+}
+.experience-input-combined {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.custom-dropdown {
+  position: relative;
+  display: inline-block;
+  min-width: 60px;
+}
+
+.dropdown-selected {
+  padding: 6px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  cursor: pointer;
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdown-arrow {
+  font-size: 10px;
+  margin-left: 8px;
+}
+
+.dropdown-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background: white;
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.dropdown-options div {
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.dropdown-options div:hover {
+  background: #f8f9fa;
+}
+
+.dropdown-options div.selected {
+  background: #007bff;
+  color: white;
+}
+
+.experience-static-text {
+  font-size: 14px;
+  color: #495057;
+}
 @media screen and (max-width: 768px) {
   .common-bg {
     padding: var(--padding-medium);

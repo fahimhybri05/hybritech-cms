@@ -55,30 +55,50 @@
         </select>
         <hr class="form-hr" />
       </div>
-      <div>
+      <div class="experience-container">
         <h6>Experience</h6>
-        <input
-          type="text"
-          class="form-control"
-          [(ngModel)]="experience"
-          name="experience"
-          placeholder="Write here"
-        />
-        <hr class="form-hr" />
+        <div class="experience-input-combined">
+          <div class="custom-dropdown">
+            <div class="dropdown-selected" (click)="toggleDropdown('years')">
+              {{ years }} <span class="dropdown-arrow">▼</span>
+            </div>
+            <div
+              class="dropdown-options"
+              *ngIf="dropdownOpen === 'years'"
+              [style.height.px]="5 * 30"
+            >
+              <div
+                *ngFor="let y of yearOptions"
+                (click)="selectYear(y)"
+                [class.selected]="y === years"
+              >
+                {{ y }}
+              </div>
+            </div>
+          </div>
+          <span class="experience-static-text">years</span>
+          <div class="custom-dropdown">
+            <div class="dropdown-selected" (click)="toggleDropdown('months')">
+              {{ months }} <span class="dropdown-arrow">▼</span>
+            </div>
+            <div
+              class="dropdown-options"
+              *ngIf="dropdownOpen === 'months'"
+              [style.height.px]="5 * 30"
+            >
+              <div
+                *ngFor="let m of monthOptions"
+                (click)="selectMonth(m)"
+                [class.selected]="m === months"
+              >
+                {{ m }}
+              </div>
+            </div>
+          </div>
+          <span class="experience-static-text">months</span>
+        </div>
       </div>
     </div>
-    <!-- <div class="form-group">
-      <h6>Upload CV</h6>
-      <input
-        type="file"
-        id="attachment"
-        class="form-control"
-        name="attachment"
-        accept=".pdf,.doc,.docx"
-        required
-        (change)="onFileChange($event)"
-      />
-    </div> -->
     <div class="form-group">
       <h6>Upload CV</h6>
       <p class="subtitle">Attach your CV/Resume</p>

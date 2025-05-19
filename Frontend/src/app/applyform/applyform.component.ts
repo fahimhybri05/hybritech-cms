@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  OnInit,
+  HostListener,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DataService } from '@app/services/data.service';
@@ -31,6 +38,32 @@ export class ApplyformComponent implements OnInit {
   experience: string = '';
   attachment: any = null;
   isLoading: boolean = false;
+  years: number = 0;
+  months: number = 0;
+  dropdownOpen: string | null = null;
+
+  yearOptions = Array.from({ length: 21 }, (_, i) => i);
+  monthOptions = Array.from({ length: 13 }, (_, i) => i);
+
+  toggleDropdown(type: 'years' | 'months') {
+    this.dropdownOpen = this.dropdownOpen === type ? null : type;
+  }
+
+  selectYear(year: number) {
+    this.years = year;
+    this.dropdownOpen = null;
+  }
+
+  selectMonth(month: number) {
+    this.months = month;
+    this.dropdownOpen = null;
+  }
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: Event) {
+    if (!(event.target as HTMLElement).closest('.custom-dropdown')) {
+      this.dropdownOpen = null;
+    }
+  }
   constructor(
     private dataService: DataService,
     private swalService: SwalService
@@ -53,11 +86,22 @@ export class ApplyformComponent implements OnInit {
   insertJobData() {
     this.isLoading = true;
     const formData = new FormData();
+    let experienceString;
+    if (this.years === 0 && this.months === 0) {
+      experienceString = `No Experience`;
+    } else if (this.years === 0) {
+      experienceString = `${this.months} months`;
+    } else if (this.months === 0) {
+      experienceString = `${this.years} years`;
+    } else {
+      experienceString = `${this.years} years ${this.months} months`;
+    }
+
     formData.append('full_name', this.full_name);
     formData.append('email', this.email);
     formData.append('is_active', this.is_active.toString());
     formData.append('designation', this.selectedDesignation);
-    formData.append('experience', this.experience);
+    formData.append('experience', experienceString);
     formData.append('number', this.number.toString());
     formData.append('attachment', this.attachment);
 
@@ -76,6 +120,7 @@ export class ApplyformComponent implements OnInit {
       },
     });
   }
+
   private resetForm() {
     this.full_name = '';
     this.email = '';
