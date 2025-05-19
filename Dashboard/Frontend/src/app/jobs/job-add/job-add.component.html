@@ -25,11 +25,12 @@
         <ui5-label show-colon required>Title</ui5-label>
 
         <ui5-textarea
-          class="textArea"
+          class="textArea1"
           [(ngModel)]="title"
-          placeholder="Job Title..."
+          placeholder="Enter title (Max 50 words)"
           required
           type="title"
+          (input)="updatetitleWordCount()"
         ></ui5-textarea>
 
         <ui5-label show-colon required>Header Description</ui5-label>
@@ -37,7 +38,7 @@
         <ui5-textarea
           class="textArea"
           [(ngModel)]="headerDescription"
-          placeholder="Description..."
+          placeholder="Write header description (Max 150 words)"
           required
           type="headerDescription"
         ></ui5-textarea>
@@ -58,12 +59,6 @@
       text="Submit"
     >
     </ui5-toolbar-button>
-    <!-- <ui5-toolbar-button
-    design="Emphasized"
-    [disabled]="loading || !question || !answer"
-    (click)="insertData()"
-    text="Submit">
-      </ui5-toolbar-button> -->
 
     <ui5-toolbar-button
       design="Transparent"

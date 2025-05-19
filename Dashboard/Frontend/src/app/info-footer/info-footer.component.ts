@@ -34,14 +34,17 @@ ngOnInit() {
 }
 
 getProjectPermission() {
-  this.commonService.get(`WebPages(1)`, true).subscribe({
-    next: (response: any) => {
-      this.isActive = response.is_active;
-    },
-    error: (error: any) => {
-      console.error('Error Getting Project Permission:', error);
-    },
-  });
+    this.commonService.get(`WebPages`, true).subscribe({
+      next: (response: any) => {
+        this.IsOpenToastAlert.emit();
+        this.webID = response.value[0].id;
+        this.isActive = response.value[0].is_active;
+      },
+      error: (error: any) => {
+        console.error('Error updating FAQ:', error);
+        console.error('Error fetching project section:', error);
+      },
+    });
 }
 
   toggleActive($event: any) {
