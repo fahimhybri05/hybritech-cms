@@ -1,4 +1,7 @@
-
+ui5-busy-indicator{
+  height: 647px;
+  width: 100%;
+}
 ui5-input{
     height: 50px;
     width: 100%;

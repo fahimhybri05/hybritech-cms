@@ -25,6 +25,7 @@ export class InfoFooterComponent {
   webID: number = 0;
   ToastType: string = '';
 
+<<<<<<< HEAD
   constructor(private commonService: CommonService) {}
   ngOnInit() {
     this.getPermissions();
@@ -38,6 +39,46 @@ export class InfoFooterComponent {
       },
       error: (error: any) => {
         console.error('Error fetching project section:', error);
+=======
+constructor(private commonService: CommonService) {
+
+}
+ngOnInit() {
+  this.getProjectPermission();
+}
+
+getProjectPermission() {
+  this.commonService.get(`WebPages(1)`, true).subscribe({
+    next: (response: any) => {
+      this.isActive = response.is_active;
+    },
+    error: (error: any) => {
+      console.error('Error Getting Project Permission:', error);
+    },
+  });
+}
+
+toggleActive($event: any) {
+  if ($event.target.checked) {
+    this.isActive = true;
+  } else {
+    this.isActive = false;
+  }
+}
+  updateData() {
+    const permissionData = {
+      is_active: this.isActive ? true : false,
+    };
+    this.loading = true;
+    this.commonService.put(`WebPages(1)`, permissionData, true).subscribe({
+      next: (response: any) => {
+        this.loading = false;
+        this.ToastType = 'edit';
+        this.IsOpenToastAlert.emit();
+      },
+      error: (error: any) => {
+        console.error('Error updating Projects:', error);
+>>>>>>> 3f2efe297a388623700d5eff642ab1e3ff955b6b
       },
     });
   }
