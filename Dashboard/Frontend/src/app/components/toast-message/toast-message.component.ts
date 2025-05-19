@@ -21,6 +21,7 @@ export class ToastMessageComponent implements OnInit {
     remove: 'Removed successfully',
     edit: 'Updated successfully',
     add: 'Added successfully',
+    mark: 'Marked as read',
     error: 'Somthing went wrong',
   };
 
@@ -50,6 +51,10 @@ export class ToastMessageComponent implements OnInit {
       if (this.ToastType == 'add') {
         this.ToastMessage = this.Message.add;
 
+        return;
+      }
+      if (this.ToastType == 'mark') {
+        this.ToastMessage = this.Message.mark;
         return;
       }
       if (this.ToastType == 'error') {

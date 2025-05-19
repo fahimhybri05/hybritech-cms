@@ -98,11 +98,7 @@ export class ContactInfoComponent implements OnInit {
     }
 
     this.formloading = true;
-    // console.log('Updating with:', {
-    //   address: this.editAddress,
-    //   email: this.editEmail,
-    //   phone: this.editPhone,
-    // });
+
 
     const payload = {
       address: this.editAddress,

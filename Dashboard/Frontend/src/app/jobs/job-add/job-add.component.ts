@@ -43,7 +43,6 @@ export class JobAddComponent {
   loading: boolean = false;
   isSuccess: boolean = false;
   isAddError: boolean = false;
-
   errorMessage: string = '';
   headerDescription: string = '';
   title: string = '';
@@ -51,7 +50,10 @@ export class JobAddComponent {
   placeholder = '';
   isActive: boolean = true;
   joblist: Joblist = new Joblist().deserialize({});
-
+  wordCount: number = 0;
+  headerwordCount: number = 0;
+  maxWords: number = 20;
+  maxHeaderWords: number = 100;
   editorConfig: AngularEditorConfig = {
     editable: true,
     spellcheck: true,
@@ -62,6 +64,7 @@ export class JobAddComponent {
     defaultParagraphSeparator: 'p',
     defaultFontName: 'Arial',
   };
+
   constructor(
     private commonService: CommonService,
     private router: Router,
@@ -76,12 +79,33 @@ export class JobAddComponent {
       this.isActive = false;
     }
   }
+  updatetitleWordCount() {
+    if (!this.title) {
+      this.wordCount = 0;
+      return;
+    }
+    this.wordCount = this.title.trim().split(/\s+/).length;
+  }
+  updateHeaderWordCount() {
+    if (!this.headerDescription) {
+      this.headerwordCount = 0;
+      return;
+    }
+    this.headerwordCount = this.headerDescription.trim().split(/\s+/).length;
+  }
   insertData() {
     if (!this.headerDescription || !this.title) {
       this.errorMessage = 'All fields are required.';
       return;
     }
-
+    if (this.wordCount > this.maxWords) {
+      this.errorMessage = `title cannot exceed ${this.maxWords} words.`;
+      return;
+    }
+    if (this.headerwordCount > this.maxHeaderWords) {
+      this.errorMessage = `Header description cannot exceed ${this.maxHeaderWords} words.`;
+      return;
+    }
     const data = {
       title: this.title,
       header_description: this.headerDescription,
@@ -92,13 +116,12 @@ export class JobAddComponent {
     this.loading = true;
     this.commonService.post('JobLists', data).subscribe(
       (response: any) => {
-        console.log(response);
         this.loading = false;
         this.isSuccess = true;
-             this.ToastType = 'add';
-             setTimeout(() => {
-               this.IsOpenToastAlert.emit();
-             }, 1000);
+        this.ToastType = 'add';
+        setTimeout(() => {
+          this.IsOpenToastAlert.emit();
+        }, 1000);
         this.resetForm();
         this.closeDialog();
       },
@@ -109,6 +132,7 @@ export class JobAddComponent {
       }
     );
   }
+
   rersetForm() {
     this.errorMessage = '';
     this.title = '';

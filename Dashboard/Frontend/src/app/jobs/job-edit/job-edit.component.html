@@ -21,22 +21,24 @@
           (click)="toggleActive($event)"
         ></ui5-switch>
       </div>
-      <ui5-label show-colon required>Title</ui5-label>
+      <ui5-label show-colon required>Title  <span class="word-count" [ngClass]="{'text-danger': wordCount > maxWords}"> ( Words: {{wordCount}}/{{maxWords}} )</span></ui5-label>
 
       <ui5-textarea
-        class="textArea"
+        class="textArea1"
         [(ngModel)]="title"
         placeholder="Job Title..."
         required
         type="title"
+        (input)="updatetitleWordCount()"
       ></ui5-textarea>
 
-      <ui5-label show-colon required>Header Description</ui5-label>
+      <ui5-label show-colon required>Header Description  <span class="word-count" [ngClass]="{'text-danger': headerwordCount > maxHeaderWords}"> ( Words: {{headerwordCount}}/{{maxHeaderWords}} )</span></ui5-label>
 
       <ui5-textarea
-        class="textArea"
+        class="textArea2"
         [(ngModel)]="headerDescription"
         required
+        (input)="updateHeaderWordCount()"
       ></ui5-textarea>
       <ui5-label show-colon required>Job Description</ui5-label>
       <angular-editor
@@ -61,3 +63,7 @@
     ></ui5-toolbar-button>
   </ui5-toolbar>
 </ui5-dialog>
+<app-toast-message
+  [IsOpenToastAlert]="IsOpenToastAlert"
+  [ToastType]="ToastType"
+></app-toast-message>

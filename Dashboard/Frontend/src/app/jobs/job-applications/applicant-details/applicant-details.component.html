@@ -21,21 +21,21 @@
     </ng-container>
     <ng-container>
       <ui5-label show-colon>Email</ui5-label>
-      <ui5-textarea
+      <ui5-input
         class="w-100"
         placeholder="No data found"
         value="{{ jobApplicantData.email }}"
         readonly
-      ></ui5-textarea>
+      ></ui5-input>
     </ng-container>
     <ng-container>
       <ui5-label show-colon>Phone Number</ui5-label>
-      <ui5-textarea
+      <ui5-input
         class="w-100"
         placeholder="No data found"
         value="{{ jobApplicantData.number }}"
         readonly
-      ></ui5-textarea>
+      ></ui5-input>
     </ng-container>
     <ng-container>
       <ui5-label show-colon>Applied For</ui5-label>
@@ -75,3 +75,7 @@
     <ui5-button (click)="closeDialog()">Close</ui5-button>
   </div>
 </ui5-dialog>
+<app-toast-message
+  [IsOpenToastAlert]="IsOpenToastAlert"
+  [ToastType]="ToastType"
+></app-toast-message>

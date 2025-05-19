@@ -16,7 +16,7 @@ import {
 } from '@kolkov/angular-editor';
 import { LabelComponent, TextAreaComponent } from '@ui5/webcomponents-ngx';
 import { FormPreloaderComponent } from '@app/components/form-preloader/form-preloader.component';
-
+import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
 @Component({
   selector: 'app-job-edit',
   standalone: true,
@@ -28,6 +28,7 @@ import { FormPreloaderComponent } from '@app/components/form-preloader/form-prel
     LabelComponent,
     FormPreloaderComponent,
     TextAreaComponent,
+    ToastMessageComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './job-edit.component.html',
@@ -39,6 +40,8 @@ export class JobEditComponent {
   @Input() jobData: any = {};
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
   @Output() refreshTable: EventEmitter<void> = new EventEmitter<void>();
+  @Output() IsOpenToastAlert = new EventEmitter<void>();
+  ToastType: string = '';
   isSuccess: boolean = false;
   isEditError: boolean = false;
   sucessMessage: string = '';
@@ -50,7 +53,10 @@ export class JobEditComponent {
   headerDescription: string = '';
   jobDescription: string = '';
   odata: boolean;
-  faq: any = {};
+  wordCount: number = 0;
+  headerwordCount: number = 0;
+  maxWords: number = 20;
+  maxHeaderWords: number = 100;
   api: boolean;
   editorConfig: AngularEditorConfig = {
     editable: true,
@@ -86,6 +92,21 @@ export class JobEditComponent {
       }
     }
   }
+
+  updatetitleWordCount() {
+    if (!this.title) {
+      this.wordCount = 0;
+      return;
+    }
+    this.wordCount = this.title.trim().split(/\s+/).length;
+  }
+  updateHeaderWordCount() {
+    if (!this.headerDescription) {
+      this.headerwordCount = 0;
+      return;
+    }
+    this.headerwordCount = this.headerDescription.trim().split(/\s+/).length;
+  }
   loadJobData(): void {
     this.title = this.jobData.title || '';
     this.headerDescription = this.jobData.header_description || '';
@@ -109,6 +130,14 @@ export class JobEditComponent {
     });
   }
   updateJob() {
+    if (this.wordCount > this.maxWords) {
+      this.errorMessage = `title cannot exceed ${this.maxWords} words.`;
+      return;
+    }
+    if (this.headerwordCount > this.maxHeaderWords) {
+      this.errorMessage = `Header description cannot exceed ${this.maxHeaderWords} words.`;
+      return;
+    }
     const formData = {
       title: this.title,
       header_description: this.headerDescription,
@@ -123,13 +152,16 @@ export class JobEditComponent {
         next: (response: any) => {
           this.formloading = false;
           this.isSuccess = true;
-          this.sucessMessage = 'Job updated successfully';
+          this.ToastType = 'edit';
+          setTimeout(() => {
+            this.IsOpenToastAlert.emit();
+          }, 1000);
           this.closeDialog();
         },
         error: (error: any) => {
           this.formloading = false;
           this.isEditError = true;
-          this.errorMessage = error.error?.message || 'Error updating FAQ';
+          this.errorMessage = error.error?.message || 'Error updating JOB';
         },
       });
   }
