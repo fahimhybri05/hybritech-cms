@@ -2,8 +2,8 @@ ui5-busy-indicator{
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 500px;
+    /* height: 500px; */
 }
 ui5-card{
-    height: 500px !important;
+    height: 160px;
 }

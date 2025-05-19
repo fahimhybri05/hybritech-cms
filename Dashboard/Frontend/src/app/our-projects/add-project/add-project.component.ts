@@ -4,9 +4,7 @@ import {
   CUSTOM_ELEMENTS_SCHEMA,
   EventEmitter,
   Input,
-  OnChanges,
   Output,
-  SimpleChanges,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InputComponent, LabelComponent } from '@ui5/webcomponents-ngx';
@@ -14,8 +12,9 @@ import { TextAreaComponent } from '@ui5/webcomponents-ngx/main/text-area';
 import { FormPreloaderComponent } from 'app/components/form-preloader/form-preloader.component';
 import { CommonService } from 'app/services/common-service/common.service';
 import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
+
 @Component({
-  selector: 'app-edit-services',
+  selector: 'app-add-project',
   standalone: true,
   imports: [
     CommonModule,
@@ -27,46 +26,34 @@ import { ToastMessageComponent } from '@app/components/toast-message/toast-messa
     ToastMessageComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  templateUrl: './edit-services.component.html',
-  styleUrl: './edit-services.component.css',
+  templateUrl: './add-project.component.html',
+  styleUrl: './add-project.component.css'
 })
-export class EditServicesComponent implements OnChanges {
+export class AddProjectComponent {
   @Input() isOpen: boolean | null = null;
-  @Input() serviceId: number | null = null;
-  @Input() serviceData: any = null;
   @Output() close = new EventEmitter<void>();
   @Output() IsOpenToastAlert = new EventEmitter<void>();
-  @Output() refreshTable = new EventEmitter();
   ToastType: string = '';
   loading: boolean = false;
   isSuccess: boolean = false;
   errorMessage: string = '';
   fileTypeError: string | null = null;
   title: string = '';
+  subtitle: string = '';
   description: string = '';
   wordCount: number = 0;
-  maxWords: number = 60;
-  titlewordcount: number = 0;
-  maxtitlewords: number = 25;
+  maxWords: number = 45;
   selectedFile: File | null = null;
   selectedFileUrl: string | null = null;
-  currentImageUrl: string | null = null;
-
+  isActive: boolean = true;
   constructor(private commonService: CommonService) {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['serviceData'] && this.serviceData) {
-      this.title = this.serviceData.title || '';
-      this.description = this.serviceData.description || '';
-      this.updateWordCount();
-      if (this.serviceData.media) {
-        this.currentImageUrl = this.serviceData.media[0].original_url;
-      } else {
-        this.currentImageUrl = null;
-      }
+  toggleActive($event: any) {
+    if ($event.target.checked) {
+      this.isActive = true;
+    } else {
+      this.isActive = false;
     }
   }
-
   onFileSelect(event: any) {
     const file = event.target.files[0];
     if (file) {
@@ -92,7 +79,6 @@ export class EditServicesComponent implements OnChanges {
       reader.readAsDataURL(file);
     }
   }
-
   updateWordCount() {
     if (!this.description) {
       this.wordCount = 0;
@@ -100,58 +86,56 @@ export class EditServicesComponent implements OnChanges {
     }
     this.wordCount = this.description.trim().split(/\s+/).length;
   }
-  updateTitleWordCount() {
-    if (!this.title) {
-      this.titlewordcount = 0;
-      return;
-    }
-    this.titlewordcount = this.title.trim().split(/\s+/).length;
+  closeDialog() {
+    this.isOpen = false;
+    this.close.emit();
   }
-
-  updateData() {
-    if (!this.title || !this.description) {
-      this.errorMessage = 'Title and description are required.';
+  insertData() {
+    if (!this.title || !this.subtitle || !this.description || !this.selectedFile) {
+      this.errorMessage = 'All fields are required.';
       return;
     }
-
     if (this.wordCount > this.maxWords) {
       this.errorMessage = `Description cannot exceed ${this.maxWords} words.`;
       return;
     }
-
+ 
     const formData = new FormData();
     formData.append('title', this.title);
+    formData.append('subtitle', this.subtitle);
     formData.append('description', this.description);
-    if (this.selectedFile) {
-      formData.append('image', this.selectedFile);
-    }
-    formData.append('_method', 'POST');
+    formData.append('is_active', this.isActive ? '1' : '0');
+    formData.append('image', this.selectedFile);
     this.loading = true;
-    this.commonService
-      .post(`service-pages-update/${this.serviceId}`, formData, false)
-      .subscribe(
-        (response: any) => {
-          this.loading = false;
-          this.isSuccess = true;
-          this.ToastType = 'edit';
-          setTimeout(() => {
-            this.IsOpenToastAlert.emit();
-          }, 1000);
-          this.refreshTable.emit();
-          this.closeDialog();
-        },
-        (error) => {
-          this.loading = false;
-          this.errorMessage =
-            error.error?.message ||
-            'An error occurred while updating the data.';
-          console.error(error);
+    this.commonService.post('projects', formData, false).subscribe(
+      (response: any) => {
+        console.log(response);
+        this.loading = false;
+        this.isSuccess = true;
+        if (response && response.media && response.media.length > 0) {
+          const mediaUrl = response.media[0].original_url;
         }
-      );
+        this.ToastType = 'add';
+        setTimeout(() => {
+          this.IsOpenToastAlert.emit();
+        }, 1000);
+        this.resetForm();
+        this.closeDialog();
+      },
+      (error) => {
+        this.loading = false;
+        this.errorMessage =
+          error.error?.message ||
+          'An error occurred while submitting the data.';
+        console.error(error);
+      }
+    );
   }
-
-  closeDialog() {
-    this.isOpen = false;
-    this.close.emit();
+  resetForm() {
+    this.errorMessage = '';
+    this.title = '';
+    this.subtitle = '';
+    this.description = '';
+    this.selectedFile = null;
   }
 }

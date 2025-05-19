@@ -85,9 +85,9 @@ class ServicePageController extends Controller
             'description' => 'required|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048'
         ]);
-
+                  
         $servicePage = ServicePageDetails::findOrFail($id);
-
+    
         $servicePage->update([
             'title' => $request->title,
             'description' => $request->description,

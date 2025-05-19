@@ -1,0 +1,66 @@
+<ui5-dialog [open]="isOpen" id="dialog">
+    <ui5-bar slot="header" design="Header">
+      <ui5-title level="H5" slot="startContent">Details</ui5-title>
+      <ui5-button
+        class="dialogCloser"
+        design="Transparent"
+        id="closeDialogButton"
+        slot="endContent"
+        (click)="closeDialog()"
+        icon="decline"
+      ></ui5-button>
+    </ui5-bar>
+  
+    <app-form-preloader *ngIf="loading"></app-form-preloader>
+    <section class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <ui5-label show-colon required>Title</ui5-label>
+          <ui5-textarea
+            class="titleInput"
+            [(ngModel)]="title"
+            name="title"
+            readonly
+          ></ui5-textarea>
+          <ui5-label show-colon required>Sub Title</ui5-label>
+          <ui5-textarea
+            class="titleInput"
+            [(ngModel)]="subtitle"
+            name="subtitle"
+            readonly
+          ></ui5-textarea>
+          <ui5-label show-colon required>Description</ui5-label>
+          <ui5-textarea
+            class="textArea"
+            [(ngModel)]="description"
+            name="description"
+            readonly
+          ></ui5-textarea>
+          <ui5-label show-colon>Image</ui5-label>
+          <div class="col-6">
+            <img
+              *ngIf="selectedFileUrl"
+              [src]="selectedFileUrl"
+              alt="New Selected Image"
+              style="max-width: 400px"
+            />
+            <img
+              *ngIf="!selectedFileUrl && currentImageUrl"
+              [src]="currentImageUrl"
+              alt="Current Image"
+              style="max-width: 400px"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+    <ui5-toolbar slot="footer">
+      <ui5-toolbar-button
+        design="Transparent"
+        text="Cancel"
+        (click)="closeDialog()"
+      ></ui5-toolbar-button>
+    </ui5-toolbar>
+  </ui5-dialog>
+  
+  

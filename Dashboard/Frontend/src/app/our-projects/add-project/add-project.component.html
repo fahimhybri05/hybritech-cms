@@ -1,0 +1,93 @@
+<ui5-dialog header-text="Add Project" [open]="isOpen" id="dialog">
+    <ui5-bar slot="header" design="Header">
+      <ui5-title level="H5" slot="startContent">Add Project</ui5-title>
+      <ui5-button
+        class="dialogCloser"
+        design="Transparent"
+        id="closeDialogButton"
+        slot="endContent"
+        (click)="closeDialog()"
+        icon="decline"
+      ></ui5-button>
+    </ui5-bar>
+  
+    <app-form-preloader *ngIf="loading"></app-form-preloader>
+    <ui5-message-strip class="w-100 mt-3" design="Critical" *ngIf="errorMessage">
+      <ui5-icon name="alert" slot="icon"></ui5-icon> {{ errorMessage }}
+    </ui5-message-strip>
+    <ui5-message-strip class="w-100 mt-3" design="Negative" *ngIf="fileTypeError">
+      <ui5-icon name="alert" slot="icon"></ui5-icon> {{ fileTypeError }}
+    </ui5-message-strip>
+    <section>
+      <div class="row">
+        <div class="col-md-6">
+            <div class="d-flex align-items-center">
+                <span>Active :</span>
+                <ui5-switch checked (click)="toggleActive($event)"></ui5-switch>
+              </div>
+          <ui5-label show-colon required>Title</ui5-label>
+          <ui5-input
+          class="titleInput"
+          [(ngModel)]="title"
+          name="title"
+          placeholder="Enter title"
+          required
+        ></ui5-input>
+        <ui5-label show-colon required>Sub-title </ui5-label>
+        <ui5-textarea
+          class="textArea1"
+          [(ngModel)]="subtitle"
+          name="subtitle"
+          placeholder="Enter Sub-title"
+          required
+        ></ui5-textarea>
+          <ui5-label show-colon required>Description <span class="word-count" [ngClass]="{'text-danger': wordCount > maxWords}"> ( Words: {{wordCount}}/{{maxWords}} )</span></ui5-label>
+          <ui5-textarea
+            class="textArea"
+            [(ngModel)]="description"
+            name="description"
+            placeholder="Enter description (Max 45 words)"
+            required
+            (input)="updateWordCount()"
+          ></ui5-textarea>
+          <div class="img-upload">
+            <ui5-label show-colon required>Image</ui5-label>
+            <div class="d-flex ">
+            <ui5-file-uploader hide-input
+            type="file"
+            class="form-control col-6"
+            (change)="onFileSelect($event)"
+            accept="image/*"
+            icon="upload"
+            required>
+              <ui5-avatar icon="upload"></ui5-avatar>
+              Upload image
+            </ui5-file-uploader>
+            
+          </div>
+          <img *ngIf="selectedFileUrl" class="col-6 view-img" [src]="selectedFileUrl" alt="Selected Image"/>
+          </div>
+         
+        </div>
+      </div>
+    </section>
+    <ui5-toolbar slot="footer">
+      <ui5-toolbar-button
+        design="Emphasized"
+        [disabled]="loading"
+        (click)="insertData()"
+        text="Submit"
+      >
+      </ui5-toolbar-button>
+  
+      <ui5-toolbar-button
+        design="Transparent"
+        text="Cancel"
+        (click)="closeDialog()"
+      ></ui5-toolbar-button>
+    </ui5-toolbar>
+  </ui5-dialog>
+  <app-toast-message
+    [IsOpenToastAlert]="IsOpenToastAlert"
+    [ToastType]="ToastType"
+  ></app-toast-message>

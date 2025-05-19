@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('address_infos', function (Blueprint $table) {
+        Schema::create('web_pages', function (Blueprint $table) {
             $table->id();
-            $table->text('address');
-            $table->string('email');
-            $table->string('phone');
+            $table->string('title');
+            $table->boolean('is_active')->default(false);
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('address_infos');
+        Schema::dropIfExists('web_pages');
     }
 };

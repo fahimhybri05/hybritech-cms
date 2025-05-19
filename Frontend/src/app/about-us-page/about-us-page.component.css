@@ -72,6 +72,62 @@
   padding-top: 50px;
   padding-bottom: 20px;
 }
+.style-two .single-services-box h4 {
+  color: var(--text-color) !important;
+}
+.style-two .single-services-box p {
+  color: var(--text-color) !important;
+}
+
+.style-two .single-services-box:hover p {
+  color: var(--card-hover-text-color) !important;
+}
+
+.style-two .single-services-box:hover h4 {
+  color: var(--card-hover-text-color) !important;
+}
+.style-two .single-services-box {
+  padding: 37px 0 30px 40px;
+  background-color: var(--card-color);
+  position: relative;
+  z-index: 1;
+  margin-bottom: 25px;
+  border-radius: 5px;
+  height: 400px;
+  border: 1px solid #1a1a1a71 !important;
+}
+
+.style-two .single-services-box:before {
+  position: absolute;
+  content: "";
+  left: 50%;
+  top: 0;
+  width: 0;
+  height: 100%;
+  background: var(--card-hover-color);
+  transition: 0.5s;
+  z-index: -1;
+  border-radius: 5px;
+}
+
+.style-two .single-services-box:hover:before {
+  left: 0;
+  width: 100%;
+}
+.service-content h4,
+p {
+  text-wrap: initial;
+}
+.service-content h4 {
+  font-family: var(--header-font);
+  font-weight: 800;
+  font-size: 28px;
+}
+.service-icon {
+  width: 80px !important;
+  height: 80px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
 
 @media screen and (max-width: 768px) {
   .banner {

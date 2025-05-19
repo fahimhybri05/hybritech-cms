@@ -14,8 +14,9 @@ import { TextAreaComponent } from '@ui5/webcomponents-ngx/main/text-area';
 import { FormPreloaderComponent } from 'app/components/form-preloader/form-preloader.component';
 import { CommonService } from 'app/services/common-service/common.service';
 import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
+
 @Component({
-  selector: 'app-edit-services',
+  selector: 'app-edit-project',
   standalone: true,
   imports: [
     CommonModule,
@@ -27,13 +28,13 @@ import { ToastMessageComponent } from '@app/components/toast-message/toast-messa
     ToastMessageComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  templateUrl: './edit-services.component.html',
-  styleUrl: './edit-services.component.css',
+  templateUrl: './edit-project.component.html',
+  styleUrl: './edit-project.component.css',
 })
-export class EditServicesComponent implements OnChanges {
+export class EditProjectComponent {
   @Input() isOpen: boolean | null = null;
-  @Input() serviceId: number | null = null;
-  @Input() serviceData: any = null;
+  @Input() projectId: number | null = null;
+  @Input() projectData: any = null;
   @Output() close = new EventEmitter<void>();
   @Output() IsOpenToastAlert = new EventEmitter<void>();
   @Output() refreshTable = new EventEmitter();
@@ -43,24 +44,24 @@ export class EditServicesComponent implements OnChanges {
   errorMessage: string = '';
   fileTypeError: string | null = null;
   title: string = '';
+  subtitle: string = '';
   description: string = '';
   wordCount: number = 0;
-  maxWords: number = 60;
-  titlewordcount: number = 0;
-  maxtitlewords: number = 25;
+  maxWords: number = 45;
   selectedFile: File | null = null;
   selectedFileUrl: string | null = null;
   currentImageUrl: string | null = null;
-
+  isActive: boolean = true;
   constructor(private commonService: CommonService) {}
-
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['serviceData'] && this.serviceData) {
-      this.title = this.serviceData.title || '';
-      this.description = this.serviceData.description || '';
+    if (changes['projectData'] && this.projectData) {
+      this.title = this.projectData.title || '';
+      this.subtitle = this.projectData.subtitle || '';
+      this.description = this.projectData.description || '';
+      this.isActive = this.projectData.is_active;
       this.updateWordCount();
-      if (this.serviceData.media) {
-        this.currentImageUrl = this.serviceData.media[0].original_url;
+      if (this.projectData.media) {
+        this.currentImageUrl = this.projectData.media[0].original_url;
       } else {
         this.currentImageUrl = null;
       }
@@ -100,16 +101,9 @@ export class EditServicesComponent implements OnChanges {
     }
     this.wordCount = this.description.trim().split(/\s+/).length;
   }
-  updateTitleWordCount() {
-    if (!this.title) {
-      this.titlewordcount = 0;
-      return;
-    }
-    this.titlewordcount = this.title.trim().split(/\s+/).length;
-  }
 
   updateData() {
-    if (!this.title || !this.description) {
+    if (!this.title || !this.subtitle || !this.description) {
       this.errorMessage = 'Title and description are required.';
       return;
     }
@@ -121,14 +115,16 @@ export class EditServicesComponent implements OnChanges {
 
     const formData = new FormData();
     formData.append('title', this.title);
+    formData.append('subtitle', this.subtitle);
     formData.append('description', this.description);
+    formData.append('is_active', this.isActive ? '1' : '0');
     if (this.selectedFile) {
       formData.append('image', this.selectedFile);
     }
-    formData.append('_method', 'POST');
+    formData.append('_method', 'put');
     this.loading = true;
     this.commonService
-      .post(`service-pages-update/${this.serviceId}`, formData, false)
+      .post(`projects/${this.projectId}`, formData, false)
       .subscribe(
         (response: any) => {
           this.loading = false;
@@ -149,7 +145,9 @@ export class EditServicesComponent implements OnChanges {
         }
       );
   }
-
+  toggleActive($event: any) {
+    this.isActive = $event.target.checked;
+  }
   closeDialog() {
     this.isOpen = false;
     this.close.emit();
