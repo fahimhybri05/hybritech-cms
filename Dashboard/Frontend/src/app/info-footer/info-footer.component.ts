@@ -5,6 +5,7 @@ import { Ui5MainModule } from '@ui5/webcomponents-ngx';
 import { ToastMessageComponent } from '../components/toast-message/toast-message.component';
 import { ContactInfoComponent } from '@app/contact-info/contact-info.component';
 
+
 @Component({
   selector: 'app-info-footer',
   standalone: true,
