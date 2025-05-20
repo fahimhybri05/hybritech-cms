@@ -3,7 +3,13 @@
   position: relative;
   background-repeat: no-repeat;
   background-size: cover;
+  margin-top: -100px;
   background-position: center center;
+  /* background: radial-gradient(
+    30.95% 31.44% at 50% 64.9%,
+    #142d2ea2 0%,
+    #0f0f0fb1 100%
+  ); */
 }
 .banner .banner-video {
   background-size: cover;
@@ -14,12 +20,13 @@
   width: 100%;
   height: 100%;
 }
-.banner-overlay{
+.banner-overlay {
   background: radial-gradient(
     29.22% 167.9% at 76.69% 62.63%,
     #142d2ea1 0%,
     #0f0f0fb1 100%
   );
+
   position: absolute;
   width: 100%;
   height: var(--height);
@@ -44,7 +51,6 @@
   width: 80%;
   text-align: justify !important;
   text-justify: inter-word !important;
-  
 }
 
 .color-overlay-banner-2 {
@@ -362,6 +368,7 @@
 @media screen and (max-width: 768px) {
   .banner {
     min-height: 25vh;
+    margin-top: 0;
   }
   /* .home-banner-text {
     width: auto;
@@ -444,6 +451,7 @@
   }
   .banner {
     min-height: 20vh;
+    margin-top: 0;
   }
   .banner-overlay {
     height: 20vh;
@@ -451,14 +459,14 @@
   .home-banner-text {
     font-size: 10px;
   }
-  .experience-font{
+  .experience-font {
     font-size: 30px;
   }
   .banner2-text p {
-font-size: 15px;
+    font-size: 15px;
   }
-  .title-font{
-font-size: 30px;
+  .title-font {
+    font-size: 30px;
   }
   .develop-smart-text h1 {
     font-size: 30px;
@@ -476,19 +484,20 @@ font-size: 30px;
     margin-top: 30px;
     margin-right: 20px;
   }
-  .service-icon .ts{
-    height: 20px !important; 
+  .service-icon .ts {
+    height: 20px !important;
     margin-top: 30px;
   }
-  .service-icon .mysql{
+  .service-icon .mysql {
     height: 60px !important;
     margin-top: 30px;
     margin-right: 20px;
   }
 }
-@media screen and (min-width: 769px) and (max-width: 1199px) {
+@media screen and (min-width: 769px) and (max-width: 990px) {
   .banner {
     min-height: 40vh;
+    margin-top: 0px;
   }
   .banner-overlay {
     height: 40vh;
@@ -514,55 +523,93 @@ font-size: 30px;
     margin-top: 30px;
     margin-right: 20px;
   }
-  .service-icon .ts{
+  .service-icon .ts {
     height: 25px !important;
     margin-top: 30px;
     margin-right: 20px;
   }
-  .service-icon .mysql{
+  .service-icon .mysql {
     height: 60px !important;
     margin-top: 30px;
     margin-right: 20px;
   }
 }
-  @media screen and (min-width: 1200px) and (max-width: 1400px) {
-
-    .banner {
-      min-height: 80vh;
-    }
-    .banner-overlay {
-      height: 80vh;
-    }
-    .banner-title {
-      font-size: 60px;
-      width: 100%;
-    }
-    .banner-items {
-      padding-top: 20vh;
-    }
-    .banner-title span {
-      font-size: 60px;
-    }
-    .home-banner-text {
-      font-size: var(--font-size-small);
-    }
-    .banner-logoimg img {
-      height: 150px;
-    }
-    .service-icon i {
-      font-size: 25px !important;
-      margin-top: 30px;
-      margin-right: 20px;
-    }
-    .service-icon .ts{
-      height: 25px !important;
-      margin-top: 30px;
-      margin-right: 20px;
-    }
-    .service-icon .mysql{
-      height: 60px !important;
-      margin-top: 30px;
-      margin-right: 20px;
-    }
+@media screen and (min-width: 991px) and (max-width: 1199px) {
+  .banner {
+    min-height: 50vh;
+    margin-top: -150px;
   }
-
+  .banner-overlay {
+    height: 50vh;
+  }
+  .banner-title {
+    font-size: 20px;
+    width: 100%;
+  }
+  .banner-items {
+    padding-top: 20vh;
+  }
+  .banner-title span {
+    font-size: 20px;
+  }
+  .home-banner-text {
+    font-size: var(--font-size-small);
+  }
+  .banner-logoimg img {
+    height: 150px;
+  }
+  .service-icon i {
+    font-size: 25px !important;
+    margin-top: 30px;
+    margin-right: 20px;
+  }
+  .service-icon .ts {
+    height: 25px !important;
+    margin-top: 30px;
+    margin-right: 20px;
+  }
+  .service-icon .mysql {
+    height: 60px !important;
+    margin-top: 30px;
+    margin-right: 20px;
+  }
+}
+@media screen and (min-width: 1200px) and (max-width: 1400px) {
+  .banner {
+    min-height: 70vh;
+  }
+  .banner-overlay {
+    height: 70vh !important;
+  }
+  .banner-title {
+    font-size: 60px;
+    width: 100%;
+  }
+  .banner-items {
+    padding-top: 20vh;
+  }
+  .banner-title span {
+    font-size: 60px;
+  }
+  .home-banner-text {
+    font-size: var(--font-size-small);
+  }
+  .banner-logoimg img {
+    height: 150px;
+  }
+  .service-icon i {
+    font-size: 25px !important;
+    margin-top: 30px;
+    margin-right: 20px;
+  }
+  .service-icon .ts {
+    height: 25px !important;
+    margin-top: 30px;
+    margin-right: 20px;
+  }
+  .service-icon .mysql {
+    height: 60px !important;
+    margin-top: 30px;
+    margin-right: 20px;
+  }
+}

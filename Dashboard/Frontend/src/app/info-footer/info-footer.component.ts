@@ -1,9 +1,9 @@
 import { Component, EventEmitter, input, Output } from '@angular/core';
-import { ContactInfoComponent } from '@app/contact-info/contact-info.component';
 import { CommonService } from '@app/services/common-service/common.service';
 import { SocialMediaComponent } from '@app/social-media/social-media.component';
 import { Ui5MainModule } from '@ui5/webcomponents-ngx';
 import { ToastMessageComponent } from '../components/toast-message/toast-message.component';
+import { ContactInfoComponent } from '@app/contact-info/contact-info.component';
 
 @Component({
   selector: 'app-info-footer',
