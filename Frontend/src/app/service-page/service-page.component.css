@@ -2,9 +2,10 @@
   min-height: var(--height);
   background-image: url(../../assets/img/Frame\ 43.png);
   background-color: #000 !important;
+  margin-top: -100px;
 }
 .banner-items {
-  padding-top: 20vh;
+  padding-top: 30vh;
 }
 .service-text h1 {
   font-size: var(--font-size-large);
@@ -31,7 +32,7 @@
 .img-fluid img {
   vertical-align: middle;
 }
-.team-font-service{
+.team-font-service {
   font-family: var(--header-font);
   font-weight: 600;
   font-size: 20px;
@@ -144,10 +145,11 @@ p {
 @media screen and (max-width: 768px) {
   .banner {
     min-height: 35vh;
+    margin-top: 0px;
   }
   .banner-overlay {
     height: 35vh;
-  } 
+  }
 
   .banner-items {
     padding-top: 5vh;
@@ -167,10 +169,21 @@ p {
   .service-text p {
     font-size: var(--font-size-sm);
   }
-  }
+}
 
 @media screen and (min-width: 769px) and (max-width: 1260px) {
-  
+  .banner {
+    margin-top: -150px;
+  }
+  .service-text {
+    width: 100%;
+  }
+  .service-text h1 {
+    font-size: 50px;
+  }
+  .service-text p {
+    font-size: var(--font-size-sm);
+  }
 }
 @media screen and (max-width: 393px) {
   .title-font {
@@ -181,8 +194,8 @@ p {
   .style-two .single-services-box {
     height: auto;
   }
-  .service-content p{
+  .service-content p {
     text-align: justify !important;
-  text-justify: inter-word !important;
+    text-justify: inter-word !important;
   }
 }

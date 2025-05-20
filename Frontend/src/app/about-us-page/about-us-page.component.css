@@ -2,6 +2,7 @@
   height: 82vh;
   background-image: url(/assets/img/about\ us\ banner.jpeg);
   background-color: #000 !important;
+  margin-top: -100px;
 }
 .banner-overlay {
   background: var(--overlay-color);
@@ -28,7 +29,7 @@
   text-justify: inter-word !important;
 }
 .banner-items {
-  padding-top: 20vh;
+  padding-top: 30vh;
 }
 
 .banner-title {
@@ -132,6 +133,7 @@ p {
 @media screen and (max-width: 768px) {
   .banner {
     height: 35vh;
+    margin-top: 0px;
   }
 
   .banner-overlay {
@@ -163,14 +165,18 @@ p {
     font-size: var(--font-size-sm);
     font-family: var(--description-font);
   }
-  @media screen and (max-width: 393px) {
-    .text-card {
-      padding-left: 0;
-      font-size: 30px;
-    }
-    #aboutus-banner-text p {
-      width: 100%;
-    }
-
+}
+@media screen and (max-width: 393px) {
+  .text-card {
+    padding-left: 0;
+    font-size: 30px;
+  }
+  #aboutus-banner-text p {
+    width: 100%;
+  }
+}
+@media screen and (min-width: 769px) and (max-width: 1260px) {
+  .banner {
+    margin-top: -150px;
   }
 }

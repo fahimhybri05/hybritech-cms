@@ -1,8 +1,12 @@
 .nav-bg {
-  background: var(--black);
   position: sticky;
   top: 0;
   z-index: 999;
+  transition: background-color 0.3s ease;
+}
+.nav-bg.scrolled {
+  background-color: var(--black);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .navbar {
@@ -105,8 +109,6 @@
   bottom: -8px;
 }
 
-
-
 /* -----toggle--------- */
 
 .theme-switch {
@@ -136,7 +138,7 @@
 
 .slider::before {
   position: absolute;
-  content: '';
+  content: "";
   height: 18px;
   width: 18px;
   left: 3px;
@@ -154,12 +156,14 @@ input:checked + .slider::before {
   transform: translateX(26px);
 }
 
-
-
-
-
 /* Responsive */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 990px) {
+  .nav-bg {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background: var(--black);
+  }
   .circle-preloder {
     height: 80px;
     width: 80px;
