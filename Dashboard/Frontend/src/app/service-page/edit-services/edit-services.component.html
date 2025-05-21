@@ -21,6 +21,13 @@
   <section>
     <div class="row">
       <div class="col-md-6">
+                   <div class="d-flex align-items-center">
+                <ui5-label show-colon>Active</ui5-label>
+                <ui5-switch
+                  [checked]="isActive"
+                  (click)="toggleActive($event)"
+                ></ui5-switch>
+              </div>
         <ui5-label show-colon required>Title</ui5-label>
         <ui5-input
           class="titleInput"

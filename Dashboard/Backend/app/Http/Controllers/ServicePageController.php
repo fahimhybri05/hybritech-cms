@@ -16,12 +16,14 @@ class ServicePageController extends Controller
                 'title' => 'required|string|max:255',
                 'description' => 'required|string',
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                 'is_active' => 'boolean'
             ]);
     
             // Create the service page (without image yet)
             $servicePage = ServicePageDetails::create([
                 'title' => $request->title,
                 'description' => $request->description,
+                'is_active' => $request->is_active ?? false,
             ]);
     
             // Check if image exists and upload it to media collection
@@ -51,7 +53,22 @@ class ServicePageController extends Controller
 
     public function index(Request $request)
 {
-    $query = ServicePageDetails::query();
+   
+               $odataFilter = $request->input('$filter');
+            $isOdataRequest = !empty($odataFilter);
+             $query = ServicePageDetails::query();
+             if ($isOdataRequest) {
+                if (str_contains($odataFilter, 'is_active eq true')) {
+                    $query->where('is_active', true);
+                } elseif (str_contains($odataFilter, 'is_active eq false')) {
+                    $query->where('is_active', false);
+                }
+            } else {
+                if ($request->has('is_active')) {
+                    $isActive = filter_var($request->input('is_active'), FILTER_VALIDATE_BOOLEAN);
+                    $query->where('is_active', $isActive);
+                }
+            }
     if ($request->has('search')) {
         $searchTerm = $request->input('search');
         $query->where(function($q) use ($searchTerm) {
@@ -83,7 +100,8 @@ class ServicePageController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048'
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'is_active' => 'boolean'
         ]);
                   
         $servicePage = ServicePageDetails::findOrFail($id);
@@ -91,6 +109,7 @@ class ServicePageController extends Controller
         $servicePage->update([
             'title' => $request->title,
             'description' => $request->description,
+                 'is_active' => $request->is_active ?? $servicePage->is_active,
         ]);
 
         if ($request->hasFile('image')) {
@@ -128,6 +147,7 @@ class ServicePageController extends Controller
             'id' => $servicePage->id,
             'title' => $servicePage->title,
             'description' => $servicePage->description,
+            'is_active' => $servicePage->is_active,
             'created_at' => $servicePage->created_at,
             'updated_at' => $servicePage->updated_at,
             'media' => $media ? [

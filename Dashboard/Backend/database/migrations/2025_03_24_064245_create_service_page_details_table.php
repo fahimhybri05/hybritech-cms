@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('service_page_details', function (Blueprint $table) {
             $table->id();
+            $table->boolean('is_active')->default(false);
             $table->string('title');
             $table->text('description');
             $table->string('image_path');

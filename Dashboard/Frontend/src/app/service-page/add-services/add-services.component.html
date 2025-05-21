@@ -1,6 +1,6 @@
 <ui5-dialog header-text="Add Service" [open]="isOpen" id="dialog">
   <ui5-bar slot="header" design="Header">
-    <ui5-title level="H5" slot="startContent">Add Services</ui5-title>
+    <ui5-title level="H5" slot="startContent">Add Service</ui5-title>
     <ui5-button
     
       class="dialogCloser"
@@ -22,6 +22,10 @@
   <section>
     <div class="row">
       <div class="col-md-6">
+              <div class="d-flex align-items-center">
+                <span>Active :</span>
+                <ui5-switch checked (click)="toggleActive($event)"></ui5-switch>
+              </div>
         <ui5-label show-colon required>Title</ui5-label>
         <ui5-input
         class="titleInput"
