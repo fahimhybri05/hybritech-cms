@@ -5,6 +5,7 @@ import { Ui5MainModule } from '@ui5/webcomponents-ngx';
 import { ToastMessageComponent } from '../components/toast-message/toast-message.component';
 import { ContactInfoComponent } from '@app/contact-info/contact-info.component';
 
+
 @Component({
   selector: 'app-info-footer',
   standalone: true,
@@ -36,7 +37,6 @@ ngOnInit() {
 getProjectPermission() {
     this.commonService.get(`WebPages`, true).subscribe({
       next: (response: any) => {
-        this.IsOpenToastAlert.emit();
         this.webID = response.value[0].id;
         this.isActive = response.value[0].is_active;
       },
@@ -58,8 +58,8 @@ getProjectPermission() {
     const permissionData = {
       is_active: this.isActive,
     };
-    this.ToastType = 'edit';
-
+  
+       this.ToastType = 'edit';
     this.commonService
       .put(`WebPages(${this.webID})`, permissionData, true)
       .subscribe({

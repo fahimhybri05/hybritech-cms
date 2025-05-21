@@ -16,7 +16,7 @@ export class DataService {
   private footerData = this.apiUrl + '/odata/Footers?$filter=is_active eq true';
   private applicationData = this.apiUrl + '/api/job-applications';
   private addressData = this.apiUrl + '/odata/AddressInfos';
-  private projectData = this.apiUrl + '/api/projects';
+  private projectData = this.apiUrl + '/api/projects?$filter=is_active eq true';
   private webPages = this.apiUrl + '/odata/WebPages';
   constructor(private http: HttpClient) {}
 

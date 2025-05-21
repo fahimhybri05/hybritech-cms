@@ -99,22 +99,23 @@ export class ContactInfoComponent implements OnInit {
 
     this.formloading = true;
 
-
+            this.ToastType = 'edit';
     const payload = {
       address: this.editAddress,
       email: this.editEmail,
       phone: this.editPhone,
     };
-    this.ToastType = 'edit';
+
     const recordId = this.contactData.id;
     this.commonService.patch(`AddressInfos(${recordId})`, payload).subscribe({
       next: () => {
+                    this.IsOpenToastAlert.emit();
         this.refreshTable.emit();
         this.address = this.editAddress;
         this.email = this.editEmail;
         this.phone = this.editPhone;
         this.formloading = false;
-        this.IsOpenToastAlert.emit();
+
       },
       error: (error) => {
         this.formloading = false;
