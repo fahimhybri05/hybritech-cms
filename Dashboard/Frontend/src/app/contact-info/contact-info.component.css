@@ -1,105 +1,16 @@
-.form-container {
-  padding: 0.6rem
-}
-
-.form-field-group {
-  margin-bottom: 1.0rem;
-  margin-top: 1.0rem
-}
-
 .ui5-textarea textarea {
   white-space: pre-wrap;
   word-wrap: break-word;
 }
-
-.readonly-field {
-  background-color: #f7f7f7;
-  border: 1px solid #dddddd;
-}
-
-.editable-field {
+.address {
   margin-top: 0.5rem;
   width: 600px;
-  height: 2.5rem;
-}
-
-.readonly-field {
-  width: 600px;
-  height: 2.5rem;
-}
-
-.editable-field-address {
-  margin-top: 0.5rem;
-  width: 600px;
-  min-height: 100px;
-  padding: 0.5rem;
-  border: 1px solid #05080a;
-  border-radius: 4px;
-  resize: vertical;
-}
-
-.address-display-container,
-.address-edit-container {
-  width: 600px;
-}
-
-.address-display {
-  min-height: auto;
-  height: auto;
-  white-space: normal;
-  overflow: visible;
-  text-overflow: clip;
-  resize: none;
-  line-height: 1.4;
-  padding: 0.5rem;
-}
-
-.address-edit {
-  min-height: 80px;
-  white-space: normal;
-  overflow-y: auto;
-  line-height: 1.4;
+  min-height: 60px;
   padding: 0.5rem;
   resize: vertical;
 }
-
-ui5-input.address-display::part(input),
-ui5-input.address-edit::part(input) {
-  white-space: normal;
-  min-height: 80px;
-  overflow-y: visible;
-  word-wrap: break-word;
-  width: 60px;
-}
-
-ui5-label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-}
-
-.centered-toolbar {
-  display: flex;
-  justify-content: center;
-  padding-bottom: 10px;
-  border-bottom: none !important;
-}
-
 ui5-card {
-  box-shadow: 0 0 0.125rem 0 rgba(85, 107, 130, 0.16),
-    0 0.5rem 1rem 0 rgba(85, 107, 130, 0.16);
   border-radius: 0.5rem;
+  height: 570px;
 }
 
-.readonly-address {
-  width: 600px;
-  min-height: 3rem;
-  margin-bottom: 0.5rem;
-  padding: 0.5rem;
-  background: #f7f7f7;
-  border: 1px solid #dddddd;
-  border-radius: 4px;
-  white-space: pre-wrap;
-  overflow-y: auto;
-  max-height: 120px;
-}

@@ -47,6 +47,7 @@
           [(ngModel)]="selectedDesignation"
           name="designation"
           required
+          
         >
           <option value="" disabled selected>Select your designation</option>
           <option *ngFor="let job of jobTitles" [value]="job.title">
