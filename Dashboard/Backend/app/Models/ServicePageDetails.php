@@ -11,8 +11,10 @@ class ServicePageDetails extends Model implements HasMedia
 {
     use InteractsWithMedia;
     
-    protected $fillable = ['title', 'description', 'media'];
-    
+    protected $fillable = ['is_active', 'title', 'description', 'media'];
+       protected $casts = [
+        'is_active' => 'boolean',
+    ];
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('image');

@@ -44,11 +44,18 @@ export class AddServicesComponent {
   titlewordcount: number = 0;
   maxtitlewords: number = 25;
   maxWords: number = 60;
+  isActive: boolean = true;
   selectedFile: File | null = null;
   selectedFileUrl: string | null = null;
 
   constructor(private commonService: CommonService) {}
-
+  toggleActive($event: any) {
+    if ($event.target.checked) {
+      this.isActive = true;
+    } else {
+      this.isActive = false;
+    }
+  }
   onFileSelect(event: any) {
     const file = event.target.files[0];
     if (file) {
@@ -99,7 +106,7 @@ export class AddServicesComponent {
       this.errorMessage = `Description cannot exceed ${this.maxWords} words.`;
       return;
     }
-    if(this.titlewordcount > this.maxtitlewords){
+    if (this.titlewordcount > this.maxtitlewords) {
       this.errorMessage = `Title cannot exceed ${this.maxtitlewords} words.`;
       return;
     }
@@ -107,6 +114,7 @@ export class AddServicesComponent {
     const formData = new FormData();
     formData.append('title', this.title);
     formData.append('description', this.description);
+    formData.append('is_active', this.isActive ? '1' : '0');
     formData.append('image', this.selectedFile);
     this.loading = true;
     this.commonService.post('service-pages', formData, false).subscribe(
@@ -138,6 +146,8 @@ export class AddServicesComponent {
     this.title = '';
     this.description = '';
     this.selectedFile = null;
+    this.selectedFileUrl = null;
+    this.fileTypeError = null;
   }
 
   closeDialog() {

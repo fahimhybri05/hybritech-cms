@@ -48,6 +48,7 @@ export class EditServicesComponent implements OnChanges {
   maxWords: number = 60;
   titlewordcount: number = 0;
   maxtitlewords: number = 25;
+  isActive: boolean = true;
   selectedFile: File | null = null;
   selectedFileUrl: string | null = null;
   currentImageUrl: string | null = null;
@@ -58,6 +59,7 @@ export class EditServicesComponent implements OnChanges {
     if (changes['serviceData'] && this.serviceData) {
       this.title = this.serviceData.title || '';
       this.description = this.serviceData.description || '';
+      this.isActive = this.serviceData.is_active;
       this.updateWordCount();
       if (this.serviceData.media) {
         this.currentImageUrl = this.serviceData.media[0].original_url;
@@ -122,6 +124,7 @@ export class EditServicesComponent implements OnChanges {
     const formData = new FormData();
     formData.append('title', this.title);
     formData.append('description', this.description);
+    formData.append('is_active', this.isActive ? '1' : '0');
     if (this.selectedFile) {
       formData.append('image', this.selectedFile);
     }
@@ -149,7 +152,9 @@ export class EditServicesComponent implements OnChanges {
         }
       );
   }
-
+  toggleActive($event: any) {
+    this.isActive = $event.target.checked;
+  }
   closeDialog() {
     this.isOpen = false;
     this.close.emit();
