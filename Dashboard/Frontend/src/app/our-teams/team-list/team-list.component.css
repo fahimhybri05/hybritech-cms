@@ -1,0 +1,36 @@
+ui5-table-cell {
+	border-right: var(--table-border);
+}
+
+ui5-table-header-cell {
+	border-right: var(--table-border);
+}
+
+ui5-table {
+	border: var(--table-border);
+	height: var(--table-height);
+}
+
+@media screen and (max-width: 1800px) {
+}
+@media screen and (max-width: 1400px) {
+	.branch h3 {
+		font-size: var(--font-size-medium);
+	}
+
+	ui5-table-header-row ui5-table-header-cell {
+		font-size: var(--font-size-small);
+	}
+
+	ui5-table-row ui5-table-cell b {
+		font-size: var(--font-size-small);
+	}
+
+	ui5-table-row ui5-table-cell ui5-label {
+		font-size: var(--font-size-small);
+	}
+
+	ui5-button {
+		font-size: var(--font-size-small);
+	}
+}

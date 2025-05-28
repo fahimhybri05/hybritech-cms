@@ -25,38 +25,21 @@
           <span>Active :</span>
           <ui5-switch checked (click)="toggleActive($event)"></ui5-switch>
         </div>
-        <ui5-label show-colon required>Title</ui5-label>
+        <ui5-label show-colon required>Name</ui5-label>
         <ui5-input
           class="titleInput"
-          [(ngModel)]="title"
-          name="title"
-          placeholder="Enter title"
+          [(ngModel)]="name"
+          name="name"
+          placeholder="Enter name"
           required
         ></ui5-input>
-        <ui5-label show-colon required>Sub-title </ui5-label>
+        <ui5-label show-colon required>Designation </ui5-label>
         <ui5-textarea
-          class="textArea1"
-          [(ngModel)]="subtitle"
-          name="subtitle"
-          placeholder="Enter Sub-title"
+          class="titleInput"
+          [(ngModel)]="designation"
+          name="designation"
+          placeholder="Enter designation"
           required
-        ></ui5-textarea>
-        <ui5-label show-colon required
-          >Description
-          <span
-            class="word-count"
-            [ngClass]="{ 'text-danger': wordCount > maxWords }"
-          >
-            ( Words: {{ wordCount }}/{{ maxWords }} )</span
-          ></ui5-label
-        >
-        <ui5-textarea
-          class="textArea"
-          [(ngModel)]="description"
-          name="description"
-          placeholder="Enter description (Max 45 words)"
-          required
-          (input)="updateWordCount()"
         ></ui5-textarea>
         <div class="img-upload">
           <ui5-label show-colon required>Image</ui5-label>

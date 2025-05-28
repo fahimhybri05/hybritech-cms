@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\MediaController;
+use App\Http\Controllers\TeamController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -12,6 +14,7 @@ use App\Http\Controllers\ProjectController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
 
 // Service Pages    
 Route::post('service-pages', [ServicePageController::class, 'store']);
@@ -26,6 +29,13 @@ Route::get('projects', [ProjectController::class, 'index']);
 Route::get('projects/{id}', [ProjectController::class, 'show']);
 Route::put('projects/{id}', [ProjectController::class, 'update']);
 Route::delete('projects/{id}', [ProjectController::class, 'destroy']);
+
+// teams
+Route::post('teams', action: [TeamController::class, 'store']);
+Route::get('teams', [TeamController::class, 'index']);
+Route::get('teams/{id}', [TeamController::class, 'show']);
+Route::put('teams/{id}', [TeamController::class, 'update']);
+Route::delete('teams/{id}', [TeamController::class, 'destroy']);
 
 // Job Applications
 Route::post('/job-applications', [JobApplicationAPIController::class, 'store']);

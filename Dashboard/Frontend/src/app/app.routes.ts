@@ -11,6 +11,7 @@ import { JobListComponent } from './jobs/job-list/job-list.component';
 import { JobApplicationsComponent } from './jobs/job-applications/job-applications.component';
 import { InfoFooterComponent } from './info-footer/info-footer.component';
 import { ProjectListComponent } from '@app/our-projects/project-list/project-list.component';
+import { TeamListComponent } from './our-teams/team-list/team-list.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -71,6 +72,11 @@ export const routes: Routes = [
   {
     path: 'projects',
     component: ProjectListComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'team-list',
+    component: TeamListComponent,
     canActivate: [AuthGuard],
   },
 ];

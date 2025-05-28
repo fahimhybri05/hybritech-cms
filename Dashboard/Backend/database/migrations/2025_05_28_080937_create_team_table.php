@@ -11,21 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('service_page_details', function (Blueprint $table) {
+        Schema::create('teams', function (Blueprint $table) {
             $table->id();
             $table->boolean('is_active')->default(false);
-            $table->string('title');
-            $table->text('description');
-            // $table->string('image_path');
+            $table->string('name');
+            $table->string('designation');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('service_page_details');
+        Schema::dropIfExists('teams');
     }
 };
