@@ -30,6 +30,7 @@ export class ApplicantDetailsComponent implements OnInit {
   @Output() IsOpenToastAlert = new EventEmitter<void>();
   ToastType: string = '';
   formloading: boolean = false;
+  is_selected: boolean = false;
   api: boolean;
   cdr: any;
 
@@ -44,26 +45,31 @@ export class ApplicantDetailsComponent implements OnInit {
 
     window.open(url + this.jobApplicantId + '/attachment', '_blank');
   }
-
-  markAsRead() {
+  updateStatus() {
     if (
       !this.jobApplicantData ||
-      !this.jobApplicantData.id ||
-      this.jobApplicantData.is_active
+      !this.jobApplicantData.id
     ) {
       return;
     }
+  const formatDateForBackend = (date: Date) => {
+    const pad = (num: number) => num.toString().padStart(2, '0');
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ` +
+           `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+  };
 
-    const data = {
-      id: this.jobApplicantData.id,
-      is_active: true,
-    };
-
+  const data = {
+    id: this.jobApplicantData.id,
+    is_active: true,
+    is_selected: this.is_selected,
+    selected_at: this.is_selected ? formatDateForBackend(new Date()) : null
+  };
     this.commonservice
       .patch(`job-applications/${this.jobApplicantId}`, data, this.api)
       .subscribe({
         next: (response: any) => {
-          this.ToastType = 'mark';
+          console.log(response);
+          this.ToastType = 'select';
           setTimeout(() => {
             this.IsOpenToastAlert.emit();
           }, 1000);
@@ -75,7 +81,9 @@ export class ApplicantDetailsComponent implements OnInit {
         },
       });
   }
-
+  toggleActive($event: any) {
+    this.is_selected = $event.target.checked;
+  }
   closeDialog() {
     this.isOpen = false;
     this.close.emit();

@@ -30,6 +30,7 @@ Route::delete('projects/{id}', [ProjectController::class, 'destroy']);
 // Job Applications
 Route::post('/job-applications', [JobApplicationAPIController::class, 'store']);
 Route::get('/job-applications', [JobApplicationAPIController::class, 'index']);
+Route::get('/selected-candidate-job-applications', [JobApplicationAPIController::class, 'selectedCandidateJobApplications']);
 Route::get('/job-applications/{id}', [JobApplicationAPIController::class, 'show']);
 Route::patch('/job-applications/{id}', [JobApplicationAPIController::class, 'update']);
 Route::get('/job-applications/{id}/attachment', [JobApplicationAPIController::class, 'downloadAttachment']);

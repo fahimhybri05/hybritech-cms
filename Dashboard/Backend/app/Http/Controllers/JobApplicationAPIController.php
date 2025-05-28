@@ -18,18 +18,21 @@ class JobApplicationAPIController extends Controller
         try {
             $validated = $request->validate([
                 'is_active' => 'required|boolean',
+                'is_selected' => 'required|boolean',
                 'designation' => 'required|string|max:255',
                 'experience' => 'required|string|max:255',
                 'full_name' => 'required|string|max:255',
                 'email' => 'required|email|max:255',
                 'number' => 'required|string|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
                 'attachment' => 'required|file|max:10240',
+                'selected_at' => 'nullable|date_format:Y-m-d H:i:s',
             ]);
 
             DB::beginTransaction();
             $filePath = $request->file('attachment')->store('attachments', 'public');
             $jobApplication = JobApplication::create([
                 'is_active' => $validated['is_active'],
+                'is_selected' => $validated['is_selected'],
                 'designation' => $validated['designation'],
                 'experience' => $validated['experience'],
                 'full_name' => $validated['full_name'],
@@ -66,18 +69,16 @@ class JobApplicationAPIController extends Controller
             $isOdataRequest = !empty($odataFilter);
 
             $query = JobApplication::query();
-            if ($isOdataRequest) {
-                if (str_contains($odataFilter, 'is_active eq true')) {
-                    $query->where('is_active', true);
-                } elseif (str_contains($odataFilter, 'is_active eq false')) {
-                    $query->where('is_active', false);
-                }
-            } else {
+
                 if ($request->has('is_active')) {
                     $isActive = filter_var($request->input('is_active'), FILTER_VALIDATE_BOOLEAN);
                     $query->where('is_active', $isActive);
                 }
-            }
+            
+            if ($request->has('is_selected') && $request->input('is_selected') == true) {
+                    $query->where('is_selected', true);
+                }
+
             if ($request->has('$orderby')) {
                 $orderBy = explode(' ', $request->input('$orderby'));
                 $query->orderBy($orderBy[0], $orderBy[1] ?? 'asc');
@@ -108,7 +109,8 @@ class JobApplicationAPIController extends Controller
                     'value' => $results,
                     '@odata.count' => $query->count()
                 ]);
-            } else {
+            } 
+            else {
                 $perPage = $request->input('per_page', 20);
                 $results = $query->paginate($perPage);
                 
@@ -133,12 +135,14 @@ class JobApplicationAPIController extends Controller
                 'data' => [
                     'id' => $jobApplication->id,
                     'is_active' => $jobApplication->is_active,
+                    'is_selected' => $jobApplication->is_selected,
                     'designation' => $jobApplication->designation,
                     'experience' => $jobApplication->experience,
                     'full_name' => $jobApplication->full_name,
                     'email' => $jobApplication->email,
                     'number' => $jobApplication->number,
                     'attachment_url' => Storage::disk('public')->url($jobApplication->attachment),
+                    'selected_at' => $jobApplication->selected_at,
                     'created_at' => $jobApplication->created_at,
                     'updated_at' => $jobApplication->updated_at,
                 ],
@@ -197,16 +201,23 @@ class JobApplicationAPIController extends Controller
 
             $validated = $request->validate([
                 'is_active' => 'sometimes|boolean',
+                'is_selected' => 'sometimes|boolean',
                 'designation' => 'sometimes|string|max:255',
                 'experience' => 'sometimes|string|max:255',
                 'full_name' => 'sometimes|string|max:255',
                 'email' => 'sometimes|email|max:255',
                 'number' => 'sometimes|string|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
                 'attachment' => 'sometimes|file|max:10240',
+                'selected_at' => 'sometimes|nullable|date_format:Y-m-d H:i:s',
             ]);
 
             DB::beginTransaction();
 
+             if ($request->has('is_selected')) {
+            $validated['selected_at'] = $request->is_selected 
+                ? now()->toDateTimeString() 
+                : null;
+        }
             $filePath = null;
             if ($request->hasFile('attachment')) {
                 // Delete the old attachment if it exists
@@ -227,12 +238,14 @@ class JobApplicationAPIController extends Controller
                 'data' => [
                     'id' => $jobApplication->id,
                     'is_active' => $jobApplication->is_active,
+                    'is_selected' => $jobApplication->is_selected,
                     'designation' => $jobApplication->designation,
                     'experience' => $jobApplication->experience,
                     'full_name' => $jobApplication->full_name,
                     'email' => $jobApplication->email,
                     'number' => $jobApplication->number,
                     'attachment_url' => $jobApplication->attachment ? Storage::disk('public')->url($jobApplication->attachment) : null,
+                    'selected_at' => $jobApplication->selected_at,
                     'created_at' => $jobApplication->created_at,
                     'updated_at' => $jobApplication->updated_at,
                 ],
@@ -246,6 +259,27 @@ class JobApplicationAPIController extends Controller
             return response()->json([
                 'message' => 'Failed to update job application',
                 'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function selectedCandidateJobApplications(Request $request)
+    {
+        try {
+            $odataFilter = $request->input('$filter');
+            $isOdataRequest = !empty($odataFilter);
+            $results = JobApplication::where('is_selected', true)->get();
+  
+            return response()->json([
+                'message' => 'Job applications retrieved successfully',
+                'data' => $results
+            ], 200);
+            
+        } catch (\Exception $e) {
+            Log::error('Failed to retrieve job applications: ' . $e->getMessage());
+            return response()->json([
+                'message' => 'Failed to retrieve job applications',
+                'error' => $e->getMessage()
             ], 500);
         }
     }

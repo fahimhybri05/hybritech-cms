@@ -31,6 +31,8 @@ export class ApplyformComponent implements OnInit {
   selectedDesignation: string = '';
   [x: string]: any;
   is_active = 0;
+  is_selected = 0;
+  isemail_sent = 0;
   full_name: string = '';
   email: string = '';
   number: string = '';
@@ -100,6 +102,8 @@ export class ApplyformComponent implements OnInit {
     formData.append('full_name', this.full_name);
     formData.append('email', this.email);
     formData.append('is_active', this.is_active.toString());
+    formData.append('is_selected', this.is_selected.toString());
+      formData.append('isemail_sent', this.isemail_sent.toString());
     formData.append('designation', this.selectedDesignation);
     formData.append('experience', experienceString);
     formData.append('number', this.number.toString());
