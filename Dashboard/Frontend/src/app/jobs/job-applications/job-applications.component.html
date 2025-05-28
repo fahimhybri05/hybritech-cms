@@ -2,6 +2,9 @@
   [headerTitle]="Title"
   [insertTitle]="'View Only'"
   [apiUrl]="'job-applications?'"
+  [button1Text]="'All'"
+  [button2Text]="'Read'"
+  [button3Text]="'Unread'"
   [isSearchFilter]="true"
   [isFilterable]="true"
   [isOdata]="false"
@@ -24,7 +27,7 @@
 ></react-analytical-table>
 
 <ui5-dialog [open]="isDeleteOpen" header-text="Warning" state="Critical">
-  <p *ngIf="!isDeleteLoading">Are you sure you want to delete this data?</p>
+  <p *ngIf="!isDeleteLoading">Are you sure you want to delete this Applicant?</p>
   <div *ngIf="isDeleteLoading">
     <p>Deleting please wait ...</p>
   </div>

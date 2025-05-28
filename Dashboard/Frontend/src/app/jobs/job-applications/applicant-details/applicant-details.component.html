@@ -8,6 +8,14 @@
         disabled
         [checked]="jobApplicantData.is_active"
       ></ui5-switch>
+      <ui5-label show-colon>
+        <strong>Application Status</strong></ui5-label>
+      <ui5-switch
+        accessible-name="graphical"
+        design="Graphical"
+        [checked]="jobApplicantData.is_selected"
+        (click)="toggleActive($event)"
+      ></ui5-switch>
     </div>
 
     <ng-container>
@@ -67,11 +75,11 @@
   </div>
   <div slot="footer" class="d-flex justify-content-end w-100 gap-2 p-2">
     <ui5-button
-      *ngIf="jobApplicantData && !jobApplicantData.is_active"
       design="Emphasized"
-      (click)="markAsRead()"
-      >Mark as Read</ui5-button
+      (click)="updateStatus()"
+      >Submit</ui5-button
     >
+
     <ui5-button (click)="closeDialog()">Close</ui5-button>
   </div>
 </ui5-dialog>
