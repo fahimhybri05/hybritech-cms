@@ -70,6 +70,19 @@ export class SelectedApplicantsComponent {
           hAlign: "Center" as TextAlign,
           width: 70,
         },
+              {
+                Header: "Invitaion sent",
+                accessor: "is_email_sent",
+                autoResizable: true,
+                disableFilters: true,
+                disableGroupBy: true,
+                disableSortBy: true,
+                className: "custom-class-name",
+                width: 100,
+                hAlign: "Center" as TextAlign,
+                Cell: ({ value }: any) =>
+                  value ? <Icon name="accept" /> : <Icon name="decline" />,
+              },
         {
           Header: "Full Name",
           accessor: "full_name",
