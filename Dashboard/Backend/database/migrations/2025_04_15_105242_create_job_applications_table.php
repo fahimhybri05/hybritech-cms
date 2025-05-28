@@ -14,15 +14,12 @@ return new class extends Migration
         Schema::create('job_applications', function (Blueprint $table) {
             $table->id();
             $table->boolean('is_active')->default(false);
-            $table->boolean('is_selected')->default(false);
-            $table->boolean('isemail_sent')->default(false);
             $table->string('designation');
             $table->string('experience');
             $table->string('full_name');
             $table->string('email');
             $table->string('number');
             $table->string('attachment')->nullable();
-            $table->timestamp('selected_at')->nullable();
             $table->timestamps();
         });
     }
