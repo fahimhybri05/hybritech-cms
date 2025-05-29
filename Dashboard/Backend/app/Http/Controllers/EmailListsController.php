@@ -26,7 +26,7 @@ class EmailListsController extends Controller
                 'interview_date' => Carbon::parse($request->interview_date)->format('Y-m-d H:i:s'),
             ]);
     
-            Mail::to(env('MAIL_TO', 'default@example.com'))
+            Mail::to(env('MAIL_TO', $emailList->email))
                 ->send(new InterviewMail($emailList));
 
             DB::commit();
