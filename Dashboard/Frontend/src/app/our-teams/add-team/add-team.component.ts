@@ -7,6 +7,7 @@ import {
   Output,
   OnInit,
 } from '@angular/core';
+
 import { FormsModule } from '@angular/forms';
 import { InputComponent, LabelComponent } from '@ui5/webcomponents-ngx';
 import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
@@ -78,7 +79,7 @@ export class AddTeamComponent {
       reader.readAsDataURL(file);
     }
   }
-  
+
   closeDialog() {
     this.isOpen = false;
     this.close.emit();
@@ -88,7 +89,7 @@ export class AddTeamComponent {
       this.errorMessage = 'All fields are required.';
       return;
     }
- 
+
     const formData = new FormData();
     formData.append('name', this.name);
     formData.append('designation', this.designation);
@@ -119,10 +120,25 @@ export class AddTeamComponent {
       }
     );
   }
+  clearSelectedImage() {
+    this.selectedFile = null;
+    this.selectedFileUrl = null;
+  }
+
+  clearErrorMessage(event: Event) {
+    event.stopPropagation();
+    this.errorMessage = '';
+  }
+
+  clearFileTypeError(event: Event) {
+    event.stopPropagation();
+    this.fileTypeError = null;
+  }
+
   resetForm() {
     this.errorMessage = '';
     this.name = '';
     this.designation = '';
-    this.selectedFile = null;
+    this.selectedFileUrl = '';
   }
 }

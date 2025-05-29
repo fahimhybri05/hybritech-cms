@@ -1,59 +1,73 @@
-<ui5-dialog [open]="isOpen" id="dialog">
-    <ui5-bar slot="header" design="Header">
-      <ui5-title level="H5" slot="startContent">Details</ui5-title>
-      <ui5-button
-        class="dialogCloser"
-        design="Transparent"
-        id="closeDialogButton"
-        slot="endContent"
-        (click)="closeDialog()"
-        icon="decline"
-      ></ui5-button>
-    </ui5-bar>
-  
-    <app-form-preloader *ngIf="loading"></app-form-preloader>
-    <section class="container">
-      <div class="row">
-        <div class="col-md-6">
-          <ui5-label show-colon required>Name</ui5-label>
-          <ui5-textarea
-            class="titleInput"
-            [(ngModel)]="name"
-            name="name"
-            readonly
-          ></ui5-textarea>
-          <ui5-label show-colon required>Designation</ui5-label>
-          <ui5-textarea
-            class="titleInput"
-            [(ngModel)]="designation"
-            name="designation"
-            readonly
-          ></ui5-textarea>
-          <ui5-label show-colon>Image</ui5-label>
-          <div class="col-6">
-            <img
-              *ngIf="selectedFileUrl"
-              [src]="selectedFileUrl"
-              alt="New Selected Image"
-              style="max-width: 400px"
-            />
-            <img
-              *ngIf="!selectedFileUrl && currentImageUrl"
-              [src]="currentImageUrl"
-              alt="Current Image"
-              style="max-width: 400px"
-            />
+<ui5-dialog [open]="isOpen" id="dialog" header-text="Details">
+  <ui5-bar slot="header" design="Header">
+    <ui5-title level="H5" slot="startContent">Details</ui5-title>
+    <ui5-button
+      class="dialogCloser"
+      design="Transparent"
+      id="closeDialogButton"
+      slot="endContent"
+      (click)="closeDialog()"
+      icon="decline"
+    ></ui5-button>
+  </ui5-bar>
+
+  <app-form-preloader *ngIf="loading"></app-form-preloader>
+
+  <ui5-tabcontainer>
+    <ui5-tab text="Info" design="Inline">
+      <section class="tab-content">
+        <div class="row">
+          <div class="col-md-12">
+            <ui5-label show-colon required>Name</ui5-label>
+            <ui5-textarea
+              class="titleInput"
+              [(ngModel)]="name"
+              name="name"
+              readonly
+            ></ui5-textarea>
+
+            <ui5-label show-colon required>Designation</ui5-label>
+            <ui5-textarea
+              class="textArea1"
+              [(ngModel)]="designation"
+              name="designation"
+              readonly
+            ></ui5-textarea>
           </div>
         </div>
-      </div>
-    </section>
-    <ui5-toolbar slot="footer">
-      <ui5-toolbar-button
-        design="Transparent"
-        text="Cancel"
-        (click)="closeDialog()"
-      ></ui5-toolbar-button>
-    </ui5-toolbar>
-  </ui5-dialog>
-  
-  
+      </section>
+    </ui5-tab>
+
+    <ui5-tab text="Attachment" design="Inline">
+      <section class="tab-content">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="img-upload">
+              <div *ngIf="currentImageUrl" class="image-preview">
+                <div class="preview-container">
+                  <img
+                    [src]="currentImageUrl"
+                    alt="Current Image"
+                    class="preview-image"
+                    style="max-width: 400px"
+                  />
+                </div>
+              </div>
+              <div *ngIf="!currentImageUrl" class="no-image">
+                No image available
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </ui5-tab>
+  </ui5-tabcontainer>
+
+  <ui5-toolbar slot="footer">
+    <ui5-toolbar-button
+      design="Transparent"
+      text="Close"
+      (click)="closeDialog()"
+    ></ui5-toolbar-button>
+  </ui5-toolbar>
+</ui5-dialog>

@@ -10,8 +10,8 @@
           </ui5-card-header>
           <section>
             <ui5-busy-indicator [active]="loading" [delay]="100">
-              <div class="d-flex flex-column">
-                <span> Want to show Our Projects in Website?</span>
+              <div class="d-flex flex-column" *ngFor="let item of webID">
+                <span>{{ item.title }}</span>
                 <div class="d-flex align-items-center">
                   <ui5-title level="H5"> Active :</ui5-title>
                   <ui5-switch

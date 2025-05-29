@@ -4,6 +4,7 @@ import { SocialMediaComponent } from '@app/social-media/social-media.component';
 import { Ui5MainModule } from '@ui5/webcomponents-ngx';
 import { ToastMessageComponent } from '../components/toast-message/toast-message.component';
 import { ContactInfoComponent } from '@app/contact-info/contact-info.component';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
@@ -14,6 +15,7 @@ import { ContactInfoComponent } from '@app/contact-info/contact-info.component';
     SocialMediaComponent,
     Ui5MainModule,
     ToastMessageComponent,
+    CommonModule
   ],
   templateUrl: './info-footer.component.html',
   styleUrl: './info-footer.component.css',
@@ -23,7 +25,7 @@ export class InfoFooterComponent {
   loading: boolean = false;
   isActive: any;
   title: string = '';
-  webID: number = 0;
+  webID: any;
   ToastType: string = '';
 
 
@@ -37,7 +39,8 @@ ngOnInit() {
 getProjectPermission() {
     this.commonService.get(`WebPages`, true).subscribe({
       next: (response: any) => {
-        this.webID = response.value[0].id;
+        console.log("data", response)
+        this.webID = response.value;
         this.isActive = response.value[0].is_active;
       },
       error: (error: any) => {
