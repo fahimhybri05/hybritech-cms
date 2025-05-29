@@ -1,0 +1,91 @@
+<ui5-dialog
+  [open]="isOpen"
+  header-text="Schedule Interview"
+  state="Information"
+  class="interview-dialog"
+>
+  <ui5-tabcontainer class="tab-container">
+    <ui5-tab text="Applicant Details" class="applicant-tab">
+      <div *ngIf="jobApplicantData" class="dialog-content tab-content">
+        <div class="d-flex align-items-center email-switch">
+          <ui5-label show-colon>Email Send</ui5-label>
+          <ui5-switch
+            accessible-name="graphical"
+            design="Graphical"
+            disabled
+            [checked]="jobApplicantData.is_email_sent"
+          ></ui5-switch>
+        </div>
+
+        <div class="form-section">
+          <ng-container>
+            <ui5-label show-colon class="form-label">Full Name</ui5-label>
+            <ui5-input
+              class="w-100 form-input"
+              placeholder="No data found"
+              value="{{ jobApplicantData.full_name }}"
+              readonly
+            ></ui5-input>
+          </ng-container>
+
+          <ng-container>
+            <ui5-label show-colon class="form-label">Email</ui5-label>
+            <ui5-input
+              class="w-100 form-input"
+              placeholder="No data found"
+              value="{{ jobApplicantData.email }}"
+              readonly
+            ></ui5-input>
+          </ng-container>
+
+          <ng-container>
+            <ui5-label show-colon class="form-label">Phone Number</ui5-label>
+            <ui5-input
+              class="w-100 form-input"
+              placeholder="No data found"
+              value="{{ jobApplicantData.number }}"
+              readonly
+            ></ui5-input>
+          </ng-container>
+
+          <ng-container>
+            <ui5-label show-colon class="form-label">Applied For</ui5-label>
+            <ui5-textarea
+              class="w-100 form-input"
+              placeholder="No data found"
+              value="{{ jobApplicantData.designation }}"
+              readonly
+            ></ui5-textarea>
+          </ng-container>
+        </div>
+      </div>
+    </ui5-tab>
+    
+    <ui5-tab text="Interview Details" class="interview-tab">
+      <div class="interview-section tab-content">
+
+        <div class="form-group">
+          <ui5-label show-colon class="form-label">Interview Date</ui5-label>
+          <ui5-datetime-picker  class="form-control"></ui5-datetime-picker>
+        </div>
+
+        <div class="form-group">
+          <ui5-label show-colon class="form-label pt-3">Interview Location</ui5-label>
+          <ui5-textarea
+            placeholder="Enter interview address"
+            required
+            rows="2"
+            class="form-control"
+          ></ui5-textarea>
+        </div>
+      </div>
+    </ui5-tab>
+  </ui5-tabcontainer>
+
+  <div slot="footer" class="dialog-footer">
+    <ui5-button design="Emphasized" class="submit-btn"
+      >Schedule Interview</ui5-button
+    >
+    <ui5-button (click)="closeDialog()" class="cancel-btn">Close</ui5-button>
+  </div>
+</ui5-dialog>

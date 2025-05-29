@@ -4,7 +4,7 @@ export class JobApplication implements Deserializable {
   id?: number;
   is_active?: boolean;
   is_selected?: boolean;
-  isemail_sent?: boolean;
+  is_email_sent?: boolean;
   full_name: string = '';
   email: string = '';
   number: string = '';
@@ -33,7 +33,7 @@ export class JobApplication implements Deserializable {
       id: this.id,
       is_active: this.is_active,
       is_selected: this.is_selected,
-      isemail_sent: this.isemail_sent,
+      isemail_sent: this.is_email_sent,
       full_name: this.full_name,
       email: this.email,
       number: this.number,
