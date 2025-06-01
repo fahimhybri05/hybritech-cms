@@ -101,7 +101,8 @@
     </div>
   </div>
 </div>
-<div *ngIf="isActive" class="common-bg style-two pd-5">
+<!-- Projects Section -->
+<div *ngIf="projectSection?.is_active" class="common-bg style-two pd-5">
   <div class="container">
     <div class="row">
       <div class="col-lg-12 text-center">
@@ -124,6 +125,38 @@
           <div class="project-content">
             <h4>{{ project.title }}</h4>
             <a class="project-button" href="#">View Details</a>
+            <i class="bi bi-arrow-right-short"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Our Team Section -->
+<div *ngIf="teamSection?.is_active" class="common-bg style-two pd-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <div class="center style-two dot">
+          <h1 class="mb-5 title-font text-card">
+            <span style="color: var(--secondary-color)">Our Team </span>
+          </h1>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div *ngFor="let team of teams" class="col-lg-4 col-md-6">
+        <div class="single-project-box">
+          <div class="project-thumb">
+            <img
+              [src]="team.media[0].original_url"
+              alt="{{ team.title }} icon"
+            />
+          </div>
+          <div class="project-content">
+            <h4>{{ team.name }}</h4>
+            <h4>{{ team.designation }}</h4>
             <i class="bi bi-arrow-right-short"></i>
           </div>
         </div>

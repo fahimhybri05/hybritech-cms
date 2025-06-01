@@ -13,7 +13,10 @@ import { CommonModule } from '@angular/common';
 })
 export class AboutUsPageComponent {
   projects: any[] = [];
-  pages: any[] = [];
+  teams: any[] =[];
+  pages: any;
+  projectSection:any;
+   teamSection: any;
   isActive = false;
   constructor(
     private sanitizer: DomSanitizer,
@@ -22,6 +25,7 @@ export class AboutUsPageComponent {
 
   ngOnInit(): void {
     this.getProjectData();
+    this.getTeamData();
     this.getWebpageData();
   }
 
@@ -36,13 +40,12 @@ export class AboutUsPageComponent {
       }
     );
   }
-  getSanitizedIcon(icon: string) {
-    return this.sanitizer.bypassSecurityTrustHtml(icon);
-  }
-  getWebpageData() {
-    this.dataService.getWebPageData().subscribe(
+
+  //for team
+  getTeamData() {
+    this.dataService.getTeamData().subscribe(
       (response) => {
-        this.isActive = response.value[0].is_active;
+        this.teams = Array.isArray(response) ? response : [];
       },
       (error) => {
         console.error('Error fetching services:', error);
@@ -50,4 +53,25 @@ export class AboutUsPageComponent {
       }
     );
   }
+
+  getSanitizedIcon(icon: string) {
+    return this.sanitizer.bypassSecurityTrustHtml(icon);
+  }
+  getWebpageData() {
+  this.dataService.getWebPageData().subscribe(
+    (response) => {
+      const sections = response.value || [];
+
+      this.projectSection = sections.find((item: any) => item.id === 1);
+      this.teamSection = sections.find((item: any) => item.id === 2);
+      
+      console.log("Project Section:", this.projectSection);
+      console.log("Team Section:", this.teamSection);
+    },
+    (error) => {
+      console.error('Error fetching services:', error);
+      if (error.error) console.error('Error details:', error.error);
+    }
+  );
+}
 }
