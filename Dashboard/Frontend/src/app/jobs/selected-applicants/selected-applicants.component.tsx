@@ -13,19 +13,19 @@ import { CommonService } from "@app/services/common-service/common.service";
 import React from "react";
 import { ToastMessageComponent } from "@app/components/toast-message/toast-message.component";
 import { JobApplication } from "@app/shared/Model/jobapplication";
-
-
+import { InterviewDetailsComponent } from "./interview-details/interview-details.component";
 @Component({
-  selector: 'app-selected-applicants',
+  selector: "app-selected-applicants",
   standalone: true,
   imports: [
     ReactAnalyticalTable,
     ToastMessageComponent,
     CommonModule,
+    InterviewDetailsComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  templateUrl: './selected-applicants.component.html',
-  styleUrl: './selected-applicants.component.css'
+  templateUrl: "./selected-applicants.component.html",
+  styleUrl: "./selected-applicants.component.css",
 })
 export class SelectedApplicantsComponent {
   @Input() model: any;
@@ -54,103 +54,117 @@ export class SelectedApplicantsComponent {
     this.api = this.commonService.api;
     this.Title = "Selected Applications";
   }
+  ngOnInit(): void {}
+  refresh($event: any) {
+    this.refreshTable.emit();
+  }
   tableColum() {
-      const columns = [
-        {
-          Header: "Sl No.",
-          accessor: ".",
-          autoResizable: true,
-          disableFilters: true,
-          disableGroupBy: true,
-          disableSortBy: true,
-          className: "custom-class-name",
-          Cell: ({ row }: { row: any }) => {
-            return React.createElement("span", null, row.index + 1);
-          },
-          hAlign: "Center" as TextAlign,
-          width: 70,
+    const columns = [
+      {
+        Header: "Sl No.",
+        accessor: ".",
+        autoResizable: true,
+        disableFilters: true,
+        disableGroupBy: true,
+        disableSortBy: true,
+        className: "custom-class-name",
+        Cell: ({ row }: { row: any }) => {
+          return React.createElement("span", null, row.index + 1);
         },
-        {
-          Header: "Full Name",
-          accessor: "full_name",
-          autoResizable: true,
-          className: "custom-class-name",
-        },
-        {
-          Header: "Email",
-          accessor: "email",
-          autoResizable: true,
-          className: "custom-class-name",
-        },
-        {
-          Header: "Number",
-          accessor: "number",
-          autoResizable: true,
-          className: "custom-class-name",
-        },
-        {
-          Header: "Designation",
-          accessor: "designation",
-          autoResizable: true,
-          className: "custom-class-name",
-        },
-        {
-          Header: "Experience",
-          accessor: "experience",
-          autoResizable: true,
-          className: "custom-class-name",
-        },
-               {
-          Header: "Selected At",
-          accessor: "selected_at",  
-          autoResizable: true,
-          className: "custom-class-name",
-          hAlign: "Center" as TextAlign,
-          Cell: ({ value }: any) => new Date(value).toLocaleDateString(),
-        },
-        {
-          Header: "Submitted At",
-          accessor: "created_at",
-          autoResizable: true,
-          className: "custom-class-name",
-          hAlign: "Center" as TextAlign,
-          Cell: ({ value }: any) => value? new Date(value).toLocaleDateString():"-",
-        },
-        {
-          Header: "   Actions",
-          accessor: ".",
-          cellLabel: () => "",
-          disableFilters: true,
-          disableGroupBy: true,
-          disableSortBy: true,
-          autoResizable: true,
-          id: "actions",
-          className: "custom-class-name",
-          hAlign: "Center" as TextAlign,
-          Cell: ({ row }: any) => (
-            <div>
-              <Button
-                icon="information"
-                design="Transparent"
-              ></Button>
-  
-              <Button
-                icon="delete"
-                design="Transparent"
-                onClick={() => {
-                  this.deleteJobs(row.original);
-                }}
-              ></Button>
-            </div>
-          ),
-        },
-      ];
-      return columns;
-    }
+        hAlign: "Center" as TextAlign,
+        width: 70,
+      },
+      {
+        Header: "Invitation sent",
+        accessor: "is_email_sent",
+        autoResizable: true,
+        disableFilters: true,
+        disableGroupBy: true,
+        disableSortBy: true,
+        className: "custom-class-name",
+        width: 130,
+        hAlign: "Center" as TextAlign,
+        Cell: ({ value }: any) =>
+          value ? <Icon name="accept" /> : <Icon name="decline" />,
+      },
+      {
+        Header: "Full Name",
+        accessor: "full_name",
+        autoResizable: true,
+        className: "custom-class-name",
+      },
+      {
+        Header: "Email",
+        accessor: "email",
+        autoResizable: true,
+        className: "custom-class-name",
+      },
+      {
+        Header: "Number",
+        accessor: "number",
+        autoResizable: true,
+        className: "custom-class-name",
+      },
+      {
+        Header: "Designation",
+        accessor: "designation",
+        autoResizable: true,
+        className: "custom-class-name",
+      },
+      {
+        Header: "Experience",
+        accessor: "experience",
+        autoResizable: true,
+        className: "custom-class-name",
+      },
+      {
+        Header: "Selected At",
+        accessor: "selected_at",
+        autoResizable: true,
+        className: "custom-class-name",
+        hAlign: "Center" as TextAlign,
+        Cell: ({ value }: any) => new Date(value).toLocaleDateString(),
+      },
+      {
+        Header: "Submitted At",
+        accessor: "created_at",
+        autoResizable: true,
+        className: "custom-class-name",
+        hAlign: "Center" as TextAlign,
+        Cell: ({ value }: any) =>
+          value ? new Date(value).toLocaleDateString() : "-",
+      },
+      {
+        Header: "   Actions",
+        accessor: ".",
+        cellLabel: () => "",
+        disableFilters: true,
+        disableGroupBy: true,
+        disableSortBy: true,
+        autoResizable: true,
+        id: "actions",
+        className: "custom-class-name",
+        hAlign: "Center" as TextAlign,
+        Cell: ({ row }: any) => (
+          <div>
+            <Button icon="information" design="Transparent"></Button>
+            <Button
+              icon="email"
+              design="Transparent"
+              onClick={() => {
+                this.JobsDetails(row.original);
+              }}
+            ></Button>
+          </div>
+        ),
+      },
+    ];
+    return columns;
+  }
 
   JobsDetails(original: any) {
     this.isApplicantDetails = false;
-    this.cdr.detectChanges(); 
+    this.cdr.detectChanges();
     this.selectedJobId = original.id;
     this.selectedJobData = { ...original };
     this.isApplicantDetails = true;
@@ -162,11 +176,10 @@ export class SelectedApplicantsComponent {
     this.isApplicantDetails = false;
     this.selectedJobId = null;
     this.selectedJobData = null;
-    this.cdr.detectChanges(); 
+    this.cdr.detectChanges();
   }
 
-
-      deleteJobs(original: any) {
+  deleteJobs(original: any) {
     this.isDeleteOpen = true;
     this.selectedJobId = original.id;
   }

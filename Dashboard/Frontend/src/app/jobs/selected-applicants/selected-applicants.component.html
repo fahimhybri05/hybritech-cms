@@ -21,3 +21,10 @@
   [showStatusFilter]="false"
   [isSegmentedState]="false"
 ></react-analytical-table>
+<app-interview-details
+  [jobApplicantId]="selectedJobId"
+  [jobApplicantData]="selectedJobData"
+  [isOpen]="isApplicantDetails"
+  (refreshTable)="refresh($event)"
+  (close)="closeJobDetailsModal()"
+></app-interview-details>

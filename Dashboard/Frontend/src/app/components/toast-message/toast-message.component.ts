@@ -23,6 +23,7 @@ export class ToastMessageComponent implements OnInit {
     add: 'Added successfully',
     mark: 'Marked as read',
     select: 'Selected successfully',
+    mail: 'Mail sent successfully',
     error: 'Somthing went wrong',
   };
 
@@ -47,6 +48,10 @@ export class ToastMessageComponent implements OnInit {
       }
       if (this.ToastType == 'edit') {
         this.ToastMessage = this.Message.edit;
+        return;
+      }
+      if(this.ToastType == 'mail') {
+        this.ToastMessage = this.Message.mail;
         return;
       }
            if (this.ToastType == 'select') {
