@@ -1,0 +1,182 @@
+import { CommonModule, DatePipe } from "@angular/common";
+import {
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ChangeDetectorRef,
+} from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { CommonService } from "@app/services/common-service/common.service";
+import { ReactAnalyticalTable } from "@app/components/analytical-table/react-table";
+import { Icon, TextAlign } from "@ui5/webcomponents-react";
+import React from "react";
+import { Button } from "@ui5/webcomponents-react";
+import { AddServicesComponent } from "@app/service-page/add-services/add-services.component";
+import { EditServicesComponent } from "@app/service-page/edit-services/edit-services.component";
+import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
+import { User } from "@app/shared/Model/user";
+import { ServiceDetailsComponent } from "@app/service-page/service-details/service-details.component";
+import { RoleaddComponent } from "../roleadd/roleadd.component";
+
+@Component({
+  selector: 'app-rolelist',
+  standalone: true,
+  imports: [CommonModule,
+    FormsModule,
+    ReactAnalyticalTable,
+    AddServicesComponent,
+    EditServicesComponent,
+    ToastMessageComponent,
+    ServiceDetailsComponent, RoleaddComponent],
+  schemas:[CUSTOM_ELEMENTS_SCHEMA],
+  templateUrl: './rolelist.component.html',
+  styleUrl: './rolelist.component.css'
+})
+export class RolelistComponent {
+@Output() refreshTable: EventEmitter<void> = new EventEmitter<void>();
+  @Output() IsOpenToastAlert = new EventEmitter<void>();
+  ToastType: string = "";
+  itemsPerPage: number;
+  currentPage = 1;
+  odata: boolean;
+  loading: boolean = false;
+  isInsert: boolean = false;
+  isEdit: boolean = false;
+  isDeleteOpen: boolean = false;
+  isDeleteLoading: boolean = false;
+  isSuccess: boolean = false;
+  isDeleteError: boolean = false;
+  filter: string = "";
+  Title: string;
+  type: string | null = null;
+  selectedUserId: number | null = null;
+  selectedUserData: any = null;
+  Users = User;
+  constructor(
+    private commonService: CommonService,
+    private datePipe: DatePipe,
+    private cdr: ChangeDetectorRef
+  ) {
+    this.itemsPerPage = this.commonService.itemsPerPage;
+    this.odata = this.commonService.odata;
+    this.Title = "Role Permission";
+    this.tableColum();
+  }
+  ngOnInit(): void {}
+
+  tableColum() {
+    const columns = [
+      {
+        Header: "Sl No.",
+        accessor: ".",
+        autoResizable: true,
+        disableFilters: true,
+        disableGroupBy: true,
+        disableSortBy: true,
+        className: "custom-class-name",
+        Cell: ({ row }: { row: any }) => {
+          return React.createElement("span", null, row.index + 1);
+        },
+        hAlign: "Center" as TextAlign,
+        width: 70,
+      },
+      {
+        Header: " Name",
+        accessor: "full_name",
+        autoResizable: true,
+        className: "custom-class-name",
+      },
+     
+     
+      {
+        Header: "Update at",
+        accessor: "created_at",
+        autoResizable: true,
+        className: "custom-class-name",
+        hAlign: "Center" as TextAlign,
+        Cell: ({ value }: any) => new Date(value).toLocaleDateString(),
+      },
+      {
+        Header: "Actions",
+        accessor: ".",
+        cellLabel: () => "",
+        disableFilters: true,
+        disableGroupBy: true,
+        disableSortBy: true,
+        autoResizable: true,
+        id: "actions",
+        className: "custom-class-name",
+        width: 150,
+        hAlign: "Center" as TextAlign,
+        Cell: ({ row }: any) => (
+            <div>
+                <Button
+                    icon="delete"
+                    design="Transparent"
+                    disabled={row.original.id === 1}
+                    onClick={() => {
+                        if (row.original.id !== 1) {
+                            this.deleteFaqs(row.original);
+                        }
+                    }}
+                />
+            </div>
+        ),
+    }
+    ];
+    return columns;
+  }
+  handleInsertData(isInsert: boolean): void {
+    if (isInsert) {
+      this.isInsert = isInsert;
+      this.refreshTable.emit();
+    }
+  }
+  closeAddFaqModal() {
+    this.isInsert = false;
+    this.refreshTable.emit();
+  }
+
+  deleteFaqs(original: any) {
+    this.isDeleteOpen = true;
+    this.selectedUserId = original.id;
+  }
+
+  deleteItemConfirm() {
+    this.isDeleteLoading = true;
+    const id = this.selectedUserId;
+    this.commonService.delete(`Users/${id}`, this.odata).subscribe({
+      next: (response: any) => {
+        this.isDeleteOpen = false;
+        this.isDeleteLoading = false;
+        this.ToastType = "remove";
+        setTimeout(() => {
+          this.IsOpenToastAlert.emit();
+        }, 1000);
+        this.refreshTable.emit();
+      },
+      error: (error: any) => {
+        console.log(error);
+        this.isDeleteError = true;
+        this.isDeleteOpen = false;
+        this.isDeleteLoading = false;
+        this.refreshTable.emit();
+      },
+    });
+  }
+
+  editFaq(original: any) {
+    this.isEdit = true;
+    this.selectedUserId = original.id;
+    this.selectedUserData = { ...original };
+  }
+
+  closeEditFaqModal() {
+    this.isEdit = false;
+  }
+  
+  
+}

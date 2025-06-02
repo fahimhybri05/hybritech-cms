@@ -25,7 +25,7 @@
         text="Job Applications"
         routerLink="/job-applications"
       ></ui5-side-navigation-sub-item>
-            <ui5-side-navigation-sub-item
+      <ui5-side-navigation-sub-item
         text="Selected Applications"
         routerLink="/selected-applicants"
       ></ui5-side-navigation-sub-item>
@@ -52,9 +52,19 @@
     <ui5-side-navigation-item
       text="User Management"
       slot="fixedItems"
-      routerLink="/user-managment"
       icon="key-user-settings"
-    ></ui5-side-navigation-item>
+    >
+      <ui5-side-navigation-sub-item
+        text="User Management list"
+        routerLink="/user-managment"
+        icon="key-user-settings"
+      ></ui5-side-navigation-sub-item>
+      <ui5-side-navigation-sub-item
+        text="Role Permission"
+        routerLink="/rolelist"
+        icon="key-user-settings"
+      ></ui5-side-navigation-sub-item>
+    </ui5-side-navigation-item>
   </ui5-side-navigation>
   <div class="content"></div>
 </div>
