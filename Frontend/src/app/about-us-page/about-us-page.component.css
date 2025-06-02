@@ -175,67 +175,469 @@ display: inline-block;
     transition: 0.5s;
 } */
 
+/* Updated Project Section */
 .single-project-box {
-  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  margin-bottom: 30px;
+  background: linear-gradient(145deg, rgba(17, 53, 54, 0.9), rgba(20, 74, 75, 0.7));
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(129, 206, 208, 0.2);
+  transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.single-project-box:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  border-color: var(--secondary-color);
+}
+
+.project-thumb {
+  position: relative;
+  overflow: hidden;
+  height: 260px;
+}
+
+.project-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.project-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent 30%, var(--primary-color));
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 20px;
+}
+
+.project-category {
+  background: var(--secondary-color);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transform: translateY(-20px);
+  transition: transform 0.5s ease;
+}
+
+.single-project-box:hover .project-img {
+  transform: scale(1.12);
+}
+
+.single-project-box:hover .project-overlay {
+  opacity: 0.85;
+}
+
+.single-project-box:hover .project-category {
+  transform: translateY(0);
+}
+
+.project-content {
+  padding: 25px;
+  position: relative;
+  z-index: 1;
+  text-align: left;
+  background: transparent;
+  transition: all 0.5s ease;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.project-content h4 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+  font-family: "Snasm", sans-serif;
+  line-height: 1.3;
+}
+
+.project-content .project-subtitle {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 400;
+}
+
+.project-content a {
+  font-size: 1rem;
+  color: var(--secondary-color);
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: all 0.4s ease;
+}
+
+.project-content a:hover {
+  color: #fff;
+}
+
+.single-project-box:hover .project-content {
+  transform: translateY(-15px);
+}
+
+.single-project-box:hover .project-content a {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.bi-arrow-right-short {
+  color: var(--secondary-color);
+  font-size: 1.3rem;
+  margin-left: 8px;
+  transition: transform 0.3s ease;
+}
+
+.project-content a:hover .bi-arrow-right-short {
+  transform: translateX(6px);
+  color: #fff;
+}
+
+/* Modal Styles */
+.modal-dialog {
+  max-width: 800px; /* Wider modal */
+}
+
+.modal-content {
+  background: #113536;
+  color: #fff;
+  border-radius: 15px;
+  border: 1px solid var(--secondary-color);
+  padding: 20px;
+  min-height: 600px; /* Elongated height */
+}
+
+.modal-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 15px;
+}
+
+.modal-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--secondary-color);
+  line-height: 1.2;
+}
+
+.btn-close-white {
+  filter: invert(1); /* White close button */
+}
+
+.modal-body {
+  padding: 30px;
+}
+
+.project-modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.project-modal-img {
+  max-height: 400px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.5s ease-in;
+}
+
+.project-modal-subtitle {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+  animation: slideIn 0.5s ease-in 0.1s forwards;
+  opacity: 0;
+}
+
+.project-modal-description {
+  font-size: 1.1rem;
+  color: #ddd;
+  line-height: 1.6;
+  margin: 0;
+  animation: slideIn 0.5s ease-in 0.2s forwards;
+  opacity: 0;
+}
+
+.project-modal-created {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+  animation: slideIn 0.5s ease-in 0.3s forwards;
+  opacity: 0;
+}
+
+.modal-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: 15px;
+}
+
+.btn-secondary {
+  background: var(--secondary-color);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: #fff;
+  color: var(--primary-color);
+}
+
+/* Animation for modal content */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* Team Section */
+.team-section {
+  padding: 100px 0;
   position: relative;
   overflow: hidden;
 }
 
-.project-thumb img {
-  width: 100%;
-  height: 240px;
-  overflow-clip-margin: content-box;
-  overflow: clip;
+/* Team Card */
+.team-card {
+  background: #113536;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  height: 100%;
+  border: 1px solid rgba(129, 206, 208, 0.2);
 }
 
-.project-content {
-  background: #144a4bce;
-  padding: 30px 34px 28px;
-  width: 88%;
-  border-left: 5px solid #fff;
+.team-card:hover {
+  transform: translateY(-15px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border-color: var(--secondary-color);
+  background: rgba(20, 74, 75, 0.1);
+}
+
+.team-img-container {
   position: relative;
-  margin-top: -38px;
+  overflow: hidden;
+  height: 300px;
+}
+
+.team-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.team-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, var(--primary-color), transparent);
+  opacity: 0;
   transition: all 0.5s ease;
-  border-radius: 3px;
-  height: 117px;
 }
 
-.project-content h4 {
-  font-size: 18px;
-  margin: 0 0 12px;
-  transition: 0.5s;
-  color: #fff;
-  font-weight: 600;
-  font-family: "Snasm";
+.team-card:hover .team-overlay {
+  opacity: 0.7;
 }
 
-.project-content a {
-  font-size: 17px !important;
-  color: #fff;
-  font-weight: 500;
-  margin-top: 9px;
-  display: none;
-  transition: 0.5s;
+.team-card:hover .team-img {
+  transform: scale(1.15);
+}
+
+/* Social Links */
+.team-social-links {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  transform: translateY(100px);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.team-card:hover .team-social-links {
+  transform: translateY(0);
+}
+
+.social-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+  transition: all 0.3s ease;
   text-decoration: none;
 }
 
-/* Hover effects */
-.single-project-box:hover .project-content {
-  transform: translateY(-20px); /* Moves the content up slightly */
-  height: auto; /* Allows the content to expand */
-  padding-bottom: 40px; /* Adds more space at the bottom */
+.social-icon:hover {
+  transform: translateY(-5px) scale(1.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.single-project-box:hover .project-content a {
-  display: block; /* Shows the link on hover */
+/* Team Info */
+.team-info {
+  padding: 25px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
 }
 
-.bi-arrow-right-short {
-  color: #fff;
-  font-size: 20px;
-  margin-left: 5px;
-  vertical-align: middle;
+.team-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 5px;
+  transition: all 0.3s ease;
 }
+
+.team-position {
+  color: var(--secondary-color);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.team-card:hover .team-name {
+  color: var(--secondary-color);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .team-img-container {
+    height: 250px;
+  }
+  .team-title {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .team-img-container {
+    height: 200px;
+  }
+  .team-title {
+    font-size: 2rem;
+  }
+  .team-name {
+    font-size: 1.3rem;
+  }
+}
+
+
+/* Add these new styles to your existing CSS */
+.team-slider-container {
+  position: relative;
+  padding: 0 40px;
+}
+
+.team-slider-wrapper {
+  overflow: hidden;
+  margin: 0 -15px;
+}
+
+.team-slider {
+  display: flex;
+  transition: transform 0.5s ease;
+  padding: 10px 0;
+}
+
+.team-slide {
+  flex: 0 0 calc(100% / 3);
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+
+.slider-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background: rgba(20, 74, 75, 0.3);
+  border: none;
+  border-radius: 50%;
+  color: var(--secondary-color);
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.slider-nav:hover {
+  background: rgba(20, 74, 75, 0.7);
+  color: white;
+}
+
+.slider-nav.prev {
+  left: 0;
+}
+
+.slider-nav.next {
+  right: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .team-slide {
+    flex: 0 0 50%;
+  }
+}
+
+@media (max-width: 768px) {
+  .team-slide {
+    flex: 0 0 100%;
+  }
+  
+  .slider-nav {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+  }
+}
+/* team end */
 
 @media screen and (max-width: 768px) {
   .banner {

@@ -58,6 +58,7 @@ export class JobAddComponent {
     editable: true,
     spellcheck: true,
     height: '20rem',
+    width: '80rem',
     minHeight: '5rem',
     placeholder: 'Enter text here...',
     translate: 'no',

@@ -1,42 +1,6 @@
-ui5-dialog {
-	width: 550px;
-    height: 730px;
-}
 .textArea1{
-    width: 520px;
-    height: 70px;
+    height: 40px;
 }
-.textArea {
-    width: 520px;
-    height: 80%;
-}
-ui5-file-uploader {
-    width: 520px;
-    height: 60px;
-}
-.titleInput{
-    width: 520px;
-    height: 50px;
-}
-#dialog::part(header),
-#dialog::part(footer) {
-	padding-inline: 0;
-}
-
-
-.word-count{
-font-size: 10px;
-font-weight: bold;
-color: black;
-}
-.img-upload{
-    margin-top: -30px;
-}
-.img-message-strip{
-    width: 550px;
-}
-.view-img{
-    max-width: 400px; 
-    margin-top: 30px;
-    max-height: auto;
+.textArea{
+    height: 100px;
 }

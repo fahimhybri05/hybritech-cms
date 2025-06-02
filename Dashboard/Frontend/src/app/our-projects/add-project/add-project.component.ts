@@ -12,6 +12,7 @@ import { TextAreaComponent } from '@ui5/webcomponents-ngx/main/text-area';
 import { FormPreloaderComponent } from 'app/components/form-preloader/form-preloader.component';
 import { CommonService } from 'app/services/common-service/common.service';
 import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
+import {AngularEditorConfig, AngularEditorModule } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-add-project',
@@ -21,6 +22,7 @@ import { ToastMessageComponent } from '@app/components/toast-message/toast-messa
     FormsModule,
     LabelComponent,
     InputComponent,
+    AngularEditorModule,
     FormPreloaderComponent,
     TextAreaComponent,
     ToastMessageComponent,
@@ -38,6 +40,8 @@ export class AddProjectComponent {
   isSuccess: boolean = false;
   errorMessage: string = '';
   fileTypeError: string | null = null;
+  placeholder = '';
+  htmlContent: string = '';
   title: string = '';
   subtitle: string = '';
   description: string = '';
@@ -46,6 +50,17 @@ export class AddProjectComponent {
   selectedFile: File | null = null;
   selectedFileUrl: string | null = null;
   isActive: boolean = true;
+  editorConfig: AngularEditorConfig = {
+      editable: true,
+      spellcheck: true,
+      height: '20rem',
+      width: '80rem',
+      minHeight: '5rem',
+      placeholder: 'Enter text here...',
+      translate: 'no',
+      defaultParagraphSeparator: 'p',
+      defaultFontName: 'Arial',
+    };
   constructor(private commonService: CommonService) {}
   toggleActive($event: any) {
     if ($event.target.checked) {
@@ -91,7 +106,7 @@ export class AddProjectComponent {
     this.close.emit();
   }
   insertData() {
-    if (!this.title || !this.subtitle || !this.description || !this.selectedFile) {
+    if (!this.title || !this.subtitle  || !this.selectedFile) {
       this.errorMessage = 'All fields are required.';
       return;
     }
@@ -103,7 +118,7 @@ export class AddProjectComponent {
     const formData = new FormData();
     formData.append('title', this.title);
     formData.append('subtitle', this.subtitle);
-    formData.append('description', this.description);
+    formData.append('description', this.htmlContent);
     formData.append('is_active', this.isActive ? '1' : '0');
     formData.append('image', this.selectedFile);
     this.loading = true;

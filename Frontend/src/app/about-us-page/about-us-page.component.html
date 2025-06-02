@@ -101,6 +101,7 @@
     </div>
   </div>
 </div>
+
 <!-- Projects Section -->
 <div *ngIf="projectSection?.is_active" class="common-bg style-two pd-5">
   <div class="container">
@@ -108,23 +109,34 @@
       <div class="col-lg-12 text-center">
         <div class="center style-two dot">
           <h1 class="mb-5 title-font text-card">
-            <span style="color: var(--secondary-color)">Latest Projects </span>
+            <span style="color: var(--secondary-color)">Latest Projects</span>
           </h1>
         </div>
       </div>
     </div>
     <div class="row">
-      <div *ngFor="let project of projects" class="col-lg-4 col-md-6">
+      <div *ngFor="let project of projects; let i = index" class="col-lg-4 col-md-6">
         <div class="single-project-box">
           <div class="project-thumb">
             <img
               [src]="project.media[0].original_url"
               alt="{{ project.title }} icon"
+              class="project-img"
             />
+            <div class="project-overlay">
+              <span class="project-category">{{ project.category || 'Project' }}</span>
+            </div>
           </div>
           <div class="project-content">
             <h4>{{ project.title }}</h4>
-            <a class="project-button" href="#">View Details</a>
+            <p class="project-subtitle">{{ project.subtitle }}</p>
+            <a
+              class="project-button"
+              href="#"
+              (click)="openProjectModal($event, project, i)"
+              data-bs-toggle="modal"
+              data-bs-target="#projectModal"
+            >View Details</a>
             <i class="bi bi-arrow-right-short"></i>
           </div>
         </div>
@@ -133,31 +145,98 @@
   </div>
 </div>
 
-<!-- Our Team Section -->
-<div *ngIf="teamSection?.is_active" class="common-bg style-two pd-5">
+<!-- Project Modal -->
+<div class="modal fade" id="projectModal" tabindex="-1" aria-labelledby="projectModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="projectModalLabel">{{ selectedProject?.title }}</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="project-modal-content">
+          <img
+            [src]="selectedProject?.media[0].original_url"
+            [alt]="selectedProject?.title"
+            class="project-modal-img img-fluid rounded"
+          />
+          <h6 class="project-modal-subtitle">{{ selectedProject?.subtitle || 'No subtitle available' }}</h6>
+          <p class="project-modal-description">{{ selectedProject?.description || 'No description available' }}</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Team Section -->
+<div *ngIf="teamSection?.is_active" class="team-section common-bg style-two pd-5">
   <div class="container">
     <div class="row">
       <div class="col-lg-12 text-center">
         <div class="center style-two dot">
           <h1 class="mb-5 title-font text-card">
-            <span style="color: var(--secondary-color)">Our Team </span>
+            <span style="color: var(--secondary-color)">Meet Our Experts</span>
           </h1>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div *ngFor="let team of teams" class="col-lg-4 col-md-6">
-        <div class="single-project-box">
-          <div class="project-thumb">
-            <img
-              [src]="team.media[0].original_url"
-              alt="{{ team.title }} icon"
-            />
+    
+    <div class="team-slider-container">
+      <ng-container *ngIf="teams && teams.length > 3">
+        <button class="slider-nav prev" (click)="slide(-1)">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="slider-nav next" (click)="slide(1)">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </ng-container>
+      
+      <div class="team-slider-wrapper">
+        <div class="team-slider" #teamSlider>
+          <!-- Original slides -->
+          <div *ngFor="let team of teams; let i = index" class="team-slide">
+            <div class="team-card">
+              <div class="team-img-container">
+                <img [src]="team.media[0].original_url" alt="{{ team.name }}" class="team-img"/>
+                <div class="team-overlay"></div>
+                <div class="team-social-links">
+                  <a href="#" class="social-icon" style="background: #0077B5">
+                    <i class="fab fa-linkedin-in"></i>
+                  </a>
+                  <a href="#" class="social-icon" style="background: #0077B5">
+                    <i class="fab fa-github"></i>
+                  </a>
+                </div>
+              </div>
+              <div class="team-info">
+                <h4 class="team-name">{{ team.name }}</h4>
+                <p class="team-position">{{ team.designation }}</p>
+              </div>
+            </div>
           </div>
-          <div class="project-content">
-            <h4>{{ team.name }}</h4>
-            <h4>{{ team.designation }}</h4>
-            <i class="bi bi-arrow-right-short"></i>
+          <!-- Cloned slides for seamless looping -->
+          <div *ngFor="let team of teams | slice:0:3; let i = index" class="team-slide cloned">
+            <div class="team-card">
+              <div class="team-img-container">
+                <img [src]="team.media[0].original_url" alt="{{ team.name }}" class="team-img"/>
+                <div class="team-overlay"></div>
+                <div class="team-social-links">
+                  <a href="#" class="social-icon" style="background: #0077B5">
+                    <i class="fab fa-linkedin-in"></i>
+                  </a>
+                  <a href="#" class="social-icon" style="background: #0077B5">
+                    <i class="fab fa-github"></i>
+                  </a>
+                </div>
+              </div>
+              <div class="team-info">
+                <h4 class="team-name">{{ team.name }}</h4>
+                <p class="team-position">{{ team.designation }}</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
