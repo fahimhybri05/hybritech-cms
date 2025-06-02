@@ -1,5 +1,5 @@
-ui5-dialog{
-    width: 34%;
+ui5-dialog {
+  width: 34%;
 }
 /* Add this to your component's CSS file or global styles */
 .interview-dialog {
@@ -66,7 +66,7 @@ ui5-textarea.form-control {
   padding: 0.5rem;
   background-color: #fff;
   border-radius: 8px;
-  border: 1px solid #e0e0e0; 
+  border: 1px solid #e0e0e0;
 }
 
 .interview-section .form-row {
@@ -95,7 +95,7 @@ ui5-textarea.form-control {
   justify-content: flex-end;
   gap: 0.75rem;
   padding-bottom: 0.5rem;
-   padding-top: 0.5rem;
+  padding-top: 0.5rem;
   border-top: 1px solid #e0e0e0;
 }
 
@@ -112,7 +112,7 @@ ui5-textarea.form-control {
 }
 .tab-container {
   height: 100%;
-  min-height: 300px; 
+  min-height: 300px;
   display: flex;
   flex-direction: column;
 }
@@ -122,15 +122,11 @@ ui5-textarea.form-control {
   overflow-y: auto;
   flex-grow: 1;
 }
-
-/* Dialog specific styling */
 .interview-dialog {
   --_ui5_tc_content: {
     height: 100%;
   }
 }
-
-/* Make sure dialog has enough height */
 :host {
   --ui5-dialog-content-height: 400px;
 }

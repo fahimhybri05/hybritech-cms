@@ -23,8 +23,9 @@
             <ui5-input
               class="w-100 form-input"
               placeholder="No data found"
-              value="{{ jobApplicantData.full_name }}"
+              [value]="jobApplicantData.full_name"
               readonly
+              #nameInput
             ></ui5-input>
           </ng-container>
 
@@ -33,18 +34,9 @@
             <ui5-input
               class="w-100 form-input"
               placeholder="No data found"
-              value="{{ jobApplicantData.email }}"
+              [value]="jobApplicantData.email"
               readonly
-            ></ui5-input>
-          </ng-container>
-
-          <ng-container>
-            <ui5-label show-colon class="form-label">Phone Number</ui5-label>
-            <ui5-input
-              class="w-100 form-input"
-              placeholder="No data found"
-              value="{{ jobApplicantData.number }}"
-              readonly
+              #emailInput
             ></ui5-input>
           </ng-container>
 
@@ -53,29 +45,35 @@
             <ui5-textarea
               class="w-100 form-input"
               placeholder="No data found"
-              value="{{ jobApplicantData.designation }}"
+              [value]="jobApplicantData.designation"
               readonly
+              #designationInput
             ></ui5-textarea>
           </ng-container>
         </div>
       </div>
     </ui5-tab>
-    
+
     <ui5-tab text="Interview Details" class="interview-tab">
       <div class="interview-section tab-content">
-
         <div class="form-group">
           <ui5-label show-colon class="form-label">Interview Date</ui5-label>
-          <ui5-datetime-picker  class="form-control"></ui5-datetime-picker>
+          <ui5-datetime-picker
+            class="form-control"
+            #interviewDatePicker
+          ></ui5-datetime-picker>
         </div>
 
         <div class="form-group">
-          <ui5-label show-colon class="form-label pt-3">Interview Location</ui5-label>
+          <ui5-label show-colon class="form-label pt-3"
+            >Interview Location</ui5-label
+          >
           <ui5-textarea
             placeholder="Enter interview address"
             required
             rows="2"
             class="form-control"
+            #addressInput
           ></ui5-textarea>
         </div>
       </div>
@@ -83,9 +81,19 @@
   </ui5-tabcontainer>
 
   <div slot="footer" class="dialog-footer">
-    <ui5-button design="Emphasized" class="submit-btn"
-      >Schedule Interview</ui5-button
+    <ui5-button
+      design="Emphasized"
+      class="submit-btn"
+      (click)="scheduleInterview()"
+      [disabled]="formloading"
     >
+      <span *ngIf="!formloading">Schedule Interview</span>
+      <span *ngIf="formloading">Sending email...</span>
+    </ui5-button>
     <ui5-button (click)="closeDialog()" class="cancel-btn">Close</ui5-button>
   </div>
 </ui5-dialog>
+  <app-toast-message
+    [IsOpenToastAlert]="IsOpenToastAlert"
+    [ToastType]="ToastType"
+  ></app-toast-message>

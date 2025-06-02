@@ -4,72 +4,103 @@ import {
   CUSTOM_ELEMENTS_SCHEMA,
   EventEmitter,
   Input,
-  OnInit,
   Output,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
 import { CommonService } from '@app/services/common-service/common.service';
 import { JobApplication } from '@app/shared/Model/jobapplication';
-import { environment } from '@env/environment';
 import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
+
 @Component({
   selector: 'app-interview-details',
   standalone: true,
   imports: [CommonModule, ToastMessageComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './interview-details.component.html',
-  styleUrl: './interview-details.component.css'
+  styleUrls: ['./interview-details.component.css'],
+  providers: [DatePipe],
 })
 export class InterviewDetailsComponent {
+  @ViewChild('nameInput') nameInput!: ElementRef;
+  @ViewChild('emailInput') emailInput!: ElementRef;
+  @ViewChild('designationInput') designationInput!: ElementRef;
+  @ViewChild('interviewDatePicker') interviewDatePicker!: ElementRef;
+  @ViewChild('addressInput') addressInput!: ElementRef;
+
   @Input() jobApplicantId: number | null = null;
   @Input() jobApplicantData: JobApplication | null = null;
   @Input() isOpen: boolean = false;
-  @Output() close: EventEmitter<void> = new EventEmitter<void>();
-  @Output() updated: EventEmitter<JobApplication> =
-    new EventEmitter<JobApplication>();
+  @Output() close = new EventEmitter<void>();
+  @Output() updated = new EventEmitter<JobApplication>();
   @Output() refreshTable = new EventEmitter<void>();
   @Output() IsOpenToastAlert = new EventEmitter<void>();
   ToastType: string = '';
-  formloading: boolean = false;
   api: boolean;
-  cdr: any;
-    constructor(private commonservice: CommonService) {
+  formloading: boolean = false;
+  isSubmitted: boolean = false;
+  constructor(
+    private commonservice: CommonService,
+    private datePipe: DatePipe
+  ) {
     this.api = this.commonservice.api;
   }
 
-  ngOnInit(): void {
-  }
-
-  updateStatus() {
-    if (
-      !this.jobApplicantData ||
-      !this.jobApplicantData.id
-    ) {
+  scheduleInterview() {
+    if (!this.jobApplicantId || !this.jobApplicantData) {
       return;
     }
 
-  const data = {
-    id: this.jobApplicantData.id,
-    is_email_sent: true,
-  };
+    const name = this.nameInput.nativeElement.value;
+    const email = this.emailInput.nativeElement.value;
+    const designation = this.designationInput.nativeElement.value;
+    const interviewDate = this.interviewDatePicker.nativeElement.value;
+    const address = this.addressInput.nativeElement.value;
+
+    if (!name || !email || !designation || !interviewDate || !address) {
+      return;
+    }
+
+    const formattedDate = this.formatDateTime(interviewDate);
+
+    const emailData = {
+      application_id: this.jobApplicantId,
+      name: name,
+      email: email,
+      designation: designation,
+      address: address,
+      interview_date: formattedDate,
+    };
+
+    this.formloading = true;
+
     this.commonservice
-      .patch(`job-applications/${this.jobApplicantId}`, data, this.api)
+      .post('applicant-email-send', emailData, this.api)
       .subscribe({
-        next: (response: any) => {
-          console.log(response);
-          this.ToastType = 'select';
+        next: (response) => {
+          this.isSubmitted = true;
+          this.closeDialog();
+          this.ToastType = 'mail';
           setTimeout(() => {
             this.IsOpenToastAlert.emit();
           }, 1000);
-          this.closeDialog();
           this.refreshTable.emit();
         },
-        error: (error: any) => {
-          console.log('Error updating form:', error);
+        error: (error) => {
+          console.error('Error scheduling interview:', error);
+          this.formloading = false;
         },
       });
   }
+
+  private formatDateTime(dateTime: string): string {
+    if (!dateTime) return '';
+    return this.datePipe.transform(dateTime, 'yyyy-MM-dd HH:mm:ss') || '';
+  }
+
   closeDialog() {
     this.isOpen = false;
+    this.isSubmitted = false;
     this.close.emit();
   }
 }

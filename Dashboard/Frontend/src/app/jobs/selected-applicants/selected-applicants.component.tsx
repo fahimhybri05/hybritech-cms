@@ -17,7 +17,12 @@ import { InterviewDetailsComponent } from "./interview-details/interview-details
 @Component({
   selector: "app-selected-applicants",
   standalone: true,
-  imports: [ReactAnalyticalTable, ToastMessageComponent, CommonModule,InterviewDetailsComponent],
+  imports: [
+    ReactAnalyticalTable,
+    ToastMessageComponent,
+    CommonModule,
+    InterviewDetailsComponent,
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: "./selected-applicants.component.html",
   styleUrl: "./selected-applicants.component.css",
@@ -49,7 +54,7 @@ export class SelectedApplicantsComponent {
     this.api = this.commonService.api;
     this.Title = "Selected Applications";
   }
-   ngOnInit(): void {}
+  ngOnInit(): void {}
   refresh($event: any) {
     this.refreshTable.emit();
   }
@@ -143,9 +148,13 @@ export class SelectedApplicantsComponent {
         Cell: ({ row }: any) => (
           <div>
             <Button icon="information" design="Transparent"></Button>
-            <Button icon="email" design="Transparent"        onClick={() => {
+            <Button
+              icon="email"
+              design="Transparent"
+              onClick={() => {
                 this.JobsDetails(row.original);
-              }}></Button>
+              }}
+            ></Button>
           </div>
         ),
       },

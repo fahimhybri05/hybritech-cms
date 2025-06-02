@@ -170,6 +170,6 @@ export class ContactUsFormComponent implements OnInit {
   }
   closeModal() {
     this.isOpen = false;
-    this.cdr.detectChanges(); 
+    this.cdr.detectChanges();
   }
 }

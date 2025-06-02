@@ -37,6 +37,7 @@ Route::patch('/job-applications/{id}', [JobApplicationAPIController::class, 'upd
 Route::get('/job-applications/{id}/attachment', [JobApplicationAPIController::class, 'downloadAttachment']);
 Route::delete('/job-applications/{id}', [JobApplicationAPIController::class, 'destroy']);
 Route::post('applicant-email-send', [EmailListsController::class, 'store']);
+Route::get('/emailed-sent-candidate-list', [EmailListsController::class, 'emailedSentCandidateList']);
 // Common Forms
 Route::post('/common-forms', [FormEmailApiController::class, 'store']);
 
