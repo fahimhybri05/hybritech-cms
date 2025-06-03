@@ -7,6 +7,7 @@ import {
   Output,
   ViewChild,
   ElementRef,
+  SimpleChanges,
 } from '@angular/core';
 import { CommonService } from '@app/services/common-service/common.service';
 import { JobApplication } from '@app/shared/Model/jobapplication';
@@ -27,7 +28,6 @@ export class InterviewDetailsComponent {
   @ViewChild('designationInput') designationInput!: ElementRef;
   @ViewChild('interviewDatePicker') interviewDatePicker!: ElementRef;
   @ViewChild('addressInput') addressInput!: ElementRef;
-
   @Input() jobApplicantId: number | null = null;
   @Input() jobApplicantData: JobApplication | null = null;
   @Input() isOpen: boolean = false;
@@ -45,7 +45,11 @@ export class InterviewDetailsComponent {
   ) {
     this.api = this.commonservice.api;
   }
-
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['jobApplicantId'] && this.isOpen && this.jobApplicantId) {
+      this.formloading = false;
+    }
+  }
   scheduleInterview() {
     if (!this.jobApplicantId || !this.jobApplicantData) {
       return;
@@ -60,9 +64,7 @@ export class InterviewDetailsComponent {
     if (!name || !email || !designation || !interviewDate || !address) {
       return;
     }
-
     const formattedDate = this.formatDateTime(interviewDate);
-
     const emailData = {
       application_id: this.jobApplicantId,
       name: name,
@@ -73,12 +75,15 @@ export class InterviewDetailsComponent {
     };
 
     this.formloading = true;
-
     this.commonservice
       .post('applicant-email-send', emailData, this.api)
       .subscribe({
         next: (response) => {
+          if (this.jobApplicantData) {
+            this.jobApplicantData.is_email_sent = true;
+          }
           this.isSubmitted = true;
+          this.resetForm();
           this.closeDialog();
           this.ToastType = 'mail';
           setTimeout(() => {
@@ -90,17 +95,27 @@ export class InterviewDetailsComponent {
           console.error('Error scheduling interview:', error);
           this.formloading = false;
         },
+        complete: () => {
+          this.formloading = false;
+        },
       });
   }
-
+  private resetForm(): void {
+    if (this.interviewDatePicker) {
+      this.interviewDatePicker.nativeElement.value = '';
+    }
+    if (this.addressInput) {
+      this.addressInput.nativeElement.value = '';
+    }
+  }
   private formatDateTime(dateTime: string): string {
     if (!dateTime) return '';
     return this.datePipe.transform(dateTime, 'yyyy-MM-dd HH:mm:ss') || '';
   }
-
   closeDialog() {
     this.isOpen = false;
-    this.isSubmitted = false;
+    this.formloading = false;
+    this.resetForm();
     this.close.emit();
   }
 }

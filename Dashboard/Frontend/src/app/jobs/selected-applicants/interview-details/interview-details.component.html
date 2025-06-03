@@ -79,9 +79,9 @@
       </div>
     </ui5-tab>
   </ui5-tabcontainer>
-
   <div slot="footer" class="dialog-footer">
     <ui5-button
+      *ngIf="!jobApplicantData?.is_email_sent"
       design="Emphasized"
       class="submit-btn"
       (click)="scheduleInterview()"
@@ -93,7 +93,7 @@
     <ui5-button (click)="closeDialog()" class="cancel-btn">Close</ui5-button>
   </div>
 </ui5-dialog>
-  <app-toast-message
-    [IsOpenToastAlert]="IsOpenToastAlert"
-    [ToastType]="ToastType"
-  ></app-toast-message>
+<app-toast-message
+  [IsOpenToastAlert]="IsOpenToastAlert"
+  [ToastType]="ToastType"
+></app-toast-message>
