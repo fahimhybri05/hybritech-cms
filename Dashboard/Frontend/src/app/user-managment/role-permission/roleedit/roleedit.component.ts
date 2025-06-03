@@ -13,10 +13,8 @@ import { FormPreloaderComponent } from '@app/components/form-preloader/form-prel
 import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
 import { CommonService } from '@app/services/common-service/common.service';
 import { Role } from '@app/shared/Model/Role';
-import { AngularEditorModule } from '@kolkov/angular-editor';
 import {
   LabelComponent,
-  TextAreaComponent,
   Ui5MainModule,
 } from '@ui5/webcomponents-ngx';
 @Component({
@@ -26,10 +24,8 @@ import {
     CommonModule,
     FormsModule,
     HttpClientModule,
-    AngularEditorModule,
     LabelComponent,
     FormPreloaderComponent,
-    TextAreaComponent,
     ToastMessageComponent,
     Ui5MainModule,
   ],
@@ -79,7 +75,6 @@ export class RoleeditComponent {
 
   loadRoleData(): void {
     this.name = this.RoleData.name || '';
-
     this.isActive = this.RoleData.is_active === true;
   }
 
@@ -106,12 +101,10 @@ export class RoleeditComponent {
     };
 
     this.formloading = true;
-    console.log(this.isActive);
     this.commonService
       .put(`Roles(${this.RoleId})`, formData, this.odata)
       .subscribe({
         next: (response: any) => {
-          console.log(response);
           this.formloading = false;
           this.isSuccess = true;
           this.ToastType = 'edit';

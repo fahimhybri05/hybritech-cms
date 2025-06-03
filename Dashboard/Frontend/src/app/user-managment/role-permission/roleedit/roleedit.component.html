@@ -4,25 +4,28 @@
   </ui5-bar>
 
   <app-form-preloader *ngIf="loading"></app-form-preloader>
-  <div class="row">
-    <div class="col-12">
-      <div class="d-flex align-items-center">
-        <ui5-label show-colon>Active</ui5-label>
-        <ui5-switch
-          [checked]="isActive"
-          (click)="toggleActive($event)"
-        ></ui5-switch>
+<section>
+        <div class="d-flex align-items-center">
+          <ui5-label show-colon>Active</ui5-label>
+          <ui5-switch
+            [checked]="isActive"
+            (click)="toggleActive($event)"
+          ></ui5-switch>
+        </div>
+    <div class="row">
+      <div class="col-md-12">
+        <ui5-label show-colon required>Name</ui5-label>
+        <br>
+        <ui5-input
+          class="textAreaName"
+          [(ngModel)]="name"
+          placeholder="Name"
+          required
+          type="Text"
+        ></ui5-input>
       </div>
-      <ui5-input
-        class="input"
-        [(ngModel)]="name"
-        placeholder="Name"
-        required
-        type="Text"
-        style="width: 350px"
-      ></ui5-input>
     </div>
-  </div>
+  </section>
   <ui5-toolbar slot="footer">
     <ui5-toolbar-button
       design="Emphasized"

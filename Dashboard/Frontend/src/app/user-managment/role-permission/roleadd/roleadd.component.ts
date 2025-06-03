@@ -12,7 +12,6 @@ import { ToastMessageComponent } from '@app/components/toast-message/toast-messa
 import { CommonService } from '@app/services/common-service/common.service';
 import { Role } from '@app/shared/Model/Role';
 import { LabelComponent, Ui5MainModule } from '@ui5/webcomponents-ngx';
-import { TextAreaComponent } from '@ui5/webcomponents-ngx/main/text-area';
 
 @Component({
   selector: 'app-roleadd',
@@ -22,7 +21,6 @@ import { TextAreaComponent } from '@ui5/webcomponents-ngx/main/text-area';
     FormsModule,
     LabelComponent,
     FormPreloaderComponent,
-    TextAreaComponent,
     ToastMessageComponent,
     Ui5MainModule,
   ],
@@ -60,7 +58,6 @@ export class RoleaddComponent {
     this.loading = true;
     this.commonService.post('Roles', data, this.odata).subscribe(
       (response) => {
-        console.log(response);
         this.loading = false;
         this.ToastType = 'add';
         setTimeout(() => {
@@ -80,7 +77,9 @@ export class RoleaddComponent {
     this.errorMessage = '';
     this.name = '';
   }
-
+  toggleActive($event: any) {
+    this.isActive = $event.target.checked;
+  }
   closeDialog() {
     this.isOpen = false;
     this.close.emit();
