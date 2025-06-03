@@ -1,14 +1,6 @@
 <ui5-dialog header-text="Add" [open]="isOpen" id="dialog">
   <ui5-bar slot="header" design="Header">
     <ui5-title level="H5" slot="startContent">Add</ui5-title>
-    <ui5-button
-      class="dialogCloser"
-      design="Transparent"
-      id="closeDialogButton"
-      slot="endContent"
-      (click)="closeDialog()"
-      icon="decline"
-    ></ui5-button>
   </ui5-bar>
 
   <app-form-preloader *ngIf="loading"></app-form-preloader>
@@ -19,15 +11,15 @@
     <div class="row">
       <div class="col-md-12">
         <ui5-label show-colon required>Name</ui5-label>
-        <ui5-textarea
+        <ui5-input
           class="textAreaName"
           [(ngModel)]="name"
           placeholder="Name"
           required
           type="Text"
-        ></ui5-textarea>
-        </div>
-
+          style="width: 350px"
+        ></ui5-input>
+      </div>
     </div>
   </section>
   <ui5-toolbar slot="footer">
@@ -38,16 +30,10 @@
       text="Submit"
     >
     </ui5-toolbar-button>
-    <!-- <ui5-toolbar-button
-  design="Emphasized"
-  [disabled]="loading || !question || !answer"
-  (click)="insertData()"
-  text="Submit">
-	</ui5-toolbar-button> -->
 
     <ui5-toolbar-button
       design="Transparent"
-      text="Cancel"
+      text="Close"
       (click)="closeDialog()"
     ></ui5-toolbar-button>
   </ui5-toolbar>

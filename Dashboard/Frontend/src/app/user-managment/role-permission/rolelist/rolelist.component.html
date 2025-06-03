@@ -1,7 +1,7 @@
 <react-analytical-table
   [headerTitle]="Title"
   [insertTitle]="'Add'"
-  [apiUrl]="'Users?'"
+  [apiUrl]="'Roles?'"
   [isSearchFilter]="true"
   [isFilterable]="true"
   [isOdata]="true"
@@ -13,7 +13,7 @@
   [minRowsNumber]="15"
   [headerHeight]="30"
   [rowHeight]="30"
-  [model]="Users"
+  [model]="roles"
   [selectionMode]="'Single'"
   [emptyDataText]="'No Data Found'"
   [tableColumn]="tableColum()"
@@ -21,9 +21,22 @@
   [showStatusFilter]="false"
   [isSegmentedState]="false"
   (isInsertDataChange)="handleInsertData($event)"
-  (rowDoubleClick)="editFaq($event)"
+  (rowDoubleClick)="editRole($event)"
 ></react-analytical-table>
-<app-roleadd [isOpen]="isInsert" (close)="closeAddFaqModal()"></app-roleadd>
+<app-roleadd [isOpen]="isInsert" (close)="closeAddModal()"></app-roleadd>
+<app-roleedit
+  [isOpen]="isEdit"
+  [RoleId]="selectedRoleId"
+  [RoleData]="selectedRoleData"
+  (close)="closeEditModal()"
+  (refreshTable)="refreshTable.emit()"
+></app-roleedit>
+<app-roledetails
+  [isOpen]="isDetails"
+  [RoleId]="selectedRoleId"
+  [RoleData]="selectedRoleData"
+  (close)="closeDetailsModal()"
+></app-roledetails>
 
 <ui5-dialog [open]="isDeleteOpen" header-text="Warning" state="Critical">
   <p *ngIf="!isDeleteLoading">Are you sure you want to remove this user?</p>
@@ -42,7 +55,7 @@
     "
   >
     <ui5-button
-      (click)="deleteItemConfirm()"
+      (click)="deleteRoleConfirm()"
       design="Emphasized"
       style="min-width: 4rem"
       [disabled]="isDeleteLoading"

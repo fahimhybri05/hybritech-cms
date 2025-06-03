@@ -1,0 +1,26 @@
+<ui5-dialog [open]="isOpen" header-text="Details" state="Information">
+  <div *ngIf="RoleData">
+    <div class="d-flex align-items-center">
+      <ui5-label show-colon>Avtive</ui5-label>
+      <ui5-switch
+        accessible-name="graphical"
+        design="Graphical"
+        disabled
+        [checked]="RoleData.is_active"
+      ></ui5-switch>
+    </div>
+    <ng-container>
+      <ui5-label show-colon>Name</ui5-label>
+      <ui5-input
+        class="w-300"
+        *ngIf="RoleData"
+        value="{{ RoleData.name }}"
+        readonly
+      ></ui5-input>
+    </ng-container>
+  </div>
+
+  <div slot="footer" class="d-flex justify-content-end w-100 gap-2 p-2">
+    <ui5-button (click)="closeDialog()">Close</ui5-button>
+  </div>
+</ui5-dialog>

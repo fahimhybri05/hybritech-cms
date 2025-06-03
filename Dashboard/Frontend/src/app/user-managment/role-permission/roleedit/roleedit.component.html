@@ -1,1 +1,45 @@
-<p>roleedit works!</p>
+<ui5-dialog header-text="Edit" [open]="isOpen" id="dialog">
+  <ui5-bar slot="header" design="Header">
+    <ui5-title level="H5" slot="startContent">Edit RolePost</ui5-title>
+  </ui5-bar>
+
+  <app-form-preloader *ngIf="loading"></app-form-preloader>
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex align-items-center">
+        <ui5-label show-colon>Active</ui5-label>
+        <ui5-switch
+          [checked]="isActive"
+          (click)="toggleActive($event)"
+        ></ui5-switch>
+      </div>
+      <ui5-input
+        class="input"
+        [(ngModel)]="name"
+        placeholder="Name"
+        required
+        type="Text"
+        style="width: 350px"
+      ></ui5-input>
+    </div>
+  </div>
+  <ui5-toolbar slot="footer">
+    <ui5-toolbar-button
+      design="Emphasized"
+      (click)="updateRole()"
+      [disabled]="formloading"
+      text="Update"
+    >
+    </ui5-toolbar-button>
+
+    <ui5-toolbar-button
+      design="Transparent"
+      text="Cancel"
+      (click)="closeDialog()"
+    ></ui5-toolbar-button>
+  </ui5-toolbar>
+</ui5-dialog>
+<app-toast-message
+  [IsOpenToastAlert]="IsOpenToastAlert"
+  [ToastType]="ToastType"
+></app-toast-message>

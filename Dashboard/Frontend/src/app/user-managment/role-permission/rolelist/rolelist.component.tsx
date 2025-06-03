@@ -1,42 +1,46 @@
 import { CommonModule, DatePipe } from "@angular/common";
 import {
+  ChangeDetectorRef,
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
   EventEmitter,
-  Input,
-  OnInit,
   Output,
-  ChangeDetectorRef,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { CommonService } from "@app/services/common-service/common.service";
 import { ReactAnalyticalTable } from "@app/components/analytical-table/react-table";
-import { Icon, TextAlign } from "@ui5/webcomponents-react";
-import React from "react";
-import { Button } from "@ui5/webcomponents-react";
+import { ToastMessageComponent } from "@app/components/toast-message/toast-message.component";
 import { AddServicesComponent } from "@app/service-page/add-services/add-services.component";
 import { EditServicesComponent } from "@app/service-page/edit-services/edit-services.component";
-import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
-import { User } from "@app/shared/Model/user";
 import { ServiceDetailsComponent } from "@app/service-page/service-details/service-details.component";
+import { CommonService } from "@app/services/common-service/common.service";
+import { Role } from "@app/shared/Model/Role";
+import { Button, Icon, TextAlign } from "@ui5/webcomponents-react";
+import React from "react";
 import { RoleaddComponent } from "../roleadd/roleadd.component";
+import { RoledetailsComponent } from "../roledetails/roledetails.component";
+import { RoleeditComponent } from "../roleedit/roleedit.component";
 
 @Component({
-  selector: 'app-rolelist',
+  selector: "app-rolelist",
   standalone: true,
-  imports: [CommonModule,
+  imports: [
+    CommonModule,
     FormsModule,
     ReactAnalyticalTable,
     AddServicesComponent,
     EditServicesComponent,
     ToastMessageComponent,
-    ServiceDetailsComponent, RoleaddComponent],
-  schemas:[CUSTOM_ELEMENTS_SCHEMA],
-  templateUrl: './rolelist.component.html',
-  styleUrl: './rolelist.component.css'
+    ServiceDetailsComponent,
+    RoleaddComponent,
+    RoleeditComponent,
+    RoledetailsComponent,
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  templateUrl: "./rolelist.component.html",
+  styleUrl: "./rolelist.component.css",
 })
 export class RolelistComponent {
-@Output() refreshTable: EventEmitter<void> = new EventEmitter<void>();
+  @Output() refreshTable: EventEmitter<void> = new EventEmitter<void>();
   @Output() IsOpenToastAlert = new EventEmitter<void>();
   ToastType: string = "";
   itemsPerPage: number;
@@ -46,15 +50,16 @@ export class RolelistComponent {
   isInsert: boolean = false;
   isEdit: boolean = false;
   isDeleteOpen: boolean = false;
+  isDetails: boolean = false;
   isDeleteLoading: boolean = false;
   isSuccess: boolean = false;
   isDeleteError: boolean = false;
   filter: string = "";
   Title: string;
   type: string | null = null;
-  selectedUserId: number | null = null;
-  selectedUserData: any = null;
-  Users = User;
+  selectedRoleId: number | null = null;
+  selectedRoleData: any = null;
+  roles = Role;
   constructor(
     private commonService: CommonService,
     private datePipe: DatePipe,
@@ -62,7 +67,7 @@ export class RolelistComponent {
   ) {
     this.itemsPerPage = this.commonService.itemsPerPage;
     this.odata = this.commonService.odata;
-    this.Title = "Role Permission";
+    this.Title = "Role";
     this.tableColum();
   }
   ngOnInit(): void {}
@@ -84,15 +89,26 @@ export class RolelistComponent {
         width: 70,
       },
       {
+        Header: "Active",
+        accessor: "is_active",
+        autoResizable: true,
+        disableGroupBy: true,
+        disableFilters: true,
+        className: "custom-class-name",
+        width: 100,
+        hAlign: "Center" as TextAlign,
+        Cell: ({ value }: any) =>
+          value ? <Icon name="accept" /> : <Icon name="decline" />,
+      },
+      {
         Header: " Name",
-        accessor: "full_name",
+        accessor: "name",
         autoResizable: true,
         className: "custom-class-name",
       },
-     
-     
+
       {
-        Header: "Update at",
+        Header: "Created At",
         accessor: "created_at",
         autoResizable: true,
         className: "custom-class-name",
@@ -100,7 +116,7 @@ export class RolelistComponent {
         Cell: ({ value }: any) => new Date(value).toLocaleDateString(),
       },
       {
-        Header: "Actions",
+        Header: "   Actions",
         accessor: ".",
         cellLabel: () => "",
         disableFilters: true,
@@ -108,24 +124,36 @@ export class RolelistComponent {
         disableSortBy: true,
         autoResizable: true,
         id: "actions",
-        className: "custom-class-name",
         width: 150,
+        className: "custom-class-name",
         hAlign: "Center" as TextAlign,
         Cell: ({ row }: any) => (
-            <div>
-                <Button
-                    icon="delete"
-                    design="Transparent"
-                    disabled={row.original.id === 1}
-                    onClick={() => {
-                        if (row.original.id !== 1) {
-                            this.deleteFaqs(row.original);
-                        }
-                    }}
-                />
-            </div>
+          <div>
+            <Button
+              icon="edit"
+              design="Transparent"
+              onClick={() => {
+                this.editservice(row.original);
+              }}
+            />
+            <Button
+              icon="information"
+              design="Transparent"
+              onClick={() => {
+                this.details(row.original);
+              }}
+            ></Button>
+
+            <Button
+              icon="delete"
+              design="Transparent"
+              onClick={() => {
+                this.deleteRole(row.original);
+              }}
+            ></Button>
+          </div>
         ),
-    }
+      },
     ];
     return columns;
   }
@@ -135,20 +163,19 @@ export class RolelistComponent {
       this.refreshTable.emit();
     }
   }
-  closeAddFaqModal() {
+  closeAddModal() {
     this.isInsert = false;
     this.refreshTable.emit();
   }
-
-  deleteFaqs(original: any) {
+  deleteRole(original: any) {
     this.isDeleteOpen = true;
-    this.selectedUserId = original.id;
+    this.selectedRoleId = original.id;
   }
 
-  deleteItemConfirm() {
+  deleteRoleConfirm() {
     this.isDeleteLoading = true;
-    const id = this.selectedUserId;
-    this.commonService.delete(`Users/${id}`, this.odata).subscribe({
+    const id = this.selectedRoleId;
+    this.commonService.delete(`Roles/${id}`, this.odata).subscribe({
       next: (response: any) => {
         this.isDeleteOpen = false;
         this.isDeleteLoading = false;
@@ -168,15 +195,30 @@ export class RolelistComponent {
     });
   }
 
-  editFaq(original: any) {
+  editRole(original: any) {
     this.isEdit = true;
-    this.selectedUserId = original.id;
-    this.selectedUserData = { ...original };
+    this.selectedRoleId = original.id;
+    this.selectedRoleData = { ...original };
+  }
+  details(original: any) {
+    this.isDetails = true;
+    this.selectedRoleId = original.id;
+    this.selectedRoleData = { ...original };
   }
 
-  closeEditFaqModal() {
-    this.isEdit = false;
+  closeDetailsModal() {
+    this.isDetails = false;
+    this.selectedRoleId = null;
+    this.selectedRoleData = null;
   }
-  
-  
+  editservice(original: any) {
+    this.isEdit = true;
+    this.selectedRoleId = original.id;
+    this.selectedRoleData = { ...original };
+  }
+
+  closeEditModal() {
+    this.isEdit = false;
+    this.refreshTable.emit();
+  }
 }
