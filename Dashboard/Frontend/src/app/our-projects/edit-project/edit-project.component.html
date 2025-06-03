@@ -20,7 +20,7 @@
   </ui5-message-strip>
   <section>
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-12">
         <div class="d-flex align-items-center">
           <ui5-label show-colon>Active</ui5-label>
           <ui5-switch
@@ -29,13 +29,13 @@
           ></ui5-switch>
         </div>
         <ui5-label show-colon required>Title</ui5-label>
-        <ui5-input
-          class="titleInput"
+        <ui5-textarea
+          class="textArea1"
           [(ngModel)]="title"
           name="title"
           placeholder="Enter title"
           required
-        ></ui5-input>
+        ></ui5-textarea>
         <ui5-label show-colon required>Subtitle</ui5-label>
         <ui5-textarea
           class="textArea1"
@@ -45,20 +45,10 @@
           required
         ></ui5-textarea>
         <ui5-label show-colon required>Description</ui5-label>
-        <ui5-textarea
-          class="textArea"
+        <angular-editor
           [(ngModel)]="description"
-          name="description"
-          placeholder="Enter description (max 45 words)"
-          required
-          (input)="updateWordCount()"
-        ></ui5-textarea>
-        <div
-          class="word-count"
-          [ngClass]="{ 'text-danger': wordCount > maxWords }"
-        >
-          Words: {{ wordCount }}/{{ maxWords }}
-        </div>
+          [config]="editorConfig"
+        ></angular-editor>
         <ui5-label show-colon>Image</ui5-label>
         <div class="d-flex">
           <ui5-file-uploader

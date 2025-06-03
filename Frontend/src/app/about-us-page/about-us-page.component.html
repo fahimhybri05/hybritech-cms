@@ -29,8 +29,7 @@
         <div class="center style-two dot">
           <h1 class="mb-5 title-font text-card">
             What
-            <span style="color: var(--secondary-color)"
-              >Makes Us Different
+            <span style="color: var(--secondary-color)">Makes Us Different
             </span>
             from Others
           </h1>
@@ -116,27 +115,21 @@
     </div>
     <div class="row">
       <div *ngFor="let project of projects; let i = index" class="col-lg-4 col-md-6">
-        <div class="single-project-box">
+        <div class="single-project-box" (click)="openProjectModal($event, project, i)" data-bs-toggle="modal"
+          data-bs-target="#projectModal">
           <div class="project-thumb">
-            <img
-              [src]="project.media[0].original_url"
-              alt="{{ project.title }} icon"
-              class="project-img"
-            />
+            <img [src]="project.media[0].original_url" alt="{{ project.title }} icon" class="project-img" />
             <div class="project-overlay">
-              <span class="project-category">{{ project.category || 'Project' }}</span>
+              <span class="project-category">{{
+                project.category || "Project"
+              }}</span>
             </div>
           </div>
           <div class="project-content">
-            <h4>{{ project.title }}</h4>
-            <p class="project-subtitle">{{ project.subtitle }}</p>
-            <a
-              class="project-button"
-              href="#"
-              (click)="openProjectModal($event, project, i)"
-              data-bs-toggle="modal"
-              data-bs-target="#projectModal"
-            >View Details</a>
+            <h4>{{ truncateText(project.title, 30) }}</h4>
+            <p class="project-subtitle">{{ truncateText(project.subtitle, 50) }}</p>
+            <a class="project-button" href="#" (click)="openProjectModal($event, project, i)" data-bs-toggle="modal"
+              data-bs-target="#projectModal">View Details</a>
             <i class="bi bi-arrow-right-short"></i>
           </div>
         </div>
@@ -144,28 +137,30 @@
     </div>
   </div>
 </div>
-
 <!-- Project Modal -->
 <div class="modal fade" id="projectModal" tabindex="-1" aria-labelledby="projectModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="projectModalLabel">{{ selectedProject?.title }}</h5>
+        <h5 class="modal-title" id="projectModalLabel">
+          {{ selectedProject?.title }}
+        </h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="project-modal-content">
-          <img
-            [src]="selectedProject?.media[0].original_url"
-            [alt]="selectedProject?.title"
-            class="project-modal-img img-fluid rounded"
-          />
-          <h6 class="project-modal-subtitle">{{ selectedProject?.subtitle || 'No subtitle available' }}</h6>
-          <p class="project-modal-description">{{ selectedProject?.description || 'No description available' }}</p>
+          <img *ngIf="selectedProject" [src]="selectedProject?.media[0].original_url"
+            class="project-modal-img img-fluid rounded" />
+          <h6 class="project-modal-subtitle">
+            {{ selectedProject?.subtitle || "No subtitle available" }}
+          </h6>
+          <div [innerHTML]="selectedProject?.description"></div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
       </div>
     </div>
   </div>
@@ -183,7 +178,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="team-slider-container">
       <ng-container *ngIf="teams && teams.length > 3">
         <button class="slider-nav prev" (click)="slide(-1)">
@@ -193,20 +188,20 @@
           <i class="fas fa-chevron-right"></i>
         </button>
       </ng-container>
-      
+
       <div class="team-slider-wrapper">
         <div class="team-slider" #teamSlider>
           <!-- Original slides -->
           <div *ngFor="let team of teams; let i = index" class="team-slide">
             <div class="team-card">
               <div class="team-img-container">
-                <img [src]="team.media[0].original_url" alt="{{ team.name }}" class="team-img"/>
+                <img [src]="team.media[0].original_url" alt="{{ team.name }}" class="team-img" />
                 <div class="team-overlay"></div>
                 <div class="team-social-links">
-                  <a href="#" class="social-icon" style="background: #0077B5">
+                  <a href="#" class="social-icon" style="background: #0077b5">
                     <i class="fab fa-linkedin-in"></i>
                   </a>
-                  <a href="#" class="social-icon" style="background: #0077B5">
+                  <a href="#" class="social-icon" style="background: #0077b5">
                     <i class="fab fa-github"></i>
                   </a>
                 </div>
@@ -218,16 +213,16 @@
             </div>
           </div>
           <!-- Cloned slides for seamless looping -->
-          <div *ngFor="let team of teams | slice:0:3; let i = index" class="team-slide cloned">
+          <div *ngFor="let team of teams | slice : 0 : 3; let i = index" class="team-slide cloned">
             <div class="team-card">
               <div class="team-img-container">
-                <img [src]="team.media[0].original_url" alt="{{ team.name }}" class="team-img"/>
+                <img [src]="team.media[0].original_url" alt="{{ team.name }}" class="team-img" />
                 <div class="team-overlay"></div>
                 <div class="team-social-links">
-                  <a href="#" class="social-icon" style="background: #0077B5">
+                  <a href="#" class="social-icon" style="background: #0077b5">
                     <i class="fab fa-linkedin-in"></i>
                   </a>
-                  <a href="#" class="social-icon" style="background: #0077B5">
+                  <a href="#" class="social-icon" style="background: #0077b5">
                     <i class="fab fa-github"></i>
                   </a>
                 </div>

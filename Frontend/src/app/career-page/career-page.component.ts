@@ -38,6 +38,7 @@ export class CareerPageComponent {
         this.selectedJobData = response;
       },
       (error) => {
+        console.log("error,", error)
         this.swalService.showError('There was an error submitting the form');
       }
     );

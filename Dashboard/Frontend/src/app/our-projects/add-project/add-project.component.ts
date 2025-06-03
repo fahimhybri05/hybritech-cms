@@ -12,7 +12,7 @@ import { TextAreaComponent } from '@ui5/webcomponents-ngx/main/text-area';
 import { FormPreloaderComponent } from 'app/components/form-preloader/form-preloader.component';
 import { CommonService } from 'app/services/common-service/common.service';
 import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
-import {AngularEditorConfig, AngularEditorModule } from '@kolkov/angular-editor';
+import { AngularEditorConfig, AngularEditorModule } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-add-project',
@@ -46,90 +46,113 @@ export class AddProjectComponent {
   subtitle: string = '';
   description: string = '';
   wordCount: number = 0;
-  maxWords: number = 45;
-  selectedFile: File | null = null;
-  selectedFileUrl: string | null = null;
+  selectedFiles: File[] = [];
+  selectedFilesUrl: {name: string, url: string}[] = [];
   isActive: boolean = true;
+  MAX_FILES = 5; // Maximum allowed images
+
   editorConfig: AngularEditorConfig = {
-      editable: true,
-      spellcheck: true,
-      height: '20rem',
-      width: '80rem',
-      minHeight: '5rem',
-      placeholder: 'Enter text here...',
-      translate: 'no',
-      defaultParagraphSeparator: 'p',
-      defaultFontName: 'Arial',
-    };
+    editable: true,
+    spellcheck: true,
+    height: '20rem',
+    width: '80rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+  };
+
   constructor(private commonService: CommonService) {}
+
   toggleActive($event: any) {
-    if ($event.target.checked) {
-      this.isActive = true;
-    } else {
-      this.isActive = false;
-    }
+    this.isActive = $event.target.checked;
   }
+
   onFileSelect(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      const fileType = file.type;
-      if (
-        !['image/jpeg', 'image/jpg', 'image/png', 'image/gif'].includes(
-          fileType
-        )
-      ) {
-        this.fileTypeError = 'Only JPG, JPEG, PNG and GIF formats are allowed.';
+    const files = event.target.files;
+    
+    if (files && files.length > 0) {
+      if (files.length > this.MAX_FILES) {
+        this.fileTypeError = `Maximum ${this.MAX_FILES} images allowed`;
+        event.target.value = ''; 
         return;
       }
-      if (file.size > 2 * 1024 * 1024) {
-        this.fileTypeError = 'File size should not exceed 2MB.';
-        return;
-      }
+
       this.fileTypeError = null;
-      this.selectedFile = file;
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.selectedFileUrl = e.target.result;
-      };
-      reader.readAsDataURL(file);
+      this.selectedFiles = [];
+      this.selectedFilesUrl = [];
+
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const fileType = file.type;
+        
+        if (!['image/jpeg', 'image/jpg', 'image/png', 'image/gif'].includes(fileType)) {
+          this.fileTypeError = 'Only JPG, JPEG, PNG and GIF formats are allowed.';
+          continue;
+        }
+        
+        if (file.size > 2 * 1024 * 1024) {
+          this.fileTypeError = 'File size should not exceed 2MB.';
+          continue;
+        }
+        
+        this.selectedFiles.push(file);
+        
+        // Create preview URLs
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.selectedFilesUrl.push({
+            name: file.name,
+            url: e.target.result
+          });
+        };
+        reader.readAsDataURL(file);
+      }
     }
   }
-  updateWordCount() {
-    if (!this.description) {
-      this.wordCount = 0;
-      return;
-    }
-    this.wordCount = this.description.trim().split(/\s+/).length;
+
+  removeImage(fileName: string) {
+    this.selectedFilesUrl = this.selectedFilesUrl.filter(file => file.name !== fileName);
+    this.selectedFiles = this.selectedFiles.filter(file => file.name !== fileName);
   }
+
   closeDialog() {
     this.isOpen = false;
     this.close.emit();
   }
+
   insertData() {
-    if (!this.title || !this.subtitle  || !this.selectedFile) {
-      this.errorMessage = 'All fields are required.';
+    if (!this.title || !this.subtitle || !this.description) {
+      this.errorMessage = 'Title, Subtitle and Description are required.';
       return;
     }
-    if (this.wordCount > this.maxWords) {
-      this.errorMessage = `Description cannot exceed ${this.maxWords} words.`;
+    if (this.selectedFiles.length === 0) {
+      this.errorMessage = 'Please upload at least one image.';
       return;
     }
- 
     const formData = new FormData();
     formData.append('title', this.title);
     formData.append('subtitle', this.subtitle);
-    formData.append('description', this.htmlContent);
+    formData.append('description', this.description);
     formData.append('is_active', this.isActive ? '1' : '0');
-    formData.append('image', this.selectedFile);
+    
+    this.selectedFiles.forEach((file, index) => {
+      formData.append('images[]', file, file.name);
+    });
+
     this.loading = true;
     this.commonService.post('projects', formData, false).subscribe(
       (response: any) => {
-        console.log(response);
         this.loading = false;
         this.isSuccess = true;
-        if (response && response.media && response.media.length > 0) {
-          const mediaUrl = response.media[0].original_url;
+        
+        if (response?.media?.length > 0) {
+          response.media.forEach((mediaItem: any) => {
+            console.log('Uploaded image:', mediaItem.original_url);
+          });
         }
+        
         this.ToastType = 'add';
         setTimeout(() => {
           this.IsOpenToastAlert.emit();
@@ -146,11 +169,14 @@ export class AddProjectComponent {
       }
     );
   }
+
   resetForm() {
     this.errorMessage = '';
+    this.fileTypeError = null;
     this.title = '';
     this.subtitle = '';
     this.description = '';
-    this.selectedFile = null;
+    this.selectedFiles = [];
+    this.selectedFilesUrl = [];
   }
 }

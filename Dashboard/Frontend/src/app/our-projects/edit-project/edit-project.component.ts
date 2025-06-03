@@ -14,6 +14,7 @@ import { TextAreaComponent } from '@ui5/webcomponents-ngx/main/text-area';
 import { FormPreloaderComponent } from 'app/components/form-preloader/form-preloader.component';
 import { CommonService } from 'app/services/common-service/common.service';
 import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
+import { AngularEditorConfig, AngularEditorModule } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-edit-project',
@@ -23,6 +24,7 @@ import { ToastMessageComponent } from '@app/components/toast-message/toast-messa
     FormsModule,
     LabelComponent,
     InputComponent,
+    AngularEditorModule,
     FormPreloaderComponent,
     TextAreaComponent,
     ToastMessageComponent,
@@ -52,6 +54,16 @@ export class EditProjectComponent {
   selectedFileUrl: string | null = null;
   currentImageUrl: string | null = null;
   isActive: boolean = true;
+  editorConfig: AngularEditorConfig = {
+      editable: true,
+      spellcheck: true,
+      height: '20rem',
+      minHeight: '5rem',
+      placeholder: 'Enter text here...',
+      translate: 'no',
+      defaultParagraphSeparator: 'p',
+      defaultFontName: 'Arial',
+    };
   constructor(private commonService: CommonService) {}
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['projectData'] && this.projectData) {
@@ -59,7 +71,7 @@ export class EditProjectComponent {
       this.subtitle = this.projectData.subtitle || '';
       this.description = this.projectData.description || '';
       this.isActive = this.projectData.is_active;
-      this.updateWordCount();
+      // this.updateWordCount();
       if (this.projectData.media) {
         this.currentImageUrl = this.projectData.media[0].original_url;
       } else {
@@ -94,13 +106,13 @@ export class EditProjectComponent {
     }
   }
 
-  updateWordCount() {
-    if (!this.description) {
-      this.wordCount = 0;
-      return;
-    }
-    this.wordCount = this.description.trim().split(/\s+/).length;
-  }
+  // updateWordCount() {
+  //   if (!this.description) {
+  //     this.wordCount = 0;
+  //     return;
+  //   }
+  //   this.wordCount = this.description.trim().split(/\s+/).length;
+  // }
 
   updateData() {
     if (!this.title || !this.subtitle || !this.description) {
@@ -108,10 +120,10 @@ export class EditProjectComponent {
       return;
     }
 
-    if (this.wordCount > this.maxWords) {
-      this.errorMessage = `Description cannot exceed ${this.maxWords} words.`;
-      return;
-    }
+    // if (this.wordCount > this.maxWords) {
+    //   this.errorMessage = `Description cannot exceed ${this.maxWords} words.`;
+    //   return;
+    // }
 
     const formData = new FormData();
     formData.append('title', this.title);

@@ -14,28 +14,24 @@
     <app-form-preloader *ngIf="loading"></app-form-preloader>
     <section class="container">
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-12">
           <ui5-label show-colon required>Title</ui5-label>
           <ui5-textarea
-            class="titleInput"
+            class="textArea1"
             [(ngModel)]="title"
             name="title"
             readonly
           ></ui5-textarea>
           <ui5-label show-colon required>Sub Title</ui5-label>
           <ui5-textarea
-            class="titleInput"
+            class="textArea1"
             [(ngModel)]="subtitle"
             name="subtitle"
             readonly
           ></ui5-textarea>
           <ui5-label show-colon required>Description</ui5-label>
-          <ui5-textarea
-            class="textArea"
-            [(ngModel)]="description"
-            name="description"
-            readonly
-          ></ui5-textarea>
+          <div class="textArea" [innerHTML]="description"></div>
+
           <ui5-label show-colon>Image</ui5-label>
           <div class="col-6">
             <img

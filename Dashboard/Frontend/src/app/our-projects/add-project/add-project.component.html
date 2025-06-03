@@ -32,7 +32,8 @@
           name="title"
           placeholder="Enter title"
           required
-        ></ui5-textarea>
+        >
+        </ui5-textarea>
         <ui5-label show-colon required>Sub-title </ui5-label>
         <ui5-textarea
           class="textArea1"
@@ -40,15 +41,17 @@
           name="subtitle"
           placeholder="Enter Sub-title"
           required
-        ></ui5-textarea>
+        >
+        </ui5-textarea>
         <ui5-label show-colon required>Description</ui5-label>
         <angular-editor
           [placeholder]="placeholder"
           [config]="editorConfig"
-          [(ngModel)]="htmlContent"
+          [(ngModel)]="description"
         ></angular-editor>
+
         <div class="img-upload">
-          <ui5-label show-colon required>Image</ui5-label>
+          <ui5-label show-colon required>Images (Multiple)</ui5-label>
           <div class="d-flex">
             <ui5-file-uploader
               hide-input
@@ -58,17 +61,28 @@
               accept="image/*"
               icon="upload"
               required
+              multiple
             >
               <ui5-avatar icon="upload"></ui5-avatar>
-              Upload image
+              Upload images (Max 5)
             </ui5-file-uploader>
           </div>
-          <img
-            *ngIf="selectedFileUrl"
-            class="col-6 view-img"
-            [src]="selectedFileUrl"
-            alt="Selected Image"
-          />
+          <div
+            *ngIf="selectedFiles.length === 0"
+            class="text-danger small mt-1"
+          >
+            Please upload at least one image
+          </div>
+          <div class="preview-container mt-2">
+            <div *ngFor="let file of selectedFilesUrl" class="image-preview">
+              <img [src]="file.url" alt="Selected Image" />
+              <ui5-button
+                design="Negative"
+                (click)="removeImage(file.name)"
+                icon="delete"
+              ></ui5-button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

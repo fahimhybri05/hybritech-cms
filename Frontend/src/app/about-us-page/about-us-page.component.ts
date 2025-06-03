@@ -1,4 +1,10 @@
-import { Component, ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  ElementRef,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
 import { FormComponent } from '../components/form/form.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DataService } from '@app/services/data.service';
@@ -19,10 +25,21 @@ export class AboutUsPageComponent implements OnInit, OnDestroy {
   teamSection: any;
   isActive = false;
   currentSlide = 0;
-  selectedProject: any = null;
+  selectedProject: any;
   private autoSlideInterval: any;
 
   @ViewChild('teamSlider') teamSlider!: ElementRef;
+
+  truncateText(text: string, charLimit: number): string {
+  if (!text) return '';
+  return text.length <= charLimit ? text : text.slice(0, charLimit) + '...';
+}
+
+openProjectModal(event: Event, project: any, index: number): void {
+  event.stopPropagation(); // prevent bubbling if needed
+  this.selectedProject = project;
+}
+
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -44,7 +61,8 @@ export class AboutUsPageComponent implements OnInit, OnDestroy {
   getProjectData() {
     this.dataService.getProjectData().subscribe(
       (response) => {
-        this.projects = Array.isArray(response) ? response : [];
+        // console.log(response[0].subtitle);
+        this.projects = response
       },
       (error) => {
         console.error('Error fetching projects:', error);
@@ -56,6 +74,8 @@ export class AboutUsPageComponent implements OnInit, OnDestroy {
   getTeamData() {
     this.dataService.getTeamData().subscribe(
       (response) => {
+        console.log(response);
+
         this.teams = Array.isArray(response) ? response : [];
         if (this.teams.length > 3) {
           this.startAutoSlide();
@@ -91,34 +111,32 @@ export class AboutUsPageComponent implements OnInit, OnDestroy {
   slide(direction: number) {
     const slider = this.teamSlider.nativeElement;
     const slides = slider.querySelectorAll('.team-slide');
-    const slideCount = this.teams.length; // Only count original slides
-    const slidesPerView = 3; // Number of slides visible at a time
-    const maxSlideIndex = slideCount; // Max index before resetting
+    const slideCount = this.teams.length; 
+    const slidesPerView = 3; 
+    const maxSlideIndex = slideCount;
 
-    // Calculate the next slide index
     this.currentSlide += direction;
 
-    // Handle looping
     if (this.currentSlide >= maxSlideIndex) {
-      // When reaching the cloned slides, reset to start without animation
       this.currentSlide = 0;
       slider.style.transition = 'none';
       slider.style.transform = `translateX(0)`;
-      // Force reflow to ensure no transition is applied
       slider.offsetHeight;
       slider.style.transition = 'transform 0.5s ease';
     } else if (this.currentSlide < 0) {
-      // When going backward from first slide, jump to last set
       this.currentSlide = maxSlideIndex - 1;
       const slideWidth = slides[0].offsetWidth;
       slider.style.transition = 'none';
-      slider.style.transform = `translateX(-${this.currentSlide * slideWidth}px)`;
+      slider.style.transform = `translateX(-${
+        this.currentSlide * slideWidth
+      }px)`;
       slider.offsetHeight;
       slider.style.transition = 'transform 0.5s ease';
     } else {
-      // Normal slide transition
       const slideWidth = slides[0].offsetWidth;
-      slider.style.transform = `translateX(-${this.currentSlide * slideWidth}px)`;
+      slider.style.transform = `translateX(-${
+        this.currentSlide * slideWidth
+      }px)`;
     }
   }
 
@@ -135,8 +153,8 @@ export class AboutUsPageComponent implements OnInit, OnDestroy {
     return this.teams.length > 3;
   }
 
-  openProjectModal(event: Event, project: any, index: number) {
-    event.preventDefault();
-    this.selectedProject = project;
-  }
+  // openProjectModal(event: Event, project: any, index: number) {
+  //   event.preventDefault();
+  //   this.selectedProject = project;
+  // }
 }

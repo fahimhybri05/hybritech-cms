@@ -10,73 +10,52 @@ class ProjectController extends Controller
 {
     public function store(Request $request)
     {
-        try {
-            // Validate the input fields
-            $request->validate([
-                'title' => 'required|string|max:255',
-                'subtitle' => 'nullable|string|max:255',
-                'description' => 'nullable|string',
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                'is_active' => 'boolean'
-            ]);
-    
-            // Create the project (without image yet)
-            $project = Project::create([
-                'title' => $request->title,
-                'subtitle' => $request->subtitle,
-                'description' => $request->description,
-                'is_active' => $request->is_active ?? false,
-                
-            ]);
-    
-            // Check if image exists and upload it to media collection
-            if ($request->hasFile('image')) {
-                $project->addMediaFromRequest('image')->toMediaCollection('images');
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'subtitle' => 'required|string|max:255',
+            'description' => 'required|string',
+            'is_active' => 'required|boolean',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        $project = Project::create($validated);
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $project->addMedia($image)->toMediaCollection('projects');
             }
-    
-            // Return response
-            return response()->json([
-                'message' => 'Project created successfully.'
-            ], 201);
-    
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json([
-                'message' => 'Validation Error.',
-                'errors' => $e->errors()
-            ], 422);
-    
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Something went wrong.',
-                'error' => $e->getMessage()
-            ], 500);
         }
+
+        return response()->json([
+            'message' => 'Project created successfully',
+            'media' => $project->getMedia('projects')
+        ]);
     }
 
     public function index(Request $request)
     {
 
-           $odataFilter = $request->input('$filter');
-            $isOdataRequest = !empty($odataFilter);
+        $odataFilter = $request->input('$filter');
+        $isOdataRequest = !empty($odataFilter);
         $query = Project::query();
-             if ($isOdataRequest) {
-                if (str_contains($odataFilter, 'is_active eq true')) {
-                    $query->where('is_active', true);
-                } elseif (str_contains($odataFilter, 'is_active eq false')) {
-                    $query->where('is_active', false);
-                }
-            } else {
-                if ($request->has('is_active')) {
-                    $isActive = filter_var($request->input('is_active'), FILTER_VALIDATE_BOOLEAN);
-                    $query->where('is_active', $isActive);
-                }
+        if ($isOdataRequest) {
+            if (str_contains($odataFilter, 'is_active eq true')) {
+                $query->where('is_active', true);
+            } elseif (str_contains($odataFilter, 'is_active eq false')) {
+                $query->where('is_active', false);
             }
+        } else {
+            if ($request->has('is_active')) {
+                $isActive = filter_var($request->input('is_active'), FILTER_VALIDATE_BOOLEAN);
+                $query->where('is_active', $isActive);
+            }
+        }
         if ($request->has('search')) {
             $searchTerm = $request->input('search');
-            $query->where(function($q) use ($searchTerm) {
+            $query->where(function ($q) use ($searchTerm) {
                 $q->where('title', 'like', "%{$searchTerm}%")
-                  ->orWhere('subtitle', 'like', "%{$searchTerm}%")
-                  ->orWhere('description', 'like', "%{$searchTerm}%");
+                    ->orWhere('subtitle', 'like', "%{$searchTerm}%")
+                    ->orWhere('description', 'like', "%{$searchTerm}%");
             });
         }
         if ($request->has('per_page')) {
@@ -84,11 +63,11 @@ class ProjectController extends Controller
         } else {
             $projects = $query->get();
         }
-        
+
         $formattedProjects = $projects->map(function ($project) {
             return $this->formatProjectResponse($project);
         });
-        
+
         return response()->json($formattedProjects);
     }
 
@@ -130,13 +109,13 @@ class ProjectController extends Controller
     public function destroy($id)
     {
         $project = Project::findOrFail($id);
-        
+
         // The media will be automatically deleted by Spatie Media Library
         $project->delete();
-        
+
         return response()->json(null, 204);
     }
-    
+
     /**
      * Format the project response with media information
      *
@@ -146,7 +125,7 @@ class ProjectController extends Controller
     public function formatProjectResponse(Project $project): array
     {
         $media = $project->getMedia('images')->first();
-        
+
         return [
             'id' => $project->id,
             'title' => $project->title,

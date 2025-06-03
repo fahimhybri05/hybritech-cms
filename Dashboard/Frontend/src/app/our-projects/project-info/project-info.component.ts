@@ -30,7 +30,7 @@ import { FormPreloaderComponent } from '@app/components/form-preloader/form-prel
 export class ProjectInfoComponent {
   @Input() isOpen: boolean | null = null;
   @Input() projectId: number | null = null;
-  @Input() projectData: any = null;
+  @Input() projectData: any = {};
   @Output() close = new EventEmitter<void>();
   loading: boolean = false;
   title: string = '';
@@ -41,6 +41,7 @@ export class ProjectInfoComponent {
   selectedFile: File | null = null;
   selectedFileUrl: string | null = null;
   currentImageUrl: string | null = null;
+  
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['projectData'] && this.projectData) {
       this.title = this.projectData.title || '';
