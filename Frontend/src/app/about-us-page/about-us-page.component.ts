@@ -1,14 +1,26 @@
-import {
-  Component,
-  ViewChild,
-  ElementRef,
-  OnInit,
-  OnDestroy,
-} from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import { FormComponent } from '../components/form/form.component';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { DataService } from '@app/services/data.service';
 import { CommonModule } from '@angular/common';
+
+interface Project {
+  id: number;
+  title: string;
+  subtitle: string;
+  description: string;
+  is_active: boolean;
+  category?: string;
+  media: Array<{
+    id: number;
+    name: string;
+    file_name: string;
+    mime_type: string;
+    size: number;
+    original_url: string;
+    thumbnail_url?: string | null;
+  }>;
+}
 
 @Component({
   selector: 'app-about-us-page',
@@ -18,28 +30,18 @@ import { CommonModule } from '@angular/common';
   styleUrl: './about-us-page.component.css',
 })
 export class AboutUsPageComponent implements OnInit, OnDestroy {
-  projects: any[] = [];
+  projects: Project[] = [];
   teams: any[] = [];
   pages: any;
   projectSection: any;
   teamSection: any;
   isActive = false;
   currentSlide = 0;
-  selectedProject: any;
+  selectedProject: Project | null = null;
+  currentImageIndex: number = 0; 
   private autoSlideInterval: any;
 
   @ViewChild('teamSlider') teamSlider!: ElementRef;
-
-  truncateText(text: string, charLimit: number): string {
-  if (!text) return '';
-  return text.length <= charLimit ? text : text.slice(0, charLimit) + '...';
-}
-
-openProjectModal(event: Event, project: any, index: number): void {
-  event.stopPropagation(); // prevent bubbling if needed
-  this.selectedProject = project;
-}
-
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -58,11 +60,34 @@ openProjectModal(event: Event, project: any, index: number): void {
     }
   }
 
+  truncateText(text: string, charLimit: number): string {
+    if (!text) return '';
+    return text.length <= charLimit ? text : text.slice(0, charLimit) + '...';
+  }
+
+  openProjectModal(event: Event, project: Project, index: number): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.selectedProject = project;
+    this.currentImageIndex = 0;
+  }
+
+  prevImage(): void {
+    if (this.selectedProject && this.currentImageIndex > 0) {
+      this.currentImageIndex--;
+    }
+  }
+
+  nextImage(): void {
+    if (this.selectedProject && this.currentImageIndex < this.selectedProject.media.length - 1) {
+      this.currentImageIndex++;
+    }
+  }
+
   getProjectData() {
     this.dataService.getProjectData().subscribe(
       (response) => {
-        // console.log(response[0].subtitle);
-        this.projects = response
+        this.projects = Array.isArray(response) ? response : [];
       },
       (error) => {
         console.error('Error fetching projects:', error);
@@ -74,8 +99,6 @@ openProjectModal(event: Event, project: any, index: number): void {
   getTeamData() {
     this.dataService.getTeamData().subscribe(
       (response) => {
-        console.log(response);
-
         this.teams = Array.isArray(response) ? response : [];
         if (this.teams.length > 3) {
           this.startAutoSlide();
@@ -88,7 +111,7 @@ openProjectModal(event: Event, project: any, index: number): void {
     );
   }
 
-  getSanitizedIcon(icon: string) {
+  getSanitizedIcon(icon: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(icon);
   }
 
@@ -111,8 +134,8 @@ openProjectModal(event: Event, project: any, index: number): void {
   slide(direction: number) {
     const slider = this.teamSlider.nativeElement;
     const slides = slider.querySelectorAll('.team-slide');
-    const slideCount = this.teams.length; 
-    const slidesPerView = 3; 
+    const slideCount = this.teams.length;
+    const slidesPerView = 3;
     const maxSlideIndex = slideCount;
 
     this.currentSlide += direction;
@@ -127,16 +150,12 @@ openProjectModal(event: Event, project: any, index: number): void {
       this.currentSlide = maxSlideIndex - 1;
       const slideWidth = slides[0].offsetWidth;
       slider.style.transition = 'none';
-      slider.style.transform = `translateX(-${
-        this.currentSlide * slideWidth
-      }px)`;
+      slider.style.transform = `translateX(-${this.currentSlide * slideWidth}px)`;
       slider.offsetHeight;
       slider.style.transition = 'transform 0.5s ease';
     } else {
       const slideWidth = slides[0].offsetWidth;
-      slider.style.transform = `translateX(-${
-        this.currentSlide * slideWidth
-      }px)`;
+      slider.style.transform = `translateX(-${this.currentSlide * slideWidth}px)`;
     }
   }
 
@@ -152,9 +171,4 @@ openProjectModal(event: Event, project: any, index: number): void {
   shouldShowSlider(): boolean {
     return this.teams.length > 3;
   }
-
-  // openProjectModal(event: Event, project: any, index: number) {
-  //   event.preventDefault();
-  //   this.selectedProject = project;
-  // }
 }

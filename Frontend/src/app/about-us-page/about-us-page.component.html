@@ -101,7 +101,6 @@
   </div>
 </div>
 
-<!-- Projects Section -->
 <div *ngIf="projectSection?.is_active" class="common-bg style-two pd-5">
   <div class="container">
     <div class="row">
@@ -118,16 +117,17 @@
         <div class="single-project-box" (click)="openProjectModal($event, project, i)" data-bs-toggle="modal"
           data-bs-target="#projectModal">
           <div class="project-thumb">
-            <img [src]="project.media[0].original_url" alt="{{ project.title }} icon" class="project-img" />
+            <img *ngIf="project.media && project.media.length > 0" [src]="project.media[0].original_url"
+              [alt]="project.title || 'Project' + ' icon'" class="project-img" loading="lazy" />
+            <img *ngIf="!project.media || project.media.length === 0" src="assets/placeholder.jpg" alt="Placeholder"
+              class="project-img" />
             <div class="project-overlay">
-              <span class="project-category">{{
-                project.category || "Project"
-              }}</span>
+              <span class="project-category">{{ project.category || 'Project' }}</span>
             </div>
           </div>
           <div class="project-content">
-            <h4>{{ truncateText(project.title, 30) }}</h4>
-            <p class="project-subtitle">{{ truncateText(project.subtitle, 50) }}</p>
+            <h4>{{ truncateText(project.title || '', 30) }}</h4>
+            <p class="project-subtitle">{{ truncateText(project.subtitle || '', 50) }}</p>
             <a class="project-button" href="#" (click)="openProjectModal($event, project, i)" data-bs-toggle="modal"
               data-bs-target="#projectModal">View Details</a>
             <i class="bi bi-arrow-right-short"></i>
@@ -137,36 +137,48 @@
     </div>
   </div>
 </div>
-<!-- Project Modal -->
+
 <div class="modal fade" id="projectModal" tabindex="-1" aria-labelledby="projectModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="projectModalLabel">
-          {{ selectedProject?.title }}
-        </h5>
+        <h5 class="modal-title" id="projectModalLabel">{{ selectedProject?.title || 'Project Details' }}</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div class="project-modal-content">
-          <img *ngIf="selectedProject" [src]="selectedProject?.media[0].original_url"
-            class="project-modal-img img-fluid rounded" />
-          <h6 class="project-modal-subtitle">
-            {{ selectedProject?.subtitle || "No subtitle available" }}
-          </h6>
-          <div [innerHTML]="selectedProject?.description"></div>
+        <div class="project-image-carousel"
+          *ngIf="selectedProject && selectedProject.media && selectedProject.media.length > 0; else noImages">
+          <div class="carousel-container">
+            <img [src]="selectedProject.media[currentImageIndex].original_url"
+              [alt]="selectedProject.media[currentImageIndex].file_name || 'Project Image'" class="carousel-img"
+              loading="lazy" />
+            <button *ngIf="selectedProject.media.length > 1" class="carousel-arrow left" (click)="prevImage()"
+              aria-label="Previous Image">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button *ngIf="selectedProject.media.length > 1" class="carousel-arrow right" (click)="nextImage()"
+              aria-label="Next Image">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+        <ng-template #noImages>
+          <p class="text-muted text-center">No images available</p>
+        </ng-template>
+        <div class="project-details">
+          <h6 class="project-modal-subtitle">{{ selectedProject?.subtitle || 'No subtitle available' }}</h6>
+          <div class="project-modal-description"
+            [innerHTML]="selectedProject?.description || 'No description available'"></div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Close
-        </button>
+        <div class="footer-link">For more info <a href="#" class="link">Click Here</a></div>
+        <button type="button" class="btn-common" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Team Section -->
 <div *ngIf="teamSection?.is_active" class="team-section common-bg style-two pd-5">
   <div class="container">
     <div class="row">
@@ -191,7 +203,6 @@
 
       <div class="team-slider-wrapper">
         <div class="team-slider" #teamSlider>
-          <!-- Original slides -->
           <div *ngFor="let team of teams; let i = index" class="team-slide">
             <div class="team-card">
               <div class="team-img-container">
@@ -212,7 +223,6 @@
               </div>
             </div>
           </div>
-          <!-- Cloned slides for seamless looping -->
           <div *ngFor="let team of teams | slice : 0 : 3; let i = index" class="team-slide cloned">
             <div class="team-card">
               <div class="team-img-container">
