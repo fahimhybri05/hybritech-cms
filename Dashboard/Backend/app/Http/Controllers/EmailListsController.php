@@ -60,24 +60,81 @@ class EmailListsController extends Controller
             ], 500);
         }
     }
-    public function emailedSentCandidateList(Request $request)
+   public function emailedSentCandidateList(Request $request)
+{
+    try {
+        $odataFilter = $request->input('$filter');
+        $isOdataRequest = !empty($odataFilter);
+
+        $query = EmailList::where('is_email_sent', true);
+
+        if ($request->has('is_active')) {
+            $isActive = filter_var($request->input('is_active'), FILTER_VALIDATE_BOOLEAN);
+            $query->where('is_active', $isActive);
+        }
+
+        if ($request->has('search') && !empty($request->input('search'))) {
+            $searchTerm = $request->input('search');
+            $query->where(function($q) use ($searchTerm) {
+                $q->where('name', 'like', "%{$searchTerm}%")
+                  ->orWhere('email', 'like', "%{$searchTerm}%")
+                  ->orWhere('designation', 'like', "%{$searchTerm}%")
+                  ->orWhere('address', 'like', "%{$searchTerm}%");
+            });
+        }
+
+        if ($request->has('$orderby')) {
+            $orderBy = explode(' ', $request->input('$orderby'));
+            $query->orderBy($orderBy[0], $orderBy[1] ?? 'asc');
+        } elseif ($request->has('sort_by')) {
+            $query->orderBy(
+                $request->input('sort_by'),
+                $request->input('sort_dir', 'asc')
+            );
+        }
+
+        if ($isOdataRequest) {
+            $top = $request->input('$top', 20);
+            $skip = $request->input('$skip', 0);
+            $results = $query->skip($skip)->take($top)->get();
+            
+            return response()->json([
+                '@odata.context' => $request->url(),
+                'value' => $results,
+                '@odata.count' => $query->count()
+            ]);
+        } 
+        else {
+            $perPage = $request->input('per_page', 20);
+            $results = $query->paginate($perPage);
+            
+            return response()->json($results);
+        }
+
+    } catch (\Exception $e) {
+        Log::error('Failed to retrieve email list: ' . $e->getMessage());
+        return response()->json([
+            'message' => 'Failed to retrieve email list',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+        public function destroy($id)
     {
         try {
-            $odataFilter = $request->input('$filter');
-            $isOdataRequest = !empty($odataFilter);
-            $results = EmailList::where('is_email_sent', true)->get();
-  
+            $emailList = EmailList::findOrFail($id);
+            $emailList->delete();
+
             return response()->json([
-                'message' => 'Email sent retrieved successfully',
-                'data' => $results
+                'message' => 'Email deleted successfully'
             ], 200);
-            
         } catch (\Exception $e) {
-            Log::error('Failed to retrieve email list: ' . $e->getMessage());
+            Log::error('Failed to delete email: ' . $e->getMessage());
             return response()->json([
-                'message' => 'Failed to retrieve email list',
+                'message' => 'Failed to delete email',
                 'error' => $e->getMessage()
             ], 500);
         }
     }
+
 }
