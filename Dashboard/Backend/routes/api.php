@@ -50,10 +50,11 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
-
+    Route::resource('roles', RoleController::class)->except(['create', 'edit']);
 // Role 
 Route::middleware(['auth:sanctum'])->prefix('admin')->group(function () {
-    Route::resource('roles', RoleController::class)->except(['create', 'edit']);
+    // Route::resource('roles', RoleController::class)->except(['create', 'edit']);
     Route::get('permissions', [PermissionController::class, 'index']);
 });
  Route::post('/roles', [RoleController::class, 'store']);
+  Route::put('/roles/{id}', [RoleController::class, 'update']);

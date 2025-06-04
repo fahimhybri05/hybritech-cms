@@ -45,7 +45,8 @@ export class RolelistComponent {
   ToastType: string = "";
   itemsPerPage: number;
   currentPage = 1;
-  odata: boolean;
+  api: boolean;
+  // odata: boolean;
   loading: boolean = false;
   isInsert: boolean = false;
   isEdit: boolean = false;
@@ -66,11 +67,13 @@ export class RolelistComponent {
     private cdr: ChangeDetectorRef
   ) {
     this.itemsPerPage = this.commonService.itemsPerPage;
-    this.odata = this.commonService.odata;
+    this.api = this.commonService.api;
     this.Title = "Role";
     this.tableColum();
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.commonService.api)
+  }
 
   tableColum() {
     const columns = [
@@ -103,6 +106,12 @@ export class RolelistComponent {
       {
         Header: " Name",
         accessor: "name",
+        autoResizable: true,
+        className: "custom-class-name",
+      },
+         {
+        Header: " Guard Name",
+        accessor: "guard_name",
         autoResizable: true,
         className: "custom-class-name",
       },
@@ -175,7 +184,7 @@ export class RolelistComponent {
   deleteRoleConfirm() {
     this.isDeleteLoading = true;
     const id = this.selectedRoleId;
-    this.commonService.delete(`Roles/${id}`, this.odata).subscribe({
+    this.commonService.delete(`roles/${id}`, this.api).subscribe({
       next: (response: any) => {
         this.isDeleteOpen = false;
         this.isDeleteLoading = false;
@@ -221,4 +230,53 @@ export class RolelistComponent {
     this.isEdit = false;
     this.refreshTable.emit();
   }
+  roless = [];
+rolePermissions = [];
+
+
+
+loadRolePermissions(role: any) {
+  this.selectedRoleId = role.id;
+  this.selectedRoleData = role;
+
+  // API Call to get permissions of selected role
+  this.commonService.post('get-role-permissions', { role_id: role.id }).subscribe(
+    (res: any) => {
+      this.rolePermissions = res.permissions || [];
+    },
+    (err) => {
+      this.rolePermissions = [];
+      console.error(err);
+    }
+  );
+}
+;
+
+// // Add this method to your RolelistComponent class
+// permissionColumns() {
+//   return [
+//     {
+//       Header: 'Permission Name',
+//       accessor: 'name'
+//     },
+//     {
+//       Header: 'Description',
+//       accessor: 'description'
+//     }
+//     // Add more columns as needed
+//   ];
+// }
+permissionColumns() {
+  return [
+    { Header: 'ID', accessor: 'id' },
+    { Header: 'Name', accessor: 'name' },
+    { Header: 'Guard', accessor: 'guard_name' },
+    { Header: 'Created', accessor: 'created_at' },
+  ];
+}
+
+openAddPermissionModal() {
+  // Open permission assignment modal
+}
+
 }

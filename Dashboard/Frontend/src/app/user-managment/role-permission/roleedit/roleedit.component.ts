@@ -50,12 +50,12 @@ export class RoleeditComponent {
   isActive: boolean = false;
   name: string = '';
   rolse = Role;
-  odata: boolean;
+  api:boolean;
   constructor(
     private commonService: CommonService,
     private datePipe: DatePipe
   ) {
-    this.odata = this.commonService.odata;
+    this.api = this.commonService.api;
   }
   ngOnInit(): void {
     if (this.RoleData) {
@@ -82,7 +82,7 @@ export class RoleeditComponent {
     if (!this.RoleId) return;
 
     this.loading = true;
-    this.commonService.get(`Roles/${this.RoleId}`).subscribe({
+    this.commonService.get(`roles/${this.RoleId}`).subscribe({
       next: (response: any) => {
         console.log(response);
         this.RoleData = response;
@@ -102,7 +102,7 @@ export class RoleeditComponent {
 
     this.formloading = true;
     this.commonService
-      .put(`Roles(${this.RoleId})`, formData, this.odata)
+      .put(`roles/${this.RoleId}`, formData, this.api)
       .subscribe({
         next: (response: any) => {
           this.formloading = false;

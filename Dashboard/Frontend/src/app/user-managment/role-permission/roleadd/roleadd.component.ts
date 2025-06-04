@@ -37,12 +37,15 @@ export class RoleaddComponent {
   isAddError: boolean = false;
   isActive: boolean = true;
   odata: boolean;
+  api:boolean;
   ToastType: string = '';
   errorMessage: string = '';
   name: string = '';
   rolse = Role;
   constructor(private commonService: CommonService) {
     this.odata = this.commonService.odata;
+    this.api = this.commonService.api;
+
   }
   ngOnInit(): void {}
 
@@ -56,7 +59,7 @@ export class RoleaddComponent {
       is_active: this.isActive,
     };
     this.loading = true;
-    this.commonService.post('Roles', data, this.odata).subscribe(
+    this.commonService.post('roles', data, this.api).subscribe(
       (response) => {
         this.loading = false;
         this.ToastType = 'add';
