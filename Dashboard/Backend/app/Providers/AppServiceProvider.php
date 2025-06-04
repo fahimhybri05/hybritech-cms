@@ -15,7 +15,6 @@ use App\Models\ServicePageDetails;
 use App\Models\JobApplication;
 use App\Models\AddressInfo;
 use App\Models\Project;
-use App\Models\Role;
 use App\Models\WebPages;
 
 
@@ -45,6 +44,5 @@ class AppServiceProvider extends ServiceProvider
         Lodata::discover(AddressInfo::class);
         Lodata::discover(Project::class);
         Lodata::discover(WebPages::class);
-        Lodata::discover(Role::class);
     }
 }

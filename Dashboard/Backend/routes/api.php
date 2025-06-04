@@ -8,6 +8,9 @@ use App\Http\Controllers\JobApplicationAPIController;
 use App\Http\Controllers\FormEmailApiController;
 use App\Http\Controllers\ContactFormApiController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\PermissionController;
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -45,4 +48,12 @@ Route::post('/contact-forms', [ContactFormApiController::class, 'store']);
 // Auth
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+
+// Role 
+Route::middleware(['auth:sanctum'])->prefix('admin')->group(function () {
+    Route::resource('roles', RoleController::class)->except(['create', 'edit']);
+    Route::get('permissions', [PermissionController::class, 'index']);
+});
+ Route::post('/roles', [RoleController::class, 'store']);

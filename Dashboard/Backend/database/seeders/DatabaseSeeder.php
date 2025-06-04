@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             ContactInfoSeeder::class,
             FooterSeeder::class,
             WebPagesSeeder::class,
+            RolePermissionSeeder::class,
         ]);
     }
 }
