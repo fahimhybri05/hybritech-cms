@@ -1,0 +1,64 @@
+<react-analytical-table
+  [headerTitle]="Title"
+  [insertTitle]="'View Only'"
+  [apiUrl]="'emailed-sent-candidate-list'"
+  [isSearchFilter]="true"
+  [isFilterable]="true"
+  [isOdata]="false"
+  [isGroupable]="false"
+  [isSortable]="true"
+  [isTableTree]="false"
+  [isInfiniteScroll]="true"
+  [infiniteScrollNumber]="10"
+  [minRowsNumber]="15"
+  [headerHeight]="30"
+  [model]="EmailLists"
+  [rowHeight]="30"
+  [selectionMode]="'Single'"
+  [emptyDataText]="'No Data Found'"
+  [refreshTrigger]="refreshTable"
+  [tableColumn]="tableColum()"
+  [showStatusFilter]="false"
+  [isSegmentedState]="false"
+></react-analytical-table>
+
+<app-interview-details
+  [jobApplicantId]="selectedJobId"
+  [jobApplicantData]="selectedJobData"
+  [isOpen]="isApplicantDetails"
+  (refreshTable)="refresh($event)"
+  (close)="closeJobDetailsModal()"
+></app-interview-details>
+<ui5-dialog [open]="isDeleteOpen" header-text="Warning" state="Critical">
+  <p *ngIf="!isDeleteLoading">Are you sure you want to delete this data?</p>
+  <div *ngIf="isDeleteLoading">
+    <p>Deleting please wait ...</p>
+  </div>
+
+  <div
+    slot="footer"
+    style="
+      display: flex;
+      align-items: center;
+      justify-content: end;
+      width: 100%;
+      box-sizing: border-box;
+    "
+  >
+    <ui5-button
+      (click)="deleteItemConfirm()"
+      design="Emphasized"
+      style="min-width: 4rem"
+      [disabled]="isDeleteLoading"
+    >
+      Delete
+    </ui5-button>
+    <ui5-button
+      (click)="isDeleteOpen = false"
+      style="margin: 0 0 0 0.5rem; min-width: 4rem"
+      [disabled]="isDeleteLoading"
+    >
+      Close
+    </ui5-button>
+  </div>
+</ui5-dialog>

@@ -12,22 +12,17 @@ import { ReactAnalyticalTable } from "@app/components/analytical-table/react-tab
 import { CommonService } from "@app/services/common-service/common.service";
 import React from "react";
 import { ToastMessageComponent } from "@app/components/toast-message/toast-message.component";
-import { JobApplication } from "@app/shared/Model/jobapplication";
-import { InterviewDetailsComponent } from "./interview-details/interview-details.component";
+import { EmailList } from "@app/shared/Model/interviewlist";
+
 @Component({
-  selector: "app-selected-applicants",
+  selector: "app-email-list",
   standalone: true,
-  imports: [
-    ReactAnalyticalTable,
-    ToastMessageComponent,
-    CommonModule,
-    InterviewDetailsComponent,
-  ],
+  imports: [ReactAnalyticalTable, ToastMessageComponent, CommonModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  templateUrl: "./selected-applicants.component.html",
-  styleUrl: "./selected-applicants.component.css",
+  templateUrl: "./email-list.component.html",
+  styleUrl: "./email-list.component.css",
 })
-export class SelectedApplicantsComponent {
+export class EmailListComponent {
   @Input() model: any;
   @Output() refreshTable: EventEmitter<void> = new EventEmitter<void>();
   @Output() IsOpenToastAlert = new EventEmitter<void>();
@@ -45,14 +40,14 @@ export class SelectedApplicantsComponent {
   Title: string;
   selectedJobId: number | null = null;
   selectedJobData: any = null;
-  JobApplications = JobApplication;
+  EmailLists = EmailList;
   constructor(
     private commonService: CommonService,
     private cdr: ChangeDetectorRef
   ) {
     this.itemsPerPage = this.commonService.itemsPerPage;
     this.api = this.commonService.api;
-    this.Title = "Selected Applications";
+    this.Title = "Email Sent Log";
   }
   ngOnInit(): void {}
   refresh($event: any) {
@@ -89,7 +84,7 @@ export class SelectedApplicantsComponent {
       },
       {
         Header: "Full Name",
-        accessor: "full_name",
+        accessor: "name",
         autoResizable: true,
         className: "custom-class-name",
       },
@@ -100,8 +95,8 @@ export class SelectedApplicantsComponent {
         className: "custom-class-name",
       },
       {
-        Header: "Number",
-        accessor: "number",
+        Header: "Address",
+        accessor: "address",
         autoResizable: true,
         className: "custom-class-name",
       },
@@ -112,19 +107,12 @@ export class SelectedApplicantsComponent {
         className: "custom-class-name",
       },
       {
-        Header: "Experience",
-        accessor: "experience",
+        Header: "Interview Time",
+        accessor: "interview_date",
         autoResizable: true,
         className: "custom-class-name",
       },
-      {
-        Header: "Selected At",
-        accessor: "selected_at",
-        autoResizable: true,
-        className: "custom-class-name",
-        hAlign: "Center" as TextAlign,
-        Cell: ({ value }: any) => new Date(value).toLocaleDateString(),
-      },
+
       {
         Header: "Submitted At",
         accessor: "created_at",
@@ -154,6 +142,13 @@ export class SelectedApplicantsComponent {
                 this.JobsDetails(row.original);
               }}
             ></Button>
+            <Button
+              icon="delete"
+              design="Transparent"
+              onClick={() => {
+                this.deleteJobs(row.original);
+              }}
+            ></Button>
           </div>
         ),
       },
@@ -177,30 +172,30 @@ export class SelectedApplicantsComponent {
     this.selectedJobData = null;
     this.cdr.detectChanges();
   }
-
   deleteJobs(original: any) {
     this.isDeleteOpen = true;
     this.selectedJobId = original.id;
   }
-
   deleteItemConfirm() {
     this.isDeleteLoading = true;
     const id = this.selectedJobId;
-    this.commonService.delete(`job-applications/${id}`, this.api).subscribe({
-      next: (response: any) => {
-        this.isDeleteOpen = false;
-        this.isDeleteLoading = false;
-        this.ToastType = "delete";
-        setTimeout(() => {
-          this.IsOpenToastAlert.emit();
-        }, 1000);
-        this.refreshTable.emit();
-      },
-      error: (error: any) => {
-        this.isDeleteOpen = false;
-        this.isDeleteLoading = false;
-        this.refreshTable.emit();
-      },
-    });
+    this.commonService
+      .delete(`emailed-candidate-list-delete/${id}`, this.api)
+      .subscribe({
+        next: (response: any) => {
+          this.isDeleteOpen = false;
+          this.isDeleteLoading = false;
+          this.ToastType = "delete";
+          setTimeout(() => {
+            this.IsOpenToastAlert.emit();
+          }, 1000);
+          this.refreshTable.emit();
+        },
+        error: (error: any) => {
+          this.isDeleteOpen = false;
+          this.isDeleteLoading = false;
+          this.refreshTable.emit();
+        },
+      });
   }
 }

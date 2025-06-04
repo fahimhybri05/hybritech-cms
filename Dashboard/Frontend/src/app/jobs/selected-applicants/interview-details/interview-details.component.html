@@ -69,8 +69,8 @@
             >Interview Location</ui5-label
           >
           <ui5-textarea
-            placeholder="Enter interview address"
-            required
+            placeholder="No data found"
+            [value]="address"
             rows="2"
             class="form-control"
             #addressInput
@@ -81,7 +81,6 @@
   </ui5-tabcontainer>
   <div slot="footer" class="dialog-footer">
     <ui5-button
-      *ngIf="!jobApplicantData?.is_email_sent"
       design="Emphasized"
       class="submit-btn"
       (click)="scheduleInterview()"
