@@ -99,13 +99,13 @@ export class AddProjectComponent {
       });
     }
     this.fileTypeError = null;
-    input.value = ''; // Reset input to allow re-uploading same files
+    input.value = ''; 
   }
 
   removeImage(fileName: string) {
     const fileToRemove = this.selectedFilesUrl.find(file => file.name === fileName);
     if (fileToRemove) {
-      URL.revokeObjectURL(fileToRemove.url); // Free memory
+      URL.revokeObjectURL(fileToRemove.url); 
     }
     this.selectedFilesUrl = this.selectedFilesUrl.filter(file => file.name !== fileName);
     this.selectedFiles = this.selectedFiles.filter(file => file.name !== fileName);
@@ -128,8 +128,8 @@ export class AddProjectComponent {
   }
 
   insertData() {
-    if (!this.title || !this.subtitle || !this.description) {
-      this.errorMessage = 'Title, Subtitle, and Description are required.';
+    if (!this.title || !this.subtitle || !this.description || !this.selectedFilesUrl.length) {
+      this.errorMessage = 'Title, Subtitle, Description, and Images are required.';
       return;
     }
     if (this.selectedFiles.length === 0) {
@@ -182,7 +182,7 @@ export class AddProjectComponent {
     this.title = '';
     this.subtitle = '';
     this.description = '';
-    this.selectedFilesUrl.forEach(file => URL.revokeObjectURL(file.url)); // Free memory
+    this.selectedFilesUrl.forEach(file => URL.revokeObjectURL(file.url));
     this.selectedFiles = [];
     this.selectedFilesUrl = [];
     this.isActive = true;
