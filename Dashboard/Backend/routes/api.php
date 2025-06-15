@@ -58,3 +58,5 @@ Route::middleware(['auth:sanctum'])->prefix('admin')->group(function () {
 });
  Route::post('/roles', [RoleController::class, 'store']);
   Route::put('/roles/{id}', [RoleController::class, 'update']);
+  // routes/api.php
+Route::get('roles/{id}', [RoleController::class, 'show']);

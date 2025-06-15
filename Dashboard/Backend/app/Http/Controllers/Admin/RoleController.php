@@ -28,10 +28,10 @@ class RoleController extends Controller
         return response()->json($role->load('permissions'), 201);
     }
 
-    public function show(string $id)
-    {
-        return Role::with('permissions')->findOrFail($id);
-    }
+    // public function show(string $id)
+    // {
+    //     return Role::with('permissions')->findOrFail($id);
+    // }
 
     public function update(Request $request, string $id)
     {
@@ -57,5 +57,11 @@ class RoleController extends Controller
         $role->delete();
 
         return response()->json(['message' => 'Role deleted successfully']);
+    }
+    // RoleController.php
+    public function show($id)
+    {
+        $role = Role::with('permissions')->findOrFail($id);
+        return response()->json($role);
     }
 }

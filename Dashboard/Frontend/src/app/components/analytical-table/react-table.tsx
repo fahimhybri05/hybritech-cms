@@ -74,6 +74,7 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
   @Input() refreshTrigger: EventEmitter<void> = new EventEmitter<void>();
   @Output() rowDoubleClick: EventEmitter<any> = new EventEmitter<any>();
   @Output() onResponseData: EventEmitter<any> = new EventEmitter();
+  @Output() Click = new EventEmitter<any>();
   @Input() showStatusFilter?: boolean;
   isSettingOpen: boolean = false;
   settingSearchText: string = "";
@@ -328,21 +329,29 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
       },
     });
   }
+  private handleClick = (event: any) => {
+  const rowData = event?.detail?.row?.original;
+
+  if (rowData) {
+    console.log('Row clicked:', rowData);
+    this.Click.emit(rowData); 
+  }
+};
   handleLoadMore = () => {
     if (this.searchFilter !== "")
       this.handleSearch({ target: { value: this.searchFilter } });
   };
 
-  private handleRowClick = (event: any) => {
-    const currentTime = new Date().getTime();
-    const rowData = event.detail.row.original;
+  // private handleRowClick = (event: any) => {
+  //   const currentTime = new Date().getTime();
+  //   const rowData = event.detail.row.original;
 
-    if (currentTime - this.lastClickTime < 300) {
-      this.rowDoubleClick.emit(rowData);
-    }
+  //   if (currentTime - this.lastClickTime < 300) {
+  //     this.rowDoubleClick.emit(rowData);
+  //   }
 
-    this.lastClickTime = currentTime;
-  };
+  //   this.lastClickTime = currentTime;
+  // };
 
   checkSegement(status: string) {
     this.offset = 0;
@@ -461,7 +470,7 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
                 onAutoResize={function Ki() {}}
                 onColumnsReorder={function Ki() {}}
                 onRowExpandChange={function Ki() {}}
-                onRowSelect={(e) => this.handleRowClick(e)}
+                onRowSelect={(e) => this.handleClick(e)}
                 selectionMode={this.selectionMode}
                 subComponentsBehavior="IncludeHeight"
                 subRowsKey="subRows"

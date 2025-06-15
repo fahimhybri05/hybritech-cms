@@ -4,6 +4,7 @@ import {
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
   EventEmitter,
+  Input,
   Output,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
@@ -19,7 +20,6 @@ import React from "react";
 import { RoleaddComponent } from "../roleadd/roleadd.component";
 import { RoledetailsComponent } from "../roledetails/roledetails.component";
 import { RoleeditComponent } from "../roleedit/roleedit.component";
-
 @Component({
   selector: "app-rolelist",
   standalone: true,
@@ -42,6 +42,9 @@ import { RoleeditComponent } from "../roleedit/roleedit.component";
 export class RolelistComponent {
   @Output() refreshTable: EventEmitter<void> = new EventEmitter<void>();
   @Output() IsOpenToastAlert = new EventEmitter<void>();
+  @Input() permissions: any[] = [];
+  @Input() RoleData: any = {};
+  // permissions: any[] = [];
   ToastType: string = "";
   itemsPerPage: number;
   currentPage = 1;
@@ -61,6 +64,7 @@ export class RolelistComponent {
   selectedRoleId: number | null = null;
   selectedRoleData: any = null;
   roles = Role;
+  selectedRole: any = null;
   constructor(
     private commonService: CommonService,
     private datePipe: DatePipe,
@@ -73,8 +77,35 @@ export class RolelistComponent {
   }
   ngOnInit(): void {
     console.log(this.commonService.api)
-  }
+    this.onRowClick(this.selectedRole);
 
+  }
+  
+onRowClick(row: any) {
+  this.selectedRole = row;
+  this.permissions = row.permissions || [];
+   this.cdr.detectChanges();
+}
+ permissionColumns() {
+    const columns = [
+      {
+        Header: "Sl No.",
+        accessor: ".",
+        Cell: ({ row }: { row: any }) =>
+          React.createElement("span", null, row.index + 1),
+        width: 70,
+      },
+      {
+        Header: "Permission Name",
+        accessor: "name",
+      },
+      {
+        Header: "Guard Name",
+        accessor: "guard_name",
+      },
+    ];
+    return columns;
+  }
   tableColum() {
     const columns = [
       {
@@ -229,5 +260,9 @@ export class RolelistComponent {
   closeEditModal() {
     this.isEdit = false;
     this.refreshTable.emit();
+  }
+
+  handleRowClick(rowData: any): void {
+console.log("Row clicked:", rowData);
   }
 }

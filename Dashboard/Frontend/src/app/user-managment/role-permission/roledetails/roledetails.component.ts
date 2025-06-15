@@ -7,12 +7,12 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-roledetails',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './roledetails.component.html',
   styleUrl: './roledetails.component.css',
@@ -23,13 +23,27 @@ export class RoledetailsComponent {
   @Input() isOpen: boolean = false;
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
   name: string = '';
+  form: FormGroup;
+
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      name: [''],
+      is_active: [false],
+    });
+  }
 
   ngOnInit(): void {}
-  ngOnChanges(changes: SimpleChanges): void {
-    setTimeout(() => {
-      this.name = this.RoleData.name;
-    }, 20000);
-  }
+  ngOnChanges(): void {
+  setTimeout(() => {
+    if (this.RoleData) {
+      this.form.patchValue({
+        name: this.RoleData.name,
+        is_active: this.RoleData.is_active,
+      });
+    }
+  }, 100);
+}
+
 
   closeDialog() {
     this.isOpen = false;
