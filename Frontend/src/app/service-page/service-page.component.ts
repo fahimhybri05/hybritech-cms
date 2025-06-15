@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FAQComponent } from '../components/faq/faq.component';
-import { FormComponent } from '../components/form/form.component';
+import { FAQComponent } from '@app/components/faq/faq.component';
+import { FormComponent } from '@app/components/form/form.component';
 import { DomSanitizer } from '@angular/platform-browser';
-import { DataService } from '../services/data.service';
+import { DataService } from '@app/services/data.service';
 
 @Component({
   selector: 'app-service-page',
