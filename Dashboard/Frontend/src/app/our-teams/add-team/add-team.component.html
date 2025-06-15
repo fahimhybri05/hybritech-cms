@@ -12,12 +12,13 @@
   </ui5-bar>
 
   <app-form-preloader *ngIf="loading"></app-form-preloader>
+
   <ui5-message-strip
     design="Critical"
     *ngIf="errorMessage"
     (close)="clearErrorMessage($event)"
   >
-    <ui5-icon name="alert" slot="icon"></ui5-icon> {{ errorMessage }}
+  <ui5-icon name="alert" slot="icon"></ui5-icon> {{ errorMessage }}
   </ui5-message-strip>
   <ui5-message-strip
     design="Negative"
@@ -28,39 +29,35 @@
   </ui5-message-strip>
 
   <ui5-tabcontainer>
-    <ui5-tab text="Info" design="Inline" class="info-tab">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="d-flex align-items-center mb-3">
-            <span>Active:</span>
-            <ui5-switch checked (click)="toggleActive($event)"></ui5-switch>
+    <ui5-tab text="Info" design="Inline" style="width: 500px">
+      <section class="tab-content">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="d-flex align-items-center mb-3">
+              <span>Active:</span>
+              <ui5-switch checked (click)="toggleActive($event)"></ui5-switch>
+            </div>
+
+            <ui5-label show-colon required>Name</ui5-label>
+            <ui5-input
+              class="titleInput"
+              [(ngModel)]="name"
+              name="name"
+              placeholder="Enter name"
+              required
+            ></ui5-input>
+
+            <ui5-label show-colon required>Designation</ui5-label>
+            <ui5-textarea
+              class="textArea1"
+              [(ngModel)]="designation"
+              name="designation"
+              placeholder="Enter designation"
+              required
+            ></ui5-textarea>
           </div>
-          <ui5-label show-colon required>Title</ui5-label>
-          <ui5-textarea
-            class="titleInput"
-            [(ngModel)]="title"
-            name="title"
-            placeholder="Enter title"
-            required
-          >
-          </ui5-textarea>
-          <ui5-label show-colon required>Sub-title</ui5-label>
-          <ui5-textarea
-            class="textArea1"
-            [(ngModel)]="subtitle"
-            name="subtitle"
-            placeholder="Enter Sub-title"
-            required
-          ></ui5-textarea>
-          <ui5-label show-colon required>Description</ui5-label>
-          <angular-editor
-            [placeholder]="placeholder"
-            [config]="editorConfig"
-            [(ngModel)]="description"
-          >
-          </angular-editor>
         </div>
-      </div>
+      </section>
     </ui5-tab>
 
     <ui5-tab text="Attachment" design="Inline">
@@ -68,16 +65,15 @@
         <div class="row">
           <div class="col-md-12">
             <div class="img-upload">
-              <ui5-label show-colon required>Images (Multiple, Max {{ MAX_FILES }})</ui5-label>
               <div
                 class="upload-card"
-                [class.disabled]="selectedFiles.length >= MAX_FILES"
-                (click)="selectedFiles.length < MAX_FILES ? fileUpload.click() : null"
+                (click)="fileUpload.click()"
+                *ngIf="!selectedFileUrl"
               >
                 <img
                   src="../../../assets/img/file-upload.png"
-                  height="60px"
-                  alt="Upload Icon"
+                  height="100px"
+                  alt=""
                 />
                 <div class="upload-text">Click to upload or drag and drop</div>
                 <div class="upload-subtext">SVG, PNG, JPG (max. 2MB)</div>
@@ -87,39 +83,27 @@
                   class="file-input"
                   (change)="onFileSelect($event)"
                   accept="image/*"
-                  multiple
-                  [disabled]="selectedFiles.length >= MAX_FILES"
                 />
               </div>
-              <div
-                *ngIf="selectedFilesUrl.length > 0"
-                class="preview-container"
-              >
-                <div
-                  *ngFor="let file of selectedFilesUrl"
-                  class="image-preview"
-                >
+
+              <!-- Image Preview -->
+              <div *ngIf="selectedFileUrl" class="image-preview">
+                <div class="preview-container">
                   <img
-                    [src]="file.url"
+                    [src]="selectedFileUrl"
                     alt="Selected Image"
                     class="preview-image"
                   />
                   <div class="preview-actions">
                     <ui5-button
                       design="Negative"
-                      (click)="removeImage(file.name)"
-                      icon="decline"
-                      tooltip="Remove Image"
-                      class="remove-button"
-                    ></ui5-button>
+                      (click)="clearSelectedImage()"
+                      icon="delete"
+                    >
+                      Remove
+                    </ui5-button>
                   </div>
                 </div>
-              </div>
-              <div
-                *ngIf="selectedFiles.length === 0"
-                class="text-danger small mt-1"
-              >
-                Please upload at least one image
               </div>
             </div>
           </div>
@@ -134,8 +118,7 @@
       [disabled]="loading"
       (click)="insertData()"
       text="Submit"
-    >
-    </ui5-toolbar-button>
+    ></ui5-toolbar-button>
 
     <ui5-toolbar-button
       design="Transparent"

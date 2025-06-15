@@ -62,7 +62,7 @@ export class SocialMediaComponent implements OnInit {
       link: item.link,
       is_active: item.is_active,
     }));
-    this.ToastType = 'edit';
+    
     const requests = formData.map((item: any) =>
       this.commonService.patch(`Footers(${item.id})`, item)
     );
@@ -70,9 +70,15 @@ export class SocialMediaComponent implements OnInit {
       next: (responses: any[]) => {
         this.formloading = false;
         this.loading = false;
+        this.ToastType = 'edit';
+        setTimeout(() => {
+        this.IsOpenToastAlert.emit();
+
+      }, 1000);
         this.IsOpenToastAlert.emit();
         this.Global.emit();
       },
+
       error: (error: any) => {
         console.error('Error submitting form:', error);
         this.formloading = false;

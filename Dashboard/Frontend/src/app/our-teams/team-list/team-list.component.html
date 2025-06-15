@@ -1,0 +1,102 @@
+<react-analytical-table
+  [headerTitle]="'Our Teams'"
+  [insertTitle]="'Add'"
+  [apiUrl]="'teams'"
+  [isSearchFilter]="true"
+  [isFilterable]="true"
+  [isOdata]="false"
+  [isGroupable]="false"
+  [isSortable]="true"
+  [isTableTree]="false"
+  [model]="Team"
+  [isInfiniteScroll]="true"
+  [infiniteScrollNumber]="10"
+  [minRowsNumber]="10"
+  [headerHeight]="30"
+  [rowHeight]="90"
+  [selectionMode]="'Single'"
+  [emptyDataText]="'No Data Found'"
+  [tableColumn]="tableColum()"
+  [refreshTrigger]="refreshTable"
+  [showStatusFilter]="true"
+  [isSegmentedState]="true"
+  (isInsertDataChange)="handleInsertData($event)"
+  (rowDoubleClick)="editTeam($event)"
+></react-analytical-table>
+
+<!-- <app-add-team>
+  [isOpen]="isInsert"
+  (close)="closeAddModal()" 
+</app-add-team> -->
+<app-add-team
+  [isOpen]="isInsert"
+  (close)="closeAddModal()" 
+></app-add-team>
+
+<app-edit-team
+[isOpen]="isEdit"
+[teamId]="selectedItemId"
+  [teamData]="selectedItemData"
+    (refreshTable)="refresh($event)"
+  (close)="closeEditModal()" 
+></app-edit-team>
+
+<app-team-details
+[isOpen]="isDetails"
+[teamId]="selectedItemId"
+  [teamData]="selectedItemData"
+  (close)="closeDetailsModal()"
+></app-team-details>
+
+<app-toast-message
+  [IsOpenToastAlert]="IsOpenToastAlert"
+  [ToastType]="ToastType"
+></app-toast-message>
+<ui5-dialog [open]="isDeleteOpen" header-text="Warning" state="Critical">
+  <p *ngIf="!isDeleteLoading">Are you sure you want to delete this data?</p>
+  <div *ngIf="isDeleteLoading">
+    <p>Deleting please wait ...</p>
+  </div>
+
+  <div
+    slot="footer"
+    style="
+      display: flex;
+      align-items: center;
+      justify-content: end;
+      width: 100%;
+      box-sizing: border-box;
+    "
+  >
+    <ui5-button
+      (click)="deleteItemConfirm()"
+      design="Emphasized"
+      style="min-width: 4rem"
+      [disabled]="isDeleteLoading"
+    >
+      Delete
+    </ui5-button>
+    <ui5-button
+      (click)="isDeleteOpen = false"
+      style="margin: 0 0 0 0.5rem; min-width: 4rem"
+      [disabled]="isDeleteLoading"
+    >
+      Close
+    </ui5-button>
+  </div>
+</ui5-dialog>
+
+<ui5-dialog [open]="isDeleteError" header-text="Error" state="Negative">
+  <p>Error deleting</p>
+  <div
+    slot="footer"
+    style="
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+      padding: 0.25rem 1rem;
+    "
+  >
+    <ui5-button (click)="isDeleteError = false">Close</ui5-button>
+  </div>
+</ui5-dialog>
