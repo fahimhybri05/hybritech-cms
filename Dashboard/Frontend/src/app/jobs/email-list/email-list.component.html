@@ -1,10 +1,7 @@
 <react-analytical-table
   [headerTitle]="Title"
   [insertTitle]="'View Only'"
-  [apiUrl]="'job-applications?'"
-  [button1Text]="'All'"
-  [button2Text]="'Read'"
-  [button3Text]="'Unread'"
+  [apiUrl]="'emailed-sent-candidate-list'"
   [isSearchFilter]="true"
   [isFilterable]="true"
   [isOdata]="false"
@@ -15,19 +12,17 @@
   [infiniteScrollNumber]="10"
   [minRowsNumber]="15"
   [headerHeight]="30"
-  [model]="JobApplications"
+  [model]="EmailLists"
   [rowHeight]="30"
   [selectionMode]="'Single'"
   [emptyDataText]="'No Data Found'"
   [refreshTrigger]="refreshTable"
   [tableColumn]="tableColum()"
-  [showStatusFilter]="true"
-  [isSegmentedState]="true"
-  (rowDoubleClick)="JobsDetails($event)"
+  [showStatusFilter]="false"
+  [isSegmentedState]="false"
 ></react-analytical-table>
-
 <ui5-dialog [open]="isDeleteOpen" header-text="Warning" state="Critical">
-  <p *ngIf="!isDeleteLoading">Are you sure you want to delete this Applicant?</p>
+  <p *ngIf="!isDeleteLoading">Are you sure you want to delete this data?</p>
   <div *ngIf="isDeleteLoading">
     <p>Deleting please wait ...</p>
   </div>
@@ -59,16 +54,7 @@
     </ui5-button>
   </div>
 </ui5-dialog>
-
 <app-toast-message
   [IsOpenToastAlert]="IsOpenToastAlert"
   [ToastType]="ToastType"
 ></app-toast-message>
-
-<app-applicant-details
-  [jobApplicantId]="selectedJobId"
-  [jobApplicantData]="selectedJobData"
-  [isOpen]="isApplicantDetails"
-  (refreshTable)="refresh($event)"
-  (close)="closeJobDetailsModal()"
-></app-applicant-details>

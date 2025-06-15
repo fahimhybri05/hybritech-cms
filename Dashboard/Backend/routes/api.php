@@ -10,6 +10,7 @@ use App\Http\Controllers\JobApplicationAPIController;
 use App\Http\Controllers\FormEmailApiController;
 use App\Http\Controllers\ContactFormApiController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\EmailListsController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -40,10 +41,16 @@ Route::delete('teams/{id}', [TeamController::class, 'destroy']);
 // Job Applications
 Route::post('/job-applications', [JobApplicationAPIController::class, 'store']);
 Route::get('/job-applications', [JobApplicationAPIController::class, 'index']);
+Route::get('/selected-candidate-job-applications', [JobApplicationAPIController::class, 'selectedCandidateJobApplications']);
 Route::get('/job-applications/{id}', [JobApplicationAPIController::class, 'show']);
 Route::patch('/job-applications/{id}', [JobApplicationAPIController::class, 'update']);
 Route::get('/job-applications/{id}/attachment', [JobApplicationAPIController::class, 'downloadAttachment']);
 Route::delete('/job-applications/{id}', [JobApplicationAPIController::class, 'destroy']);
+
+// Email Lists
+Route::post('applicant-email-send', [EmailListsController::class, 'store']);
+Route::get('/emailed-sent-candidate-list', [EmailListsController::class, 'emailedSentCandidateList']);
+Route::delete('/emailed-candidate-list-delete/{id}', [EmailListsController::class, 'destroy']);
 
 // Common Forms
 Route::post('/common-forms', [FormEmailApiController::class, 'store']);

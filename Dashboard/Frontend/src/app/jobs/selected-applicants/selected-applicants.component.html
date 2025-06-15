@@ -1,13 +1,10 @@
 <react-analytical-table
   [headerTitle]="Title"
   [insertTitle]="'View Only'"
-  [apiUrl]="'ContactUsForms?'"
-  [button1Text]="'All'"
-  [button2Text]="'Read'"
-  [button3Text]="'Unread'"
+  [apiUrl]="'selected-candidate-job-applications'"
   [isSearchFilter]="true"
   [isFilterable]="true"
-  [isOdata]="true"
+  [isOdata]="false"
   [isGroupable]="false"
   [isSortable]="true"
   [isTableTree]="false"
@@ -15,22 +12,19 @@
   [infiniteScrollNumber]="10"
   [minRowsNumber]="15"
   [headerHeight]="30"
-  [model]="FormsData"
+  [model]="JobApplications"
   [rowHeight]="30"
   [selectionMode]="'Single'"
   [emptyDataText]="'No Data Found'"
-  [refreshTrigger]="refreshTrigger"
+  [refreshTrigger]="refreshTable"
   [tableColumn]="tableColum()"
-  [showStatusFilter]="true"
-  [isSegmentedState]="true"
-  (rowDoubleClick)="formDetails($event)"
+  [showStatusFilter]="false"
+  [isSegmentedState]="false"
 ></react-analytical-table>
-
-<app-form-details
-  [formId]="selectedFormId"
-  [formData]="selectedFormData"
-  [isOpen]="isOpen"
+<app-interview-details
+  [jobApplicantId]="selectedJobId"
+  [jobApplicantData]="selectedJobData"
+  [isOpen]="isApplicantDetails"
   (refreshTable)="refresh($event)"
-  (close)="closeModal()"
->
-</app-form-details>
+  (close)="closeJobDetailsModal()"
+></app-interview-details>

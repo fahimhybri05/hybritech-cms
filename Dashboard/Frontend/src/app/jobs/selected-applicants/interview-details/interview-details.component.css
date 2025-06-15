@@ -1,0 +1,132 @@
+ui5-dialog {
+  width: 34%;
+}
+/* Add this to your component's CSS file or global styles */
+.interview-dialog {
+  --ui5-dialog-header-shadow: none;
+  --ui5-dialog-border-radius: 8px;
+  --ui5-dialog-header-border-bottom: 1px solid #e0e0e0;
+}
+
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.email-switch {
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+}
+
+.section-title {
+  margin: 0 0 1.5rem 0;
+  color: #2c3e50;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  font-size: 0.875rem;
+  color: #555;
+}
+
+.form-control {
+  width: 100%;
+  --ui5-input-border-radius: 4px;
+  --ui5-input-border: 1px solid #ddd;
+  --ui5-input-hover-border: 1px solid #aaa;
+}
+
+ui5-textarea.form-control {
+  --ui5-textarea-border-radius: 4px;
+  --ui5-textarea-border: 1px solid #ddd;
+  --ui5-textarea-hover-border: 1px solid #aaa;
+}
+.interview-section {
+  padding: 0.5rem;
+  background-color: #fff;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.interview-section .form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.interview-section .form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.interview-section ui5-textarea {
+  --ui5-textarea-min-height: 50px;
+}
+
+.interview-section .form-control {
+  border: none !important;
+  box-shadow: none !important;
+}
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.submit-btn {
+  --ui5-button-background: #4a6da7;
+  --ui5-button-border-color: #4a6da7;
+  --ui5-button-hover-background: #3a5a8f;
+  --ui5-button-active-background: #2a4a7f;
+}
+
+.cancel-btn {
+  --ui5-button-border-color: #ccc;
+  --ui5-button-hover-border-color: #aaa;
+}
+.tab-container {
+  height: 100%;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-content {
+  padding: 1rem;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+.interview-dialog {
+  --_ui5_tc_content: {
+    height: 100%;
+  }
+}
+:host {
+  --ui5-dialog-content-height: 400px;
+}
