@@ -11,28 +11,23 @@ class ServicePageController extends Controller
     public function store(Request $request)
     {
         try {
-            // Validate the input fields
             $request->validate([
                 'title' => 'required|string|max:255',
                 'description' => 'required|string',
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                  'is_active' => 'boolean'
             ]);
-    
-            // Create the service page (without image yet)
             $servicePage = ServicePageDetails::create([
                 'title' => $request->title,
                 'description' => $request->description,
                 'is_active' => $request->is_active ?? false,
             ]);
-    
-            // Check if image exists and upload it to media collection
+
             if ($request->hasFile('image')) {
                 $servicePage->addMediaFromRequest('image')->toMediaCollection('images');
 
             }
-    
-            // Return response
+
             return response()->json([
                 'message' => 'Service Page created successfully.'
             ], 201);
@@ -53,22 +48,11 @@ class ServicePageController extends Controller
 
     public function index(Request $request)
 {
-   
-               $odataFilter = $request->input('$filter');
-            $isOdataRequest = !empty($odataFilter);
              $query = ServicePageDetails::query();
-             if ($isOdataRequest) {
-                if (str_contains($odataFilter, 'is_active eq true')) {
-                    $query->where('is_active', true);
-                } elseif (str_contains($odataFilter, 'is_active eq false')) {
-                    $query->where('is_active', false);
-                }
-            } else {
                 if ($request->has('is_active')) {
                     $isActive = filter_var($request->input('is_active'), FILTER_VALIDATE_BOOLEAN);
                     $query->where('is_active', $isActive);
                 }
-            }
     if ($request->has('search')) {
         $searchTerm = $request->input('search');
         $query->where(function($q) use ($searchTerm) {
@@ -94,7 +78,6 @@ class ServicePageController extends Controller
         return response()->json($this->formatServicePageResponse($servicePage));
     }
 
-    // Update a service page
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -113,7 +96,6 @@ class ServicePageController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            // Clear the old media and add the new one
             $servicePage->clearMediaCollection('images');
             $servicePage->addMediaFromRequest('image')
                 ->toMediaCollection('images');
@@ -122,19 +104,15 @@ class ServicePageController extends Controller
         return response()->json($this->formatServicePageResponse($servicePage));
     }
 
-    // You might also want to add a delete method
     public function destroy($id)
     {
         $servicePage = ServicePageDetails::findOrFail($id);
-        
-        // The media will be automatically deleted by Spatie Media Library
         $servicePage->delete();
         
         return response()->json(null, 204);
     }
     
     /**
-     * Format the service page response with media information
      *
      * @param ServicePageDetails $servicePage
      * @return array

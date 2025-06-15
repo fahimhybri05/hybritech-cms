@@ -43,5 +43,6 @@ class AppServiceProvider extends ServiceProvider
         Lodata::discover(AddressInfo::class);
         Lodata::discover(Project::class);
         Lodata::discover(WebPages::class);
+
     }
 }

@@ -39,12 +39,17 @@ export class InterviewDetailsComponent {
   api: boolean;
   formloading: boolean = false;
   isSubmitted: boolean = false;
+  address = 'Plot 31, Road-5, Banasree Block-C | 1219 Dhaka';
   constructor(
     private commonservice: CommonService,
     private datePipe: DatePipe
   ) {
     this.api = this.commonservice.api;
   }
+  setDefaultAddress(defaultAddress: string) {
+    this.address = defaultAddress;
+  }
+
   ngOnChanges(changes: SimpleChanges) {
     if (changes['jobApplicantId'] && this.isOpen && this.jobApplicantId) {
       this.formloading = false;
@@ -103,9 +108,6 @@ export class InterviewDetailsComponent {
   private resetForm(): void {
     if (this.interviewDatePicker) {
       this.interviewDatePicker.nativeElement.value = '';
-    }
-    if (this.addressInput) {
-      this.addressInput.nativeElement.value = '';
     }
   }
   private formatDateTime(dateTime: string): string {

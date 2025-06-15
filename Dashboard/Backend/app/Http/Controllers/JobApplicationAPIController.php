@@ -6,6 +6,7 @@ use App\Models\JobApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\JobApplicationSubmittedMail;
+use App\Mail\ApplicationConfirmationMail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -42,7 +43,8 @@ class JobApplicationAPIController extends Controller
             ]);
             Mail::to(env('MAIL_TO', 'default@example.com'))
                 ->send(new JobApplicationSubmittedMail($jobApplication));
-
+            Mail::to($jobApplication->email)
+            ->send(new ApplicationConfirmationMail($jobApplication));    
             DB::commit();
 
             return response()->json([
@@ -65,29 +67,18 @@ class JobApplicationAPIController extends Controller
     public function index(Request $request)
     {
         try {
-            $odataFilter = $request->input('$filter');
-            $isOdataRequest = !empty($odataFilter);
 
             $query = JobApplication::query();
 
-                if ($request->has('is_active')) {
-                    $isActive = filter_var($request->input('is_active'), FILTER_VALIDATE_BOOLEAN);
-                    $query->where('is_active', $isActive);
-                }
+           if ($request->has('is_active')) {
+               $isActive = filter_var($request->input('is_active'), FILTER_VALIDATE_BOOLEAN);
+               $query->where('is_active', $isActive);
+            }
             
             if ($request->has('is_selected') && $request->input('is_selected') == true) {
                     $query->where('is_selected', true);
                 }
 
-            if ($request->has('$orderby')) {
-                $orderBy = explode(' ', $request->input('$orderby'));
-                $query->orderBy($orderBy[0], $orderBy[1] ?? 'asc');
-            } elseif ($request->has('sort_by')) {
-                $query->orderBy(
-                    $request->input('sort_by'),
-                    $request->input('sort_dir', 'asc')
-                );
-            }
             if ($request->has('search') && !empty($request->input('search'))) {
                 $searchTerm = $request->input('search');
                 $query->where(function($q) use ($searchTerm) {
@@ -98,24 +89,10 @@ class JobApplicationAPIController extends Controller
                       ->orWhere('number', 'like', "%{$searchTerm}%");
                 });
             }
-            if ($isOdataRequest) {
-                $top = $request->input('$top', 20);
-                $skip = $request->input('$skip', 0);
-                $query->skip($skip)->take($top);
-                $results = $query->get();
-                
-                return response()->json([
-                    '@odata.context' => $request->url(),
-                    'value' => $results,
-                    '@odata.count' => $query->count()
-                ]);
-            } 
-            else {
                 $perPage = $request->input('per_page', 20);
                 $results = $query->paginate($perPage);
                 
                 return response()->json($results);
-            }
 
         } catch (\Exception $e) {
             Log::error('Failed to retrieve job applications: ' . $e->getMessage());
@@ -220,11 +197,9 @@ class JobApplicationAPIController extends Controller
         }
             $filePath = null;
             if ($request->hasFile('attachment')) {
-                // Delete the old attachment if it exists
                 if ($jobApplication->attachment) {
                     Storage::disk('public')->delete($jobApplication->attachment);
                 }
-                // Store the new attachment
                 $filePath = $request->file('attachment')->store('attachments', 'public');
                 $validated['attachment'] = $filePath;
             }
@@ -262,25 +237,33 @@ class JobApplicationAPIController extends Controller
             ], 500);
         }
     }
+public function selectedCandidateJobApplications(Request $request)
+{
+    try {
+        $query = JobApplication::where('is_selected', true);
 
-    public function selectedCandidateJobApplications(Request $request)
-    {
-        try {
-            $odataFilter = $request->input('$filter');
-            $isOdataRequest = !empty($odataFilter);
-            $results = JobApplication::where('is_selected', true)->get();
-  
-            return response()->json([
-                'message' => 'Job applications retrieved successfully',
-                'data' => $results
-            ], 200);
-            
-        } catch (\Exception $e) {
-            Log::error('Failed to retrieve job applications: ' . $e->getMessage());
-            return response()->json([
-                'message' => 'Failed to retrieve job applications',
-                'error' => $e->getMessage()
-            ], 500);
+        if ($request->has('search') && !empty($request->input('search'))) {
+            $searchTerm = $request->input('search');
+            $query->where(function($q) use ($searchTerm) {
+                $q->where('full_name', 'like', "%{$searchTerm}%")
+                  ->orWhere('email', 'like', "%{$searchTerm}%")
+                  ->orWhere('designation', 'like', "%{$searchTerm}%")
+                  ->orWhere('experience', 'like', "%{$searchTerm}%")
+                  ->orWhere('number', 'like', "%{$searchTerm}%");
+            });
         }
+            $perPage = $request->input('per_page', 20);
+            $results = $query->paginate($perPage);
+            
+            return response()->json($results);
+
+    } catch (\Exception $e) {
+        Log::error('Failed to retrieve selected job applications: ' . $e->getMessage());
+        return response()->json([
+            'message' => 'Failed to retrieve selected job applications',
+            'error' => $e->getMessage()
+        ], 500);
     }
+}
+
 }

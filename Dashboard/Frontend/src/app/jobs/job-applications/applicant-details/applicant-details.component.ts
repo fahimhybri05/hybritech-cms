@@ -68,7 +68,6 @@ export class ApplicantDetailsComponent implements OnInit {
       .patch(`job-applications/${this.jobApplicantId}`, data, this.api)
       .subscribe({
         next: (response: any) => {
-          console.log(response);
           this.ToastType = 'select';
           setTimeout(() => {
             this.IsOpenToastAlert.emit();

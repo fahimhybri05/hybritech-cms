@@ -60,24 +60,48 @@ class EmailListsController extends Controller
             ], 500);
         }
     }
-    public function emailedSentCandidateList(Request $request)
+   public function emailedSentCandidateList(Request $request)
+{
+    try {
+        $query = EmailList::where('is_email_sent', true);
+        if ($request->has('search') && !empty($request->input('search'))) {
+            $searchTerm = $request->input('search');
+            $query->where(function($q) use ($searchTerm) {
+                $q->where('name', 'like', "%{$searchTerm}%")
+                  ->orWhere('email', 'like', "%{$searchTerm}%")
+                  ->orWhere('designation', 'like', "%{$searchTerm}%")
+                  ->orWhere('address', 'like', "%{$searchTerm}%");
+            });
+        }
+            $perPage = $request->input('per_page', 20);
+            $results = $query->paginate($perPage);
+            
+            return response()->json($results);
+
+    } catch (\Exception $e) {
+        Log::error('Failed to retrieve email list: ' . $e->getMessage());
+        return response()->json([
+            'message' => 'Failed to retrieve email list',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+        public function destroy($id)
     {
         try {
-            $odataFilter = $request->input('$filter');
-            $isOdataRequest = !empty($odataFilter);
-            $results = EmailList::where('is_email_sent', true)->get();
-  
+            $emailList = EmailList::findOrFail($id);
+            $emailList->delete();
+
             return response()->json([
-                'message' => 'Email sent retrieved successfully',
-                'data' => $results
+                'message' => 'Email deleted successfully'
             ], 200);
-            
         } catch (\Exception $e) {
-            Log::error('Failed to retrieve email list: ' . $e->getMessage());
+            Log::error('Failed to delete email: ' . $e->getMessage());
             return response()->json([
-                'message' => 'Failed to retrieve email list',
+                'message' => 'Failed to delete email',
                 'error' => $e->getMessage()
             ], 500);
         }
     }
+
 }
