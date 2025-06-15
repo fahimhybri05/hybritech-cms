@@ -163,12 +163,9 @@ export class SelectedApplicantsComponent {
 
   JobsDetails(original: any) {
     this.isApplicantDetails = false;
-    this.cdr.detectChanges();
     this.selectedJobId = original.id;
     this.selectedJobData = { ...original };
     this.isApplicantDetails = true;
-    this.cdr.detectChanges();
-    this.refreshTable.emit();
   }
 
   closeJobDetailsModal() {

@@ -177,7 +177,6 @@ export class JobListComponent {
   closeAddJobModal() {
     this.isInsert = false;
     this.refreshTable.emit();
-    // this.loadJobs();
   }
 
   deleteJobs(original: any) {

@@ -21,14 +21,6 @@
   [showStatusFilter]="false"
   [isSegmentedState]="false"
 ></react-analytical-table>
-
-<app-interview-details
-  [jobApplicantId]="selectedJobId"
-  [jobApplicantData]="selectedJobData"
-  [isOpen]="isApplicantDetails"
-  (refreshTable)="refresh($event)"
-  (close)="closeJobDetailsModal()"
-></app-interview-details>
 <ui5-dialog [open]="isDeleteOpen" header-text="Warning" state="Critical">
   <p *ngIf="!isDeleteLoading">Are you sure you want to delete this data?</p>
   <div *ngIf="isDeleteLoading">
@@ -62,3 +54,7 @@
     </ui5-button>
   </div>
 </ui5-dialog>
+<app-toast-message
+  [IsOpenToastAlert]="IsOpenToastAlert"
+  [ToastType]="ToastType"
+></app-toast-message>

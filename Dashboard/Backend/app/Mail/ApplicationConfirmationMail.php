@@ -19,13 +19,11 @@ class ApplicationConfirmationMail extends Mailable
         $this->jobApplication = $jobApplication;
     }
 
-
  public function build()
       {
           return $this
                    ->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
               ->subject('Thanks for your application')
-              ->view('emails.applicant_confirmation');
-              
+              ->view('emails.applicant_confirmation');   
       }
 }

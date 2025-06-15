@@ -1,4 +1,4 @@
-import { CommonModule, DatePipe } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import {
   ChangeDetectorRef,
   CUSTOM_ELEMENTS_SCHEMA,
@@ -41,6 +41,7 @@ export class EmailListComponent {
   selectedJobId: number | null = null;
   selectedJobData: any = null;
   EmailLists = EmailList;
+  
   constructor(
     private commonService: CommonService,
     private cdr: ChangeDetectorRef
@@ -49,10 +50,11 @@ export class EmailListComponent {
     this.api = this.commonService.api;
     this.Title = "Email Sent Log";
   }
-  ngOnInit(): void {}
+
   refresh($event: any) {
     this.refreshTable.emit();
   }
+
   tableColum() {
     const columns = [
       {
@@ -112,7 +114,6 @@ export class EmailListComponent {
         autoResizable: true,
         className: "custom-class-name",
       },
-
       {
         Header: "Submitted At",
         accessor: "created_at",
@@ -136,13 +137,6 @@ export class EmailListComponent {
         Cell: ({ row }: any) => (
           <div>
             <Button
-              icon="email"
-              design="Transparent"
-              onClick={() => {
-                this.JobsDetails(row.original);
-              }}
-            ></Button>
-            <Button
               icon="delete"
               design="Transparent"
               onClick={() => {
@@ -156,26 +150,11 @@ export class EmailListComponent {
     return columns;
   }
 
-  JobsDetails(original: any) {
-    this.isApplicantDetails = false;
-    this.cdr.detectChanges();
-    this.selectedJobId = original.id;
-    this.selectedJobData = { ...original };
-    this.isApplicantDetails = true;
-    this.cdr.detectChanges();
-    this.refreshTable.emit();
-  }
-
-  closeJobDetailsModal() {
-    this.isApplicantDetails = false;
-    this.selectedJobId = null;
-    this.selectedJobData = null;
-    this.cdr.detectChanges();
-  }
   deleteJobs(original: any) {
     this.isDeleteOpen = true;
     this.selectedJobId = original.id;
   }
+
   deleteItemConfirm() {
     this.isDeleteLoading = true;
     const id = this.selectedJobId;
@@ -194,7 +173,6 @@ export class EmailListComponent {
         error: (error: any) => {
           this.isDeleteOpen = false;
           this.isDeleteLoading = false;
-          this.refreshTable.emit();
         },
       });
   }

@@ -10,11 +10,13 @@ export class EmailList implements Deserializable {
   interview_date: string | Date = '';
   created_at?: string | Date;
   [key: string]: any;
+
   constructor(data?: Partial<EmailList>) {
     if (data) {
       Object.assign(this, data);
     }
   }
+
   deserialize(input: any): this {
     Object.assign(this, input);
 
@@ -24,17 +26,11 @@ export class EmailList implements Deserializable {
 
     return this;
   }
-
-  serialize(): any {
+  
+    toOdata(): Object {
     return {
-      id: this.id,
-      is_email_sent: this.is_email_sent,
-      name: this.name,
-      email: this.email,
-      designation: this.designation,
-      address: this.address,
-      interview_date: this.interview_date,
-      created_at: this.created_at,
+      ...this,
+      created_at: undefined,
     };
   }
 }
