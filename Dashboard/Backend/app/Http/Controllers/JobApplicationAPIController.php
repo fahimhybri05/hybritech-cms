@@ -67,29 +67,18 @@ class JobApplicationAPIController extends Controller
     public function index(Request $request)
     {
         try {
-            $odataFilter = $request->input('$filter');
-            $isOdataRequest = !empty($odataFilter);
 
             $query = JobApplication::query();
 
-                if ($request->has('is_active')) {
-                    $isActive = filter_var($request->input('is_active'), FILTER_VALIDATE_BOOLEAN);
-                    $query->where('is_active', $isActive);
-                }
+           if ($request->has('is_active')) {
+               $isActive = filter_var($request->input('is_active'), FILTER_VALIDATE_BOOLEAN);
+               $query->where('is_active', $isActive);
+            }
             
             if ($request->has('is_selected') && $request->input('is_selected') == true) {
                     $query->where('is_selected', true);
                 }
 
-            if ($request->has('$orderby')) {
-                $orderBy = explode(' ', $request->input('$orderby'));
-                $query->orderBy($orderBy[0], $orderBy[1] ?? 'asc');
-            } elseif ($request->has('sort_by')) {
-                $query->orderBy(
-                    $request->input('sort_by'),
-                    $request->input('sort_dir', 'asc')
-                );
-            }
             if ($request->has('search') && !empty($request->input('search'))) {
                 $searchTerm = $request->input('search');
                 $query->where(function($q) use ($searchTerm) {
@@ -100,24 +89,10 @@ class JobApplicationAPIController extends Controller
                       ->orWhere('number', 'like', "%{$searchTerm}%");
                 });
             }
-            if ($isOdataRequest) {
-                $top = $request->input('$top', 20);
-                $skip = $request->input('$skip', 0);
-                $query->skip($skip)->take($top);
-                $results = $query->get();
-                
-                return response()->json([
-                    '@odata.context' => $request->url(),
-                    'value' => $results,
-                    '@odata.count' => $query->count()
-                ]);
-            } 
-            else {
                 $perPage = $request->input('per_page', 20);
                 $results = $query->paginate($perPage);
                 
                 return response()->json($results);
-            }
 
         } catch (\Exception $e) {
             Log::error('Failed to retrieve job applications: ' . $e->getMessage());
@@ -265,15 +240,7 @@ class JobApplicationAPIController extends Controller
 public function selectedCandidateJobApplications(Request $request)
 {
     try {
-        $odataFilter = $request->input('$filter');
-        $isOdataRequest = !empty($odataFilter);
-
         $query = JobApplication::where('is_selected', true);
-
-        if ($request->has('is_active')) {
-            $isActive = filter_var($request->input('is_active'), FILTER_VALIDATE_BOOLEAN);
-            $query->where('is_active', $isActive);
-        }
 
         if ($request->has('search') && !empty($request->input('search'))) {
             $searchTerm = $request->input('search');
@@ -285,34 +252,10 @@ public function selectedCandidateJobApplications(Request $request)
                   ->orWhere('number', 'like', "%{$searchTerm}%");
             });
         }
-
-        if ($request->has('$orderby')) {
-            $orderBy = explode(' ', $request->input('$orderby'));
-            $query->orderBy($orderBy[0], $orderBy[1] ?? 'asc');
-        } elseif ($request->has('sort_by')) {
-            $query->orderBy(
-                $request->input('sort_by'),
-                $request->input('sort_dir', 'asc')
-            );
-        }
-
-        if ($isOdataRequest) {
-            $top = $request->input('$top', 20);
-            $skip = $request->input('$skip', 0);
-            $results = $query->skip($skip)->take($top)->get();
-            
-            return response()->json([
-                '@odata.context' => $request->url(),
-                'value' => $results,
-                '@odata.count' => $query->count()
-            ]);
-        } 
-        else {
             $perPage = $request->input('per_page', 20);
             $results = $query->paginate($perPage);
             
             return response()->json($results);
-        }
 
     } catch (\Exception $e) {
         Log::error('Failed to retrieve selected job applications: ' . $e->getMessage());

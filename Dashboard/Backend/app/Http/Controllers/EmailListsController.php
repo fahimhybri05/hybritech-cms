@@ -63,16 +63,7 @@ class EmailListsController extends Controller
    public function emailedSentCandidateList(Request $request)
 {
     try {
-        $odataFilter = $request->input('$filter');
-        $isOdataRequest = !empty($odataFilter);
-
         $query = EmailList::where('is_email_sent', true);
-
-        if ($request->has('is_active')) {
-            $isActive = filter_var($request->input('is_active'), FILTER_VALIDATE_BOOLEAN);
-            $query->where('is_active', $isActive);
-        }
-
         if ($request->has('search') && !empty($request->input('search'))) {
             $searchTerm = $request->input('search');
             $query->where(function($q) use ($searchTerm) {
@@ -82,34 +73,10 @@ class EmailListsController extends Controller
                   ->orWhere('address', 'like', "%{$searchTerm}%");
             });
         }
-
-        if ($request->has('$orderby')) {
-            $orderBy = explode(' ', $request->input('$orderby'));
-            $query->orderBy($orderBy[0], $orderBy[1] ?? 'asc');
-        } elseif ($request->has('sort_by')) {
-            $query->orderBy(
-                $request->input('sort_by'),
-                $request->input('sort_dir', 'asc')
-            );
-        }
-
-        if ($isOdataRequest) {
-            $top = $request->input('$top', 20);
-            $skip = $request->input('$skip', 0);
-            $results = $query->skip($skip)->take($top)->get();
-            
-            return response()->json([
-                '@odata.context' => $request->url(),
-                'value' => $results,
-                '@odata.count' => $query->count()
-            ]);
-        } 
-        else {
             $perPage = $request->input('per_page', 20);
             $results = $query->paginate($perPage);
             
             return response()->json($results);
-        }
 
     } catch (\Exception $e) {
         Log::error('Failed to retrieve email list: ' . $e->getMessage());
