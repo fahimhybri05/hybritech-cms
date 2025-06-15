@@ -12,7 +12,10 @@ import { TextAreaComponent } from '@ui5/webcomponents-ngx/main/text-area';
 import { FormPreloaderComponent } from 'app/components/form-preloader/form-preloader.component';
 import { CommonService } from 'app/services/common-service/common.service';
 import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
-import { AngularEditorConfig, AngularEditorModule } from '@kolkov/angular-editor';
+import {
+  AngularEditorConfig,
+  AngularEditorModule,
+} from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-add-project',
@@ -29,7 +32,7 @@ import { AngularEditorConfig, AngularEditorModule } from '@kolkov/angular-editor
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './add-project.component.html',
-  styleUrls: ['./add-project.component.css']
+  styleUrls: ['./add-project.component.css'],
 })
 export class AddProjectComponent {
   @Input() isOpen: boolean | null = null;
@@ -44,9 +47,8 @@ export class AddProjectComponent {
   title: string = '';
   subtitle: string = '';
   description: string = '';
-  wordCount: number = 0;
   selectedFiles: File[] = [];
-  selectedFilesUrl: { name: string, url: string }[] = [];
+  selectedFilesUrl: { name: string; url: string }[] = [];
   isActive: boolean = true;
   MAX_FILES = 5;
 
@@ -79,7 +81,12 @@ export class AddProjectComponent {
       return;
     }
 
-    const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'];
+    const validTypes = [
+      'image/jpeg',
+      'image/png',
+      'image/gif',
+      'image/svg+xml',
+    ];
 
     for (const file of files) {
       if (!validTypes.includes(file.type)) {
@@ -95,20 +102,26 @@ export class AddProjectComponent {
       this.selectedFiles.push(file);
       this.selectedFilesUrl.push({
         name: file.name,
-        url: URL.createObjectURL(file)
+        url: URL.createObjectURL(file),
       });
     }
     this.fileTypeError = null;
-    input.value = ''; 
+    input.value = '';
   }
 
   removeImage(fileName: string) {
-    const fileToRemove = this.selectedFilesUrl.find(file => file.name === fileName);
+    const fileToRemove = this.selectedFilesUrl.find(
+      (file) => file.name === fileName
+    );
     if (fileToRemove) {
-      URL.revokeObjectURL(fileToRemove.url); 
+      URL.revokeObjectURL(fileToRemove.url);
     }
-    this.selectedFilesUrl = this.selectedFilesUrl.filter(file => file.name !== fileName);
-    this.selectedFiles = this.selectedFiles.filter(file => file.name !== fileName);
+    this.selectedFilesUrl = this.selectedFilesUrl.filter(
+      (file) => file.name !== fileName
+    );
+    this.selectedFiles = this.selectedFiles.filter(
+      (file) => file.name !== fileName
+    );
   }
 
   clearErrorMessage(event: Event) {
@@ -121,22 +134,21 @@ export class AddProjectComponent {
     this.fileTypeError = null;
   }
 
-  closeDialog() {
-    this.isOpen = false;
-    this.resetForm();
-    this.close.emit();
-  }
-
   insertData() {
-    if (!this.title || !this.subtitle || !this.description || !this.selectedFilesUrl.length) {
-      this.errorMessage = 'Title, Subtitle, Description, and Images are required.';
+    if (
+      !this.title ||
+      !this.subtitle ||
+      !this.description ||
+      !this.selectedFilesUrl.length
+    ) {
+      this.errorMessage =
+        'Title, Subtitle, Description, and Images are required.';
       return;
     }
     if (this.selectedFiles.length === 0) {
       this.errorMessage = 'Please upload at least one image.';
       return;
     }
-
     const formData = new FormData();
     formData.append('title', this.title);
     formData.append('subtitle', this.subtitle);
@@ -152,18 +164,10 @@ export class AddProjectComponent {
       next: (response: any) => {
         this.loading = false;
         this.isSuccess = true;
-
-        if (response?.media?.length > 0) {
-          response.media.forEach((mediaItem: any) => {
-            console.log('Uploaded image:', mediaItem.original_url);
-          });
-        }
-
         this.ToastType = 'add';
         setTimeout(() => {
           this.IsOpenToastAlert.emit();
         }, 1000);
-        this.resetForm();
         this.closeDialog();
       },
       error: (error) => {
@@ -172,8 +176,14 @@ export class AddProjectComponent {
           error.error?.message ||
           'An error occurred while submitting the data.';
         console.error(error);
-      }
+      },
     });
+  }
+
+  closeDialog() {
+    this.isOpen = false;
+    this.resetForm();
+    this.close.emit();
   }
 
   resetForm() {
@@ -182,7 +192,7 @@ export class AddProjectComponent {
     this.title = '';
     this.subtitle = '';
     this.description = '';
-    this.selectedFilesUrl.forEach(file => URL.revokeObjectURL(file.url));
+    this.selectedFilesUrl.forEach((file) => URL.revokeObjectURL(file.url));
     this.selectedFiles = [];
     this.selectedFilesUrl = [];
     this.isActive = true;

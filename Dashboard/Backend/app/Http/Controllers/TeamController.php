@@ -5,44 +5,37 @@ namespace App\Http\Controllers;
 use App\Models\Team;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Validation\ValidationException;
 
 class TeamController extends Controller
 {
     public function store(Request $request)
     {
         try {
-            // Validate the input fields
             $request->validate([
                 'name' => 'required|string|max:255',
                 'designation' => 'nullable|string|max:255',
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'is_active' => 'boolean'
             ]);
-    
-            // Create the team (without image yet)
+
             $team = Team::create([
                 'name' => $request->name,
                 'designation' => $request->designation,
                 'is_active' => $request->is_active ?? false,
-                
             ]);
-    
-            // Check if image exists and upload it to media collection
+
             if ($request->hasFile('image')) {
                 $team->addMediaFromRequest('image')->toMediaCollection('images');
             }
-    
-            // Return response
             return response()->json([
                 'message' => 'Project created successfully.'
             ], 201);
-    
-        } catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (ValidationException $e) {
             return response()->json([
                 'message' => 'Validation Error.',
                 'errors' => $e->errors()
             ], 422);
-    
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Something went wrong.',
@@ -53,27 +46,16 @@ class TeamController extends Controller
 
     public function index(Request $request)
     {
-
-           $odataFilter = $request->input('$filter');
-            $isOdataRequest = !empty($odataFilter);
         $query = Team::query();
-             if ($isOdataRequest) {
-                if (str_contains($odataFilter, 'is_active eq true')) {
-                    $query->where('is_active', true);
-                } elseif (str_contains($odataFilter, 'is_active eq false')) {
-                    $query->where('is_active', false);
-                }
-            } else {
-                if ($request->has('is_active')) {
-                    $isActive = filter_var($request->input('is_active'), FILTER_VALIDATE_BOOLEAN);
-                    $query->where('is_active', $isActive);
-                }
-            }
+        if ($request->has('is_active')) {
+            $isActive = filter_var($request->input('is_active'), FILTER_VALIDATE_BOOLEAN);
+            $query->where('is_active', $isActive);
+        }
         if ($request->has('search')) {
             $searchTerm = $request->input('search');
-            $query->where(function($q) use ($searchTerm) {
+            $query->where(function ($q) use ($searchTerm) {
                 $q->where('name', 'like', "%{$searchTerm}%")
-                  ->orWhere('designation', 'like', "%{$searchTerm}%");
+                    ->orWhere('designation', 'like', "%{$searchTerm}%");
             });
         }
         if ($request->has('per_page')) {
@@ -81,11 +63,10 @@ class TeamController extends Controller
         } else {
             $teams = $query->get();
         }
-        
+
         $formattedProjects = $teams->map(function ($team) {
             return $this->formatProjectResponse($team);
         });
-        
         return response()->json($formattedProjects);
     }
 
@@ -113,25 +94,20 @@ class TeamController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            // Clear the old media and add the new one
             $team->clearMediaCollection('images');
             $team->addMediaFromRequest('image')
                 ->toMediaCollection('images');
         }
-
         return response()->json($this->formatProjectResponse($team));
     }
 
     public function destroy($id)
     {
         $team = Team::findOrFail($id);
-        
-        // The media will be automatically deleted by Spatie Media Library
         $team->delete();
-        
         return response()->json(null, 204);
     }
-    
+
     /**
      * Format the project response with media information
      *
@@ -141,7 +117,7 @@ class TeamController extends Controller
     public function formatProjectResponse(Team $team): array
     {
         $media = $team->getMedia('images')->first();
-        
+
         return [
             'id' => $team->id,
             'name' => $team->name,

@@ -46,7 +46,7 @@
           </ui5-textarea>
           <ui5-label show-colon required>Sub-title</ui5-label>
           <ui5-textarea
-            class="textArea1"
+            class="subTextArea"
             [(ngModel)]="subtitle"
             name="subtitle"
             placeholder="Enter Sub-title"
@@ -68,14 +68,18 @@
         <div class="row">
           <div class="col-md-12">
             <div class="img-upload">
-              <ui5-label show-colon required>Images (Multiple, Max {{ MAX_FILES }})</ui5-label>
+              <ui5-label show-colon required
+                >Images (Multiple, Max {{ MAX_FILES }})</ui5-label
+              >
               <div
                 class="upload-card"
                 [class.disabled]="selectedFiles.length >= MAX_FILES"
-                (click)="selectedFiles.length < MAX_FILES ? fileUpload.click() : null"
+                (click)="
+                  selectedFiles.length < MAX_FILES ? fileUpload.click() : null
+                "
               >
                 <img
-                  src="../../../assets/img/file-upload.png"
+                  src="assets/img/file-upload.png"
                   height="60px"
                   alt="Upload Icon"
                 />
@@ -91,6 +95,7 @@
                   [disabled]="selectedFiles.length >= MAX_FILES"
                 />
               </div>
+
               <div
                 *ngIf="selectedFilesUrl.length > 0"
                 class="preview-container"

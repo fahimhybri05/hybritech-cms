@@ -101,9 +101,6 @@ export class AddTeamComponent {
         console.log(response);
         this.loading = false;
         this.isSuccess = true;
-        if (response && response.media && response.media.length > 0) {
-          const mediaUrl = response.media[0].original_url;
-        }
         this.ToastType = 'add';
         setTimeout(() => {
           this.IsOpenToastAlert.emit();

@@ -19,7 +19,7 @@ ui5-dialog {
   margin-bottom: 1rem;
 }
 
-.textArea1 {
+.subTextArea {
   width: 66rem;
   min-height: 70px;
   margin-bottom: 1rem;
@@ -30,6 +30,7 @@ ui5-dialog {
   padding-inline: 0;
 }
 
+/* File Upload Styles */
 .img-upload {
   display: flex;
   flex-direction: column;
@@ -77,6 +78,7 @@ ui5-dialog {
   display: none;
 }
 
+/* Image Preview Styles */
 .preview-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -135,4 +137,10 @@ ui5-dialog {
 .remove-button:hover {
   background-color: #ff4d4f;
   color: #fff;
+}
+
+/* Message Strip Styling */
+ui5-message-strip {
+  width: 100%;
+  margin-top: 0.75rem;
 }

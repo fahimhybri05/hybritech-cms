@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('service_page_details', function (Blueprint $table) {
@@ -16,14 +13,10 @@ return new class extends Migration
             $table->boolean('is_active')->default(false);
             $table->string('title');
             $table->text('description');
-            // $table->string('image_path');
             $table->timestamps();
         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
+    
     public function down(): void
     {
         Schema::dropIfExists('service_page_details');

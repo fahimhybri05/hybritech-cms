@@ -14,7 +14,10 @@ import { TextAreaComponent } from '@ui5/webcomponents-ngx/main/text-area';
 import { FormPreloaderComponent } from 'app/components/form-preloader/form-preloader.component';
 import { CommonService } from 'app/services/common-service/common.service';
 import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
-import { AngularEditorConfig, AngularEditorModule } from '@kolkov/angular-editor';
+import {
+  AngularEditorConfig,
+  AngularEditorModule,
+} from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-edit-project',
@@ -87,14 +90,23 @@ export class EditProjectComponent implements OnChanges {
     if (!input.files || input.files.length === 0) return;
 
     const files = Array.from(input.files);
-    const totalImages = (this.projectData?.media?.length || 0) - this.deleteImageIds.length + this.selectedFiles.length + files.length;
+    const totalImages =
+      (this.projectData?.media?.length || 0) -
+      this.deleteImageIds.length +
+      this.selectedFiles.length +
+      files.length;
     if (totalImages > this.MAX_FILES) {
       this.fileTypeError = `Maximum ${this.MAX_FILES} images allowed`;
       input.value = '';
       return;
     }
 
-    const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'];
+    const validTypes = [
+      'image/jpeg',
+      'image/png',
+      'image/gif',
+      'image/svg+xml',
+    ];
 
     for (const file of files) {
       if (!validTypes.includes(file.type)) {
@@ -110,25 +122,33 @@ export class EditProjectComponent implements OnChanges {
       this.selectedFiles.push(file);
       this.selectedFilesUrl.push({
         name: file.name,
-        url: URL.createObjectURL(file)
+        url: URL.createObjectURL(file),
       });
     }
     this.fileTypeError = null;
-    input.value = ''; // Reset input to allow re-uploading same files
+    input.value = '';
   }
 
   removeExistingImage(mediaId: number) {
     this.deleteImageIds.push(mediaId);
-    this.projectData.media = this.projectData.media.filter((media: any) => media.id !== mediaId);
+    this.projectData.media = this.projectData.media.filter(
+      (media: any) => media.id !== mediaId
+    );
   }
 
   removeNewImage(fileName: string) {
-    const fileToRemove = this.selectedFilesUrl.find(file => file.name === fileName);
+    const fileToRemove = this.selectedFilesUrl.find(
+      (file) => file.name === fileName
+    );
     if (fileToRemove) {
-      URL.revokeObjectURL(fileToRemove.url); // Free memory
+      URL.revokeObjectURL(fileToRemove.url);
     }
-    this.selectedFilesUrl = this.selectedFilesUrl.filter(file => file.name !== fileName);
-    this.selectedFiles = this.selectedFiles.filter(file => file.name !== fileName);
+    this.selectedFilesUrl = this.selectedFilesUrl.filter(
+      (file) => file.name !== fileName
+    );
+    this.selectedFiles = this.selectedFiles.filter(
+      (file) => file.name !== fileName
+    );
   }
 
   clearErrorMessage(event: Event) {
@@ -147,7 +167,6 @@ export class EditProjectComponent implements OnChanges {
       return;
     }
 
-    // Calculate total images: remaining existing images + new images
     const remainingExistingImages = this.projectData?.media?.length
       ? Math.max(0, this.projectData.media.length - this.deleteImageIds.length)
       : 0;
@@ -170,28 +189,31 @@ export class EditProjectComponent implements OnChanges {
     });
 
     this.deleteImageIds.forEach((id, index) => {
-      formData.append(`delete_images[${index}]`, id.toString());
+      formData.append(`remove_existing_images[${index}]`, id.toString());
     });
 
     this.loading = true;
-    this.commonService.post(`projects/${this.projectId}`, formData, false).subscribe({
-      next: (response: any) => {
-        this.loading = false;
-        this.isSuccess = true;
-        this.ToastType = 'edit';
-        setTimeout(() => {
-          this.IsOpenToastAlert.emit();
-        }, 1000);
-        this.refreshTable.emit();
-        this.closeDialog();
-      },
-      error: (error) => {
-        this.loading = false;
-        this.errorMessage =
-          error.error?.message || 'An error occurred while updating the data.';
-        console.error(error);
-      }
-    });
+    this.commonService
+      .post(`projects/${this.projectId}`, formData, false)
+      .subscribe({
+        next: (response: any) => {
+          this.loading = false;
+          this.isSuccess = true;
+          this.ToastType = 'edit';
+          setTimeout(() => {
+            this.IsOpenToastAlert.emit();
+          }, 1000);
+          this.refreshTable.emit();
+          this.closeDialog();
+        },
+        error: (error) => {
+          this.loading = false;
+          this.errorMessage =
+            error.error?.message ||
+            'An error occurred while updating the data.';
+          console.error(error);
+        },
+      });
   }
 
   toggleActive($event: any) {
@@ -210,11 +232,11 @@ export class EditProjectComponent implements OnChanges {
     this.title = '';
     this.subtitle = '';
     this.description = '';
-    this.selectedFilesUrl.forEach(file => URL.revokeObjectURL(file.url)); // Free memory
+    this.selectedFilesUrl.forEach((file) => URL.revokeObjectURL(file.url));
     this.selectedFiles = [];
     this.selectedFilesUrl = [];
     this.deleteImageIds = [];
     this.isActive = true;
-    this.projectData = { media: [] }; // Reset with empty media array
+    this.projectData = { media: [] };
   }
 }

@@ -2,9 +2,10 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonService } from '@app/services/common-service/common.service';
 import { SocialMediaComponent } from '@app/social-media/social-media.component';
 import { Ui5MainModule } from '@ui5/webcomponents-ngx';
-import { ToastMessageComponent } from '../components/toast-message/toast-message.component';
+import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
 import { ContactInfoComponent } from '@app/contact-info/contact-info.component';
 import { CommonModule } from '@angular/common';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-info-footer',
@@ -14,7 +15,7 @@ import { CommonModule } from '@angular/common';
     SocialMediaComponent,
     Ui5MainModule,
     ToastMessageComponent,
-    CommonModule
+    CommonModule,
   ],
   templateUrl: './info-footer.component.html',
   styleUrl: './info-footer.component.css',
@@ -24,14 +25,16 @@ export class InfoFooterComponent {
   loading: boolean = false;
   webPages: any[] = [];
   ToastType: string = '';
+  isSuccess: boolean = false;
+  errorMessage: string = '';
 
   constructor(private commonService: CommonService) {}
 
   ngOnInit() {
-    this.getProjectPermission();
+    this.getWebPages();
   }
 
-  getProjectPermission() {
+  getWebPages() {
     this.loading = true;
     this.commonService.get(`WebPages`, true).subscribe({
       next: (response: any) => {
@@ -39,12 +42,11 @@ export class InfoFooterComponent {
         this.loading = false;
       },
       error: (error: any) => {
-        console.error('Error fetching project section:', error);
+        console.error('Error fetching web pages:', error);
         this.loading = false;
       },
     });
   }
-
 
   toggleActive(item: any, event: any) {
     item.is_active = event.target.checked;
@@ -52,23 +54,26 @@ export class InfoFooterComponent {
 
   updateData() {
     this.loading = true;
-    const updatePromises = this.webPages.map(page => {
+    const updateRequests = this.webPages.map((page) => {
       const permissionData = {
-        id:page.id,
+        id: page.id,
         is_active: page.is_active,
       };
-      return this.commonService.patch(`WebPages(${page.id})`, permissionData, true).toPromise();
+      return this.commonService.patch(`WebPages(${page.id})`, permissionData, true);
     });
 
-    Promise.all(updatePromises)
-      .then(() => {
+    forkJoin(updateRequests).subscribe({
+      next: () => {
         this.ToastType = 'edit';
-        this.IsOpenToastAlert.emit();
+        setTimeout(() => {
+          this.IsOpenToastAlert.emit();
+        }, 1000);
         this.loading = false;
-      })
-      .catch(error => {
+      },
+      error: (error) => {
         console.error('Error updating sections:', error);
         this.loading = false;
-      });
+      },
+    });
   }
 }
