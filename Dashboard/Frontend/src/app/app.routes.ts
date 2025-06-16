@@ -1,19 +1,19 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '@app/services/auth/guard/auth.guard';
-import { LoginComponent } from './components/login/login.component';
-import { UserListComponent } from './user-managment/user-list/user-list.component';
-import { CommonFormComponent } from './form-data/common-form/common-form.component';
-import { ServicesListComponent } from './service-page/services-list/services-list.component';
-import { FaqListComponent } from './faq/faq-list/faq-list.component';
-import { ContactUsFormComponent } from './form-data/contact.us.form/contact.us.form.component';
-import { HomeComponent } from './home/home.component';
-import { JobListComponent } from './jobs/job-list/job-list.component';
-import { JobApplicationsComponent } from './jobs/job-applications/job-applications.component';
-import { InfoFooterComponent } from './info-footer/info-footer.component';
+import { LoginComponent } from '@app/components/login/login.component';
+import { UserListComponent } from '@app/user-managment/user-list/user-list.component';
+import { CommonFormComponent } from '@app/form-data/common-form/common-form.component';
+import { ServicesListComponent } from '@app/service-page/services-list/services-list.component';
+import { FaqListComponent } from '@app/faq/faq-list/faq-list.component';
+import { ContactUsFormComponent } from '@app/form-data/contact.us.form/contact.us.form.component';
+import { HomeComponent } from '@app/home/home.component';
+import { JobListComponent } from '@app/jobs/job-list/job-list.component';
+import { JobApplicationsComponent } from '@app/jobs/job-applications/job-applications.component';
+import { InfoFooterComponent } from '@app/info-footer/info-footer.component';
 import { ProjectListComponent } from '@app/our-projects/project-list/project-list.component';
-import { TeamListComponent } from './our-teams/team-list/team-list.component';
-import { SelectedApplicantsComponent } from './jobs/selected-applicants/selected-applicants.component';
-import { EmailListComponent } from './jobs/email-list/email-list.component';
+import { TeamListComponent } from '@app/our-teams/team-list/team-list.component';
+import { SelectedApplicantsComponent } from '@app/jobs/selected-applicants/selected-applicants.component';
+import { EmailListComponent } from '@app/jobs/email-list/email-list.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },

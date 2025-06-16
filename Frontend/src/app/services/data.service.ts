@@ -11,16 +11,15 @@ export class DataService {
   private commonFromData = this.apiUrl + '/api/common-forms';
   private commonConatactFormData = this.apiUrl + '/api/contact-forms';
   private faqData = this.apiUrl + '/odata/Faqs?$filter=is_active eq true';
-  private serviceData =
-    this.apiUrl + '/api/service-pages?$filter=is_active eq true';
-  private jobPostData =
-    this.apiUrl + '/odata/JobLists?$filter=is_active eq true';
+  private teamData = this.apiUrl + '/api/teams?is_active=true';
+  private serviceData = this.apiUrl + '/api/service-pages?is_active=true';
+  private jobPostData = this.apiUrl + '/odata/JobLists?$filter=is_active eq true';
   private footerData = this.apiUrl + '/odata/Footers?$filter=is_active eq true';
   private applicationData = this.apiUrl + '/api/job-applications';
   private addressData = this.apiUrl + '/odata/AddressInfos';
-  private projectData = this.apiUrl + '/api/projects?$filter=is_active eq true';
-  private teamData = this.apiUrl + '/api/teams?$filter=is_active eq true';
-  private webPages = this.apiUrl + '/odata/WebPages?$filter=is_active eq true';
+  private projectData = this.apiUrl + '/api/projects?is_active=true';
+  private webPages = this.apiUrl + '/odata/WebPages';
+
   constructor(private http: HttpClient) {}
 
   insertCommonForm(formData: any): Observable<any> {

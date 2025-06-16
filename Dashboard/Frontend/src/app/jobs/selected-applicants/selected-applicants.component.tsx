@@ -13,7 +13,7 @@ import { CommonService } from "@app/services/common-service/common.service";
 import React from "react";
 import { ToastMessageComponent } from "@app/components/toast-message/toast-message.component";
 import { JobApplication } from "@app/shared/Model/jobapplication";
-import { InterviewDetailsComponent } from "./interview-details/interview-details.component";
+import { InterviewDetailsComponent } from "@app/jobs/selected-applicants/interview-details/interview-details.component";
 @Component({
   selector: "app-selected-applicants",
   standalone: true,

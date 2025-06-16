@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FAQComponent } from '../components/faq/faq.component';
-import { FormComponent } from '../components/form/form.component';
-import { DataService } from '../services/data.service';
+import { FAQComponent } from '@app/components/faq/faq.component';
+import { FormComponent } from '@app/components/form/form.component';
+import { DataService } from '@app/services/data.service';
 import { ApplyformComponent } from '@app/applyform/applyform.component';
 import { SwalService } from '@app/services/shared/swal.service';
 @Component({

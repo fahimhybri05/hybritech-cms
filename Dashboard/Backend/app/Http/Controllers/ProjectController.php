@@ -41,6 +41,11 @@ class ProjectController extends Controller
             $query->where('is_active', $isActive);
         }
 
+        $query = Project::query();
+         if ($request->has('is_active')) {
+             $isActive = filter_var($request->input('is_active'), FILTER_VALIDATE_BOOLEAN);
+             $query->where('is_active', $isActive);
+                }
         if ($request->has('search')) {
             $searchTerm = $request->input('search');
             $query->where(function ($q) use ($searchTerm) {
