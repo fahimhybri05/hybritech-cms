@@ -56,21 +56,11 @@ class ProjectController extends Controller
     public function index(Request $request)
     {
 
-           $odataFilter = $request->input('$filter');
-            $isOdataRequest = !empty($odataFilter);
         $query = Project::query();
-             if ($isOdataRequest) {
-                if (str_contains($odataFilter, 'is_active eq true')) {
-                    $query->where('is_active', true);
-                } elseif (str_contains($odataFilter, 'is_active eq false')) {
-                    $query->where('is_active', false);
+         if ($request->has('is_active')) {
+             $isActive = filter_var($request->input('is_active'), FILTER_VALIDATE_BOOLEAN);
+             $query->where('is_active', $isActive);
                 }
-            } else {
-                if ($request->has('is_active')) {
-                    $isActive = filter_var($request->input('is_active'), FILTER_VALIDATE_BOOLEAN);
-                    $query->where('is_active', $isActive);
-                }
-            }
         if ($request->has('search')) {
             $searchTerm = $request->input('search');
             $query->where(function($q) use ($searchTerm) {
