@@ -36,11 +36,9 @@ export class SocialMediaComponent implements OnInit {
   constructor(private commonService: CommonService) {
     this.odata = this.commonService.odata;
   }
-
   ngOnInit(): void {
     this.loadData();
   }
-
   loadData() {
     this.loading = true;
     this.commonService.get('Footers', this.odata).subscribe({
@@ -62,7 +60,7 @@ export class SocialMediaComponent implements OnInit {
       link: item.link,
       is_active: item.is_active,
     }));
-    this.ToastType = 'edit';
+
     const requests = formData.map((item: any) =>
       this.commonService.patch(`Footers(${item.id})`, item)
     );
@@ -70,6 +68,10 @@ export class SocialMediaComponent implements OnInit {
       next: (responses: any[]) => {
         this.formloading = false;
         this.loading = false;
+        this.ToastType = 'edit';
+        setTimeout(() => {
+          this.IsOpenToastAlert.emit();
+        }, 1000);
         this.IsOpenToastAlert.emit();
         this.Global.emit();
       },
@@ -80,7 +82,6 @@ export class SocialMediaComponent implements OnInit {
       },
     });
   }
-
   toggleActive(item: any, event: any) {
     item.is_active = event.target.checked;
   }

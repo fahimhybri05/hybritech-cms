@@ -2,109 +2,189 @@
   <ui5-bar slot="header" design="Header">
     <ui5-title level="H5" slot="startContent">Edit Project</ui5-title>
     <ui5-button
-      class="dialogCloser"
+      class="dialog-closer"
       design="Transparent"
       id="closeDialogButton"
       slot="endContent"
       (click)="closeDialog()"
       icon="decline"
+      aria-label="Close dialog"
     ></ui5-button>
   </ui5-bar>
 
-  <app-form-preloader *ngIf="loading"></app-form-preloader>
-  <ui5-message-strip class="w-100 mt-3" design="Critical" *ngIf="errorMessage">
+  <ui5-message-strip
+    design="Critical"
+    *ngIf="errorMessage"
+    (close)="clearErrorMessage($event)"
+  >
     <ui5-icon name="alert" slot="icon"></ui5-icon> {{ errorMessage }}
   </ui5-message-strip>
-  <ui5-message-strip class="w-100 mt-3" design="Negative" *ngIf="fileTypeError">
+  <ui5-message-strip
+    design="Negative"
+    *ngIf="fileTypeError"
+    (close)="clearFileTypeError($event)"
+  >
     <ui5-icon name="alert" slot="icon"></ui5-icon> {{ fileTypeError }}
   </ui5-message-strip>
-  <section>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="d-flex align-items-center">
-          <ui5-label show-colon>Active</ui5-label>
-          <ui5-switch
-            [checked]="isActive"
-            (click)="toggleActive($event)"
-          ></ui5-switch>
+
+  <ui5-busy-indicator
+    [active]="loading"
+    delay="100"
+    aria-label="Loading form data"
+  >
+    <ui5-tabcontainer>
+      <ui5-tab text="Info" design="Inline" class="info-tab">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="active-switch">
+              <span>Active:</span>
+              <ui5-switch
+                [checked]="isActive"
+                (click)="toggleActive($event)"
+                aria-label="Toggle active status"
+              ></ui5-switch>
+            </div>
+            <ui5-label show-colon required>Title</ui5-label>
+            <ui5-textarea
+              class="title-input"
+              [(ngModel)]="title"
+              name="title"
+              placeholder="Enter title"
+              required
+            ></ui5-textarea>
+            <ui5-label show-colon required>Sub-title</ui5-label>
+            <ui5-textarea
+              class="subtitle-input"
+              [(ngModel)]="subtitle"
+              name="subtitle"
+              placeholder="Enter Sub-title"
+              required
+            ></ui5-textarea>
+            <ui5-label show-colon required>Description</ui5-label>
+            <angular-editor
+              [placeholder]="placeholder"
+              [config]="editorConfig"
+              [(ngModel)]="description"
+            ></angular-editor>
+          </div>
         </div>
-        <ui5-label show-colon required>Title</ui5-label>
-        <ui5-input
-          class="titleInput"
-          [(ngModel)]="title"
-          name="title"
-          placeholder="Enter title"
-          required
-        ></ui5-input>
-        <ui5-label show-colon required>Subtitle</ui5-label>
-        <ui5-textarea
-          class="textArea1"
-          [(ngModel)]="subtitle"
-          name="subtitle"
-          placeholder="Enter subtitle"
-          required
-        ></ui5-textarea>
-        <ui5-label show-colon required>Description</ui5-label>
-        <ui5-textarea
-          class="textArea"
-          [(ngModel)]="description"
-          name="description"
-          placeholder="Enter description (max 45 words)"
-          required
-          (input)="updateWordCount()"
-        ></ui5-textarea>
-        <div
-          class="word-count"
-          [ngClass]="{ 'text-danger': wordCount > maxWords }"
-        >
-          Words: {{ wordCount }}/{{ maxWords }}
-        </div>
-        <ui5-label show-colon>Image</ui5-label>
-        <div class="d-flex">
-          <ui5-file-uploader
-            hide-input
-            type="file"
-            class="form-control col-6 file-upload"
-            (change)="onFileSelect($event)"
-            accept="image/*"
-          >
-            <ui5-avatar icon="upload"></ui5-avatar>
-            Upload new image
-          </ui5-file-uploader>
-        </div>
-        <div class="col-6 mt-2" style="margin-left: 10px">
-          <img
-            *ngIf="selectedFileUrl"
-            [src]="selectedFileUrl"
-            alt="New Selected Image"
-            style="max-width: 400px"
-          />
-          <img
-            *ngIf="!selectedFileUrl && currentImageUrl"
-            [src]="currentImageUrl"
-            alt="Current Image"
-            style="max-width: 400px"
-          />
-        </div>
-      </div>
-    </div>
-  </section>
+      </ui5-tab>
+      <ui5-tab text="Attachment" design="Inline">
+        <section class="tab-content">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="img-upload">
+                <ui5-label show-colon required
+                  >Images (Multiple, Max {{ MAX_FILES }})</ui5-label
+                >
+                <div
+                  class="upload-card"
+                  [class.disabled]="
+                    projectData?.media?.length -
+                      deleteImageIds.length +
+                      selectedFiles.length >=
+                    MAX_FILES
+                  "
+                  (click)="
+                    projectData?.media?.length -
+                      deleteImageIds.length +
+                      selectedFiles.length <
+                    MAX_FILES
+                      ? fileUpload.click()
+                      : null
+                  "
+                >
+                  <img
+                    src="assets/img/file-upload.png"
+                    alt="Upload Icon"
+                    class="upload-icon"
+                  />
+                  <div class="upload-text">
+                    Click to upload or drag and drop
+                  </div>
+                  <div class="upload-subtext">SVG, PNG, JPG (max. 2MB)</div>
+                  <input
+                    #fileUpload
+                    type="file"
+                    class="file-input"
+                    (change)="onFileSelect($event)"
+                    accept="image/*"
+                    multiple
+                    [disabled]="
+                      projectData?.media?.length -
+                        deleteImageIds.length +
+                        selectedFiles.length >=
+                      MAX_FILES
+                    "
+                  />
+                </div>
+                <div
+                  *ngIf="
+                    projectData?.media?.length > 0 ||
+                    selectedFilesUrl.length > 0
+                  "
+                  class="preview-container"
+                >
+                  <div
+                    *ngFor="let media of projectData?.media"
+                    class="image-preview"
+                  >
+                    <img
+                      [src]="media.original_url"
+                      [alt]="media.file_name"
+                      class="preview-image"
+                    />
+                    <ui5-button
+                      design="Negative"
+                      (click)="removeExistingImage(media.id)"
+                      icon="decline"
+                      class="remove-button"
+                      aria-label="Remove existing image"
+                    ></ui5-button>
+                  </div>
+                  <div
+                    *ngFor="let file of selectedFilesUrl"
+                    class="image-preview"
+                  >
+                    <img
+                      [src]="file.url"
+                      alt="Selected Image"
+                      class="preview-image"
+                    />
+                    <ui5-button
+                      design="Negative"
+                      (click)="removeNewImage(file.name)"
+                      icon="decline"
+                      class="remove-button"
+                      aria-label="Remove new image"
+                    ></ui5-button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </ui5-tab>
+    </ui5-tabcontainer>
+  </ui5-busy-indicator>
+
   <ui5-toolbar slot="footer">
     <ui5-toolbar-button
       design="Emphasized"
       [disabled]="loading"
       (click)="updateData()"
       text="Update"
-    >
-    </ui5-toolbar-button>
-
+      aria-label="Update project data"
+    ></ui5-toolbar-button>
     <ui5-toolbar-button
       design="Transparent"
       text="Cancel"
       (click)="closeDialog()"
+      aria-label="Cancel and close dialog"
     ></ui5-toolbar-button>
   </ui5-toolbar>
 </ui5-dialog>
+
 <app-toast-message
   [IsOpenToastAlert]="IsOpenToastAlert"
   [ToastType]="ToastType"

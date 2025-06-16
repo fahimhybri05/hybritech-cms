@@ -10,133 +10,120 @@ class ProjectController extends Controller
 {
     public function store(Request $request)
     {
-        try {
-            // Validate the input fields
-            $request->validate([
-                'title' => 'required|string|max:255',
-                'subtitle' => 'nullable|string|max:255',
-                'description' => 'nullable|string',
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                'is_active' => 'boolean'
-            ]);
-    
-            // Create the project (without image yet)
-            $project = Project::create([
-                'title' => $request->title,
-                'subtitle' => $request->subtitle,
-                'description' => $request->description,
-                'is_active' => $request->is_active ?? false,
-                
-            ]);
-    
-            // Check if image exists and upload it to media collection
-            if ($request->hasFile('image')) {
-                $project->addMediaFromRequest('image')->toMediaCollection('images');
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'subtitle' => 'required|string|max:255',
+            'description' => 'required|string',
+            'is_active' => 'required|boolean',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        $project = Project::create($validated);
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $project->addMedia($image)->toMediaCollection('projects');
             }
-    
-            // Return response
-            return response()->json([
-                'message' => 'Project created successfully.'
-            ], 201);
-    
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json([
-                'message' => 'Validation Error.',
-                'errors' => $e->errors()
-            ], 422);
-    
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Something went wrong.',
-                'error' => $e->getMessage()
-            ], 500);
         }
+
+        return response()->json([
+            'message' => 'Project created successfully',
+            'project' => $this->formatProjectResponse($project->load('media'))
+        ]);
     }
 
     public function index(Request $request)
     {
+        $query = Project::query()->with('media');
+
+        if ($request->has('is_active')) {
+            $isActive = filter_var($request->input('is_active'), FILTER_VALIDATE_BOOLEAN);
+            $query->where('is_active', $isActive);
+        }
 
         $query = Project::query();
-         if ($request->has('is_active')) {
-             $isActive = filter_var($request->input('is_active'), FILTER_VALIDATE_BOOLEAN);
-             $query->where('is_active', $isActive);
-                }
+        if ($request->has('is_active')) {
+            $isActive = filter_var($request->input('is_active'), FILTER_VALIDATE_BOOLEAN);
+            $query->where('is_active', $isActive);
+        }
         if ($request->has('search')) {
             $searchTerm = $request->input('search');
-            $query->where(function($q) use ($searchTerm) {
+            $query->where(function ($q) use ($searchTerm) {
                 $q->where('title', 'like', "%{$searchTerm}%")
-                  ->orWhere('subtitle', 'like', "%{$searchTerm}%")
-                  ->orWhere('description', 'like', "%{$searchTerm}%");
+                    ->orWhere('subtitle', 'like', "%{$searchTerm}%")
+                    ->orWhere('description', 'like', "%{$searchTerm}%");
             });
         }
+
         if ($request->has('per_page')) {
             $projects = $query->paginate($request->input('per_page'));
         } else {
             $projects = $query->get();
         }
-        
+
         $formattedProjects = $projects->map(function ($project) {
             return $this->formatProjectResponse($project);
         });
-        
-        return response()->json($formattedProjects);
+
+        return response()->json($request->has('per_page') ? $projects->setCollection($formattedProjects) : $formattedProjects);
     }
 
     public function show($id)
     {
-        $project = Project::findOrFail($id);
+        $project = Project::with('media')->findOrFail($id);
         return response()->json($this->formatProjectResponse($project));
     }
 
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'subtitle' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
-            'is_active' => 'boolean'
+            'subtitle' => 'required|string|max:255',
+            'description' => 'required|string',
+            'is_active' => 'required|boolean',
+            'images.*' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'remove_existing_images.*' => 'sometimes|numeric'
         ]);
 
         $project = Project::findOrFail($id);
+        $project->update($validated);
 
-        $project->update([
-            'title' => $request->title,
-            'subtitle' => $request->subtitle,
-            'description' => $request->description,
-            'is_active' => $request->is_active ?? $project->is_active,
-        ]);
-
-        if ($request->hasFile('image')) {
-            // Clear the old media and add the new one
-            $project->clearMediaCollection('images');
-            $project->addMediaFromRequest('image')
-                ->toMediaCollection('images');
+        if ($request->has('remove_existing_images')) {
+            Media::whereIn('id', $request->remove_existing_images)
+                ->where('model_id', operator: $project->id)
+                ->where('model_type', Project::class)
+                ->where('collection_name', 'projects')
+                ->delete();
         }
 
-        return response()->json($this->formatProjectResponse($project));
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $project->addMedia($image)->toMediaCollection('projects');
+            }
+        }
+
+        return response()->json([
+            'message' => 'Project updated successfully',
+            'project' => $this->formatProjectResponse($project->load('media'))
+        ]);
     }
 
     public function destroy($id)
     {
         $project = Project::findOrFail($id);
-        
-        // The media will be automatically deleted by Spatie Media Library
         $project->delete();
-        
         return response()->json(null, 204);
     }
-    
+
     /**
      * Format the project response with media information
      *
      * @param Project $project
      * @return array
      */
-    public function formatProjectResponse(Project $project): array
+    protected function formatProjectResponse(Project $project): array
     {
-        $media = $project->getMedia('images')->first();
-        
+        $media = $project->getMedia('projects');
         return [
             'id' => $project->id,
             'title' => $project->title,
@@ -145,16 +132,17 @@ class ProjectController extends Controller
             'is_active' => $project->is_active,
             'created_at' => $project->created_at,
             'updated_at' => $project->updated_at,
-            'media' => $media ? [
-                [
+            'media' => $media->map(function ($media) {
+                return [
                     'id' => $media->id,
                     'name' => $media->name,
                     'file_name' => $media->file_name,
                     'mime_type' => $media->mime_type,
                     'size' => $media->size,
                     'original_url' => $media->getUrl(),
-                ]
-            ] : [],
+                    'thumbnail_url' => $media->hasGeneratedConversion('thumb') ? $media->getUrl('thumb') : null
+                ];
+            })->toArray()
         ];
     }
 }

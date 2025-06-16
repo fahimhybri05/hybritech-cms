@@ -8,24 +8,32 @@ import {
   Output,
   ChangeDetectorRef,
 } from "@angular/core";
-import { ReactAnalyticalTable } from '@app/components/analytical-table/react-table';
-import { CommonService } from '@app/services/common-service/common.service';
-import { Projects } from '@app/shared/Model/project';
-import { Button, Icon, TextAlign } from '@ui5/webcomponents-react';
-import { AddProjectComponent } from '@app/our-projects/add-project/add-project.component';
-import { EditProjectComponent } from '../edit-project/edit-project.component';
-import React from 'react';
-import { ProjectInfoComponent } from "../project-info/project-info.component";
+import { ReactAnalyticalTable } from "@app/components/analytical-table/react-table";
+import { CommonService } from "@app/services/common-service/common.service";
+import { Team } from "@app/shared/Model/team";
+import { Button, Icon, TextAlign } from "@ui5/webcomponents-react";
 import { ToastMessageComponent } from "@app/components/toast-message/toast-message.component";
+import React from "react";
+import { AddTeamComponent } from "@app/our-teams/add-team/add-team.component";
+import { EditTeamComponent } from "@app/our-teams/edit-team/edit-team.component";
+import { TeamDetailsComponent } from "@app/our-teams/team-details/team-details.component";
+
 @Component({
-  selector: 'app-project-list',
+  selector: "app-team-list",
   standalone: true,
-  imports: [ReactAnalyticalTable, AddProjectComponent, EditProjectComponent, ProjectInfoComponent,CommonModule,ToastMessageComponent],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  templateUrl: './project-list.component.html',
-  styleUrl: './project-list.component.css'
+  imports: [
+    ReactAnalyticalTable,
+    CommonModule,
+    ToastMessageComponent,
+    AddTeamComponent,
+    EditTeamComponent,
+    TeamDetailsComponent,
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  templateUrl: "./team-list.component.html",
+  styleUrl: "./team-list.component.css",
 })
-export class ProjectListComponent implements OnInit {
+export class TeamListComponent implements OnInit {
   @Output() refreshTable: EventEmitter<void> = new EventEmitter<void>();
   @Output() IsOpenToastAlert = new EventEmitter<void>();
   ToastType: string = "";
@@ -34,7 +42,7 @@ export class ProjectListComponent implements OnInit {
   currentPage = 1;
   odata: boolean;
   api: boolean;
-  Projects = Projects;
+  Team = Team;
   isInsert: boolean = false;
   selectedItemId: any;
   selectedItemData: any;
@@ -54,10 +62,10 @@ export class ProjectListComponent implements OnInit {
     this.api = this.commonService.api;
     this.tableColum();
   }
-ngOnInit(): void {}
-    refresh($event: any) {
+  ngOnInit(): void {}
+  refresh($event: any) {
     this.refreshTable.emit();
-}
+  }
   tableColum() {
     const columns = [
       {
@@ -86,16 +94,35 @@ ngOnInit(): void {}
           value ? <Icon name="accept" /> : <Icon name="decline" />,
       },
       {
-        Header: "Title",
-        accessor: "title",
+        Header: "Name",
+        accessor: "name",
         autoResizable: true,
         className: "custom-class-name",
       },
       {
-        Header: "Sub-Title",
-        accessor: "subtitle",
+        Header: "Designation",
+        accessor: "designation",
         autoResizable: true,
         className: "custom-class-name",
+      },
+      {
+        Header: "Image",
+        accessor: "media",
+        autoResizable: true,
+        className: "custom-class-name",
+        hAlign: "Center" as TextAlign,
+        Cell: ({ value }: any) =>
+          value?.[0]?.original_url ? (
+            <img
+              src={value[0].original_url}
+              alt="Team Image"
+              style={{ margin: "5px" }}
+              width="90"
+              height="70"
+            />
+          ) : (
+            <span>No Image</span>
+          ),
       },
       {
         Header: "Created At",
@@ -123,7 +150,7 @@ ngOnInit(): void {}
               icon="edit"
               design="Transparent"
               onClick={() => {
-                this.editProject(row.original);
+                this.editTeam(row.original);
               }}
             />
             <Button
@@ -148,7 +175,6 @@ ngOnInit(): void {}
     return columns;
   }
 
-
   handleInsertData(isInsert: boolean): void {
     if (isInsert) {
       this.isInsert = isInsert;
@@ -159,7 +185,7 @@ ngOnInit(): void {}
     this.isInsert = false;
     this.refreshTable.emit();
   }
-  editProject(original: any) {
+  editTeam(original: any) {
     this.isEdit = true;
     this.selectedItemId = original.id;
     this.selectedItemData = { ...original };
@@ -181,7 +207,7 @@ ngOnInit(): void {}
     this.isDetails = false;
     this.selectedItemId = null;
     this.selectedItemData = null;
-    this.cdr.detectChanges(); 
+    this.cdr.detectChanges();
   }
   deleteItem(original: any) {
     this.isDeleteOpen = true;
@@ -191,9 +217,8 @@ ngOnInit(): void {}
   deleteItemConfirm() {
     this.isDeleteLoading = true;
     const id = this.selectedItemId;
-    this.commonService.delete(`projects/${id}`, this.api).subscribe({
+    this.commonService.delete(`teams/${id}`, this.api).subscribe({
       next: (response: any) => {
-        console.log(response);
         this.isSuccess = true;
         this.isDeleteOpen = false;
         this.isDeleteLoading = false;

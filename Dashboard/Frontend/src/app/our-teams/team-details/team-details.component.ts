@@ -14,7 +14,7 @@ import { TextAreaComponent } from '@ui5/webcomponents-ngx/main/text-area';
 import { FormPreloaderComponent } from '@app/components/form-preloader/form-preloader.component';
 
 @Component({
-  selector: 'app-project-info',
+  selector: 'app-team-details',
   standalone: true,
   imports: [
     CommonModule,
@@ -24,25 +24,25 @@ import { FormPreloaderComponent } from '@app/components/form-preloader/form-prel
     TextAreaComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  templateUrl: './project-info.component.html',
-  styleUrls: ['./project-info.component.css']
+  templateUrl: './team-details.component.html',
+  styleUrl: './team-details.component.css',
 })
-export class ProjectInfoComponent implements OnChanges {
+export class TeamDetailsComponent implements OnChanges {
   @Input() isOpen: boolean | null = null;
-  @Input() projectId: number | null = null;
-  @Input() projectData: any = { media: [] };
+  @Input() teamId: number | null = null;
+  @Input() teamData: any = null;
   @Output() close = new EventEmitter<void>();
+
   loading: boolean = false;
-  title: string = '';
-  subtitle: string = '';
-  description: string = '';
+  name: string = '';
+  designation: string = '';
+  currentImageUrl: string | null = null;
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['projectData'] && this.projectData) {
-      this.title = this.projectData.title || '';
-      this.subtitle = this.projectData.subtitle || '';
-      this.description = this.projectData.description || '';
-      this.projectData.media = this.projectData.media || [];
+    if (changes['teamData'] && this.teamData) {
+      this.name = this.teamData.name || '';
+      this.designation = this.teamData.designation || '';
+      this.currentImageUrl = this.teamData.media?.[0]?.original_url || null;
     }
   }
 

@@ -13,9 +13,15 @@ class WebPagesSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('web_pages')->insert([
-            'title' => 'Our Projects Section',
-            'is_active' => '0',
+         DB::table('web_pages')->insert([
+            [
+                'title' => 'Our Projects',
+                'is_active' => '0',
+            ],
+            [
+                'title' => 'Our Team',
+                'is_active' => '0'
+            ]
         ]);
     }
 }

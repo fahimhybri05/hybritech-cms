@@ -96,10 +96,8 @@ export class ContactInfoComponent implements OnInit {
     if (!this.editPhone || !this.editEmail || !this.editAddress) {
       return;
     }
-
     this.formloading = true;
-
-            this.ToastType = 'edit';
+    this.ToastType = 'edit';
     const payload = {
       address: this.editAddress,
       email: this.editEmail,
@@ -109,13 +107,12 @@ export class ContactInfoComponent implements OnInit {
     const recordId = this.contactData.id;
     this.commonService.patch(`AddressInfos(${recordId})`, payload).subscribe({
       next: () => {
-                    this.IsOpenToastAlert.emit();
+        this.IsOpenToastAlert.emit();
         this.refreshTable.emit();
         this.address = this.editAddress;
         this.email = this.editEmail;
         this.phone = this.editPhone;
         this.formloading = false;
-
       },
       error: (error) => {
         this.formloading = false;
