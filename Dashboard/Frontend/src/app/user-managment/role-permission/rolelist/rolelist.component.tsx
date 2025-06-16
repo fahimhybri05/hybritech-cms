@@ -1,4 +1,4 @@
-import { CommonModule, DatePipe } from "@angular/common";
+import { CommonModule, DatePipe } from "@angular/common"; // Make sure CommonModule and DatePipe are imported
 import {
   ChangeDetectorRef,
   Component,
@@ -20,6 +20,7 @@ import React from "react";
 import { RoleaddComponent } from "../roleadd/roleadd.component";
 import { RoledetailsComponent } from "../roledetails/roledetails.component";
 import { RoleeditComponent } from "../roleedit/roleedit.component";
+
 @Component({
   selector: "app-rolelist",
   standalone: true,
@@ -44,12 +45,11 @@ export class RolelistComponent {
   @Output() IsOpenToastAlert = new EventEmitter<void>();
   @Input() permissions: any[] = [];
   @Input() RoleData: any = {};
-  // permissions: any[] = [];
+
   ToastType: string = "";
   itemsPerPage: number;
   currentPage = 1;
   api: boolean;
-  // odata: boolean;
   loading: boolean = false;
   isInsert: boolean = false;
   isEdit: boolean = false;
@@ -65,6 +65,16 @@ export class RolelistComponent {
   selectedRoleData: any = null;
   roles = Role;
   selectedRole: any = null;
+  allPermissions: any[] = [];
+  isPermissionDetailsOpen = false;
+  selectedRolePermissions: any[] = [];
+  selectedRoleName: string = "";
+
+  isPermissionAddDialogOpen = false;
+  currentRoleId: number = 0;
+
+  selectedPermissionIds: number[] = []; 
+
   constructor(
     private commonService: CommonService,
     private datePipe: DatePipe,
@@ -75,37 +85,24 @@ export class RolelistComponent {
     this.Title = "Role";
     this.tableColum();
   }
-  ngOnInit(): void {
-    console.log(this.commonService.api)
-    this.onRowClick(this.selectedRole);
 
+  ngOnInit(): void {
+    this.loadAllPermissions();
+    this.onRowClick(this.selectedRole);
   }
-  
-onRowClick(row: any) {
-  this.selectedRole = row;
-  this.permissions = row.permissions || [];
-   this.cdr.detectChanges();
-}
- permissionColumns() {
-    const columns = [
-      {
-        Header: "Sl No.",
-        accessor: ".",
-        Cell: ({ row }: { row: any }) =>
-          React.createElement("span", null, row.index + 1),
-        width: 70,
-      },
-      {
-        Header: "Permission Name",
-        accessor: "name",
-      },
-      {
-        Header: "Guard Name",
-        accessor: "guard_name",
-      },
-    ];
-    return columns;
+
+  onRowClick(row: any) {
+    this.selectedRole = row;
+    this.permissions = row.permissions || [];
+    this.cdr.detectChanges();
   }
+
+  onRoleClick(role: any) {
+    this.selectedRole = role;
+    this.selectedRolePermissions = role.permissions || [];
+    this.isPermissionDetailsOpen = true;
+  }
+
   tableColum() {
     const columns = [
       {
@@ -140,13 +137,12 @@ onRowClick(row: any) {
         autoResizable: true,
         className: "custom-class-name",
       },
-         {
+      {
         Header: " Guard Name",
         accessor: "guard_name",
         autoResizable: true,
         className: "custom-class-name",
       },
-
       {
         Header: "Created At",
         accessor: "created_at",
@@ -183,7 +179,6 @@ onRowClick(row: any) {
                 this.details(row.original);
               }}
             ></Button>
-
             <Button
               icon="delete"
               design="Transparent"
@@ -197,16 +192,19 @@ onRowClick(row: any) {
     ];
     return columns;
   }
+
   handleInsertData(isInsert: boolean): void {
     if (isInsert) {
       this.isInsert = isInsert;
       this.refreshTable.emit();
     }
   }
+
   closeAddModal() {
     this.isInsert = false;
     this.refreshTable.emit();
   }
+
   deleteRole(original: any) {
     this.isDeleteOpen = true;
     this.selectedRoleId = original.id;
@@ -240,6 +238,7 @@ onRowClick(row: any) {
     this.selectedRoleId = original.id;
     this.selectedRoleData = { ...original };
   }
+
   details(original: any) {
     this.isDetails = true;
     this.selectedRoleId = original.id;
@@ -251,6 +250,7 @@ onRowClick(row: any) {
     this.selectedRoleId = null;
     this.selectedRoleData = null;
   }
+
   editservice(original: any) {
     this.isEdit = true;
     this.selectedRoleId = original.id;
@@ -263,6 +263,93 @@ onRowClick(row: any) {
   }
 
   handleRowClick(rowData: any): void {
-console.log("Row clicked:", rowData);
+    console.log("Row clicked in RolelistComponent:", rowData);
+    this.selectedRolePermissions = rowData.permissions || [];
+    this.selectedRoleName = rowData.name || "";
+    this.selectedRoleId = rowData.id;
+    this.isPermissionDetailsOpen = true;
+    this.cdr.detectChanges();
+    this.loadRolePermissions(rowData.id);
+  }
+
+  closePermissionDetailsModal(): void {
+    this.isPermissionDetailsOpen = false;
+    this.selectedRolePermissions = [];
+    this.selectedRoleName = "";
+    this.cdr.detectChanges();
+  }
+
+  deletablePermission: any = null;
+  isDeleteDialogOpen = false;
+
+  deletePermission(permission: any) {
+    this.deletablePermission = permission;
+    this.isDeleteDialogOpen = true;
+  }
+
+  confirmDeletePermission() {
+    console.log("Deleting Permission:", this.deletablePermission);
+
+    this.selectedRolePermissions = this.selectedRolePermissions.filter(
+      (p) => p.id !== this.deletablePermission.id
+    );
+
+    this.isDeleteDialogOpen = false;
+  }
+
+  open() {
+    this.isPermissionAddDialogOpen = true;
+    this.loadAllPermissions();
+  }
+  openPermissionDialog(roleId: number) {
+    this.currentRoleId = roleId;
+    this.isPermissionAddDialogOpen = true;
+    this.loadAllPermissions();
+    this.loadRolePermissions(roleId);
+  }
+
+  loadAllPermissions() {
+    this.commonService.get("permissions", this.api).subscribe((res: any) => {
+      this.allPermissions = res;
+    });
+  }
+
+  loadRolePermissions(roleId: number) {
+    this.commonService
+      .get(`roles/${roleId}/permissions`, this.api)
+      .subscribe((res: any) => {
+        this.selectedPermissionIds = res.map((p: any) => p.id);
+        console.log("Selected Permission IDs:", this.selectedPermissionIds);
+      });
+  }
+
+  isPermissionChecked(permission: any): boolean {
+    return this.selectedPermissionIds.includes(permission.id);
+  }
+
+  togglePermission(permission: any, event: any) {
+    const isChecked = event.target.checked;
+
+    if (isChecked) {
+      if (!this.selectedPermissionIds.includes(permission.id)) {
+        this.selectedPermissionIds.push(permission.id);
+      }
+    } else {
+      this.selectedPermissionIds = this.selectedPermissionIds.filter(
+        (id) => id !== permission.id
+      );
+    }
+  }
+
+  saveAssignedPermissions() {
+    this.commonService
+      .post(
+        `roles/${this.selectedRoleId}/permissions`,
+        { permissions: this.selectedPermissionIds },
+        this.api
+      )
+      .subscribe(() => {
+        this.isPermissionAddDialogOpen = false;
+      });
   }
 }

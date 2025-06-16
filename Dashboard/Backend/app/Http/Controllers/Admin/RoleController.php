@@ -64,4 +64,29 @@ class RoleController extends Controller
         $role = Role::with('permissions')->findOrFail($id);
         return response()->json($role);
     }
+    public function getRolePermissions($roleId)
+    {
+        $role = Role::findById($roleId);
+        return response()->json($role->permissions);
+    }
+    // public function assignPermissions(Request $request, $id)
+    // {
+    //     $role = Role::findById($id);
+    //     $permissionIds = $request->input('permissions', []);
+    //     $role->syncPermissions($permissionIds);
+
+    //     return response()->json(['message' => 'Permissions assigned successfully']);
+    // }
+    // RoleController.php
+    public function getPermissions(Role $role)
+    {
+        return response()->json($role->permissions);
+    }
+
+    public function assignPermissions(Request $request, Role $role)
+    {
+        $role->syncPermissions($request->permissions); // expects array of IDs
+        return response()->json(['message' => 'Permissions updated']);
+    }
+
 }

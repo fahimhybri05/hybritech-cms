@@ -60,3 +60,11 @@ Route::middleware(['auth:sanctum'])->prefix('admin')->group(function () {
   Route::put('/roles/{id}', [RoleController::class, 'update']);
   // routes/api.php
 Route::get('roles/{id}', [RoleController::class, 'show']);
+
+Route::get('roles/{id}/permissions', [RoleController::class, 'getRolePermissions']);
+Route::post('roles/{id}/assign-permissions', [RoleController::class, 'assignPermissions']);
+
+// routes/api.php
+Route::get('/permissions', [PermissionController::class, 'index']);
+Route::get('/roles/{role}/permissions', [RoleController::class, 'getPermissions']);
+Route::post('/roles/{role}/permissions', [RoleController::class, 'assignPermissions']);

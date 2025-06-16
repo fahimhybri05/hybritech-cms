@@ -74,7 +74,7 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
   @Input() refreshTrigger: EventEmitter<void> = new EventEmitter<void>();
   @Output() rowDoubleClick: EventEmitter<any> = new EventEmitter<any>();
   @Output() onResponseData: EventEmitter<any> = new EventEmitter();
-  @Output() Click = new EventEmitter<any>();
+  @Output() rowClick = new EventEmitter<any>();
   @Input() showStatusFilter?: boolean;
   isSettingOpen: boolean = false;
   settingSearchText: string = "";
@@ -333,8 +333,8 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
   const rowData = event?.detail?.row?.original;
 
   if (rowData) {
-    console.log('Row clicked:', rowData);
-    this.Click.emit(rowData); 
+    //console.log('Row clicked:', rowData);
+    this.rowClick.emit(rowData); 
   }
 };
   handleLoadMore = () => {
@@ -470,7 +470,8 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
                 onAutoResize={function Ki() {}}
                 onColumnsReorder={function Ki() {}}
                 onRowExpandChange={function Ki() {}}
-                onRowSelect={(e) => this.handleClick(e)}
+                // onRowSelect={(e) => this.handleClick(e)}
+                onRowSelect={this.handleClick} 
                 selectionMode={this.selectionMode}
                 subComponentsBehavior="IncludeHeight"
                 subRowsKey="subRows"

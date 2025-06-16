@@ -1,62 +1,84 @@
-<div class="row">
-  <div class="col-md-6">
-    <div style="height: 600px">
-      <react-analytical-table
-        [headerTitle]="Title"
-        [insertTitle]="'Add'"
-        [apiUrl]="'roles?'"
-        [isSearchFilter]="true"
-        [isFilterable]="true"
-        [isOdata]="false"
-        [isGroupable]="false"
-        [isSortable]="true"
-        [isTableTree]="false"
-        [isInfiniteScroll]="true"
-        [infiniteScrollNumber]="10"
-        [minRowsNumber]="15"
-        [headerHeight]="30"
-        [rowHeight]="30"
-        [model]="roles"
-        [selectionMode]="'Single'"
-        [emptyDataText]="'No Data Found'"
-        [tableColumn]="tableColum()"
-        [refreshTrigger]="refreshTable"
-        [showStatusFilter]="false"
-        [isSegmentedState]="false"
-        (isInsertDataChange)="handleInsertData($event)"
-        (rowClick)="handleRowClick($event)"
+<div style="height: 600px">
+  <react-analytical-table
+    [headerTitle]="Title"
+    [insertTitle]="'Add'"
+    [apiUrl]="'roles?'"
+    [isSearchFilter]="true"
+    [isFilterable]="true"
+    [isOdata]="false"
+    [isGroupable]="false"
+    [isSortable]="true"
+    [isTableTree]="false"
+    [isInfiniteScroll]="true"
+    [infiniteScrollNumber]="10"
+    [minRowsNumber]="15"
+    [headerHeight]="30"
+    [rowHeight]="30"
+    [model]="roles"
+    [selectionMode]="'Single'"
+    [emptyDataText]="'No Data Found'"
+    [tableColumn]="tableColum()"
+    [refreshTrigger]="refreshTable"
+    [showStatusFilter]="false"
+    [isSegmentedState]="false"
+    (isInsertDataChange)="handleInsertData($event)"
+    (rowClick)="handleRowClick($event)"
+  >
+  </react-analytical-table>
+  <ui5-dialog
+    class="role-permissions-dialog"
+    [open]="isPermissionDetailsOpen"
+    header-text="Role Permissions{{ roles.name }}"
+  >
+    <div class="dialog-header" >
+      <ui5-button design="Emphasized" (click)="open()"
+        >Permission Add</ui5-button
       >
-      </react-analytical-table>
     </div>
-  </div>
-  <div class="col-md-6">
-    <div style="height: 600px">
-      <react-analytical-table
-        [headerTitle]="'Permissions for Selected Role'"
-        [insertTitle]="'Permissions'"
-        [apiUrl]="'roles(' + selectedRoleId + ') ?$expand=permissions'"
-        [isSearchFilter]="false"
-        [isFilterable]="true"
-        [isOdata]="false"
-        [isGroupable]="false"
-        [isSortable]="true"
-        [isTableTree]="false"
-        [isInfiniteScroll]="true"
-        [infiniteScrollNumber]="10"
-        [minRowsNumber]="15"
-        [headerHeight]="30"
-        [rowHeight]="30"
-        [model]="permissions"
-        [selectionMode]="'Single'"
-        [emptyDataText]="'No Data Found'"
-        [tableColumn]="permissionColumns()"
-        [refreshTrigger]="refreshTable"
-        [showStatusFilter]="false"
-        [isSegmentedState]="false"
-      ></react-analytical-table>
-    </div>
-  </div>
+    <div >
+      <p class="text-muted"
+        *ngIf="selectedRolePermissions.length === 0"
+      >
+        No Permissions Found for this Role.
+      </p>
 
+      <div *ngIf="selectedRolePermissions.length > 0">
+        <table
+          class="table table-bordered"
+         
+        >
+          <thead class="table-header">
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Guard</th>
+              <th class="actions" >Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let permission of selectedRolePermissions; let i = index"
+            >
+              <td>{{ i + 1 }}</td>
+              <td>{{ permission.name }}</td>
+              <td>{{ permission.guard_name }}</td>
+              <td class="actions">
+                <ui5-button
+                  icon="delete"
+                  tooltip="Delete"
+                  (click)="deletePermission(permission)"
+                ></ui5-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div slot="footer" style="display: flex; justify-content: flex-end">
+      <ui5-button (click)="closePermissionDetailsModal()">Close</ui5-button>
+    </div>
+  </ui5-dialog>
   <app-roleadd [isOpen]="isInsert" (close)="closeAddModal()"></app-roleadd>
   <app-roleedit
     [isOpen]="isEdit"
@@ -71,28 +93,72 @@
     [RoleData]="selectedRoleData"
     (close)="closeDetailsModal()"
   ></app-roledetails>
-
-  <ui5-dialog [open]="isDeleteOpen" header-text="Warning" state="Critical">
-    <p *ngIf="!isDeleteLoading">Are you sure you want to remove this user?</p>
-    <div *ngIf="isDeleteLoading">
-      <p>Removing please wait ...</p>
-    </div>
-
-    <div slot="footer" style="display: flex; justify-content: flex-end">
-      <ui5-button
-        (click)="deleteRoleConfirm()"
-        design="Emphasized"
-        [disabled]="isDeleteLoading"
-        >Remove</ui5-button
-      >
-      <ui5-button (click)="isDeleteOpen = false" [disabled]="isDeleteLoading"
-        >Close</ui5-button
-      >
-    </div>
-  </ui5-dialog>
-
   <app-toast-message
     [IsOpenToastAlert]="IsOpenToastAlert"
     [ToastType]="ToastType"
   ></app-toast-message>
 </div>
+
+<ui5-dialog header-text="Confirm Delete" [(open)]="isDeleteDialogOpen">
+  <div style="padding: 1rem">
+    Are you sure you want to delete permission:
+    <strong>{{ deletablePermission?.name }}</strong
+    >?
+  </div>
+
+  <div slot="footer" style="text-align: right">
+    <ui5-button design="Transparent" (click)="isDeleteDialogOpen = false"
+      >Cancel</ui5-button
+    >
+    <ui5-button design="Negative" (click)="confirmDeletePermission()"
+      >Delete</ui5-button
+    >
+  </div>
+</ui5-dialog>
+
+<!-- <ui5-dialog
+  class="permission-add-dialog"
+  header-text="Assign Permissions"
+  [(open)]="isPermissionAddDialogOpen"
+>
+  <div class="permission-list" >
+    <ui5-checkbox
+    *ngFor="let permission of selectedRolePermissions; "
+      [text]="permission.name"
+      [checked]="isPermissionChecked(permission)"
+      (change)="togglePermission(permission, $event)"
+    ></ui5-checkbox>
+  </div>
+
+  <div slot="footer" style="text-align: right">
+    <ui5-button style="margin: 10px;"
+      design="Transparent"
+      (click)="isPermissionAddDialogOpen = false"
+    >
+      Cancel
+    </ui5-button>
+    <ui5-button design="Emphasized" (click)="saveAssignedPermissions()">
+      Save
+    </ui5-button>
+  </div>
+</ui5-dialog> -->
+
+<ui5-dialog
+  class="permission-add-dialog"
+  header-text="Assign Permissions"
+  [(open)]="isPermissionAddDialogOpen"
+>
+  <div class="permission-list" style="padding: 1rem; max-height: 400px; overflow-y: auto">
+    <ui5-checkbox
+      *ngFor="let permission of allPermissions"
+      [text]="permission.name"
+      [checked]="isPermissionChecked(permission)"
+      (change)="togglePermission(permission, $event)"
+    ></ui5-checkbox>
+  </div>
+
+  <div slot="footer" style="text-align: right">
+    <ui5-button style="margin: 10px;" design="Transparent" (click)="isPermissionAddDialogOpen = false">Cancel</ui5-button>
+    <ui5-button design="Emphasized" (click)="saveAssignedPermissions()">Save</ui5-button>
+  </div>
+</ui5-dialog>
