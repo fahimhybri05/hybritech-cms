@@ -85,7 +85,6 @@ export class AddTeamComponent {
       this.errorMessage = 'All fields are required.';
       return;
     }
-
     const formData = new FormData();
     formData.append('name', this.name);
     formData.append('designation', this.designation);

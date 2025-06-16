@@ -7,11 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {
-  BusyIndicatorComponent,
-  InputComponent,
-  LabelComponent,
-} from '@ui5/webcomponents-ngx';
+import { InputComponent, LabelComponent } from '@ui5/webcomponents-ngx';
 import { TextAreaComponent } from '@ui5/webcomponents-ngx/main/text-area';
 import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
 import {
@@ -28,10 +24,10 @@ import { CommonService } from 'app/services/common-service/common.service';
     FormsModule,
     LabelComponent,
     InputComponent,
-    BusyIndicatorComponent,
     AngularEditorModule,
     TextAreaComponent,
     ToastMessageComponent,
+    // Ensure Ui5MainModule is imported if not already in a shared module
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './add-project.component.html',
@@ -83,7 +79,19 @@ export class AddProjectComponent {
       return;
     }
 
+    const validTypes = [
+      'image/jpeg',
+      'image/png',
+      'image/gif',
+      'image/svg+xml',
+    ];
+
     for (const file of files) {
+      if (!validTypes.includes(file.type)) {
+        this.fileTypeError = 'Only JPG, PNG, GIF, and SVG formats are allowed.';
+        input.value = '';
+        return;
+      }
       if (file.size > 2 * 1024 * 1024) {
         this.fileTypeError = 'File size should not exceed 2MB.';
         input.value = '';

@@ -1,6 +1,6 @@
 ui5-dialog {
   width: 100%;
-  max-width: 600px;
+  max-width: 800px;
 }
 
 ui5-busy-indicator {
@@ -90,4 +90,15 @@ ui5-message-strip {
   ui5-dialog {
     width: 90%;
   }
+}
+
+.upload-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.upload-button {
+  margin-left: auto;
 }

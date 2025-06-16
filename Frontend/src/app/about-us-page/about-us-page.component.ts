@@ -9,6 +9,8 @@ import { FormComponent } from '../components/form/form.component';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { DataService } from '@app/services/data.service';
 import { CommonModule } from '@angular/common';
+import { RouterModule, Router } from '@angular/router';
+
 
 interface Project {
   id: number;
@@ -31,7 +33,7 @@ interface Project {
 @Component({
   selector: 'app-about-us-page',
   standalone: true,
-  imports: [FormComponent, CommonModule],
+  imports: [FormComponent, CommonModule, RouterModule],
   templateUrl: './about-us-page.component.html',
   styleUrl: './about-us-page.component.css',
 })
@@ -51,7 +53,8 @@ export class AboutUsPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private sanitizer: DomSanitizer,
-    private dataService: DataService
+    private dataService: DataService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -76,6 +79,25 @@ export class AboutUsPageComponent implements OnInit, OnDestroy {
     event.stopPropagation();
     this.selectedProject = project;
     this.currentImageIndex = 0;
+  }
+  
+  navigateToContact(): void {
+    const modalElement = document.getElementById('projectModal');
+    if (modalElement) {
+      modalElement.classList.remove('show'); 
+      modalElement.style.display = 'none';
+      modalElement.setAttribute('aria-hidden', 'true');
+      modalElement.removeAttribute('aria-modal'); 
+      modalElement.removeAttribute('role'); 
+    }
+    const backdrop = document.querySelector('.modal-backdrop');
+    if (backdrop) {
+      backdrop.remove();
+    }
+    document.body.classList.remove('modal-open');
+    document.body.style.overflow = ''; 
+    document.body.style.paddingRight = ''; 
+    this.router.navigate(['/contact']);
   }
 
   prevImage(): void {

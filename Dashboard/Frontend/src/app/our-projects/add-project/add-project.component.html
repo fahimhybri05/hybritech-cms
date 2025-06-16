@@ -69,14 +69,28 @@
           </div>
         </div>
       </ui5-tab>
+      
       <ui5-tab text="Attachment" design="Inline">
         <section class="tab-content">
           <div class="row">
             <div class="col-md-12">
               <div class="img-upload">
-                <ui5-label show-colon required
-                  >Images (Multiple, Max {{ MAX_FILES }})</ui5-label
-                >
+                <div class="upload-header">
+                  <ui5-label show-colon required
+                    >Images (Multiple, Max {{ MAX_FILES }})</ui5-label
+                  >
+                  <ui5-button
+                    class="upload-button"
+                    [disabled]="selectedFiles.length >= MAX_FILES"
+                    (click)="
+                      selectedFiles.length < MAX_FILES
+                        ? fileUpload.click()
+                        : null
+                    "
+                  >
+                    Upload
+                  </ui5-button>
+                </div>
                 <div
                   class="upload-card"
                   [class.disabled]="selectedFiles.length >= MAX_FILES"
@@ -103,7 +117,6 @@
                     [disabled]="selectedFiles.length >= MAX_FILES"
                   />
                 </div>
-
                 <div
                   *ngIf="selectedFilesUrl.length > 0"
                   class="preview-container"
