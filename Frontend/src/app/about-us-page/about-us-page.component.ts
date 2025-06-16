@@ -1,4 +1,10 @@
-import { Component, ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  ElementRef,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
 import { FormComponent } from '../components/form/form.component';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { DataService } from '@app/services/data.service';
@@ -38,7 +44,7 @@ export class AboutUsPageComponent implements OnInit, OnDestroy {
   isActive = false;
   currentSlide = 0;
   selectedProject: Project | null = null;
-  currentImageIndex: number = 0; 
+  currentImageIndex: number = 0;
   private autoSlideInterval: any;
 
   @ViewChild('teamSlider') teamSlider!: ElementRef;
@@ -49,8 +55,8 @@ export class AboutUsPageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.getProjectData();
-    this.getTeamData();
+    this.getProjectSectionData();
+    this.getTeamSectionData();
     this.getWebpageData();
   }
 
@@ -79,13 +85,16 @@ export class AboutUsPageComponent implements OnInit, OnDestroy {
   }
 
   nextImage(): void {
-    if (this.selectedProject && this.currentImageIndex < this.selectedProject.media.length - 1) {
+    if (
+      this.selectedProject &&
+      this.currentImageIndex < this.selectedProject.media.length - 1
+    ) {
       this.currentImageIndex++;
     }
   }
 
-  getProjectData() {
-    this.dataService.getProjectData().subscribe(
+  getProjectSectionData() {
+    this.dataService.getProjectSectionData().subscribe(
       (response) => {
         this.projects = Array.isArray(response) ? response : [];
       },
@@ -96,8 +105,8 @@ export class AboutUsPageComponent implements OnInit, OnDestroy {
     );
   }
 
-  getTeamData() {
-    this.dataService.getTeamData().subscribe(
+  getTeamSectionData() {
+    this.dataService.getTeamSectionData().subscribe(
       (response) => {
         this.teams = Array.isArray(response) ? response : [];
         if (this.teams.length > 3) {
@@ -121,8 +130,6 @@ export class AboutUsPageComponent implements OnInit, OnDestroy {
         const sections = response.value || [];
         this.projectSection = sections.find((item: any) => item.id === 1);
         this.teamSection = sections.find((item: any) => item.id === 2);
-        console.log('Project Section:', this.projectSection);
-        console.log('Team Section:', this.teamSection);
       },
       (error) => {
         console.error('Error fetching webpage data:', error);
@@ -137,7 +144,6 @@ export class AboutUsPageComponent implements OnInit, OnDestroy {
     const slideCount = this.teams.length;
     const slidesPerView = 3;
     const maxSlideIndex = slideCount;
-
     this.currentSlide += direction;
 
     if (this.currentSlide >= maxSlideIndex) {
@@ -150,12 +156,16 @@ export class AboutUsPageComponent implements OnInit, OnDestroy {
       this.currentSlide = maxSlideIndex - 1;
       const slideWidth = slides[0].offsetWidth;
       slider.style.transition = 'none';
-      slider.style.transform = `translateX(-${this.currentSlide * slideWidth}px)`;
+      slider.style.transform = `translateX(-${
+        this.currentSlide * slideWidth
+      }px)`;
       slider.offsetHeight;
       slider.style.transition = 'transform 0.5s ease';
     } else {
       const slideWidth = slides[0].offsetWidth;
-      slider.style.transform = `translateX(-${this.currentSlide * slideWidth}px)`;
+      slider.style.transform = `translateX(-${
+        this.currentSlide * slideWidth
+      }px)`;
     }
   }
 

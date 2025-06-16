@@ -7,15 +7,18 @@ import {
   Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { InputComponent, LabelComponent } from '@ui5/webcomponents-ngx';
+import {
+  BusyIndicatorComponent,
+  InputComponent,
+  LabelComponent,
+} from '@ui5/webcomponents-ngx';
 import { TextAreaComponent } from '@ui5/webcomponents-ngx/main/text-area';
-import { FormPreloaderComponent } from 'app/components/form-preloader/form-preloader.component';
-import { CommonService } from 'app/services/common-service/common.service';
 import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
 import {
   AngularEditorConfig,
   AngularEditorModule,
 } from '@kolkov/angular-editor';
+import { CommonService } from 'app/services/common-service/common.service';
 
 @Component({
   selector: 'app-add-project',
@@ -25,8 +28,8 @@ import {
     FormsModule,
     LabelComponent,
     InputComponent,
+    BusyIndicatorComponent,
     AngularEditorModule,
-    FormPreloaderComponent,
     TextAreaComponent,
     ToastMessageComponent,
   ],
@@ -40,7 +43,6 @@ export class AddProjectComponent {
   @Output() IsOpenToastAlert = new EventEmitter<void>();
   ToastType: string = '';
   loading: boolean = false;
-  isSuccess: boolean = false;
   errorMessage: string = '';
   fileTypeError: string | null = null;
   placeholder = 'Enter text here...';
@@ -55,8 +57,8 @@ export class AddProjectComponent {
   editorConfig: AngularEditorConfig = {
     editable: true,
     spellcheck: true,
-    height: '20rem',
-    width: '66rem',
+    height: '15rem',
+    width: '100%',
     minHeight: '5rem',
     placeholder: 'Enter text here...',
     translate: 'no',
@@ -81,19 +83,7 @@ export class AddProjectComponent {
       return;
     }
 
-    const validTypes = [
-      'image/jpeg',
-      'image/png',
-      'image/gif',
-      'image/svg+xml',
-    ];
-
     for (const file of files) {
-      if (!validTypes.includes(file.type)) {
-        this.fileTypeError = 'Only JPG, PNG, GIF, and SVG formats are allowed.';
-        input.value = '';
-        return;
-      }
       if (file.size > 2 * 1024 * 1024) {
         this.fileTypeError = 'File size should not exceed 2MB.';
         input.value = '';
@@ -163,7 +153,6 @@ export class AddProjectComponent {
     this.commonService.post('projects', formData, false).subscribe({
       next: (response: any) => {
         this.loading = false;
-        this.isSuccess = true;
         this.ToastType = 'add';
         setTimeout(() => {
           this.IsOpenToastAlert.emit();

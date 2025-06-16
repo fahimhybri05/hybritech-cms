@@ -26,13 +26,10 @@ export class Team implements Deserializable {
   }
 
    serialize(): any {
-    return {
-      id: this.id,
-      name: this.name,
-      designation: this.designation,
-      created_at: this.created_at,
-      is_active: this.is_active,
-      imageUrl: this.imageUrl
-    };
-  }
+  return {
+    ...this,
+    media: undefined, 
+    deserialize: undefined, 
+  };
+}
 }

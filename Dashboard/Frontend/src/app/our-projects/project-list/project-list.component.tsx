@@ -97,25 +97,6 @@ ngOnInit(): void {}
         autoResizable: true,
         className: "custom-class-name",
       },
-      // {
-      //   Header: "Image",
-      //   accessor: "media",
-      //   autoResizable: true,
-      //   className: "custom-class-name",
-      //   hAlign: "Center" as TextAlign,
-      //   Cell: ({ value }: any) =>
-      //     value?.[0]?.original_url ? (
-      //       <img
-      //         src={value[0].original_url}
-      //         alt="Service"
-      //         style={{ margin: "5px" }}
-      //         width="90"
-      //         height="70"
-      //       />
-      //     ) : (
-      //       <span>No Image</span>
-      //     ),
-      // },
       {
         Header: "Created At",
         accessor: "created_at",

@@ -45,7 +45,10 @@
               *ngIf="projectData?.media?.length > 0"
               class="preview-container"
             >
-              <div *ngFor="let media of projectData?.media" class="image-preview">
+              <div
+                *ngFor="let media of projectData?.media"
+                class="image-preview"
+              >
                 <img
                   [src]="media.original_url"
                   [alt]="media.file_name"
@@ -54,7 +57,10 @@
                 />
               </div>
             </div>
-            <p *ngIf="!projectData?.media || projectData?.media?.length === 0" class="no-images">
+            <p
+              *ngIf="!projectData?.media || projectData?.media?.length === 0"
+              class="no-images"
+            >
               No images available
             </p>
           </div>

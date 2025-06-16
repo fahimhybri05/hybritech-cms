@@ -80,10 +80,6 @@ export class AddTeamComponent {
     }
   }
 
-  closeDialog() {
-    this.isOpen = false;
-    this.close.emit();
-  }
   insertData() {
     if (!this.name || !this.designation || !this.selectedFile) {
       this.errorMessage = 'All fields are required.';
@@ -105,7 +101,6 @@ export class AddTeamComponent {
         setTimeout(() => {
           this.IsOpenToastAlert.emit();
         }, 1000);
-        this.resetForm();
         this.closeDialog();
       },
       (error) => {
@@ -117,6 +112,13 @@ export class AddTeamComponent {
       }
     );
   }
+
+  closeDialog() {
+    this.isOpen = false;
+    this.resetForm();
+    this.close.emit();
+  }
+
   clearSelectedImage() {
     this.selectedFile = null;
     this.selectedFileUrl = null;

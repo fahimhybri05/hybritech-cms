@@ -25,14 +25,14 @@ import { FormPreloaderComponent } from '@app/components/form-preloader/form-prel
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './team-details.component.html',
-  styleUrl: './team-details.component.css'
+  styleUrl: './team-details.component.css',
 })
 export class TeamDetailsComponent implements OnChanges {
   @Input() isOpen: boolean | null = null;
   @Input() teamId: number | null = null;
   @Input() teamData: any = null;
   @Output() close = new EventEmitter<void>();
-  
+
   loading: boolean = false;
   name: string = '';
   designation: string = '';

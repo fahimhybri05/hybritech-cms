@@ -24,10 +24,6 @@
   (rowDoubleClick)="editTeam($event)"
 ></react-analytical-table>
 
-<!-- <app-add-team>
-  [isOpen]="isInsert"
-  (close)="closeAddModal()" 
-</app-add-team> -->
 <app-add-team
   [isOpen]="isInsert"
   (close)="closeAddModal()" 
@@ -58,16 +54,7 @@
     <p>Deleting please wait ...</p>
   </div>
 
-  <div
-    slot="footer"
-    style="
-      display: flex;
-      align-items: center;
-      justify-content: end;
-      width: 100%;
-      box-sizing: border-box;
-    "
-  >
+  <div slot="footer">
     <ui5-button
       (click)="deleteItemConfirm()"
       design="Emphasized"

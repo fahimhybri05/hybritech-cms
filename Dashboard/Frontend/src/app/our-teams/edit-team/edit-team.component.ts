@@ -12,7 +12,11 @@ import { FormsModule } from '@angular/forms';
 import { FormPreloaderComponent } from '@app/components/form-preloader/form-preloader.component';
 import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
 import { CommonService } from '@app/services/common-service/common.service';
-import { InputComponent, LabelComponent, TextAreaComponent } from '@ui5/webcomponents-ngx';
+import {
+  InputComponent,
+  LabelComponent,
+  TextAreaComponent,
+} from '@ui5/webcomponents-ngx';
 
 @Component({
   selector: 'app-edit-team',
@@ -28,7 +32,7 @@ import { InputComponent, LabelComponent, TextAreaComponent } from '@ui5/webcompo
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './edit-team.component.html',
-  styleUrl: './edit-team.component.css'
+  styleUrl: './edit-team.component.css',
 })
 export class EditTeamComponent implements OnChanges {
   @Input() isOpen: boolean | null = null;
@@ -37,7 +41,7 @@ export class EditTeamComponent implements OnChanges {
   @Output() close = new EventEmitter<void>();
   @Output() IsOpenToastAlert = new EventEmitter<void>();
   @Output() refreshTable = new EventEmitter<void>();
-  
+
   ToastType: string = '';
   loading: boolean = false;
   isSuccess: boolean = false;
@@ -121,23 +125,21 @@ export class EditTeamComponent implements OnChanges {
     formData.append('name', this.name);
     formData.append('designation', this.designation);
     formData.append('is_active', this.isActive ? '1' : '0');
-    
+
     if (this.selectedFile) {
       formData.append('image', this.selectedFile);
     }
-    
-    formData.append('_method', 'put');
 
+    formData.append('_method', 'put');
     this.loading = true;
     this.errorMessage = '';
-
     this.commonService.post(`teams/${this.teamId}`, formData, false).subscribe({
       next: (response: any) => {
         this.handleSuccessResponse(response);
       },
       error: (error) => {
         this.handleErrorResponse(error);
-      }
+      },
     });
   }
 
@@ -145,7 +147,7 @@ export class EditTeamComponent implements OnChanges {
     this.loading = false;
     this.isSuccess = true;
     this.ToastType = 'edit';
-    
+
     setTimeout(() => {
       this.IsOpenToastAlert.emit();
       this.refreshTable.emit();
@@ -155,7 +157,8 @@ export class EditTeamComponent implements OnChanges {
 
   private handleErrorResponse(error: any) {
     this.loading = false;
-    this.errorMessage = error.error?.message || 'An error occurred while updating the data.';
+    this.errorMessage =
+      error.error?.message || 'An error occurred while updating the data.';
     console.error(error);
   }
 
@@ -164,7 +167,6 @@ export class EditTeamComponent implements OnChanges {
     this.selectedFileUrl = null;
     this.errorMessage = '';
     this.fileTypeError = null;
-    
     this.isOpen = false;
     this.close.emit();
   }

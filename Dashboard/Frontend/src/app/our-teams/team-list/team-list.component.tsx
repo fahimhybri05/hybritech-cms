@@ -14,9 +14,9 @@ import { Team } from "@app/shared/Model/team";
 import { Button, Icon, TextAlign } from "@ui5/webcomponents-react";
 import { ToastMessageComponent } from "@app/components/toast-message/toast-message.component";
 import React from "react";
-import { AddTeamComponent } from "../add-team/add-team.component";
-import { EditTeamComponent } from "../edit-team/edit-team.component";
-import { TeamDetailsComponent } from "../team-details/team-details.component";
+import { AddTeamComponent } from "@app/our-teams/add-team/add-team.component";
+import { EditTeamComponent } from "@app/our-teams/edit-team/edit-team.component";
+import { TeamDetailsComponent } from "@app/our-teams/team-details/team-details.component";
 
 @Component({
   selector: "app-team-list",
@@ -27,8 +27,8 @@ import { TeamDetailsComponent } from "../team-details/team-details.component";
     ToastMessageComponent,
     AddTeamComponent,
     EditTeamComponent,
-    TeamDetailsComponent
-],
+    TeamDetailsComponent,
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: "./team-list.component.html",
   styleUrl: "./team-list.component.css",
@@ -219,7 +219,6 @@ export class TeamListComponent implements OnInit {
     const id = this.selectedItemId;
     this.commonService.delete(`teams/${id}`, this.api).subscribe({
       next: (response: any) => {
-        console.log(response);
         this.isSuccess = true;
         this.isDeleteOpen = false;
         this.isDeleteLoading = false;

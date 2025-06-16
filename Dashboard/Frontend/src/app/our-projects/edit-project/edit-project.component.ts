@@ -11,13 +11,12 @@ import {
 import { FormsModule } from '@angular/forms';
 import { InputComponent, LabelComponent } from '@ui5/webcomponents-ngx';
 import { TextAreaComponent } from '@ui5/webcomponents-ngx/main/text-area';
-import { FormPreloaderComponent } from 'app/components/form-preloader/form-preloader.component';
-import { CommonService } from 'app/services/common-service/common.service';
 import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
 import {
   AngularEditorConfig,
   AngularEditorModule,
 } from '@kolkov/angular-editor';
+import { CommonService } from 'app/services/common-service/common.service';
 
 @Component({
   selector: 'app-edit-project',
@@ -28,9 +27,9 @@ import {
     LabelComponent,
     InputComponent,
     AngularEditorModule,
-    FormPreloaderComponent,
     TextAreaComponent,
     ToastMessageComponent,
+    // Add Ui5MainModule if not in a shared module
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './edit-project.component.html',
@@ -45,7 +44,6 @@ export class EditProjectComponent implements OnChanges {
   @Output() refreshTable = new EventEmitter();
   ToastType: string = '';
   loading: boolean = false;
-  isSuccess: boolean = false;
   errorMessage: string = '';
   fileTypeError: string | null = null;
   placeholder = 'Enter text here...';
@@ -61,8 +59,8 @@ export class EditProjectComponent implements OnChanges {
   editorConfig: AngularEditorConfig = {
     editable: true,
     spellcheck: true,
-    height: '20rem',
-    width: '66rem',
+    height: '15rem',
+    width: '100%',
     minHeight: '5rem',
     placeholder: 'Enter text here...',
     translate: 'no',
@@ -88,7 +86,6 @@ export class EditProjectComponent implements OnChanges {
   onFileSelect(event: Event) {
     const input = event.target as HTMLInputElement;
     if (!input.files || input.files.length === 0) return;
-
     const files = Array.from(input.files);
     const totalImages =
       (this.projectData?.media?.length || 0) -
@@ -198,7 +195,6 @@ export class EditProjectComponent implements OnChanges {
       .subscribe({
         next: (response: any) => {
           this.loading = false;
-          this.isSuccess = true;
           this.ToastType = 'edit';
           setTimeout(() => {
             this.IsOpenToastAlert.emit();

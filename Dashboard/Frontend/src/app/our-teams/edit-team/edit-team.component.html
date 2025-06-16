@@ -68,14 +68,13 @@
         <div class="row">
           <div class="col-md-12">
             <div class="img-upload">
-              <!-- Show upload card only when there's no existing image and no selected file -->
               <div
                 class="upload-card"
                 (click)="fileUpload.click()"
                 *ngIf="!currentImageUrl && !selectedFileUrl"
               >
                 <img
-                  src="../../../assets/img/file-upload.png"
+                  src="assets/img/file-upload.png"
                   height="100px"
                   alt="Upload icon"
                 />
@@ -90,25 +89,23 @@
                 />
               </div>
 
-              <!-- Show existing image or newly selected image -->
-              <div *ngIf="currentImageUrl || selectedFileUrl" class="image-preview">
+              <div
+                *ngIf="currentImageUrl || selectedFileUrl"
+                class="image-preview"
+              >
                 <div class="preview-container">
-                  <!-- Show newly selected image if available -->
                   <img
                     *ngIf="selectedFileUrl"
                     [src]="selectedFileUrl"
                     alt="New Selected Image"
                     class="preview-image"
                   />
-                  
-                  <!-- Show existing image if no new file selected -->
                   <img
                     *ngIf="!selectedFileUrl && currentImageUrl"
                     [src]="currentImageUrl"
                     alt="Current Image"
                     class="preview-image"
                   />
-                  
                   <div class="preview-actions">
                     <ui5-button
                       design="Negative"
