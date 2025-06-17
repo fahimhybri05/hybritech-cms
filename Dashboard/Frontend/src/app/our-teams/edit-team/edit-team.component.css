@@ -1,6 +1,6 @@
 ui5-dialog {
   width: 580px;
-  max-height: 80vh; 
+  max-height: 80vh;
   overflow-y: auto;
 }
 
@@ -32,7 +32,17 @@ ui5-dialog {
   gap: 1rem;
 }
 
-/* File Upload Styles */
+.upload-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.upload-button {
+  margin-left: auto;
+}
+
 .upload-card {
   border: 2px dashed #a9b2be;
   border-radius: 8px;
@@ -47,6 +57,15 @@ ui5-dialog {
 .upload-card:hover {
   border-color: #0854a0;
   background-color: #ebf5ff;
+}
+
+.upload-card.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.upload-icon {
+  height: 60px;
 }
 
 .upload-text {
@@ -64,31 +83,32 @@ ui5-dialog {
   display: none;
 }
 
-/* Image Preview Styles */
-.image-preview {
-  margin-top: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
 .preview-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.image-preview {
+  position: relative;
+  width: 80px;
+  height: 80px;
 }
 
 .preview-image {
-  max-width: 100%;
-  max-height: 300px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
 }
 
-.preview-actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
+.remove-button {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+}
+
+ui5-message-strip {
+  margin: 10px 0;
 }

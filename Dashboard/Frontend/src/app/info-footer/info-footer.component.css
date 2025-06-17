@@ -1,9 +1,27 @@
-ui5-busy-indicator{
+ui5-card {
+    margin-top: 20px;
+    height: 180px;
+}
+
+.ui5-busy-indicator {
     display: flex;
     align-items: center;
     justify-content: center;
 }
-ui5-card{
-    margin-top: 20px;
-    height: 180px;
+
+.section-row {
+    display: flex;
+    flex-direction: column; 
+    padding-left: 20px;
+    gap: 10px; 
+}
+
+.section-row > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.dynamic-active{
+    margin-left: 200px;
 }

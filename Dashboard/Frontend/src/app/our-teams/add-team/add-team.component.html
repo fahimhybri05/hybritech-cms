@@ -18,7 +18,7 @@
     *ngIf="errorMessage"
     (close)="clearErrorMessage($event)"
   >
-  <ui5-icon name="alert" slot="icon"></ui5-icon> {{ errorMessage }}
+    <ui5-icon name="alert" slot="icon"></ui5-icon> {{ errorMessage }}
   </ui5-message-strip>
   <ui5-message-strip
     design="Negative"
@@ -65,15 +65,25 @@
         <div class="row">
           <div class="col-md-12">
             <div class="img-upload">
+              <div class="upload-header">
+                <ui5-label show-colon required>Image </ui5-label>
+                <ui5-button
+                  class="upload-button"
+                  [disabled]="selectedFileUrl"
+                  (click)="selectedFileUrl ? null : fileUpload.click()"
+                >
+                  Upload
+                </ui5-button>
+              </div>
               <div
                 class="upload-card"
-                (click)="fileUpload.click()"
-                *ngIf="!selectedFileUrl"
+                [class.disabled]="selectedFileUrl"
+                (click)="selectedFileUrl ? null : fileUpload.click()"
               >
                 <img
-                  src="../../../assets/img/file-upload.png"
-                  height="100px"
-                  alt=""
+                  src="assets/img/file-upload.png"
+                  alt="Upload Icon"
+                  class="upload-icon"
                 />
                 <div class="upload-text">Click to upload or drag and drop</div>
                 <div class="upload-subtext">SVG, PNG, JPG (max. 2MB)</div>
@@ -83,26 +93,23 @@
                   class="file-input"
                   (change)="onFileSelect($event)"
                   accept="image/*"
+                  [disabled]="selectedFileUrl"
                 />
               </div>
-
-              <!-- Image Preview -->
-              <div *ngIf="selectedFileUrl" class="image-preview">
-                <div class="preview-container">
+              <div *ngIf="selectedFileUrl" class="preview-container">
+                <div class="image-preview">
                   <img
                     [src]="selectedFileUrl"
                     alt="Selected Image"
                     class="preview-image"
                   />
-                  <div class="preview-actions">
-                    <ui5-button
-                      design="Negative"
-                      (click)="clearSelectedImage()"
-                      icon="delete"
-                    >
-                      Remove
-                    </ui5-button>
-                  </div>
+                  <ui5-button
+                    design="Negative"
+                    (click)="clearSelectedImage()"
+                    icon="decline"
+                    class="remove-button"
+                    aria-label="Remove image"
+                  ></ui5-button>
                 </div>
               </div>
             </div>

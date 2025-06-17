@@ -1,6 +1,20 @@
+
+.tab-content {
+  width: 80rem;
+}
+ui5-tabcontainer {
+  max-height: 700px;
+  overflow: hidden;
+}
+
+ui5-tab {
+  min-height: 700px;
+  overflow: hidden;
+}
+
 ui5-dialog {
-  width: 100%;
-  max-width: 800px;
+  min-height: 600px;
+  overflow: hidden;
 }
 
 ui5-busy-indicator {
@@ -30,9 +44,8 @@ ui5-label {
   cursor: pointer;
 }
 
-.upload-card.disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
+.upload-card.hidden {
+  display: none;
 }
 
 .upload-icon {
@@ -53,43 +66,57 @@ ui5-label {
 
 .preview-container {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 10px;
   margin-top: 15px;
+  min-height: 100px;
 }
 
-.image-preview {
-  position: relative;
-  width: 80px;
-  height: 80px;
+.preview-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.radio-btn {
+  margin-right: 10px;
 }
 
 .preview-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  border-radius: 50%;
+  object-fit: cover; 
+}
+
+.preview-details {
+  flex-grow: 1;
+}
+
+.preview-filename {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.preview-meta {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.preview-filesize {
+  margin-left: 10px;
 }
 
 .remove-button {
-  position: absolute;
-  top: -8px;
-  right: -8px;
+  margin-left: 10px;
 }
 
 ui5-message-strip {
   margin: 10px 0;
-}
-
-
-.info-tab,
-.tab-content {
-  padding: 15px;
-}
-
-@media (max-width: 768px) {
-  ui5-dialog {
-    width: 90%;
-  }
 }
 
 .upload-header {

@@ -6,39 +6,23 @@
       </div>
       <div>
         <ui5-card>
-          <ui5-card-header
-            slot="header"
-            titleText="Dynamic Section"
-            interactive
-          >
+          <ui5-card-header slot="header" titleText="Dynamic Section" interactive>
           </ui5-card-header>
           <section>
             <ui5-busy-indicator [active]="loading" [delay]="100">
-              <div class="section-container">
-                <div
-                  class="section-row"
-                  *ngFor="let item of webPages; let i = index"
-                >
-                  <div
-                    class="d-flex justify-content-between align-items-center w-100"
-                  >
-                    <span>{{ item.title }} :</span>
-                    <div class="d-flex align-items-center gap-3">
-                      <ui5-title level="H5">Active :</ui5-title>
-                      <ui5-switch
-                        [checked]="item.is_active"
-                        (click)="toggleActive(item, $event)"
-                      ></ui5-switch>
-                    </div>
+              <div class="section-row">
+                <div *ngFor="let item of webPages; let i = index">
+                  <span>{{ item.title }} :</span>
+                  <div class="d-flex align-items-center gap-3">
+                    <ui5-title level="H5" class="dynamic-active">Active :</ui5-title>
+                    <ui5-switch [checked]="item.is_active" (click)="toggleActive(item, $event)"></ui5-switch>
                   </div>
                 </div>
               </div>
             </ui5-busy-indicator>
           </section>
-          <div class="col-md-11 d-flex justify-content-end my-3">
-            <ui5-button design="Emphasized" (click)="updateData()"
-              >Update</ui5-button
-            >
+          <div class="col-md-11 d-flex justify-content-end">
+            <ui5-button design="Emphasized" (click)="updateData()">Update</ui5-button>
           </div>
         </ui5-card>
       </div>
@@ -48,8 +32,4 @@
     </div>
   </div>
 </div>
-
-<app-toast-message
-  [IsOpenToastAlert]="IsOpenToastAlert"
-  [ToastType]="ToastType"
-></app-toast-message>
+<app-toast-message [IsOpenToastAlert]="IsOpenToastAlert" [ToastType]="ToastType"></app-toast-message>

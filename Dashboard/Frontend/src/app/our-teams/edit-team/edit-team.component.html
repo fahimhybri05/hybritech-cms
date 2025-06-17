@@ -68,15 +68,31 @@
         <div class="row">
           <div class="col-md-12">
             <div class="img-upload">
+              <div class="upload-header">
+                <ui5-label show-colon required>Image</ui5-label>
+                <ui5-button
+                  class="upload-button"
+                  [disabled]="currentImageUrl || selectedFileUrl"
+                  (click)="
+                    currentImageUrl || selectedFileUrl
+                      ? null
+                      : fileUpload.click()
+                  "
+                >
+                  Upload
+                </ui5-button>
+              </div>
               <div
                 class="upload-card"
-                (click)="fileUpload.click()"
-                *ngIf="!currentImageUrl && !selectedFileUrl"
+                [class.disabled]="currentImageUrl || selectedFileUrl"
+                (click)="
+                  currentImageUrl || selectedFileUrl ? null : fileUpload.click()
+                "
               >
                 <img
                   src="assets/img/file-upload.png"
-                  height="100px"
-                  alt="Upload icon"
+                  alt="Upload Icon"
+                  class="upload-icon"
                 />
                 <div class="upload-text">Click to upload or drag and drop</div>
                 <div class="upload-subtext">SVG, PNG, JPG (max. 2MB)</div>
@@ -86,35 +102,26 @@
                   class="file-input"
                   (change)="onFileSelect($event)"
                   accept="image/*"
+                  [disabled]="currentImageUrl || selectedFileUrl"
                 />
               </div>
-
               <div
                 *ngIf="currentImageUrl || selectedFileUrl"
-                class="image-preview"
+                class="preview-container"
               >
-                <div class="preview-container">
+                <div class="image-preview">
                   <img
-                    *ngIf="selectedFileUrl"
-                    [src]="selectedFileUrl"
-                    alt="New Selected Image"
+                    [src]="selectedFileUrl || currentImageUrl"
+                    alt="Selected or Current Image"
                     class="preview-image"
                   />
-                  <img
-                    *ngIf="!selectedFileUrl && currentImageUrl"
-                    [src]="currentImageUrl"
-                    alt="Current Image"
-                    class="preview-image"
-                  />
-                  <div class="preview-actions">
-                    <ui5-button
-                      design="Negative"
-                      (click)="removeCurrentImage()"
-                      icon="delete"
-                    >
-                      Remove
-                    </ui5-button>
-                  </div>
+                  <ui5-button
+                    design="Negative"
+                    (click)="removeImage()"
+                    icon="decline"
+                    class="remove-button"
+                    aria-label="Remove image"
+                  ></ui5-button>
                 </div>
               </div>
             </div>

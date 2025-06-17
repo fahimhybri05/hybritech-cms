@@ -5,6 +5,11 @@ import {
   EventEmitter,
   Input,
   Output,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InputComponent, LabelComponent } from '@ui5/webcomponents-ngx';
@@ -15,6 +20,7 @@ import {
   AngularEditorModule,
 } from '@kolkov/angular-editor';
 import { CommonService } from 'app/services/common-service/common.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-add-project',
@@ -27,16 +33,18 @@ import { CommonService } from 'app/services/common-service/common.service';
     AngularEditorModule,
     TextAreaComponent,
     ToastMessageComponent,
-    // Ensure Ui5MainModule is imported if not already in a shared module
+    DatePipe,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './add-project.component.html',
   styleUrls: ['./add-project.component.css'],
 })
-export class AddProjectComponent {
+export class AddProjectComponent implements AfterViewInit, OnChanges {
   @Input() isOpen: boolean | null = null;
   @Output() close = new EventEmitter<void>();
   @Output() IsOpenToastAlert = new EventEmitter<void>();
+  @ViewChild('tabContainer') tabContainer!: ElementRef;
+
   ToastType: string = '';
   loading: boolean = false;
   errorMessage: string = '';
@@ -46,15 +54,15 @@ export class AddProjectComponent {
   subtitle: string = '';
   description: string = '';
   selectedFiles: File[] = [];
-  selectedFilesUrl: { name: string; url: string }[] = [];
+  selectedFilesUrl: { name: string; url: string; uploadDate: Date; fileSize: number }[] = [];
   isActive: boolean = true;
   MAX_FILES = 5;
 
   editorConfig: AngularEditorConfig = {
     editable: true,
     spellcheck: true,
-    height: '15rem',
-    width: '100%',
+    height: '20rem',
+    width: '80rem',
     minHeight: '5rem',
     placeholder: 'Enter text here...',
     translate: 'no',
@@ -63,6 +71,28 @@ export class AddProjectComponent {
   };
 
   constructor(private commonService: CommonService) {}
+
+  ngAfterViewInit() {
+    this.selectInfoTab();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['isOpen'] && changes['isOpen'].currentValue === true) {
+      this.resetForm();
+      this.selectInfoTab();
+    }
+  }
+
+  selectInfoTab() {
+    if (this.tabContainer && this.tabContainer.nativeElement) {
+      const tabs = this.tabContainer.nativeElement.querySelectorAll('ui5-tab');
+      if (tabs.length > 0) {
+        tabs.forEach((tab: any, index: number) => {
+          tab.selected = index === 0;
+        });
+      }
+    }
+  }
 
   toggleActive($event: any) {
     this.isActive = $event.target.checked;
@@ -79,19 +109,7 @@ export class AddProjectComponent {
       return;
     }
 
-    const validTypes = [
-      'image/jpeg',
-      'image/png',
-      'image/gif',
-      'image/svg+xml',
-    ];
-
     for (const file of files) {
-      if (!validTypes.includes(file.type)) {
-        this.fileTypeError = 'Only JPG, PNG, GIF, and SVG formats are allowed.';
-        input.value = '';
-        return;
-      }
       if (file.size > 2 * 1024 * 1024) {
         this.fileTypeError = 'File size should not exceed 2MB.';
         input.value = '';
@@ -101,25 +119,26 @@ export class AddProjectComponent {
       this.selectedFilesUrl.push({
         name: file.name,
         url: URL.createObjectURL(file),
+        uploadDate: new Date(),
+        fileSize: Math.round(file.size / 1024),
       });
     }
     this.fileTypeError = null;
     input.value = '';
   }
 
+  getFileSize(fileName: string): number {
+    const file = this.selectedFilesUrl.find(f => f.name === fileName);
+    return file ? file.fileSize : 0;
+  }
+
   removeImage(fileName: string) {
-    const fileToRemove = this.selectedFilesUrl.find(
-      (file) => file.name === fileName
-    );
+    const fileToRemove = this.selectedFilesUrl.find((file) => file.name === fileName);
     if (fileToRemove) {
       URL.revokeObjectURL(fileToRemove.url);
     }
-    this.selectedFilesUrl = this.selectedFilesUrl.filter(
-      (file) => file.name !== fileName
-    );
-    this.selectedFiles = this.selectedFiles.filter(
-      (file) => file.name !== fileName
-    );
+    this.selectedFilesUrl = this.selectedFilesUrl.filter((file) => file.name !== fileName);
+    this.selectedFiles = this.selectedFiles.filter((file) => file.name !== fileName);
   }
 
   clearErrorMessage(event: Event) {
@@ -139,8 +158,7 @@ export class AddProjectComponent {
       !this.description ||
       !this.selectedFilesUrl.length
     ) {
-      this.errorMessage =
-        'Title, Subtitle, Description, and Images are required.';
+      this.errorMessage = 'Title, Subtitle, Description, and Images are required.';
       return;
     }
     if (this.selectedFiles.length === 0) {
@@ -169,9 +187,7 @@ export class AddProjectComponent {
       },
       error: (error) => {
         this.loading = false;
-        this.errorMessage =
-          error.error?.message ||
-          'An error occurred while submitting the data.';
+        this.errorMessage = error.error?.message || 'An error occurred while submitting the data.';
         console.error(error);
       },
     });

@@ -81,7 +81,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         {
           id: 'teams',
           method: 'GET',
-          url: '/odata/TeamPageDetails?$count=true',
+          url: '/odata/Teams?$count=true',
         },
         {
           id: 'contactUsFormData',
@@ -182,6 +182,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.createCountItem('Job Applications', 0, 'employee', [
         'job-applications',
       ]),
+      this.createCountItem('Teams', 0, 'form', ['teams']),
       this.createCountItem('FAQs', 0, 'question-mark', ['faqs']),
       this.createCountItem('Common Forms', 0, 'form', ['common-forms']),
       this.createCountItem('Contact Us', 0, 'email', ['contact-us']),

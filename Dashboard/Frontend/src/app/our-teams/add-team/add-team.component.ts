@@ -5,16 +5,13 @@ import {
   EventEmitter,
   Input,
   Output,
-  OnInit,
 } from '@angular/core';
-
 import { FormsModule } from '@angular/forms';
 import { InputComponent, LabelComponent } from '@ui5/webcomponents-ngx';
 import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
 import { TextAreaComponent } from '@ui5/webcomponents-ngx/main/text-area';
 import { CommonService } from '@app/services/common-service/common.service';
 import { FormPreloaderComponent } from 'app/components/form-preloader/form-preloader.component';
-import { Team } from '@app/shared/Model/team';
 
 @Component({
   selector: 'app-add-team',
@@ -46,38 +43,49 @@ export class AddTeamComponent {
   selectedFile: File | null = null;
   selectedFileUrl: string | null = null;
   isActive: boolean = true;
+
   constructor(private commonService: CommonService) {}
+
   toggleActive($event: any) {
-    if ($event.target.checked) {
-      this.isActive = true;
-    } else {
-      this.isActive = false;
-    }
+    this.isActive = $event.target.checked;
   }
-  onFileSelect(event: any) {
-    const file = event.target.files[0];
+
+  onFileSelect(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
+
+    const file = input.files[0];
     if (file) {
       const fileType = file.type;
-      if (
-        !['image/jpeg', 'image/jpg', 'image/png', 'image/gif'].includes(
-          fileType
-        )
-      ) {
-        this.fileTypeError = 'Only JPG, JPEG, PNG and GIF formats are allowed.';
+      const validTypes = [
+        'image/jpeg',
+        'image/png',
+        'image/gif',
+        'image/svg+xml',
+      ];
+      if (!validTypes.includes(fileType)) {
+        this.fileTypeError = 'Only JPG, PNG, GIF, and SVG formats are allowed.';
+        input.value = '';
         return;
       }
       if (file.size > 2 * 1024 * 1024) {
         this.fileTypeError = 'File size should not exceed 2MB.';
+        input.value = '';
         return;
       }
       this.fileTypeError = null;
       this.selectedFile = file;
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.selectedFileUrl = e.target.result;
-      };
-      reader.readAsDataURL(file);
+      this.selectedFileUrl = URL.createObjectURL(file);
+      input.value = '';
     }
+  }
+
+  clearSelectedImage() {
+    if (this.selectedFileUrl) {
+      URL.revokeObjectURL(this.selectedFileUrl);
+    }
+    this.selectedFile = null;
+    this.selectedFileUrl = null;
   }
 
   insertData() {
@@ -89,11 +97,10 @@ export class AddTeamComponent {
     formData.append('name', this.name);
     formData.append('designation', this.designation);
     formData.append('is_active', this.isActive ? '1' : '0');
-    formData.append('image', this.selectedFile);
+    formData.append('image', this.selectedFile!);
     this.loading = true;
-    this.commonService.post('teams', formData, false).subscribe(
-      (response: any) => {
-        console.log(response);
+    this.commonService.post('teams', formData, false).subscribe({
+      next: (response: any) => {
         this.loading = false;
         this.isSuccess = true;
         this.ToastType = 'add';
@@ -102,25 +109,20 @@ export class AddTeamComponent {
         }, 1000);
         this.closeDialog();
       },
-      (error) => {
+      error: (error) => {
         this.loading = false;
         this.errorMessage =
           error.error?.message ||
           'An error occurred while submitting the data.';
         console.error(error);
-      }
-    );
+      },
+    });
   }
 
   closeDialog() {
     this.isOpen = false;
     this.resetForm();
     this.close.emit();
-  }
-
-  clearSelectedImage() {
-    this.selectedFile = null;
-    this.selectedFileUrl = null;
   }
 
   clearErrorMessage(event: Event) {
@@ -135,8 +137,14 @@ export class AddTeamComponent {
 
   resetForm() {
     this.errorMessage = '';
+    this.fileTypeError = null;
     this.name = '';
     this.designation = '';
-    this.selectedFileUrl = '';
+    if (this.selectedFileUrl) {
+      URL.revokeObjectURL(this.selectedFileUrl);
+    }
+    this.selectedFile = null;
+    this.selectedFileUrl = null;
+    this.isActive = true;
   }
 }

@@ -69,40 +69,43 @@ export class EditTeamComponent implements OnChanges {
     this.isActive = $event.target.checked;
   }
 
-  onFileSelect(event: any) {
-    const file = event.target.files[0];
-    if (!file) return;
+  onFileSelect(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
 
-    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+    const file = input.files[0];
+    const validTypes = [
+      'image/jpeg',
+      'image/png',
+      'image/gif',
+      'image/svg+xml',
+    ];
     if (!validTypes.includes(file.type)) {
-      this.fileTypeError = 'Only JPG, JPEG, PNG and GIF formats are allowed.';
+      this.fileTypeError = 'Only JPG, PNG, GIF, and SVG formats are allowed.';
+      input.value = '';
       return;
     }
 
     if (file.size > 2 * 1024 * 1024) {
       this.fileTypeError = 'File size should not exceed 2MB.';
+      input.value = '';
       return;
     }
 
     this.fileTypeError = null;
     this.selectedFile = file;
-
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      this.selectedFileUrl = e.target.result;
-    };
-    reader.readAsDataURL(file);
+    this.selectedFileUrl = URL.createObjectURL(file);
+    this.currentImageUrl = null; // Clear current image when a new one is selected
+    input.value = '';
   }
 
-  removeCurrentImage() {
+  removeImage() {
+    if (this.selectedFileUrl) {
+      URL.revokeObjectURL(this.selectedFileUrl);
+    }
+    this.selectedFile = null;
+    this.selectedFileUrl = null;
     this.currentImageUrl = null;
-    this.selectedFile = null;
-    this.selectedFileUrl = null;
-  }
-
-  clearSelectedImage() {
-    this.selectedFile = null;
-    this.selectedFileUrl = null;
   }
 
   clearErrorMessage(event: Event) {
@@ -125,9 +128,10 @@ export class EditTeamComponent implements OnChanges {
     formData.append('name', this.name);
     formData.append('designation', this.designation);
     formData.append('is_active', this.isActive ? '1' : '0');
-
     if (this.selectedFile) {
       formData.append('image', this.selectedFile);
+    } else if (!this.currentImageUrl) {
+      formData.append('image', ''); // Indicate no image if removed
     }
 
     formData.append('_method', 'put');
@@ -147,7 +151,6 @@ export class EditTeamComponent implements OnChanges {
     this.loading = false;
     this.isSuccess = true;
     this.ToastType = 'edit';
-
     setTimeout(() => {
       this.IsOpenToastAlert.emit();
       this.refreshTable.emit();
@@ -163,6 +166,9 @@ export class EditTeamComponent implements OnChanges {
   }
 
   closeDialog() {
+    if (this.selectedFileUrl) {
+      URL.revokeObjectURL(this.selectedFileUrl);
+    }
     this.selectedFile = null;
     this.selectedFileUrl = null;
     this.errorMessage = '';

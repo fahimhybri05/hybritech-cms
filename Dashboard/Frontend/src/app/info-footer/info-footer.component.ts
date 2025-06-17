@@ -59,7 +59,11 @@ export class InfoFooterComponent {
         id: page.id,
         is_active: page.is_active,
       };
-      return this.commonService.patch(`WebPages(${page.id})`, permissionData, true);
+      return this.commonService.patch(
+        `WebPages(${page.id})`,
+        permissionData,
+        true
+      );
     });
 
     forkJoin(updateRequests).subscribe({

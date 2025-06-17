@@ -32,8 +32,12 @@
     [delay]="100"
     aria-label="Loading form data"
   >
-    <ui5-tabcontainer>
-      <ui5-tab text="Info" design="Inline" class="info-tab">
+    <ui5-tabcontainer
+      #tabContainer
+      header-background-design="Solid"
+      content-background-design="Transparent"
+    >
+      <ui5-tab   class="p-0 bg-none border-none info-tab" text="Info" design="Inline"  selected>
         <div class="row">
           <div class="col-md-12">
             <div class="active-switch">
@@ -69,8 +73,8 @@
           </div>
         </div>
       </ui5-tab>
-      
-      <ui5-tab text="Attachment" design="Inline">
+
+      <ui5-tab text="Attachment" design="Inline" class="p-0 bg-none border-none">
         <section class="tab-content">
           <div class="row">
             <div class="col-md-12">
@@ -82,21 +86,15 @@
                   <ui5-button
                     class="upload-button"
                     [disabled]="selectedFiles.length >= MAX_FILES"
-                    (click)="
-                      selectedFiles.length < MAX_FILES
-                        ? fileUpload.click()
-                        : null
-                    "
+                    (click)="fileUpload.click()"
                   >
                     Upload
                   </ui5-button>
                 </div>
                 <div
                   class="upload-card"
-                  [class.disabled]="selectedFiles.length >= MAX_FILES"
-                  (click)="
-                    selectedFiles.length < MAX_FILES ? fileUpload.click() : null
-                  "
+                  [class.hidden]="selectedFilesUrl.length > 0"
+                  (click)="fileUpload.click()"
                 >
                   <img
                     src="assets/img/file-upload.png"
@@ -107,29 +105,44 @@
                     Click to upload or drag and drop
                   </div>
                   <div class="upload-subtext">SVG, PNG, JPG (max. 2MB)</div>
-                  <input
-                    #fileUpload
-                    type="file"
-                    class="file-input"
-                    (change)="onFileSelect($event)"
-                    accept="image/*"
-                    multiple
-                    [disabled]="selectedFiles.length >= MAX_FILES"
-                  />
                 </div>
+                <input
+                  #fileUpload
+                  type="file"
+                  class="file-input"
+                  (change)="onFileSelect($event)"
+                  accept="image/*"
+                  multiple
+                  [disabled]="selectedFiles.length >= MAX_FILES"
+                />
                 <div
-                  *ngIf="selectedFilesUrl.length > 0"
                   class="preview-container"
+                  *ngIf="selectedFilesUrl.length > 0"
                 >
                   <div
+                    class="preview-item"
                     *ngFor="let file of selectedFilesUrl"
-                    class="image-preview"
                   >
+                    <input
+                      type="radio"
+                      name="selectedAttachment"
+                      class="radio-btn"
+                    />
                     <img
                       [src]="file.url"
-                      alt="Selected Image"
+                      alt="Uploaded Image"
                       class="preview-image"
                     />
+                    <div class="preview-details">
+                      <div class="preview-filename">{{ file.name }}</div>
+                      <div class="preview-meta">
+                        Uploaded On:
+                        {{ file.uploadDate | date : "dd.MM.yyyy HH:mm:ss" }}
+                        <span class="preview-filesize"
+                          >{{ getFileSize(file.name) }} KB</span
+                        >
+                      </div>
+                    </div>
                     <ui5-button
                       design="Negative"
                       (click)="removeImage(file.name)"
