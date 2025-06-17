@@ -1,4 +1,4 @@
-import { CommonModule, DatePipe } from "@angular/common"; // Make sure CommonModule and DatePipe are imported
+import { CommonModule, DatePipe } from "@angular/common";
 import {
   ChangeDetectorRef,
   Component,
@@ -20,6 +20,7 @@ import React from "react";
 import { RoleaddComponent } from "../roleadd/roleadd.component";
 import { RoledetailsComponent } from "../roledetails/roledetails.component";
 import { RoleeditComponent } from "../roleedit/roleedit.component";
+import { UserpermissionComponent } from "../userpermission/userpermission.component";
 
 @Component({
   selector: "app-rolelist",
@@ -35,6 +36,7 @@ import { RoleeditComponent } from "../roleedit/roleedit.component";
     RoleaddComponent,
     RoleeditComponent,
     RoledetailsComponent,
+    UserpermissionComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: "./rolelist.component.html",
@@ -65,16 +67,14 @@ export class RolelistComponent {
   selectedRoleData: any = null;
   roles = Role;
   selectedRole: any = null;
-  allPermissions: any[] = [];
   isPermissionDetailsOpen = false;
   selectedRolePermissions: any[] = [];
   selectedRoleName: string = "";
   rolename: string = "";
 
-  isPermissionAddDialogOpen = false;
-  currentRoleId: number = 0;
-
-  selectedPermissionIds: number[] = [];
+  isUserPermissionOpen = false;
+  currentRoleIdForPermissions: number | null = null;
+  currentRoleNameForPermissions: string = "";
 
   constructor(
     private commonService: CommonService,
@@ -88,20 +88,57 @@ export class RolelistComponent {
   }
 
   ngOnInit(): void {
-    this.loadAllPermissions();
-    this.onRowClick(this.selectedRole);
   }
 
-  onRowClick(row: any) {
-    this.selectedRole = row;
-    this.permissions = row.permissions || [];
+  handleRowClick(rowData: any): void {
+    console.log("Row clicked in RolelistComponent:", rowData);
+    this.selectedRole = rowData;
+    this.selectedRoleId = rowData.id; 
+    this.selectedRoleName = rowData.name || "";
+    this.rolename = rowData.name || "";
+
+    this.loadRolePermissionsForDetails(rowData.id);
+    this.isPermissionDetailsOpen = true; 
     this.cdr.detectChanges();
   }
 
-  onRoleClick(role: any) {
-    this.selectedRole = role;
-    this.selectedRolePermissions = role.permissions || [];
-    this.isPermissionDetailsOpen = true;
+  loadRolePermissionsForDetails(roleId: number) {
+    if (roleId) {
+      this.commonService.get(`roles/${roleId}/permissions`, this.api).subscribe(
+        (res: any) => {
+          this.selectedRolePermissions = res.permissions || [];
+          this.cdr.detectChanges(); 
+        },
+        (error) => {
+          console.error(`Error loading permissions for details: ${roleId}`, error);
+          this.selectedRolePermissions = []; 
+        }
+      );
+    }
+  }
+
+  openUserPermissions(role: any) {
+    this.currentRoleIdForPermissions = role.id;
+    this.currentRoleNameForPermissions = role.name;
+    this.isUserPermissionOpen = true;
+  }
+
+  closeUserPermissionModal() {
+    this.isUserPermissionOpen = false;
+    this.refreshTable.emit(); 
+
+    if (this.isPermissionDetailsOpen && this.selectedRoleId) {
+      this.loadRolePermissionsForDetails(this.selectedRoleId);
+    }
+  }
+
+  closePermissionDetailsModal(): void {
+    this.isPermissionDetailsOpen = false;
+    this.selectedRolePermissions = [];
+    this.selectedRoleName = "";
+    this.rolename = "";
+    this.selectedRoleId = null;
+    this.cdr.detectChanges();
   }
 
   tableColum() {
@@ -187,6 +224,13 @@ export class RolelistComponent {
                 this.deleteRole(row.original);
               }}
             ></Button>
+            <Button
+              icon="settings"
+              design="Transparent"
+              onClick={() => {
+                this.openUserPermissions(row.original);
+              }}
+            ></Button>
           </div>
         ),
       },
@@ -262,79 +306,4 @@ export class RolelistComponent {
     this.isEdit = false;
     this.refreshTable.emit();
   }
-
-  handleRowClick(rowData: any): void {
-    console.log("Row clicked in RolelistComponent:", rowData);
-    this.selectedRolePermissions = rowData.permissions || [];
-    this.selectedRoleName = rowData.name || "";
-    this.selectedRoleId = rowData.id;
-    this.isPermissionDetailsOpen = true;
-    this.cdr.detectChanges();
-    this.loadRolePermissions(rowData.id);
-  }
-
-  closePermissionDetailsModal(): void {
-    this.isPermissionDetailsOpen = false;
-    this.selectedRolePermissions = [];
-    this.selectedRoleName = "";
-    this.cdr.detectChanges();
-  }
-  open() {
-    console.log("Open Permission Dialog");
-    this.isPermissionAddDialogOpen = true;
-    this.loadAllPermissions();
-  }
-
-  loadAllPermissions() {
-    this.commonService.get("permissions", this.api).subscribe((res: any) => {
-      this.allPermissions = res;
-    });
-  }
-
-  loadRolePermissions(roleId: number) {
-    this.commonService
-      .get(`roles/${roleId}/permissions`, this.api)
-      .subscribe((res: any) => {
-        console.log("Role Permissions:", res.role_name);
-        this.rolename = res.role_name;
-        console.log("role name", this.rolename);
-        this.selectedPermissionIds = res.permissions.map((p: any) => p.id);
-        console.log("Selected Permission IDs:", this.selectedPermissionIds);
-      });
-  }
-
-  isPermissionChecked(permission: any): boolean {
-    return this.selectedPermissionIds.includes(permission.id);
-  }
-
-  togglePermission(permission: any, event: any) {
-    const isChecked = event.target.checked;
-
-    if (isChecked) {
-      if (!this.selectedPermissionIds.includes(permission.id)) {
-        this.selectedPermissionIds.push(permission.id);
-      }
-    } else {
-      this.selectedPermissionIds = this.selectedPermissionIds.filter(
-        (id) => id !== permission.id
-      );
-    }
-  }
-
-  saveAssignedPermissions() {
-    const selectedPermissionIds = this.allPermissions
-      .filter((p) => this.selectedPermissionIds.includes(p.id))
-      .map((p) => p.id);
-    console.log("Selected Permission IDs for Save:", selectedPermissionIds);
-    const payload = {
-      permissions: selectedPermissionIds, // ✅ ID array only
-    };
-
-    this.commonService
-      .patch(`roles/${this.selectedRoleId}/permissions`, payload, this.api)
-      .subscribe(() => {
-        this.isPermissionAddDialogOpen = false;
-      });
-  }
-  
 }

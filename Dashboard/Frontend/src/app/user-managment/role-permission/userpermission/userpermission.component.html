@@ -1,0 +1,33 @@
+<ui5-dialog
+  class="permission-add-dialog"
+  [open]="isOpen"
+>
+  <div class="Role-Header" slot="header">Permissions :- <span style="color: #0a6ed1">{{ selectedRoleName }}</span></div>
+
+  <div
+    class="permission-list"
+    style="padding: 1rem; max-height: 400px; overflow-y: auto"
+  >
+    <ui5-checkbox
+      *ngFor="let permission of allPermissions"
+      [text]="permission.name"
+      [checked]="isPermissionChecked(permission)"
+      (change)="togglePermission(permission, $event)"
+    ></ui5-checkbox>
+    <p *ngIf="allPermissions.length === 0" style="text-align: center; color: #666;">
+      No permissions available to assign.
+    </p>
+  </div>
+
+  <div slot="footer" style="text-align: right">
+    <ui5-button
+      style="margin: 10px"
+      design="Transparent"
+      (click)="closeDialog()"
+      >Cancel</ui5-button
+    >
+    <ui5-button design="Emphasized" (click)="saveAssignedPermissions()"
+      >Save</ui5-button
+    >
+  </div>
+</ui5-dialog>
