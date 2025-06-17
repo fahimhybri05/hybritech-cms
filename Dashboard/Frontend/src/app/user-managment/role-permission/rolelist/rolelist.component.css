@@ -20,6 +20,7 @@
 .table-bordered{
 width: 100%; 
 border-collapse: collapse;
+text-align: center;
 }
 .table-header{
     background-color: #f2f2f2
@@ -31,4 +32,11 @@ border-collapse: collapse;
     padding: 1rem;
     max-height: 400px;
     overflow-y: auto;
+}
+.Role-Header{
+    display: flex;
+    padding: 10px 0;
+    width: 100%;
+    font-weight: bold;
+    font-size: 1.2rem;
 }

@@ -67,7 +67,11 @@ class RoleController extends Controller
     public function getRolePermissions($roleId)
     {
         $role = Role::findById($roleId);
-        return response()->json($role->permissions);
+        // return response()->json($role->permissions);
+         return response()->json([
+            'role_name' => $role->name,
+            'permissions' => $role->permissions,
+        ]);
     }
     // public function assignPermissions(Request $request, $id)
     // {
@@ -83,10 +87,15 @@ class RoleController extends Controller
         return response()->json($role->permissions);
     }
 
-    public function assignPermissions(Request $request, Role $role)
-    {
-        $role->syncPermissions($request->permissions); // expects array of IDs
-        return response()->json(['message' => 'Permissions updated']);
-    }
+    // public function assignPermissions(Request $request, Role $role)
+    // {
+    //     $role->syncPermissions($request->permissions); // expects array of IDs
+    //     return response()->json(['message' => 'Permissions updated']);
+    // }
+public function assignPermissions(Request $request, Role $role)
+{
+    $role->syncPermissions($request->permissions);
+    return response()->json(['message' => 'Permissions updated']);
+}
 
 }

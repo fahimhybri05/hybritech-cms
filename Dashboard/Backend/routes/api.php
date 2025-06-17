@@ -50,21 +50,18 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
-    Route::resource('roles', RoleController::class)->except(['create', 'edit']);
-// Role 
+// Role and Permission Management
+Route::resource('roles', RoleController::class)->except(['create', 'edit']);
+
 Route::middleware(['auth:sanctum'])->prefix('admin')->group(function () {
     // Route::resource('roles', RoleController::class)->except(['create', 'edit']);
     Route::get('permissions', [PermissionController::class, 'index']);
 });
- Route::post('/roles', [RoleController::class, 'store']);
-  Route::put('/roles/{id}', [RoleController::class, 'update']);
   // routes/api.php
 Route::get('roles/{id}', [RoleController::class, 'show']);
-
+Route::delete('roles/{id}', [RoleController::class, 'destroy']);
 Route::get('roles/{id}/permissions', [RoleController::class, 'getRolePermissions']);
-Route::post('roles/{id}/assign-permissions', [RoleController::class, 'assignPermissions']);
-
-// routes/api.php
 Route::get('/permissions', [PermissionController::class, 'index']);
 Route::get('/roles/{role}/permissions', [RoleController::class, 'getPermissions']);
-Route::post('/roles/{role}/permissions', [RoleController::class, 'assignPermissions']);
+Route::patch('/roles/{role}/permissions', [RoleController::class, 'assignPermissions']);
+

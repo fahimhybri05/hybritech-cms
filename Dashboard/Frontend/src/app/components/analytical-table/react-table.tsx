@@ -1,32 +1,30 @@
+import { DatePipe } from "@angular/common";
 import {
   AfterViewInit,
   Component,
   ElementRef,
+  EventEmitter,
+  Input,
   OnDestroy,
   OnInit,
-  Input,
+  Output,
   ViewChild,
   ViewEncapsulation,
-  output,
-  Output,
-  EventEmitter,
 } from "@angular/core";
-import "@ui5/webcomponents/dist/Input.js";
-import * as React from "react";
-import { CommonModule, DatePipe } from "@angular/common";
-import { createRoot } from "react-dom/client";
 import {
-  Button,
   AnalyticalTable,
-  Title,
+  Button,
+  Icon,
   SegmentedButton,
   SegmentedButtonItem,
-  Icon,
-  Input as Ui5Input,
   ThemeProvider,
-  Label,
+  Title,
+  Input as Ui5Input,
 } from "@ui5/webcomponents-react";
 import { Toolbar, ToolbarSpacer } from "@ui5/webcomponents-react-compat";
+import "@ui5/webcomponents/dist/Input.js";
+import * as React from "react";
+import { createRoot } from "react-dom/client";
 import { CommonService } from "../../services/common-service/common.service";
 
 const containerElementRef = "ReactComponentContainer";
@@ -89,8 +87,8 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
   dataList: any[] = [];
   loading = false;
   private debounceTimeout: any = null;
-  private lastClickTime: number = 0;
-
+  // private lastClickTime: number = 0;
+  private lastClickTime = 0;
   constructor(
     private commonService: CommonService,
     private datePipe: DatePipe
@@ -329,14 +327,31 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
       },
     });
   }
-  private handleClick = (event: any) => {
-  const rowData = event?.detail?.row?.original;
 
-  if (rowData) {
-    //console.log('Row clicked:', rowData);
-    this.rowClick.emit(rowData); 
-  }
-};
+  handleRowSelect = (event: any) => {
+    const currentTime = new Date().getTime();
+    const rowData = event?.detail?.row?.original;
+
+    if (!rowData) return;
+
+    // Double click check
+    if (currentTime - this.lastClickTime < 300) {
+      this.rowDoubleClick.emit(rowData);
+    } else {
+      this.rowClick.emit(rowData);
+    }
+
+    this.lastClickTime = currentTime;
+  };
+
+  // private handleClick = (event: any) => {
+  //   const rowData = event?.detail?.row?.original;
+
+  //   if (rowData) {
+  //     //console.log('Row clicked:', rowData);
+  //     this.rowClick.emit(rowData);
+  //   }
+  // };
   handleLoadMore = () => {
     if (this.searchFilter !== "")
       this.handleSearch({ target: { value: this.searchFilter } });
@@ -471,7 +486,8 @@ export class ReactAnalyticalTable implements OnDestroy, AfterViewInit, OnInit {
                 onColumnsReorder={function Ki() {}}
                 onRowExpandChange={function Ki() {}}
                 // onRowSelect={(e) => this.handleClick(e)}
-                onRowSelect={this.handleClick} 
+                // onRowSelect={this.handleClick}
+                onRowSelect={this.handleRowSelect}
                 selectionMode={this.selectionMode}
                 subComponentsBehavior="IncludeHeight"
                 subRowsKey="subRows"

@@ -69,11 +69,12 @@ export class RolelistComponent {
   isPermissionDetailsOpen = false;
   selectedRolePermissions: any[] = [];
   selectedRoleName: string = "";
+  rolename: string = "";
 
   isPermissionAddDialogOpen = false;
   currentRoleId: number = 0;
 
-  selectedPermissionIds: number[] = []; 
+  selectedPermissionIds: number[] = [];
 
   constructor(
     private commonService: CommonService,
@@ -278,34 +279,10 @@ export class RolelistComponent {
     this.selectedRoleName = "";
     this.cdr.detectChanges();
   }
-
-  deletablePermission: any = null;
-  isDeleteDialogOpen = false;
-
-  deletePermission(permission: any) {
-    this.deletablePermission = permission;
-    this.isDeleteDialogOpen = true;
-  }
-
-  confirmDeletePermission() {
-    console.log("Deleting Permission:", this.deletablePermission);
-
-    this.selectedRolePermissions = this.selectedRolePermissions.filter(
-      (p) => p.id !== this.deletablePermission.id
-    );
-
-    this.isDeleteDialogOpen = false;
-  }
-
   open() {
+    console.log("Open Permission Dialog");
     this.isPermissionAddDialogOpen = true;
     this.loadAllPermissions();
-  }
-  openPermissionDialog(roleId: number) {
-    this.currentRoleId = roleId;
-    this.isPermissionAddDialogOpen = true;
-    this.loadAllPermissions();
-    this.loadRolePermissions(roleId);
   }
 
   loadAllPermissions() {
@@ -318,7 +295,10 @@ export class RolelistComponent {
     this.commonService
       .get(`roles/${roleId}/permissions`, this.api)
       .subscribe((res: any) => {
-        this.selectedPermissionIds = res.map((p: any) => p.id);
+        console.log("Role Permissions:", res.role_name);
+        this.rolename = res.role_name;
+        console.log("role name", this.rolename);
+        this.selectedPermissionIds = res.permissions.map((p: any) => p.id);
         console.log("Selected Permission IDs:", this.selectedPermissionIds);
       });
   }
@@ -342,14 +322,19 @@ export class RolelistComponent {
   }
 
   saveAssignedPermissions() {
+    const selectedPermissionIds = this.allPermissions
+      .filter((p) => this.selectedPermissionIds.includes(p.id))
+      .map((p) => p.id);
+    console.log("Selected Permission IDs for Save:", selectedPermissionIds);
+    const payload = {
+      permissions: selectedPermissionIds, // ✅ ID array only
+    };
+
     this.commonService
-      .post(
-        `roles/${this.selectedRoleId}/permissions`,
-        { permissions: this.selectedPermissionIds },
-        this.api
-      )
+      .patch(`roles/${this.selectedRoleId}/permissions`, payload, this.api)
       .subscribe(() => {
         this.isPermissionAddDialogOpen = false;
       });
   }
+  
 }
