@@ -1,20 +1,21 @@
 <ui5-dialog [open]="isOpen" id="dialog">
-    <ui5-bar slot="header" design="Header">
-      <ui5-title level="H5" slot="startContent">Details</ui5-title>
-      <ui5-button
-        class="dialogCloser"
-        design="Transparent"
-        id="closeDialogButton"
-        slot="endContent"
-        (click)="closeDialog()"
-        icon="decline"
-      ></ui5-button>
-    </ui5-bar>
-  
-    <app-form-preloader *ngIf="loading"></app-form-preloader>
-    <section class="container">
+  <ui5-bar slot="header" design="Header">
+    <ui5-title level="H5" slot="startContent">Project Details</ui5-title>
+    <ui5-button
+      class="dialogCloser"
+      design="Transparent"
+      id="closeDialogButton"
+      slot="endContent"
+      (click)="closeDialog()"
+      icon="decline"
+    ></ui5-button>
+  </ui5-bar>
+
+  <app-form-preloader *ngIf="loading"></app-form-preloader>
+  <ui5-tabcontainer>
+    <ui5-tab text="Info" design="Inline" class="info-tab">
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
           <ui5-label show-colon required>Title</ui5-label>
           <ui5-textarea
             class="titleInput"
@@ -22,45 +23,57 @@
             name="title"
             readonly
           ></ui5-textarea>
-          <ui5-label show-colon required>Sub Title</ui5-label>
+          <ui5-label show-colon required>Sub-title</ui5-label>
           <ui5-textarea
-            class="titleInput"
+            class="textArea1"
             [(ngModel)]="subtitle"
             name="subtitle"
             readonly
           ></ui5-textarea>
           <ui5-label show-colon required>Description</ui5-label>
-          <ui5-textarea
-            class="textArea"
-            [(ngModel)]="description"
-            name="description"
-            readonly
-          ></ui5-textarea>
-          <ui5-label show-colon>Image</ui5-label>
-          <div class="col-6">
-            <img
-              *ngIf="selectedFileUrl"
-              [src]="selectedFileUrl"
-              alt="New Selected Image"
-              style="max-width: 400px"
-            />
-            <img
-              *ngIf="!selectedFileUrl && currentImageUrl"
-              [src]="currentImageUrl"
-              alt="Current Image"
-              style="max-width: 400px"
-            />
-          </div>
+          <div class="description" [innerHTML]="description"></div>
         </div>
       </div>
-    </section>
-    <ui5-toolbar slot="footer">
-      <ui5-toolbar-button
-        design="Transparent"
-        text="Cancel"
-        (click)="closeDialog()"
-      ></ui5-toolbar-button>
-    </ui5-toolbar>
-  </ui5-dialog>
-  
-  
+    </ui5-tab>
+
+    <ui5-tab text="Attachment" design="Inline">
+      <section class="tab-content">
+        <div class="row">
+          <div class="col-md-12">
+            <ui5-label show-colon>Images</ui5-label>
+            <div
+              *ngIf="projectData?.media?.length > 0"
+              class="preview-container"
+            >
+              <div
+                *ngFor="let media of projectData?.media"
+                class="image-preview"
+              >
+                <img
+                  [src]="media.original_url"
+                  [alt]="media.file_name"
+                  class="preview-image"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+            <p
+              *ngIf="!projectData?.media || projectData?.media?.length === 0"
+              class="no-images"
+            >
+              No images available
+            </p>
+          </div>
+        </div>
+      </section>
+    </ui5-tab>
+  </ui5-tabcontainer>
+
+  <ui5-toolbar slot="footer">
+    <ui5-toolbar-button
+      design="Transparent"
+      text="Close"
+      (click)="closeDialog()"
+    ></ui5-toolbar-button>
+  </ui5-toolbar>
+</ui5-dialog>

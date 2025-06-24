@@ -79,6 +79,11 @@ export class HomeComponent implements OnInit, OnDestroy {
           url: '/odata/CommonForms?$count=true',
         },
         {
+          id: 'teams',
+          method: 'GET',
+          url: '/odata/TeamPageDetails?$count=true',
+        },
+        {
           id: 'contactUsFormData',
           method: 'GET',
           url: '/odata/ContactUsForms?$count=true',
@@ -140,6 +145,9 @@ export class HomeComponent implements OnInit, OnDestroy {
       ]),
       this.createCountItem('Common Forms', counts['commonFormData'], 'form', [
         '/common-form',
+      ]),
+      this.createCountItem('Teams', counts['teams'], 'form', [
+        '/team-list',
       ]),
       this.createCountItem('Contact Us', counts['contactUsFormData'], 'email', [
         '/contact-us-form',

@@ -10,11 +10,10 @@
     @endif
     <p>Thank you for registering with us. Here are your account details:</p>
     <ul>
-        <li><strong>Position:</strong> {{ $position }}</li>
         <li><strong>Name:</strong> {{ $name }}</li>
+        <li><strong>Position:</strong> {{ $position }}</li>
         <li><strong>Email:</strong> {{ $email }}</li>
         <li><strong>Password:</strong> {{ $password }}</li>
-
     </ul>
     <p>Please keep this information safe. You can log in using your email and password.</p>
     <p>Best regards,<br><b>Hybritech Innovations Ltd.</b></p>
