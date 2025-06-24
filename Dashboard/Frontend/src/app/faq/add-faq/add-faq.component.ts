@@ -35,7 +35,7 @@ export class AddFaqComponent implements OnInit {
   @Output() close = new EventEmitter<void>();
   @Output() IsOpenToastAlert = new EventEmitter<void>();
 
-  loading: boolean = false;
+  loading: boolean = true;
   isAddError: boolean = false;
   isActive: boolean = true;
   ToastType: string = '';
@@ -51,14 +51,14 @@ export class AddFaqComponent implements OnInit {
       this.errorMessage = 'Both Question and Answer fields are required.';
       return;
     }
-
+ this.loading = true;
     const data = {
       question: this.question,
       answer: this.answer,
       is_active: this.isActive,
     };
 
-    this.loading = true;
+   
     this.commonService.post('Faqs', data).subscribe(
       (response) => {
         this.loading = false;

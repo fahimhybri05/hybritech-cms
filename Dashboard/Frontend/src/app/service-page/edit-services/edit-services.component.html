@@ -11,13 +11,14 @@
     ></ui5-button>
   </ui5-bar>
 
-  <app-form-preloader *ngIf="loading"></app-form-preloader>
+  <!-- <app-form-preloader *ngIf="loading"></app-form-preloader> -->
   <ui5-message-strip class="w-100 mt-3" design="Critical" *ngIf="errorMessage">
     <ui5-icon name="alert" slot="icon"></ui5-icon> {{ errorMessage }}
   </ui5-message-strip>
   <ui5-message-strip class="w-100 mt-3" design="Negative" *ngIf="fileTypeError">
     <ui5-icon name="alert" slot="icon"></ui5-icon> {{ fileTypeError }}
   </ui5-message-strip>
+     <ui5-busy-indicator [active]="loading" delay="100">
   <section>
     <div class="row">
       <div class="col-md-6">
@@ -88,6 +89,7 @@
       </div>
     </div>
   </section>
+  </ui5-busy-indicator>
   <ui5-toolbar slot="footer">
     <ui5-toolbar-button
       design="Emphasized"

@@ -78,8 +78,10 @@ export class EditFaqComponent implements OnInit, OnChanges {
       return;
     }
     this.loading = true;
+    this.formloading = true;
     this.commonService.get(`Faqs/${this.faqId}`).subscribe((response: any) => {
       this.faq = response;
+      this.formloading = false;
     });
   }
 

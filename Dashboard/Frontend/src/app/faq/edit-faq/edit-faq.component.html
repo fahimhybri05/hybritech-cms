@@ -10,9 +10,8 @@
 		icon="decline"
 	  ></ui5-button>
 	</ui5-bar>
-  
+   <ui5-busy-indicator [active]="formloading" delay="100">
 	<section>
-	  <ui5-busy-indicator [active]="formloading" delay="100">
 		<div>
 			      <div class="d-flex align-items-center">
         <ui5-label show-colon>Active</ui5-label>
@@ -36,9 +35,9 @@
 			required
 		  ></ui5-textarea>
 		</div>
-	  </ui5-busy-indicator>
+
 	</section>
-  
+  	  </ui5-busy-indicator>
 	<ui5-toolbar slot="footer">
 	  <ui5-toolbar-button design="Emphasized" (click)="updateData()" [disabled]="formloading" text="Update"></ui5-toolbar-button>
 	  <ui5-toolbar-button design="Transparent" text="Cancel" (click)="closeDialog()"></ui5-toolbar-button>

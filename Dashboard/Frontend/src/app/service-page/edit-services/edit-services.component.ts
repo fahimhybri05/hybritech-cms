@@ -38,7 +38,7 @@ export class EditServicesComponent implements OnChanges {
   @Output() IsOpenToastAlert = new EventEmitter<void>();
   @Output() refreshTable = new EventEmitter();
   ToastType: string = '';
-  loading: boolean = false;
+  loading: boolean = true;
   isSuccess: boolean = false;
   errorMessage: string = '';
   fileTypeError: string | null = null;
@@ -56,7 +56,9 @@ export class EditServicesComponent implements OnChanges {
   constructor(private commonService: CommonService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
+
     if (changes['serviceData'] && this.serviceData) {
+          this.loading = true;
       this.title = this.serviceData.title || '';
       this.description = this.serviceData.description || '';
       this.isActive = this.serviceData.is_active;
@@ -66,6 +68,7 @@ export class EditServicesComponent implements OnChanges {
       } else {
         this.currentImageUrl = null;
       }
+          this.loading = false;
     }
   }
 
