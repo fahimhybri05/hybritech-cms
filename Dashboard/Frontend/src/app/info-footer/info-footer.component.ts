@@ -1,10 +1,11 @@
-import { Component, EventEmitter, input, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonService } from '@app/services/common-service/common.service';
 import { SocialMediaComponent } from '@app/social-media/social-media.component';
 import { Ui5MainModule } from '@ui5/webcomponents-ngx';
-import { ToastMessageComponent } from '../components/toast-message/toast-message.component';
+import { ToastMessageComponent } from '@app/components/toast-message/toast-message.component';
 import { ContactInfoComponent } from '@app/contact-info/contact-info.component';
-
+import { CommonModule } from '@angular/common';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-info-footer',
@@ -14,6 +15,7 @@ import { ContactInfoComponent } from '@app/contact-info/contact-info.component';
     SocialMediaComponent,
     Ui5MainModule,
     ToastMessageComponent,
+    CommonModule,
   ],
   templateUrl: './info-footer.component.html',
   styleUrl: './info-footer.component.css',
@@ -21,54 +23,57 @@ import { ContactInfoComponent } from '@app/contact-info/contact-info.component';
 export class InfoFooterComponent {
   @Output() IsOpenToastAlert = new EventEmitter<void>();
   loading: boolean = false;
-  isActive: any;
-  title: string = '';
-  webID: number = 0;
+  webPages: any[] = [];
   ToastType: string = '';
+  isSuccess: boolean = false;
+  errorMessage: string = '';
 
+  constructor(private commonService: CommonService) {}
 
-constructor(private commonService: CommonService) {
+  ngOnInit() {
+    this.getWebPages();
+  }
 
-}
-ngOnInit() {
-  this.getProjectPermission();
-}
-
-getProjectPermission() {
+  getWebPages() {
+    this.loading = true;
     this.commonService.get(`WebPages`, true).subscribe({
       next: (response: any) => {
-        this.webID = response.value[0].id;
-        this.isActive = response.value[0].is_active;
+        this.webPages = response.value;
+        this.loading = false;
       },
       error: (error: any) => {
-        console.error('Error updating FAQ:', error);
-        console.error('Error fetching project section:', error);
+        console.error('Error fetching web pages:', error);
+        this.loading = false;
       },
     });
-}
-
-  toggleActive($event: any) {
-    if ($event.target.checked) {
-      this.isActive = true;
-    } else {
-      this.isActive = false;
-    }
   }
+
+  toggleActive(item: any, event: any) {
+    item.is_active = event.target.checked;
+  }
+
   updateData() {
-    const permissionData = {
-      is_active: this.isActive,
-    };
-  
-       this.ToastType = 'edit';
-    this.commonService
-      .put(`WebPages(${this.webID})`, permissionData, true)
-      .subscribe({
-        next: (response: any) => {
+    this.loading = true;
+    const updateRequests = this.webPages.map((page) => {
+      const permissionData = {
+        id: page.id,
+        is_active: page.is_active,
+      };
+      return this.commonService.patch(`WebPages(${page.id})`, permissionData, true);
+    });
+
+    forkJoin(updateRequests).subscribe({
+      next: () => {
+        this.ToastType = 'edit';
+        setTimeout(() => {
           this.IsOpenToastAlert.emit();
-        },
-        error: (error: any) => {
-          console.error('Error updating project section:', error);
-        },
-      });
+        }, 1000);
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error updating sections:', error);
+        this.loading = false;
+      },
+    });
   }
 }
